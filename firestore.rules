@@ -1,0 +1,20 @@
+// Firestore security rules for Mission Possible Plus, Ezycal and The Hood.
+// Paste into Firebase console → Firestore Database → Rules → Publish (or `firebase deploy --only firestore:rules`).
+// Each document is readable and writable only by the Google account that owns it.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // the board: jobs, cash, notes
+    match /boards/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // The Hood (asciikat/homies)
+    match /homies/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // Ezycal (asciikat/calendar)
+    match /calendar/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}
