@@ -17,10 +17,10 @@ one you tap is shown.
 **Missions** is the to-do board. Its own lists only show once you open it:
 
 - **Now**: today's jobs (was "Today")
-- **Tomoz**: jobs lined up for tomorrow; they land on Now at 7 AM (was "Tomorrow")
-- **Jail**: jobs 7 days or older
+- **Not now**: jobs lined up for later; they land on Now at 7 AM (was "Tomorrow")
+- **Lock up**: jobs 7 days or older (was "Jail")
 
-The count on the Missions tab is how many jobs are on Now.
+Missions always opens on Now. The count on the Missions tab is how many jobs are on Now.
 
 ## The Hood tab
 
@@ -32,10 +32,10 @@ same ones as in the standalone Hood on that device.
 ## Full screen
 
 Every tab has a **⛶ Full screen** button, like raccoon mode: Missions (next to
-Now / Tomoz / Jail), Ezycal, Notes, and The Hood (in its own top bar). The tab
+Now / Not now / Lock up), Ezycal, Notes, and The Hood (in its own top bar). The tab
 covers the whole screen, and where the browser allows it, hides the browser bars
 too. **Shrink**, Esc, or the phone's back gesture puts it back. In full screen
-Missions you can still switch between Now, Tomoz and Jail, add jobs and finish
+Missions you can still switch between Now, Not now and Lock up, add jobs and finish
 them; toasts, Undo and the heist celebration show on top.
 
 ## Mission Possible Pro vs Plus vs Mission Possible
@@ -49,7 +49,7 @@ what's in it. The **raccoon icon** next to it opens raccoon mode (see below). **
 Score** is the slim gold bar under the banner; tap it to plan it, add prep steps or
 cash it in.
 
-Notes and jobs trade places: each note has **Now** and **Tomoz** buttons that turn it
+Notes and jobs trade places: each note has **Now** and **Not now** buttons that turn it
 into a job (jobs are one line, 140 letters max), and a job's menu (tap its text) has
 **Move to notes**. Every move has Undo.
 

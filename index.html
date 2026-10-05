@@ -707,7 +707,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 #tab-tomorrow[aria-selected="true"]::after { background: var(--dusk); }
 #tab-calendar[aria-selected="true"]::after { background: var(--palm); }
 #tab-hood[aria-selected="true"]::after { background: var(--gold); }
-/* Missions: Now, Tomoz and Jail sit in their own smaller row, shown only while Missions is open,
+/* Missions: Now, Not now and Lock up sit in their own smaller row, shown only while Missions is open,
    next to the same Full screen button the other tabs have */
 .mission-bar {
   align-items: flex-end;
@@ -2068,6 +2068,9 @@ body.is-shake .wrap { animation: shake .4s; }
 @media (max-width: 370px) {
   #top-tabs { gap: 9px; }
   #top-tabs .tab { font-size: 15px; }
+  .subtabs { gap: 10px; }
+  .mission-bar { padding: 0 8px; gap: 4px; }
+  .subtabs .tab { font-size: 15px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2201,11 +2204,11 @@ body.is-shake .wrap { animation: shake .4s; }
           <div><dt>Same day</dt><dd>$50</dd></div>
           <div><dt>Day 1–4</dt><dd>$40</dd></div>
           <div class="rate--gold"><dt>Day 5–6 · last call</dt><dd>$100</dd></div>
-          <div class="rate--jail"><dt>Day 7+ · jail</dt><dd>$50</dd></div>
+          <div class="rate--jail"><dt>Day 7+ · lock up</dt><dd>$50</dd></div>
           <div class="rate--gold"><dt>Big score prep step</dt><dd>$25</dd></div>
           <div class="rate--gold"><dt>The big score</dt><dd>$500</dd></div>
         </dl>
-        <p class="intel-note">At day 14 the Five-0 come knocking. Every 5 wins scores a heist. Tap a job's stars to raise its wanted level and jump it up the list; stars cool off at 7 AM. Tomoz jobs land on Now at 7 AM and start fresh. The big score never ages.</p>
+        <p class="intel-note">At day 14 the Five-0 come knocking. Every 5 wins scores a heist. Tap a job's stars to raise its wanted level and jump it up the list; stars cool off at 7 AM. Jobs on Not now land on Now at 7 AM and start fresh. The big score never ages.</p>
         <h3 class="eyebrow">Rank ladder</h3>
         <ol class="ladder" id="ladder"></ol>
       </section>
@@ -2221,13 +2224,13 @@ body.is-shake .wrap { animation: shake .4s; }
         </div>
       </div>
 
-      <!-- Missions: the job board. Now, Tomoz and Jail only show once Missions is open. -->
+      <!-- Missions: the job board. Now, Not now and Lock up only show once Missions is open. -->
       <div class="missions-panel frame-panel" id="missions-panel" role="tabpanel" aria-labelledby="tab-missions" data-name="Missions">
       <div class="frame-bar mission-bar">
         <div class="tabs subtabs" id="mission-tabs" role="tablist" aria-label="Job lists">
           <button class="tab" id="tab-active" role="tab" type="button" aria-selected="true" aria-controls="active-list">Now <span class="count" id="count-active">0</span></button>
-          <button class="tab" id="tab-tomorrow" role="tab" type="button" aria-selected="false" aria-controls="tomorrow-list" tabindex="-1">Tomoz <span class="count" id="count-tomorrow">0</span></button>
-          <button class="tab" id="tab-jail" role="tab" type="button" aria-selected="false" aria-controls="jail-list" tabindex="-1">Jail <span class="count" id="count-jail">0</span></button>
+          <button class="tab" id="tab-tomorrow" role="tab" type="button" aria-selected="false" aria-controls="tomorrow-list" tabindex="-1">Not now <span class="count" id="count-tomorrow">0</span></button>
+          <button class="tab" id="tab-jail" role="tab" type="button" aria-selected="false" aria-controls="jail-list" tabindex="-1">Lock up <span class="count" id="count-jail">0</span></button>
         </div>
         <button class="frame-btn" type="button" data-full="missions-panel" aria-label="Show Missions full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button>
       </div>
@@ -2266,7 +2269,7 @@ body.is-shake .wrap { animation: shake .4s; }
         <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true"><path d="M38 28.5A15 15 0 0119.5 10a15 15 0 1018.5 18.5z"/><path d="M33 8v6M30 11h6" stroke-linecap="round"/></svg>
         <div>
           <h3>Nothing lined up</h3>
-          <p>Add jobs to Tomoz. They land on Now at 7 AM.</p>
+          <p>Add jobs for later. They land on Now at 7 AM.</p>
         </div>
       </div>
 
@@ -2331,7 +2334,7 @@ body.is-shake .wrap { animation: shake .4s; }
     </div>
     <details class="devtools">
       <summary>Dev tools</summary>
-      <p>Test the jail and cash system without waiting.</p>
+      <p>Test the lock up and cash system without waiting.</p>
       <div class="devtools-row">
         <button class="btn" id="skip-day" type="button">Skip 1 day</button>
         <button class="btn" id="reset-clock" type="button">Reset clock</button>
@@ -2598,7 +2601,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const STARTER_JOBS = [
     'Tap the circle to finish this job and get paid',
     'Tap the stars to make a job urgent. More stars, higher up the list',
-    'Tap this text to push it to Tomoz or drop it',
+    'Tap this text to push it to Not now or drop it',
     "Add one tiny job of your own (even 'drink water' counts)",
   ];
 
@@ -2653,7 +2656,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | tomorrow (Tomoz) | jail | calendar | hood | notes
+  let currentTab = 'active'; // active (Now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -2686,17 +2689,16 @@ body.is-shake .wrap { animation: shake .4s; }
     notes: $('tab-notes'),
   };
   const TAB_NAME = {
-    active: 'Now', tomorrow: 'Tomoz', jail: 'Jail', calendar: 'Ezycal', hood: 'Hood',
+    active: 'Now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
     notes: 'Notes',
   };
   // Tabs that show their own panel instead of a job list.
   const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel') };
-  // Now, Tomoz and Jail live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes.
+  // Now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes.
   const MISSION_TABS = ['active', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
   const tabMissions = $('tab-missions');
   const missionsPanel = $('missions-panel');
-  let lastMissionTab = 'active'; // the list Missions opens on
   // Tabs switched off with the gear. Kept per device, like mute.
   let tabsOff = (Array.isArray(store.get('mp_tabs_off', [])) ? store.get('mp_tabs_off', []) : [])
     .filter((t) => TAB_ORDER.includes(t));
@@ -3198,8 +3200,8 @@ body.is-shake .wrap { animation: shake .4s; }
     if (five0) age = `Day ${d} · Five-0 inbound`;
     else if (jail) age = `Locked up · day ${d}`;
     else if (d === 0) age = 'New today';
-    else if (lastCall) age = left === 1 ? 'Last call · jail tomorrow' : `Last call · jail in ${left} days`;
-    else age = `Day ${d} · jail in ${left} days`;
+    else if (lastCall) age = left === 1 ? 'Last call · lock up tomorrow' : `Last call · lock up in ${left} days`;
+    else age = `Day ${d} · lock up in ${left} days`;
 
     const cls = ['job'];
     if (jail) cls.push('job--jail');
@@ -3244,7 +3246,7 @@ body.is-shake .wrap { animation: shake .4s; }
           stars)),
       h('div', { class: 'job-tray', id: `tray-${key}`, hidden: !open },
         heat ? h('button', { class: 'tray-btn', type: 'button', 'data-act': 'cool' }, iconEl(ICON.star), 'Reset stars') : null,
-        jail ? null : h('button', { class: 'tray-btn tray-btn--dusk', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Push to Tomoz'),
+        jail ? null : h('button', { class: 'tray-btn tray-btn--dusk', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Push to Not now'),
         isTabOn('notes') ? h('button', { class: 'tray-btn tray-btn--note', type: 'button', 'data-act': 'note' }, iconEl(ICON.note), 'Move to notes') : null,
         h('button', { class: 'tray-btn tray-btn--danger', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Drop job'),
       ),
@@ -3292,7 +3294,6 @@ body.is-shake .wrap { animation: shake .4s; }
     if (!isTabOn(currentTab)) { currentTab = shownTabs()[0]; openTray = null; }
     TAB_ORDER.forEach((tab) => { TAB_EL[tab].hidden = !isTabOn(tab); });
     const onMissions = isMissionTab(currentTab);
-    if (onMissions) lastMissionTab = currentTab;
     tabMissions.hidden = !MISSION_TABS.some(isTabOn);
     tabMissions.setAttribute('aria-selected', String(onMissions));
     tabMissions.tabIndex = onMissions ? 0 : -1;
@@ -3356,12 +3357,12 @@ body.is-shake .wrap { animation: shake .4s; }
       return;
     }
 
-    // composer: adds to today or tomorrow; hidden on the jail tab
+    // composer: adds to Now or Not now; hidden on Lock up
     const onTomorrow = currentTab === 'tomorrow';
     form.hidden = currentTab === 'jail';
     form.classList.toggle('composer--tomorrow', onTomorrow);
-    $('mission-label').textContent = onTomorrow ? 'New job for Tomoz' : 'New job for Now';
-    if (onTomorrow) input.placeholder = 'Line up a job for Tomoz';
+    $('mission-label').textContent = onTomorrow ? 'New job for Not now' : 'New job for Now';
+    if (onTomorrow) input.placeholder = 'Line up a job for later';
     else if (input.placeholder.startsWith('Line up')) input.placeholder = `e.g. ${PLACEHOLDER_IDEAS[ideaIndex]}`;
 
     // one-line summary + pick-for-me
@@ -3800,7 +3801,7 @@ body.is-shake .wrap { animation: shake .4s; }
     };
     animateOut(card, 'is-dropped', () => {
       renderUI();
-      toast('Pushed to Tomoz', { action: 'Undo', onAction: undo, duration: 5000 });
+      toast('Pushed to Not now', { action: 'Undo', onAction: undo, duration: 5000 });
     });
   }
 
@@ -3953,7 +3954,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const list = currentTab === 'jail' ? jailListEl : activeListEl;
     const cards = [...list.querySelectorAll('.job')];
     if (!cards.length) {
-      toast(currentTab === 'active' ? 'Add a job first' : 'Jail is empty. Nice.');
+      toast(currentTab === 'active' ? 'Add a job first' : 'Lock up is empty. Nice.');
       return;
     }
     list.querySelectorAll('.is-picked').forEach((c) => c.classList.remove('is-picked'));
@@ -4342,7 +4343,7 @@ body.is-shake .wrap { animation: shake .4s; }
   });
 
   function setTab(tab, focus) {
-    if (tab === 'missions') tab = isTabOn(lastMissionTab) ? lastMissionTab : MISSION_TABS.find(isTabOn);
+    if (tab === 'missions') tab = MISSION_TABS.find(isTabOn); // Missions always opens on Now
     const changed = tab !== currentTab;
     currentTab = tab;
     openTray = null;
@@ -4360,7 +4361,7 @@ body.is-shake .wrap { animation: shake .4s; }
   TAB_ORDER.forEach((tab) => TAB_EL[tab].addEventListener('click', () => setTab(tab)));
   tabMissions.addEventListener('click', () => setTab('missions'));
   // Arrow keys: the top row steps through Missions, Ezycal, Hood, Notes; the Missions row
-  // steps through Now, Tomoz, Jail.
+  // steps through Now, Not now, Lock up.
   $('top-tabs').addEventListener('keydown', (e) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
     e.preventDefault();
@@ -4913,7 +4914,7 @@ body.is-shake .wrap { animation: shake .4s; }
         h('time', null, stamp(n.updatedAt)),
         h('span', { class: 'note-actions' },
           isTabOn('active') ? h('button', { class: 'note-move', type: 'button', 'data-to': 'today', 'aria-label': 'Make this a job for Now' }, iconEl(ICON.sunrise), 'Now') : null,
-          isTabOn('tomorrow') ? h('button', { class: 'note-move note-move--dusk', type: 'button', 'data-to': 'tomorrow', 'aria-label': 'Line this up for Tomoz' }, iconEl(ICON.moon), 'Tomoz') : null,
+          isTabOn('tomorrow') ? h('button', { class: 'note-move note-move--dusk', type: 'button', 'data-to': 'tomorrow', 'aria-label': 'Line this up for Not now' }, iconEl(ICON.moon), 'Not now') : null,
           h('button', { class: 'note-del', type: 'button', 'aria-label': 'Delete note', icon: ICON.x }))));
   }
   function renderNotes() {
