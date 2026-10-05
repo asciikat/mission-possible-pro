@@ -9,34 +9,24 @@ Single page: `index.html`. The Ezycal tab shows the separate calendar at
 `../calendar/`, and the Hood tab shows The Hood at `../homies/` (both in a frame,
 loaded the first time you open the tab).
 
-## Tabs
+## Apps, each in its own window
 
-The top row is the apps: **Missions**, **Ezycal**, **Hood** and **Notes**. Only the
-one you tap is shown.
+The home screen shows four big buttons: **Missions**, **Ezycal**, **Hood** and
+**Notes**. Tapping one opens that app in its own full-page window (and, where the
+browser allows it, full screen), so you only see that app, never the others. **✕
+Close**, Esc, or the phone's back gesture takes you back to the home screen. The
+Hood's own button in its top bar closes its window too.
 
-**Missions** is the to-do board. Its own lists only show once you open it:
+**Missions** is the to-do board. Its lists only show once you open it:
 
 - **Now**: today's jobs (was "Today")
 - **Not now**: jobs lined up for later; they land on Now at 7 AM (was "Tomorrow")
 - **Lock up**: jobs 7 days or older (was "Jail")
 
-Missions always opens on Now. The count on the Missions tab is how many jobs are on Now.
-
-## The Hood tab
-
-The Hood lives in its own repo and site (`asciikat.github.io/homies/`). This tab
-shows the live version, so any update to The Hood shows up here automatically.
-Because both are on `asciikat.github.io`, your homies, missions and stash are the
-same ones as in the standalone Hood on that device.
-
-## Full screen
-
-Every tab has a **⛶ Full screen** button, like raccoon mode: Missions (next to
-Now / Not now / Lock up), Ezycal, Notes, and The Hood (in its own top bar). The tab
-covers the whole screen, and where the browser allows it, hides the browser bars
-too. **Shrink**, Esc, or the phone's back gesture puts it back. In full screen
-Missions you can still switch between Now, Not now and Lock up, add jobs and finish
-them; toasts, Undo and the heist celebration show on top.
+Missions always opens on Now. The count on the Missions button is how many jobs
+are on Now. Inside the window you can switch lists, add jobs and finish them;
+toasts, Undo and the heist celebration show on top. Pressing **/** or **n** on a
+keyboard opens Missions and jumps to the job box.
 
 ## Mission Possible Pro vs Plus vs Mission Possible
 

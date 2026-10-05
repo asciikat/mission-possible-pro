@@ -717,6 +717,32 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
   text-transform: none;
 }
 .mission-bar .frame-btn { align-self: center; flex: none; }
+/* the home screen: the four apps as big buttons; tapping one opens its window */
+.board-head { border-bottom: 0; padding-bottom: 16px; }
+#top-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  overflow: visible;
+}
+#top-tabs .tab {
+  justify-content: space-between;
+  padding: 20px 16px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--neon);
+  background: rgba(255, 255, 255, .03);
+  color: var(--ink);
+  font-size: 26px;
+}
+#top-tabs .tab::after { content: none !important; }
+#top-tabs #tab-calendar { border-left-color: var(--palm); }
+#top-tabs #tab-hood { border-left-color: var(--gold); }
+#top-tabs #tab-notes { border-left-color: var(--dusk); }
+#top-tabs .tab .count { background: var(--ink); color: var(--shade); }
+#top-tabs .tab[hidden] { display: none; }
+@media (min-width: 720px) { #top-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (hover: hover) { #top-tabs .tab:hover { background: rgba(255, 255, 255, .07); } }
 .subtabs { gap: 18px; min-width: 0; }
 .subtabs .tab { padding: 10px 0; font-size: 22px; }
 /* four tabs on a small phone: scroll sideways rather than squash */
@@ -754,6 +780,8 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 .frame-btn svg { width: 16px; height: 16px; }
 /* The Hood has its own full-screen button in its top bar, so its bar here is hidden */
 #hood-panel .frame-bar { display: none; }
+/* Pro: each app (Missions, Ezycal, Hood, Notes) only shows in its own full-page window */
+.frame-panel:not(.is-full) { display: none !important; }
 .frame-panel.is-full {
   position: fixed;
   inset: 0;
@@ -1992,7 +2020,7 @@ body.is-shake .wrap { animation: shake .4s; }
     gap: 20px;
     align-items: start;
   }
-  .board { grid-column: 1; grid-row: 1; min-height: 560px; }
+  .board { grid-column: 1; grid-row: 1; }
   .side { display: flex; flex-direction: column; gap: 20px; grid-column: 2; grid-row: 1; }
   .hold-btn { font-size: 22px; }
 }
@@ -2051,8 +2079,7 @@ body.is-shake .wrap { animation: shake .4s; }
   .tabs { gap: 12px; }
   .tab { gap: 4px; font-size: 19px; }
   .subtabs .tab { font-size: 16px; }
-  #top-tabs { gap: 11px; }
-  #top-tabs .tab { font-size: 17px; }
+  #top-tabs .tab { padding: 16px 12px; font-size: 21px; }
   .mission-bar .frame-btn span { display: none; }
   .count { min-width: 17px; padding: 2px 4px; font-size: 11px; }
   .stash { gap: 6px; }
@@ -2066,8 +2093,7 @@ body.is-shake .wrap { animation: shake .4s; }
   .tab-panel { padding: 14px 20px 22px; }
 }
 @media (max-width: 370px) {
-  #top-tabs { gap: 9px; }
-  #top-tabs .tab { font-size: 15px; }
+  #top-tabs .tab { font-size: 19px; }
   .subtabs { gap: 10px; }
   .mission-bar { padding: 0 8px; gap: 4px; }
   .subtabs .tab { font-size: 15px; }
@@ -2216,23 +2242,24 @@ body.is-shake .wrap { animation: shake .4s; }
 
     <section class="panel board" aria-label="Jobs">
       <div class="board-head">
-        <div class="tabs" id="top-tabs" role="tablist" aria-label="Apps">
-          <button class="tab" id="tab-missions" role="tab" type="button" aria-selected="true" aria-controls="missions-panel">Missions <span class="count" id="count-missions">0</span></button>
-          <button class="tab" id="tab-calendar" role="tab" type="button" aria-selected="false" aria-controls="calendar-panel" tabindex="-1">Ezycal</button>
-          <button class="tab" id="tab-hood" role="tab" type="button" aria-selected="false" aria-controls="hood-panel" tabindex="-1">Hood</button>
-          <button class="tab" id="tab-notes" role="tab" type="button" aria-selected="false" aria-controls="notes-panel" tabindex="-1">Notes</button>
-        </div>
+        <nav class="tabs" id="top-tabs" aria-label="Apps">
+          <button class="tab" id="tab-missions" type="button" aria-controls="missions-panel">Missions <span class="count" id="count-missions">0</span></button>
+          <button class="tab" id="tab-calendar" type="button" aria-controls="calendar-panel">Ezycal</button>
+          <button class="tab" id="tab-hood" type="button" aria-controls="hood-panel">Hood</button>
+          <button class="tab" id="tab-notes" type="button" aria-controls="notes-panel">Notes</button>
+        </nav>
       </div>
 
-      <!-- Missions: the job board. Now, Not now and Lock up only show once Missions is open. -->
-      <div class="missions-panel frame-panel" id="missions-panel" role="tabpanel" aria-labelledby="tab-missions" data-name="Missions">
+      <!-- Every app opens in its own full-page window. Missions is the job board; Now, Not now
+           and Lock up only show once it's open. -->
+      <div class="missions-panel frame-panel" id="missions-panel" role="region" aria-label="Missions" data-name="Missions">
       <div class="frame-bar mission-bar">
         <div class="tabs subtabs" id="mission-tabs" role="tablist" aria-label="Job lists">
           <button class="tab" id="tab-active" role="tab" type="button" aria-selected="true" aria-controls="active-list">Now <span class="count" id="count-active">0</span></button>
           <button class="tab" id="tab-tomorrow" role="tab" type="button" aria-selected="false" aria-controls="tomorrow-list" tabindex="-1">Not now <span class="count" id="count-tomorrow">0</span></button>
           <button class="tab" id="tab-jail" role="tab" type="button" aria-selected="false" aria-controls="jail-list" tabindex="-1">Lock up <span class="count" id="count-jail">0</span></button>
         </div>
-        <button class="frame-btn" type="button" data-full="missions-panel" aria-label="Show Missions full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button>
+        <button class="frame-btn" type="button" data-full="missions-panel" aria-label="Close Missions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button>
       </div>
       <div class="frame-body">
 
@@ -2286,21 +2313,21 @@ body.is-shake .wrap { animation: shake .4s; }
 
       <!-- The calendar is its own page (../calendar/), shown here in a frame. It loads the
            first time you open the tab, and keeps its own data, so it can't disturb the board. -->
-      <div class="calendar-panel frame-panel" id="calendar-panel" role="tabpanel" aria-labelledby="tab-calendar" data-name="Ezycal" hidden>
-        <div class="frame-bar"><span>Ezycal</span><button class="frame-btn" type="button" data-full="calendar-panel" aria-label="Show Ezycal full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div>
+      <div class="calendar-panel frame-panel" id="calendar-panel" role="region" aria-label="Ezycal" data-name="Ezycal" hidden>
+        <div class="frame-bar"><span>Ezycal</span><button class="frame-btn" type="button" data-full="calendar-panel" aria-label="Close Ezycal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
         <iframe id="calendar-frame" title="Ezycal" loading="lazy"></iframe>
       </div>
 
       <!-- The Hood is its own app (../homies/), shown here in a frame. It loads the first
            time you open the tab. Your homies are the same ones as in the standalone Hood. -->
-      <div class="hood-panel frame-panel" id="hood-panel" role="tabpanel" aria-labelledby="tab-hood" data-name="The Hood" hidden>
-        <div class="frame-bar"><span>The Hood</span><button class="frame-btn" type="button" data-full="hood-panel" aria-label="Show The Hood full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div>
+      <div class="hood-panel frame-panel" id="hood-panel" role="region" aria-label="The Hood" data-name="The Hood" hidden>
+        <div class="frame-bar"><span>The Hood</span><button class="frame-btn" type="button" data-full="hood-panel" aria-label="Close The Hood"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
         <iframe id="hood-frame" title="The Hood" loading="lazy"></iframe>
       </div>
 
       <!-- Notes: saved on this device as you type. -->
-      <div class="notes-panel frame-panel" id="notes-panel" role="tabpanel" aria-labelledby="tab-notes" data-name="Notes" hidden>
-        <div class="frame-bar"><span>Notes</span><button class="frame-btn" type="button" data-full="notes-panel" aria-label="Show Notes full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button></div>
+      <div class="notes-panel frame-panel" id="notes-panel" role="region" aria-label="Notes" data-name="Notes" hidden>
+        <div class="frame-bar"><span>Notes</span><button class="frame-btn" type="button" data-full="notes-panel" aria-label="Close Notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
         <div class="frame-body tab-panel">
         <form class="note-form" id="note-form" autocomplete="off">
           <label class="sr-only" for="note-input">New note</label>
@@ -3295,8 +3322,6 @@ body.is-shake .wrap { animation: shake .4s; }
     TAB_ORDER.forEach((tab) => { TAB_EL[tab].hidden = !isTabOn(tab); });
     const onMissions = isMissionTab(currentTab);
     tabMissions.hidden = !MISSION_TABS.some(isTabOn);
-    tabMissions.setAttribute('aria-selected', String(onMissions));
-    tabMissions.tabIndex = onMissions ? 0 : -1;
     missionsPanel.hidden = !onMissions;
     const active = [];
     const jail = [];
@@ -3331,12 +3356,7 @@ body.is-shake .wrap { animation: shake .4s; }
 
     // ezycal (the calendar), the Hood and notes: no jobs, so nothing below applies. The
     // calendar and Hood frames load the first time they're opened and stay, so coming back is instant.
-    Object.entries(PANEL_TABS).forEach(([tab, panel]) => {
-      const on = currentTab === tab;
-      TAB_EL[tab].setAttribute('aria-selected', String(on));
-      TAB_EL[tab].tabIndex = on ? 0 : -1;
-      panel.hidden = !on;
-    });
+    Object.entries(PANEL_TABS).forEach(([tab, panel]) => { panel.hidden = currentTab !== tab; });
     const onPanel = currentTab in PANEL_TABS;
     if (currentTab === 'calendar' && !calendarFrame.getAttribute('src')) calendarFrame.setAttribute('src', CALENDAR_URL);
     if (currentTab === 'hood' && !hoodFrame.getAttribute('src')) hoodFrame.setAttribute('src', HOOD_URL);
@@ -4344,32 +4364,20 @@ body.is-shake .wrap { animation: shake .4s; }
 
   function setTab(tab, focus) {
     if (tab === 'missions') tab = MISSION_TABS.find(isTabOn); // Missions always opens on Now
-    const changed = tab !== currentTab;
     currentTab = tab;
     openTray = null;
     renderBoard();
-    if (focus) (focus === 'top' && isMissionTab(tab) ? tabMissions : TAB_EL[tab]).focus();
-    // Ezycal and Hood: size the frame to the screen and line it up under the top bar,
-    // so everything inside (sheets, buttons) stays on screen
-    if (changed && (tab === 'calendar' || tab === 'hood')) {
-      fitFrames();
-      const hudBottom = document.querySelector('.hud').getBoundingClientRect().bottom;
-      const head = document.querySelector('.board-head');
-      window.scrollTo({ top: Math.max(0, head.getBoundingClientRect().top + window.scrollY - hudBottom), behavior: reduceMotion() ? 'auto' : 'smooth' });
-    }
+    if (focus) TAB_EL[tab].focus();
   }
-  TAB_ORDER.forEach((tab) => TAB_EL[tab].addEventListener('click', () => setTab(tab)));
-  tabMissions.addEventListener('click', () => setTab('missions'));
-  // Arrow keys: the top row steps through Missions, Ezycal, Hood, Notes; the Missions row
-  // steps through Now, Not now, Lock up.
-  $('top-tabs').addEventListener('keydown', (e) => {
-    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-    e.preventDefault();
-    const step = e.key === 'ArrowRight' ? 1 : -1;
-    const shown = ['missions', ...Object.keys(PANEL_TABS)].filter((t) => (t === 'missions' ? !tabMissions.hidden : isTabOn(t)));
-    const here = isMissionTab(currentTab) ? 'missions' : currentTab;
-    setTab(shown[(shown.indexOf(here) + step + shown.length) % shown.length], 'top');
-  });
+  // Open an app in its own window: 'missions' (always on Now), a Missions list, or a panel tab.
+  function openApp(tab) {
+    setTab(tab);
+    appWin.enter(isMissionTab(currentTab) ? missionsPanel : PANEL_TABS[currentTab]);
+  }
+  MISSION_TABS.forEach((tab) => TAB_EL[tab].addEventListener('click', () => setTab(tab)));
+  Object.keys(PANEL_TABS).forEach((tab) => TAB_EL[tab].addEventListener('click', () => openApp(tab)));
+  tabMissions.addEventListener('click', () => openApp('missions'));
+  // Arrow keys step through Now, Not now, Lock up.
   $('mission-tabs').addEventListener('keydown', (e) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
     e.preventDefault();
@@ -4813,10 +4821,8 @@ body.is-shake .wrap { animation: shake .4s; }
     if (!overlay.hidden || !boss.hidden) return;
     const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName);
     if (!typing && (e.key === '/' || e.key === 'n') && !e.metaKey && !e.ctrlKey && !e.altKey) {
-      if (currentTab !== 'active' && currentTab !== 'tomorrow') {
-        if (!isTabOn('active')) return;
-        setTab('active');
-      }
+      if (currentTab !== 'active' && currentTab !== 'tomorrow' && !isTabOn('active')) return;
+      openApp(currentTab === 'tomorrow' ? 'tomorrow' : 'active');
       e.preventDefault();
       input.focus();
     }
@@ -5090,60 +5096,66 @@ body.is-shake .wrap { animation: shake .4s; }
   window.addEventListener('resize', fitFrames);
   fitFrames();
 
-  // ── Full screen for every tab: Missions, Ezycal, Hood, Notes (like raccoon mode) ──
-  // The tab covers the whole page, and where the browser allows it, the screen too.
-  // Shrink, Esc, or leaving the tab puts it back.
-  (() => {
-    const SHRINK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
-    const FULL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+  // ── App windows: Missions, Ezycal, Hood and Notes each open full page ──
+  // Tapping an app on the home screen opens it in its own window that covers the whole page
+  // (and, where the browser allows it, the whole screen), like raccoon mode. Close, Esc or the
+  // phone's back gesture goes back to the home screen.
+  const appWin = (() => {
+    const CLOSE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
     let open = null;
     function tellHood(panel, on){
       if (panel.id === 'hood-panel' && hoodFrame.contentWindow) hoodFrame.contentWindow.postMessage({ source: 'mission-possible', type: 'fullscreen-state', on }, location.origin);
     }
-    function setButton(panel, full){
-      tellHood(panel, full);
+    function show(panel, on){
+      panel.classList.toggle('is-full', on);
+      tellHood(panel, on);
       const btn = panel.querySelector('[data-full]');
-      const name = panel.dataset.name;
-      btn.innerHTML = (full ? SHRINK_ICON : FULL_ICON) + `<span>${full ? 'Shrink' : 'Full screen'}</span>`;
-      btn.setAttribute('aria-label', full ? `Shrink ${name}` : `Show ${name} full screen`);
+      btn.innerHTML = CLOSE_ICON + '<span>Close</span>';
+      btn.setAttribute('aria-label', `Close ${panel.dataset.name}`);
     }
-    function exit(){
+    function exit(fromHistory){
       if (!open) return;
       const panel = open; open = null;
-      panel.classList.remove('is-full');
+      show(panel, false);
       document.documentElement.classList.remove('frame-open');
-      setButton(panel, false);
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+      if (!fromHistory && history.state && history.state.mpApp) history.back();
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes }[panel.id];
+      if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){
+      if (open === panel) return;
+      if (open) { show(open, false); open = panel; show(panel, true); fitFrames(); return; } // switch apps in place
       open = panel;
-      panel.classList.add('is-full');
+      show(panel, true);
       document.documentElement.classList.add('frame-open');
-      setButton(panel, true);
       fitFrames();
-      // Missions and Notes take the whole page into real full screen (not just the panel), so
-      // toasts, Undo and the heist overlay still show over them
-      const target = panel.querySelector('iframe') ? panel : document.documentElement;
-      if (target.requestFullscreen) target.requestFullscreen({navigationUI: 'hide'}).catch(() => {});
+      // the whole page goes full screen, so toasts, Undo and the heist overlay still show
+      const root = document.documentElement;
+      if (root.requestFullscreen && !document.fullscreenElement) root.requestFullscreen({navigationUI: 'hide'}).catch(() => {});
+      if (!(history.state && history.state.mpApp)) history.pushState({ mpApp: 1 }, '');
+      panel.querySelector('[data-full]').focus({ preventScroll: true });
     }
-    document.querySelectorAll('[data-full]').forEach((btn) => btn.addEventListener('click', () => {
-      const panel = $(btn.dataset.full);
-      if (open === panel) exit(); else { exit(); enter(panel); }
-    }));
-    // the system's own back gesture or Esc leaves real full screen: follow it
+    document.querySelectorAll('[data-full]').forEach((btn) => btn.addEventListener('click', () => exit()));
+    // the system's own back gesture or Esc leaves real full screen or the window: follow it
     document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && open) exit(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) exit(); });
-    // The Hood's own full-screen button (in its top bar) asks for this
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !document.querySelector('dialog[open]')) exit(); });
+    window.addEventListener('popstate', () => { if (open) exit(true); });
+    // a reload while a window was open leaves its history entry behind: start clean
+    if (history.state && history.state.mpApp) history.replaceState(null, '');
+    // The Hood loads after its window opens: tell it once it's there
+    hoodFrame.addEventListener('load', () => { if (open && open.id === 'hood-panel') tellHood(open, true); });
+    // The Hood's own full-screen button (in its top bar) closes its window
     window.addEventListener('message', (e) => {
       if (e.origin !== location.origin || e.source !== hoodFrame.contentWindow) return;
       const d = e.data;
       if (!d || d.source !== 'homies' || d.type !== 'fullscreen') return;
-      const panel = $('hood-panel');
-      if (open === panel) exit(); else { exit(); enter(panel); }
+      if (open && open.id === 'hood-panel') exit();
     });
-    // switching tabs (or the tab being hidden) always shrinks it
+    // an app switched off with the gear (or otherwise hidden) closes its window
     new MutationObserver(() => { if (open && open.hidden) exit(); }).observe(document.querySelector('.board'), {subtree: true, attributes: true, attributeFilter: ['hidden']});
+    return { enter, exit, isOpen: () => !!open };
   })();
 
   // ── Raccoon mode: full-screen timers ───────────────────────────────────
