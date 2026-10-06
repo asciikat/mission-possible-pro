@@ -39,7 +39,10 @@ what's in it. The **raccoon icon** next to it opens raccoon mode (see below). **
 Score** is the slim gold bar under the banner; tap it to plan it, add prep steps or
 cash it in.
 
-**Notes tools:** each note has a **copy** button, and the bar above the notes has **Copy all**
+**Notes tools:** tap the **pin** in a note's top-right corner to keep it at the top (pinned
+notes get a gold tint; tap again to unpin, and pins sync too). **Share** opens your phone's share
+menu (WhatsApp, Messages, email...) with the note's text; where there's no share menu it copies
+the note instead. Each note also has a **copy** button, and the bar above the notes has **Copy all**
 (every note, newest first, a blank line between each) and **Nuke notes**, which asks first,
 wipes every note (on synced devices too) and gives you a few seconds to Undo. Jobs, cash and
 everything else are untouched.

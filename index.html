@@ -1641,6 +1641,16 @@ body.is-shake .wrap { animation: shake .4s; }
 .notes-bar-actions { display: flex; gap: 8px; }
 .notes-bar .btn { min-height: 36px; padding: 0 11px; font-size: 12px; }
 .notes-bar .btn svg { width: 15px; height: 15px; }
+/* pinned notes sit at the top with a gold tint; the pin lives in the note's top-right corner */
+.note { position: relative; }
+.note textarea { padding-right: 44px; }
+.note.is-pinned { background: linear-gradient(rgba(255, 209, 102, .07), rgba(255, 209, 102, .07)), var(--asphalt-hi); border-color: rgba(255, 209, 102, .35); }
+.note-pin { position: absolute; top: 2px; right: 2px; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; }
+.note-pin svg { width: 18px; height: 18px; transform: rotate(35deg); }
+.note-pin.is-on { color: var(--gold); }
+.note-pin.is-on svg { fill: currentColor; transform: none; }
+.note-share { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; background: none; color: var(--smog); cursor: pointer; }
+.note-share svg { width: 17px; height: 17px; }
 .note-copy { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; background: none; color: var(--smog); cursor: pointer; }
 .note-copy svg { width: 17px; height: 17px; }
 .note-del { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; }
@@ -2774,6 +2784,8 @@ body.is-shake .wrap { animation: shake .4s; }
   const ICON = {
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3.5h6l-1 6.5 3.5 3.5v1h-11v-1L10 10z"/><path d="M12 14.5V21"/></svg>',
+    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5M5 12v7a1 1 0 001 1h12a1 1 0 001-1v-7"/></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>',
     lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></svg>',
     cash: '<svg viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="26" height="13" rx="1.5"/><circle cx="16" cy="14.5" r="3"/><path d="M6 4.5h20M9 1.5h14" stroke-linecap="round"/></svg>',
@@ -4464,8 +4476,8 @@ body.is-shake .wrap { animation: shake .4s; }
     list(d.mp_notes).forEach((n) => {
       if (!n || typeof n.text !== 'string' || !Number.isFinite(n.id) || !Number.isFinite(n.updatedAt) || goneIds.has(n.id)) return;
       const mine = notes.find((x) => x.id === n.id);
-      if (!mine) { notes.push({ id: n.id, text: n.text.slice(0, 5000), updatedAt: n.updatedAt }); sum.notes = (sum.notes || 0) + 1; }
-      else if (n.updatedAt > mine.updatedAt) { mine.text = n.text.slice(0, 5000); mine.updatedAt = n.updatedAt; sum.notes = (sum.notes || 0) + 1; }
+      if (!mine) { notes.push({ id: n.id, text: n.text.slice(0, 5000), updatedAt: n.updatedAt, pinned: !!n.pinned }); sum.notes = (sum.notes || 0) + 1; }
+      else if (n.updatedAt > mine.updatedAt) { mine.text = n.text.slice(0, 5000); mine.updatedAt = n.updatedAt; mine.pinned = !!n.pinned; sum.notes = (sum.notes || 0) + 1; }
     });
     notesGone = Array.from(goneIds).slice(-500);
   }
@@ -4942,22 +4954,25 @@ body.is-shake .wrap { animation: shake .4s; }
   function noteEl(n) {
     const ta = h('textarea', { rows: '1', maxlength: '5000', 'aria-label': 'Note' });
     ta.value = n.text;
-    return h('li', { class: 'note', 'data-id': String(n.id) },
+    return h('li', { class: n.pinned ? 'note is-pinned' : 'note', 'data-id': String(n.id) },
       ta,
+      h('button', { class: n.pinned ? 'note-pin is-on' : 'note-pin', type: 'button', 'aria-pressed': String(!!n.pinned), 'aria-label': n.pinned ? 'Unpin note' : 'Pin note to the top', title: n.pinned ? 'Unpin' : 'Pin', icon: ICON.pin }),
       h('div', { class: 'note-foot' },
         h('time', null, stamp(n.updatedAt)),
         h('span', { class: 'note-actions' },
           isTabOn('active') ? h('button', { class: 'note-move', type: 'button', 'data-to': 'today', 'aria-label': 'Make this a job for Now' }, iconEl(ICON.sunrise), 'Now') : null,
           isTabOn('tomorrow') ? h('button', { class: 'note-move note-move--dusk', type: 'button', 'data-to': 'tomorrow', 'aria-label': 'Line this up for Not now' }, iconEl(ICON.moon), 'Not now') : null,
+          h('button', { class: 'note-share', type: 'button', 'aria-label': 'Share note', title: 'Share', icon: ICON.share }),
           h('button', { class: 'note-copy', type: 'button', 'aria-label': 'Copy note', title: 'Copy', icon: ICON.copy }),
           h('button', { class: 'note-del', type: 'button', 'aria-label': 'Delete note', icon: ICON.x }))));
   }
+  // Pinned notes first, then newest first.
+  const newestNotes = () => notes.slice().sort((a, b) => (!!b.pinned - !!a.pinned) || b.id - a.id);
   function renderNotes() {
     // Don't rebuild under someone's fingers: a note being edited keeps its focus.
     const ae = document.activeElement;
     if (ae && ae.tagName === 'TEXTAREA' && notesListEl.contains(ae)) return;
-    const newestFirst = notes.slice().sort((a, b) => b.id - a.id);
-    notesListEl.replaceChildren(...newestFirst.map(noteEl));
+    notesListEl.replaceChildren(...newestNotes().map(noteEl));
     notesListEl.hidden = notes.length === 0;
     $('notes-empty').hidden = notes.length > 0;
     $('notes-bar').hidden = notes.length === 0;
@@ -5096,7 +5111,6 @@ body.is-shake .wrap { animation: shake .4s; }
       return ok;
     }
   }
-  const newestNotes = () => notes.slice().sort((a, b) => b.id - a.id);
   $('notes-copy-all').addEventListener('click', async () => {
     if (!notes.length) return;
     const ok = await copyText(newestNotes().map((n) => n.text.trim()).join('\n\n'));
@@ -5142,6 +5156,33 @@ body.is-shake .wrap { animation: shake .4s; }
   }
 
   notesListEl.addEventListener('click', async (e) => {
+    const pin = e.target.closest('.note-pin');
+    if (pin) {
+      const [, n] = noteOf(pin);
+      if (!n) return;
+      n.pinned = !n.pinned;
+      n.updatedAt = Date.now(); // so the pin wins on synced devices too
+      saveNotes();
+      renderNotes();
+      haptic(12);
+      toast(n.pinned ? 'Pinned to the top' : 'Unpinned');
+      return;
+    }
+    const share = e.target.closest('.note-share');
+    if (share) {
+      const [li, n] = noteOf(share);
+      if (!n) return;
+      const text = li.querySelector('textarea').value.trim() || n.text;
+      // the phone's own share menu (WhatsApp, Messages, email...); copy where there isn't one
+      if (navigator.share) {
+        try { await navigator.share({ text }); } catch (err) {
+          if (err && err.name !== 'AbortError') toast(await copyText(text) ? "Couldn't share · copied instead" : "Couldn't share");
+        }
+      } else {
+        toast(await copyText(text) ? 'No share menu here · copied instead' : "Couldn't share");
+      }
+      return;
+    }
     const copy = e.target.closest('.note-copy');
     if (copy) {
       const [li, n] = noteOf(copy);
