@@ -4968,6 +4968,15 @@ body.is-shake .wrap { animation: shake .4s; }
   }
   // Pinned notes first, then newest first.
   const newestNotes = () => notes.slice().sort((a, b) => (!!b.pinned - !!a.pinned) || b.id - a.id);
+  // Each note box grows to fit its text. A box can only measure itself while it's on screen,
+  // so this runs again whenever the Notes window opens or the screen changes size.
+  function fitNotes() {
+    if (notesPanelEl.hidden || !notesPanelEl.classList.contains('is-full')) return;
+    notesListEl.querySelectorAll('textarea').forEach(autosize);
+    autosize(noteInput);
+  }
+  const notesPanelEl = $('notes-panel');
+  window.addEventListener('resize', fitNotes);
   function renderNotes() {
     // Don't rebuild under someone's fingers: a note being edited keeps its focus.
     const ae = document.activeElement;
@@ -4977,8 +4986,7 @@ body.is-shake .wrap { animation: shake .4s; }
     $('notes-empty').hidden = notes.length > 0;
     $('notes-bar').hidden = notes.length === 0;
     $('notes-count').textContent = `${notes.length} note${notes.length === 1 ? '' : 's'}`;
-    notesListEl.querySelectorAll('textarea').forEach(autosize);
-    autosize(noteInput);
+    fitNotes();
   }
   noteForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -5269,11 +5277,12 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     function enter(panel){
       if (open === panel) return;
-      if (open) { show(open, false); open = panel; show(panel, true); fitFrames(); return; } // switch apps in place
+      if (open) { show(open, false); open = panel; show(panel, true); fitFrames(); fitNotes(); return; } // switch apps in place
       open = panel;
       show(panel, true);
       document.documentElement.classList.add('frame-open');
       fitFrames();
+      fitNotes();
       // the whole page goes full screen, so toasts, Undo and the heist overlay still show
       const root = document.documentElement;
       if (root.requestFullscreen && !document.fullscreenElement) root.requestFullscreen({navigationUI: 'hide'}).catch(() => {});
