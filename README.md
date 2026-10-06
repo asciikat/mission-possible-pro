@@ -39,6 +39,11 @@ what's in it. The **raccoon icon** next to it opens raccoon mode (see below). **
 Score** is the slim gold bar under the banner; tap it to plan it, add prep steps or
 cash it in.
 
+**Notes tools:** each note has a **copy** button, and the bar above the notes has **Copy all**
+(every note, newest first, a blank line between each) and **Nuke notes**, which asks first,
+wipes every note (on synced devices too) and gives you a few seconds to Undo. Jobs, cash and
+everything else are untouched.
+
 Notes and jobs trade places: each note has **Now** and **Not now** buttons that turn it
 into a job (jobs are one line, 140 letters max), and a job's menu (tap its text) has
 **Move to notes**. Every move has Undo.

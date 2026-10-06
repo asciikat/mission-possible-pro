@@ -744,7 +744,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 @media (min-width: 720px) { #top-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (hover: hover) { #top-tabs .tab:hover { background: rgba(255, 255, 255, .07); } }
 .subtabs { gap: 18px; min-width: 0; }
-.subtabs .tab { padding: 10px 0; font-size: 22px; }
+.subtabs .tab { padding: 14px 0 12px; font-size: 28px; }
 /* four tabs on a small phone: scroll sideways rather than squash */
 .tabs { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
@@ -1636,6 +1636,13 @@ body.is-shake .wrap { animation: shake .4s; }
 }
 .note-move svg { width: 15px; height: 15px; }
 .note-move--dusk { border-color: rgba(154, 107, 255, .5); background: rgba(154, 107, 255, .06); color: var(--dusk-ink); }
+.notes-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; }
+.notes-count { font: 600 12px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.notes-bar-actions { display: flex; gap: 8px; }
+.notes-bar .btn { min-height: 36px; padding: 0 11px; font-size: 12px; }
+.notes-bar .btn svg { width: 15px; height: 15px; }
+.note-copy { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; background: none; color: var(--smog); cursor: pointer; }
+.note-copy svg { width: 17px; height: 17px; }
 .note-del { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; }
 .note-del svg { width: 16px; height: 16px; }
 .empty--notes > svg { color: var(--gold); }
@@ -2046,7 +2053,7 @@ body.is-shake .wrap { animation: shake .4s; }
   .tabs { gap: 16px; }
   .tab { gap: 6px; padding: 8px 0 10px; font-size: 22px; }
   .mission-bar { padding: 0 12px; }
-  .subtabs .tab { padding: 8px 0; font-size: 19px; }
+  .subtabs .tab { padding: 12px 0 10px; font-size: 24px; }
   .mission-bar .frame-btn { min-height: 32px; padding: 0 9px; }
   .count { min-width: 20px; padding: 3px 5px; font-size: 12px; }
   .composer { padding: 10px 12px 0; }
@@ -2078,7 +2085,8 @@ body.is-shake .wrap { animation: shake .4s; }
 @media (max-width: 430px) {
   .tabs { gap: 12px; }
   .tab { gap: 4px; font-size: 19px; }
-  .subtabs .tab { font-size: 16px; }
+  .subtabs { gap: 12px; }
+  .subtabs .tab { font-size: 19px; }
   #top-tabs .tab { padding: 16px 12px; font-size: 21px; }
   .mission-bar .frame-btn span { display: none; }
   .count { min-width: 17px; padding: 2px 4px; font-size: 11px; }
@@ -2096,7 +2104,7 @@ body.is-shake .wrap { animation: shake .4s; }
   #top-tabs .tab { font-size: 19px; }
   .subtabs { gap: 10px; }
   .mission-bar { padding: 0 8px; gap: 4px; }
-  .subtabs .tab { font-size: 15px; }
+  .subtabs .tab { font-size: 17px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2340,6 +2348,13 @@ body.is-shake .wrap { animation: shake .4s; }
             </button>
           </div>
         </form>
+        <div class="notes-bar" id="notes-bar" hidden>
+          <span class="notes-count" id="notes-count">0 notes</span>
+          <span class="notes-bar-actions">
+            <button class="btn" id="notes-copy-all" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy all</button>
+            <button class="btn btn--danger" id="notes-nuke" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Nuke notes</button>
+          </span>
+        </div>
         <ul class="notes" id="notes-list" aria-label="Notes"></ul>
         <div class="empty empty--notes" id="notes-empty" hidden>
           <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 6h18l8 8v28H12z"/><path d="M30 6v8h8M18 24h14M18 31h14M18 38h8"/></svg>
@@ -2577,6 +2592,18 @@ body.is-shake .wrap { animation: shake .4s; }
   </form>
 </dialog>
 
+<dialog class="modal" id="notes-nuke-dialog" aria-labelledby="notes-nuke-title">
+  <form method="dialog">
+    <p class="eyebrow">Danger zone</p>
+    <h2 id="notes-nuke-title">Nuke all notes?</h2>
+    <p id="notes-nuke-text">Every note goes, here and on your synced devices. Jobs, cash and everything else stay. You get a few seconds to undo.</p>
+    <div class="modal-actions">
+      <button class="btn" value="cancel" type="submit" autofocus>Keep them</button>
+      <button class="btn btn--solid-danger" value="nuke" type="submit">Nuke notes</button>
+    </div>
+  </form>
+</dialog>
+
 <dialog class="modal" id="nuke-dialog" aria-labelledby="nuke-title">
   <form method="dialog">
     <p class="eyebrow">Danger zone</p>
@@ -2747,6 +2774,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const ICON = {
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>',
     lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></svg>',
     cash: '<svg viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="26" height="13" rx="1.5"/><circle cx="16" cy="14.5" r="3"/><path d="M6 4.5h20M9 1.5h14" stroke-linecap="round"/></svg>',
     star: '<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.75 5.9 6.45.75-4.78 4.4 1.28 6.37L12 17.05 6.3 20.22l1.28-6.37L2.8 9.45l6.45-.75z"/></svg>',
@@ -4921,6 +4949,7 @@ body.is-shake .wrap { animation: shake .4s; }
         h('span', { class: 'note-actions' },
           isTabOn('active') ? h('button', { class: 'note-move', type: 'button', 'data-to': 'today', 'aria-label': 'Make this a job for Now' }, iconEl(ICON.sunrise), 'Now') : null,
           isTabOn('tomorrow') ? h('button', { class: 'note-move note-move--dusk', type: 'button', 'data-to': 'tomorrow', 'aria-label': 'Line this up for Not now' }, iconEl(ICON.moon), 'Not now') : null,
+          h('button', { class: 'note-copy', type: 'button', 'aria-label': 'Copy note', title: 'Copy', icon: ICON.copy }),
           h('button', { class: 'note-del', type: 'button', 'aria-label': 'Delete note', icon: ICON.x }))));
   }
   function renderNotes() {
@@ -4931,6 +4960,8 @@ body.is-shake .wrap { animation: shake .4s; }
     notesListEl.replaceChildren(...newestFirst.map(noteEl));
     notesListEl.hidden = notes.length === 0;
     $('notes-empty').hidden = notes.length > 0;
+    $('notes-bar').hidden = notes.length === 0;
+    $('notes-count').textContent = `${notes.length} note${notes.length === 1 ? '' : 's'}`;
     notesListEl.querySelectorAll('textarea').forEach(autosize);
     autosize(noteInput);
   }
@@ -5049,7 +5080,78 @@ body.is-shake .wrap { animation: shake .4s; }
       },
     });
   }
-  notesListEl.addEventListener('click', (e) => {
+  // Copy to the clipboard, with an old-school fallback for browsers that block it.
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      const ta = h('textarea', { 'aria-hidden': 'true', style: 'position:fixed;top:0;left:0;opacity:0' });
+      ta.value = text;
+      document.body.append(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      ta.remove();
+      return ok;
+    }
+  }
+  const newestNotes = () => notes.slice().sort((a, b) => b.id - a.id);
+  $('notes-copy-all').addEventListener('click', async () => {
+    if (!notes.length) return;
+    const ok = await copyText(newestNotes().map((n) => n.text.trim()).join('\n\n'));
+    haptic(12);
+    toast(ok ? `Copied ${notes.length} note${notes.length === 1 ? '' : 's'}` : "Couldn't copy · try again");
+  });
+
+  // Nuke every note (after a check), with a few seconds to undo.
+  const notesNukeDialog = $('notes-nuke-dialog');
+  $('notes-nuke').addEventListener('click', () => {
+    if (!notes.length) return;
+    $('notes-nuke-text').textContent = `All ${notes.length} note${notes.length === 1 ? '' : 's'} go, here and on your synced devices. Jobs, cash and everything else stay. You get a few seconds to undo.`;
+    if (typeof notesNukeDialog.showModal === 'function') notesNukeDialog.showModal();
+    else if (window.confirm('Nuke all notes?')) nukeNotes();
+  });
+  notesNukeDialog.addEventListener('close', () => {
+    if (notesNukeDialog.returnValue === 'nuke') nukeNotes();
+    notesNukeDialog.returnValue = '';
+  });
+  function nukeNotes() {
+    const wiped = notes;
+    if (!wiped.length) return;
+    notes = [];
+    wiped.forEach((n) => markNoteGone(n.id));
+    holdSync();
+    saveNotes();
+    renderNotes();
+    sfx.drop();
+    haptic(30);
+    toast(`${wiped.length} note${wiped.length === 1 ? '' : 's'} nuked`, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        const ids = new Set(wiped.map((n) => n.id));
+        notesGone = notesGone.filter((g) => !ids.has(g));
+        const t = Date.now();
+        wiped.forEach((n) => { n.updatedAt = t; });
+        notes = notes.concat(wiped);
+        saveNotes();
+        renderNotes();
+      },
+    });
+  }
+
+  notesListEl.addEventListener('click', async (e) => {
+    const copy = e.target.closest('.note-copy');
+    if (copy) {
+      const [li, n] = noteOf(copy);
+      if (!n) return;
+      // copy what's in the box, even if it's mid-edit
+      const ok = await copyText(li.querySelector('textarea').value.trim() || n.text);
+      haptic(12);
+      toast(ok ? 'Note copied' : "Couldn't copy · try again");
+      return;
+    }
     const move = e.target.closest('.note-move');
     if (move) {
       const [, n] = noteOf(move);
