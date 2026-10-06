@@ -12,8 +12,9 @@ loaded the first time you open the tab).
 ## Apps, each in its own window
 
 The home screen shows four big buttons: **Missions**, **Ezycal**, **Hood** and
-**Notes**. Tapping one opens that app in its own full-page window (and, where the
-browser allows it, full screen), so you only see that app, never the others. **✕
+**Notes**. Tapping one opens that app in its own full-page window (in a browser tab it also
+goes full screen; the installed app already fills the screen, so it skips that and
+Android's "to exit full screen" message), so you only see that app, never the others. **✕
 Close**, Esc, or the phone's back gesture takes you back to the home screen. The
 Hood's own button in its top bar closes its window too.
 

@@ -785,7 +785,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 .frame-panel.is-full {
   position: fixed;
   inset: 0;
-  z-index: 49;
+  z-index: 44; /* over the top bar; under the rank-up banner, raccoon timer and toasts */
   display: flex;
   flex-direction: column;
   padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
@@ -4949,7 +4949,15 @@ body.is-shake .wrap { animation: shake .4s; }
   const noteForm = $('note-form');
   const noteInput = $('note-input');
   const stamp = (t) => new Date(t).toLocaleString('en-US', { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
-  const autosize = (ta) => { ta.style.height = 'auto'; ta.style.height = `${ta.scrollHeight}px`; };
+  // Grow a box to fit its text. Shrinking it to measure can make the list jump, so the
+  // window's scroll position is put back afterwards.
+  const autosize = (ta) => {
+    const box = ta.closest('.frame-body');
+    const top = box ? box.scrollTop : 0;
+    ta.style.height = 'auto';
+    ta.style.height = `${ta.scrollHeight}px`;
+    if (box && box.scrollTop !== top) box.scrollTop = top;
+  };
 
   function noteEl(n) {
     const ta = h('textarea', { rows: '1', maxlength: '5000', 'aria-label': 'Note' });
@@ -4976,7 +4984,14 @@ body.is-shake .wrap { animation: shake .4s; }
     autosize(noteInput);
   }
   const notesPanelEl = $('notes-panel');
-  window.addEventListener('resize', fitNotes);
+  // Re-measure when the screen gets wider or narrower (rotating the phone). The keyboard
+  // opening only changes the height, which doesn't change how the text wraps.
+  let notesWidth = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth === notesWidth) return;
+    notesWidth = window.innerWidth;
+    fitNotes();
+  });
   function renderNotes() {
     // Don't rebuild under someone's fingers: a note being edited keeps its focus.
     const ae = document.activeElement;
@@ -5280,12 +5295,17 @@ body.is-shake .wrap { animation: shake .4s; }
       if (open) { show(open, false); open = panel; show(panel, true); fitFrames(); fitNotes(); return; } // switch apps in place
       open = panel;
       show(panel, true);
+      const body = panel.querySelector('.frame-body');
+      if (body) body.scrollTop = 0; // an app always opens at the top
       document.documentElement.classList.add('frame-open');
       fitFrames();
       fitNotes();
-      // the whole page goes full screen, so toasts, Undo and the heist overlay still show
+      // In a browser tab the whole page goes full screen (so toasts, Undo and the heist overlay
+      // still show). The installed app already fills the screen, so it skips this and Android's
+      // "to exit full screen" banner with it.
       const root = document.documentElement;
-      if (root.requestFullscreen && !document.fullscreenElement) root.requestFullscreen({navigationUI: 'hide'}).catch(() => {});
+      const installed = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+      if (!installed && root.requestFullscreen && !document.fullscreenElement) root.requestFullscreen({navigationUI: 'hide'}).catch(() => {});
       if (!(history.state && history.state.mpApp)) history.pushState({ mpApp: 1 }, '');
       panel.querySelector('[data-full]').focus({ preventScroll: true });
     }

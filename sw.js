@@ -2,7 +2,7 @@
 // Its saved copy is named mppro-*, so it never clashes with Mission Possible's or Plus's on the same site.
 // Pages are fetched fresh when online (so updates arrive) and fall back to the
 // last saved copy when offline. Sign-in and database traffic are never touched.
-const CACHE = 'mppro-v1';
+const CACHE = 'mppro-v2';
 const SHELL = ['./', 'index.html', 'firebase-config.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
   'icons/raccoon/calm.webp', 'icons/raccoon/sneaky.webp', 'icons/raccoon/feral.webp'];
@@ -32,10 +32,12 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // Our own files: network first, saved copy when offline.
+  // Our own files: network first, saved copy when offline. 'no-cache' makes the browser check
+  // with GitHub every time instead of reusing its own 10-minute copy, so updates show on the
+  // next open.
   if (url.origin === self.location.origin) {
     event.respondWith(
-      fetch(req).then((res) => putInCache(req, res))
+      fetch(req, { cache: 'no-cache' }).then((res) => putInCache(req, res))
         .catch(() => caches.match(req).then((hit) => hit || (req.mode === 'navigate' ? caches.match('index.html') : undefined))),
     );
     return;
