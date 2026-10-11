@@ -1831,6 +1831,32 @@ body.is-shake .wrap { animation: shake .4s; }
 }
 @media (prefers-reduced-motion: reduce) { .sh-tick.is-pop .px { animation: none; } }
 
+/* Sahara calendar: the real Ezycal in a frame, and the read-only "Coming up" strip */
+.sh-cal { margin-top: 2px; border: 3px solid var(--sh-border); box-shadow: 4px 4px 0 var(--sh-shadow); background: var(--sh-bg); }
+.sh-cal iframe, #sahara-panel.is-full .sh-cal iframe { display: block; flex: none; width: 100%; height: max(560px, calc(100dvh - 330px)) !important; border: 0; background: var(--sh-bg); color-scheme: dark; }
+.sh-soon {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 3px solid var(--sh-border);
+  background: var(--sh-card);
+  color: var(--sh-text);
+  box-shadow: 4px 4px 0 var(--sh-shadow);
+  text-align: left;
+  cursor: pointer;
+}
+.sh-soon-head { display: flex; align-items: center; gap: 8px; font: 400 9px/1.4 var(--sh-pixel); color: #ff9fc0; }
+.sh-soon-head .px { width: 16px; height: 14px; }
+.sh-soon-head span { margin-left: auto; color: var(--sh-muted); font-size: 8px; }
+.sh-soon ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.sh-soon li { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.sh-soon-when { flex: none; min-width: 92px; font: 400 8px/1.6 var(--sh-pixel); color: var(--sh-muted); }
+.sh-soon-when.is-today { color: #ff9fc0; }
+.sh-soon-what { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 15px/1.3 var(--font-body); }
+.sh-soon-none { margin: 8px 0 0; font: 600 14px/1.3 var(--font-body); color: var(--sh-muted); }
+@media (hover: hover) { .sh-soon:hover { border-color: #ff9fc0; } }
+
 /* Sahara fitness: a points score, tap an activity then how long, a history, editable rates */
 .sh-card { padding: 14px; border: 3px solid var(--sh-border); background: var(--sh-card); box-shadow: 4px 4px 0 var(--sh-shadow); }
 .sh-score { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -2708,6 +2734,8 @@ body.is-shake .wrap { animation: shake .4s; }
           <h2 class="sh-logo">SAHARA</h2>
           <p class="sh-tag" id="sh-tag"></p>
         </div>
+        <!-- Coming up: the next few events from Ezycal, read-only. Tapping it opens the Calendar. -->
+        <button class="sh-soon" id="sh-soon" type="button" hidden></button>
         <div class="sh-secs" id="sh-secs" role="tablist" aria-label="Sahara sections"></div>
         <h3 class="sh-title" id="sh-title"></h3>
         <form class="sh-form" id="sh-form" autocomplete="off">
@@ -2720,6 +2748,11 @@ body.is-shake .wrap { animation: shake .4s; }
         <button class="sh-small sh-clear" id="sh-clear" type="button" hidden>Clear done</button>
         <!-- Fitness: log a bike ride, scooter session, hike... and earn points worth money -->
         <div class="sh-fit" id="sh-fit" hidden></div>
+        <!-- Calendar: the real Ezycal (../calendar/) with its Sahara skin, so it's the same calendar,
+             same events and same sync. It loads the first time the section is opened. -->
+        <div class="sh-cal" id="sh-cal" hidden>
+          <iframe id="sh-cal-frame" title="Sahara calendar"></iframe>
+        </div>
         </div>
       </div>
 
@@ -5741,15 +5774,17 @@ body.is-shake .wrap { animation: shake .4s; }
     scooter: ['......XXX', '........X', '........X', '........X', '........X', '.XXXXXXXX', 'XX.....XX', 'XX.....XX'],
     hike: ['....X......', '...XXX.....', '..XX.XX.X..', '..X...XXXX.', '.XX....X.XX', 'XX.......XX', 'X.........X', 'XXXXXXXXXXX'],
     shoe: ['XXX......', 'XXX......', 'XXX......', 'XXXX.....', 'XXXXXXX..', 'XXXXXXXXX', 'XXXXXXXXX', '.........'],
+    flag: ['XXXXXXX.', 'XXXXXXXX', 'XXXXXXX.', 'XXXXXX..', 'X.......', 'X.......', 'X.......', 'X.......'],
     coin: ['..XXXXX..', '.X.....X.', 'X..XXX..X', 'X..X....X', 'X..XXX..X', 'X....X..X', '.X.XXX.X.', '..XXXXX..'],
   };
   // The sections. Rename one by changing its name, not its id (the id is what's saved with each item).
   const SAHARA_SECTIONS = [
-    { id: 'plans', name: 'Plans', color: '#7bc8ff', px: PX.calendar, hint: 'e.g. Weekend at the coast', empty: 'Trips, dates, big days. Line up what you\'re looking forward to.' },
+    { id: 'plans', name: 'Plans', color: '#7bc8ff', px: PX.flag, hint: 'e.g. Weekend at the coast', empty: 'Trips, dates, big days. Line up what you\'re looking forward to.' },
     { id: 'fun', name: 'Fun', color: '#ffd166', px: PX.star, hint: 'e.g. Try the new ramen place', empty: 'Films, places, games, things you want to do just because.' },
     { id: 'friends', name: 'Friends', color: '#ff5c99', px: PX.people, hint: 'e.g. Call Sam back', empty: 'Who to text, call, visit or send a little something.' },
     { id: 'todo', name: 'To-do', color: '#5fd3b0', px: PX.check, hint: 'e.g. Post the parcel', empty: 'The everyday stuff. Tap the heart when it\'s done.' },
     { id: 'fit', name: 'Fitness', color: '#7cf29a', px: PX.bike, fit: true },
+    { id: 'cal', name: 'Calendar', color: '#ff9fc0', px: PX.calendar, cal: true },
     { id: 'lessons', name: 'Lessons', color: '#ff9f43', px: PX.book, hint: 'e.g. Ask for help sooner', empty: 'Things life taught you, so future you remembers.' },
     { id: 'dreams', name: 'Dreams', color: '#cdb4f0', px: PX.moon, hint: 'e.g. See the northern lights', empty: 'Someday things. Big, small, wild. Write them down.' },
     { id: 'self', name: 'Self care', color: '#ff8a8a', px: PX.sparkle, hint: 'e.g. Early night, no phone', empty: 'Little ways to look after you.' },
@@ -5759,7 +5794,7 @@ body.is-shake .wrap { animation: shake .4s; }
   function cleanSahara(x) {
     if (!x || typeof x.text !== 'string' || !x.text.trim() || !Number.isFinite(x.id)) return null;
     const sec = shSec(x.sec);
-    return { id: x.id, sec: sec.fit ? 'todo' : sec.id, text: x.text.slice(0, 200), done: x.done === true, updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id };
+    return { id: x.id, sec: sec.fit || sec.cal ? 'todo' : sec.id, text: x.text.slice(0, 200), done: x.done === true, updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id };
   }
   let sahara = (Array.isArray(store.get('mp_sahara', [])) ? store.get('mp_sahara', []) : []).map(cleanSahara).filter(Boolean);
   // Ids of items deleted on this device, so a sync or merge doesn't bring them back.
@@ -5790,13 +5825,73 @@ body.is-shake .wrap { animation: shake .4s; }
       li.append(h('div', { class: 'sh-tray' },
         edit,
         h('span', { class: 'sh-tray-label' }, 'Move to'),
-        h('div', { class: 'sh-moves' }, ...SAHARA_SECTIONS.filter((s) => s.id !== sec.id && !s.fit).map((s) => h('button', { class: 'sh-move', type: 'button', 'data-act': 'move', 'data-sec': s.id, style: `--sec:${s.color}` }, iconEl(pixelSvg(s.px)), s.name))),
+        h('div', { class: 'sh-moves' }, ...SAHARA_SECTIONS.filter((s) => s.id !== sec.id && !s.fit && !s.cal).map((s) => h('button', { class: 'sh-move', type: 'button', 'data-act': 'move', 'data-sec': s.id, style: `--sec:${s.color}` }, iconEl(pixelSvg(s.px)), s.name))),
         h('div', { class: 'sh-tray-row' },
           h('button', { class: 'sh-small sh-small--danger', type: 'button', 'data-act': 'del' }, 'Delete'),
           h('button', { class: 'sh-small', type: 'button', 'data-act': 'close' }, 'Done editing'))));
     }
     return li;
   }
+  // Coming up: read straight from Ezycal's saved events (same site, so same storage). Read only:
+  // nothing here ever writes to the calendar, so it can't disturb Ezycal or its sync.
+  const SAHARA_CAL_URL = '../calendar/?embed=1&theme=sahara';
+  const EZYCAL_KEY = 'easycal.simple.v1';
+  const isoDay = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  function calUpcoming(n) {
+    let data = null;
+    try { data = JSON.parse(localStorage.getItem(EZYCAL_KEY)); } catch { data = null; }
+    const items = data && data.items && typeof data.items === 'object' ? Object.values(data.items) : [];
+    const today = isoDay(new Date());
+    const nowMin = new Date().getHours() * 60 + new Date().getMinutes();
+    const isDay = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
+    const isTime = (v) => typeof v === 'string' && /^\d{2}:\d{2}$/.test(v);
+    return items
+      .filter((it) => it && !it.deleted && it.status !== 'dismissed' && it.status !== 'done' && typeof it.title === 'string' && isDay(it.date))
+      .filter((it) => {
+        const end = isDay(it.endDate) && it.endDate > it.date ? it.endDate : it.date;
+        if (end < today) return false;
+        if (it.date === today && end === today && isTime(it.time)) {
+          const [hh, mm] = it.time.split(':').map(Number);
+          return hh * 60 + mm + (Number(it.durationMin) || 60) > nowMin; // already over today: skip
+        }
+        return true;
+      })
+      .sort((a, b) => `${a.date} ${isTime(a.time) ? a.time : ''}`.localeCompare(`${b.date} ${isTime(b.time) ? b.time : ''}`))
+      .slice(0, n);
+  }
+  function soonWhen(it) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const d = new Date(`${it.date}T00:00:00`);
+    const diff = Math.round((d - today) / DAY_MS);
+    const day = diff <= 0 ? 'Today' : diff === 1 ? 'Tomorrow' : d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+    if (!/^\d{2}:\d{2}$/.test(it.time || '')) return day;
+    const [hh, mm] = it.time.split(':').map(Number);
+    const t = new Date(); t.setHours(hh, mm, 0, 0);
+    return `${day} ${t.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+  }
+  function renderSoon() {
+    const el = $('sh-soon');
+    const onCal = shSec(shCurrent).cal;
+    el.hidden = onCal;
+    if (onCal) return;
+    const next = calUpcoming(3);
+    el.setAttribute('aria-label', next.length ? `Coming up: ${next.map((it) => `${it.title}, ${soonWhen(it)}`).join('; ')}. Open the calendar.` : 'Nothing coming up. Open the calendar.');
+    el.replaceChildren(
+      h('span', { class: 'sh-soon-head' }, iconEl(pixelSvg(PX.calendar)), 'Coming up', h('span', null, 'Calendar ›')),
+      next.length
+        ? h('ul', null, ...next.map((it) => {
+          const when = soonWhen(it);
+          return h('li', null, h('span', { class: when.startsWith('Today') ? 'sh-soon-when is-today' : 'sh-soon-when' }, when), h('span', { class: 'sh-soon-what' }, it.title));
+        }))
+        : h('p', { class: 'sh-soon-none' }, 'Nothing on the calendar yet. Tap to add something.'));
+  }
+  $('sh-soon').addEventListener('click', () => { shSetSection('cal'); haptic(8); });
+  // Ezycal saving (in its own window, the Ezycal tab or Sahara's Calendar) updates the strip.
+  window.addEventListener('storage', (e) => {
+    if (e.key !== EZYCAL_KEY && e.key !== null) return;
+    if (!shPanel.hidden && shPanel.classList.contains('is-full')) renderSoon();
+  });
+
   function renderSahara(popId) {
     const sec = shSec(shCurrent);
     shPanel.style.setProperty('--sec', sec.color);
@@ -5804,15 +5899,22 @@ body.is-shake .wrap { animation: shake .4s; }
     $('sh-tag').textContent = `${open} to go · ${sahara.length - open} done`;
     $('count-sahara').textContent = String(open);
     $('sh-secs').replaceChildren(...SAHARA_SECTIONS.map((s) => {
-      const n = s.fit ? fitBalance() : sahara.filter((x) => x.sec === s.id && !x.done).length;
+      const n = s.cal ? 0 : s.fit ? fitBalance() : sahara.filter((x) => x.sec === s.id && !x.done).length;
       return h('button', { class: 'sh-sec', type: 'button', role: 'tab', 'aria-selected': String(s.id === sec.id), 'data-sec': s.id, style: `--sec:${s.color}` },
         iconEl(pixelSvg(s.px)), h('span', { class: 'sh-sec-name' }, s.name), n ? h('span', { class: 'sh-sec-n' }, String(n)) : null);
     }));
     $('sh-title').replaceChildren(iconEl(pixelSvg(sec.px)), sec.name);
-    // Fitness has its own view instead of a list
+    renderSoon();
+    // Fitness and Calendar have their own views instead of a list
     $('sh-fit').hidden = !sec.fit;
-    [shForm, shList, $('sh-empty'), $('sh-clear')].forEach((el) => { if (sec.fit) el.hidden = true; });
+    $('sh-cal').hidden = !sec.cal;
+    [shForm, shList, $('sh-empty'), $('sh-clear')].forEach((el) => { if (sec.fit || sec.cal) el.hidden = true; });
     if (sec.fit) { renderFit(); return; }
+    if (sec.cal) {
+      const frame = $('sh-cal-frame');
+      if (!frame.getAttribute('src')) frame.setAttribute('src', SAHARA_CAL_URL);
+      return;
+    }
     shForm.hidden = false;
     $('sh-label').textContent = `New item for ${sec.name}`;
     shInput.placeholder = sec.hint;
@@ -6453,8 +6555,8 @@ body.is-shake .wrap { animation: shake .4s; }
     const hudBottom = Math.round(document.querySelector('.hud').getBoundingClientRect().bottom);
     const headH = document.querySelector('.board-head').offsetHeight;
     document.querySelectorAll('.frame-panel').forEach((panel) => {
-      const frame = panel.querySelector('iframe');
-      if (!frame) return; // Missions and Notes grow with their content
+      const frame = panel.querySelector(':scope > iframe');
+      if (!frame) return; // Missions, Notes and Sahara grow with their content
       const full = panel.classList.contains('is-full');
       frame.dataset.coverTop = full ? '0' : String(hudBottom);
       if (!full) frame.style.height = `${Math.max(460, window.innerHeight - hudBottom - headH - panel.querySelector('.frame-bar').offsetHeight - 4)}px`;
