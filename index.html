@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@500;600;700&family=Press+Start+2P&display=swap">
 <style>
 /* Layout: a sticky game HUD over a night-city postcard; below it the job board,
    with the heist tracker + pay rates in a side rail on desktop that folds under
@@ -741,7 +741,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 #top-tabs #tab-notes { border-left-color: var(--dusk); }
 #top-tabs .tab .count { background: var(--ink); color: var(--shade); }
 #top-tabs .tab[hidden] { display: none; }
-@media (min-width: 720px) { #top-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 720px) { #top-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (hover: hover) { #top-tabs .tab:hover { background: rgba(255, 255, 255, .07); } }
 .subtabs { gap: 18px; min-width: 0; }
 .subtabs .tab { padding: 14px 0 12px; font-size: 28px; }
@@ -1659,19 +1659,14 @@ body.is-shake .wrap { animation: shake .4s; }
 .empty--notes { margin: 12px 0 0; }
 
 /* ───────────────────────── wins ───────────────────────── */
-/* the Wins button on the home screen: a full-width gold banner under the other apps */
+/* the Wins button on the home screen: gold, last in the grid */
 #top-tabs #tab-wins {
-  grid-column: 1 / -1;
   border-left-color: var(--gold);
   background: linear-gradient(100deg, rgba(255, 209, 102, .18), rgba(255, 61, 127, .10) 65%, rgba(255, 255, 255, .03));
 }
 #top-tabs #tab-wins .count { background: var(--gold); }
 .tab-label { display: inline-flex; align-items: center; gap: 10px; }
 .tab-label svg { width: 26px; height: 26px; color: var(--gold); }
-@media (min-width: 900px) {
-  #top-tabs { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  #top-tabs #tab-wins { grid-column: auto; }
-}
 @media (hover: hover) { #top-tabs #tab-wins:hover { background: linear-gradient(100deg, rgba(255, 209, 102, .26), rgba(255, 61, 127, .14) 65%, rgba(255, 255, 255, .05)); } }
 
 /* inside: the score, one box to log a win, quick wins, then the wins by section */
@@ -1736,6 +1731,105 @@ body.is-shake .wrap { animation: shake .4s; }
 @keyframes winIn { from { background: color-mix(in srgb, var(--sec) 35%, transparent); } }
 .empty--wins > svg { color: var(--gold); }
 .empty--wins { margin: 18px 0 0; }
+
+/* ───────────────────────── sahara ───────────────────────── */
+/* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
+   dressed like the Sahara app: night purple, dotted ground, chunky borders, pixel hearts. */
+#top-tabs #tab-sahara { border-left-color: #ff5c99; }
+.tab-label .px { width: 24px; height: 22px; color: #ff5c99; }
+.px { display: block; shape-rendering: crispEdges; }
+#sahara-panel {
+  --sh-bg: #170d29;
+  --sh-card: #25143d;
+  --sh-text: #f7ebff;
+  --sh-muted: #bda3da;
+  --sh-border: #cdb4f0;
+  --sh-shadow: #0a0414;
+  --sh-pink: #ff5c99;
+  --sh-dots: #2a1847;
+  --sh-pixel: "Press Start 2P", ui-monospace, monospace;
+  --sec: var(--sh-pink);
+}
+#sahara-panel.is-full .frame-body {
+  background-color: var(--sh-bg);
+  background-image: radial-gradient(var(--sh-dots) 1.5px, transparent 2px);
+  background-size: 18px 18px;
+  color: var(--sh-text);
+}
+#sahara-panel .frame-body > * { max-width: 560px; }
+.sh-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 4px; }
+.sh-logo { margin: 0; font: 400 22px/1.2 var(--sh-pixel); letter-spacing: 2px; color: var(--sh-pink); text-shadow: 3px 3px 0 var(--sh-shadow); }
+.sh-tag { margin: 0; font: 400 9px/1.6 var(--sh-pixel); color: var(--sh-muted); text-align: right; }
+/* the chips wrap and stretch, so every row is full whatever the screen width */
+.sh-secs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.sh-sec {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 3px solid var(--sh-border);
+  background: var(--sh-card);
+  white-space: nowrap;
+  color: var(--sh-text);
+  font: 400 9px/1.4 var(--sh-pixel);
+  text-align: left;
+  box-shadow: 3px 3px 0 var(--sh-shadow);
+  cursor: pointer;
+}
+.sh-sec .px { flex: none; width: 16px; height: 16px; color: var(--sec); }
+.sh-sec-name { flex: 1; min-width: 0; }
+.sh-sec-n { font-size: 8px; color: var(--sh-muted); }
+.sh-sec[aria-selected="true"] { background: var(--sec); border-color: var(--sec); color: var(--sh-shadow); }
+.sh-sec[aria-selected="true"] .px, .sh-sec[aria-selected="true"] .sh-sec-n { color: var(--sh-shadow); }
+.sh-sec:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--sh-shadow); }
+.sh-title { display: flex; align-items: center; gap: 10px; margin: 20px 0 10px; font: 400 14px/1.4 var(--sh-pixel); color: var(--sec); text-shadow: 2px 2px 0 var(--sh-shadow); }
+.sh-title .px { width: 22px; height: 22px; }
+.sh-form { display: flex; gap: 8px; padding: 6px; border: 3px solid var(--sh-border); background: var(--sh-card); box-shadow: 4px 4px 0 var(--sh-shadow); }
+.sh-form:focus-within { border-color: var(--sec); }
+.sh-form input { flex: 1; min-width: 0; padding: 10px 8px; border: 0; outline: 0; background: transparent; color: var(--sh-text); font: 600 17px/1.2 var(--font-body); }
+.sh-form input::placeholder { color: var(--sh-muted); opacity: .7; }
+.sh-btn {
+  flex: none;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 3px solid var(--sh-shadow);
+  background: var(--sec);
+  color: var(--sh-shadow);
+  font: 400 11px/1 var(--sh-pixel);
+  cursor: pointer;
+}
+.sh-btn:active { transform: translate(2px, 2px); }
+.sh-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.sh-item { border: 3px solid var(--sh-border); background: var(--sh-card); box-shadow: 4px 4px 0 var(--sh-shadow); }
+.sh-row { display: flex; align-items: center; gap: 4px; }
+.sh-tick { flex: none; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; background: none; color: var(--sec); cursor: pointer; }
+.sh-tick .px { width: 24px; height: 22px; }
+.sh-tick.is-pop .px { animation: shPop .45s var(--snap); }
+@keyframes shPop { 0% { transform: scale(.4); } 60% { transform: scale(1.35); } 100% { transform: none; } }
+.sh-text { flex: 1; min-width: 0; padding: 12px 12px 12px 2px; border: 0; background: none; color: var(--sh-text); font: 600 16px/1.35 var(--font-body); text-align: left; overflow-wrap: anywhere; cursor: pointer; }
+.sh-item.is-done { opacity: .6; box-shadow: none; }
+.sh-item.is-done .sh-text { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--sh-muted); }
+.sh-tray { display: flex; flex-direction: column; gap: 10px; padding: 0 12px 12px; }
+.sh-edit { width: 100%; padding: 10px; border: 3px solid var(--sh-border); outline: 0; background: var(--sh-bg); color: var(--sh-text); font: 600 16px/1.3 var(--font-body); }
+.sh-edit:focus { border-color: var(--sec); outline: none; }
+.sh-tray-label { font: 400 8px/1 var(--sh-pixel); color: var(--sh-muted); }
+.sh-moves { display: flex; flex-wrap: wrap; gap: 6px; }
+.sh-move { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 9px; border: 2px solid var(--sh-border); background: none; color: var(--sh-text); font: 400 8px/1 var(--sh-pixel); cursor: pointer; }
+.sh-move .px { width: 12px; height: 12px; color: var(--sec); }
+.sh-tray-row { display: flex; justify-content: space-between; gap: 8px; }
+.sh-small { min-height: 38px; padding: 0 12px; border: 2px solid var(--sh-border); background: none; color: var(--sh-text); font: 400 9px/1 var(--sh-pixel); cursor: pointer; }
+.sh-small--danger { border-color: #ff8a8a; color: #ff8a8a; }
+.sh-clear { display: block; margin: 14px 0 0 auto; }
+.sh-empty { margin-top: 14px; padding: 20px 16px; border: 3px dashed var(--sh-border); text-align: center; color: var(--sh-muted); }
+.sh-empty .px { width: 40px; height: 36px; margin: 0 auto 12px; color: var(--sec); }
+.sh-empty b { display: block; margin-bottom: 8px; font: 400 11px/1.5 var(--sh-pixel); color: var(--sh-text); }
+@media (hover: hover) {
+  .sh-sec:hover:not([aria-selected="true"]) { border-color: var(--sec); }
+  .sh-move:hover, .sh-small:hover { border-color: var(--sec); }
+}
+@media (prefers-reduced-motion: reduce) { .sh-tick.is-pop .px { animation: none; } }
 
 /* a new win: the sections spin like a slot machine, land on one, then the aura counts up */
 .winfx {
@@ -2416,6 +2510,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <button class="tab" id="tab-calendar" type="button" aria-controls="calendar-panel">Ezycal</button>
           <button class="tab" id="tab-hood" type="button" aria-controls="hood-panel">Hood</button>
           <button class="tab" id="tab-notes" type="button" aria-controls="notes-panel">Notes</button>
+          <button class="tab" id="tab-sahara" type="button" aria-controls="sahara-panel"><span class="tab-label"><svg class="px" viewBox="0 0 9 8" aria-hidden="true"><path fill="currentColor" d="M1 0h2v1h-2zM6 0h2v1h-2zM0 1h4v1h-4zM5 1h4v1h-4zM0 2h9v2h-9zM1 4h7v1h-7zM2 5h5v1h-5zM3 6h3v1h-3zM4 7h1v1h-1z"/></svg>Sahara</span> <span class="count" id="count-sahara">0</span></button>
           <button class="tab" id="tab-wins" type="button" aria-controls="wins-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>Wins</span> <span class="count" id="count-wins">0</span></button>
         </nav>
       </div>
@@ -2525,6 +2620,28 @@ body.is-shake .wrap { animation: shake .4s; }
             <p>Phone numbers, ideas, the thing you'll forget in five minutes. Edit any note by tapping it.</p>
           </div>
         </div>
+        </div>
+      </div>
+
+      <!-- Sahara: the to-do split into sections, in the Sahara app's pixel-heart look. Its items are
+           kept apart from the jobs board (their own storage), so nothing here touches jobs or cash. -->
+      <div class="sahara-panel frame-panel" id="sahara-panel" role="region" aria-label="Sahara" data-name="Sahara" hidden>
+        <div class="frame-bar"><span>Sahara</span><button class="frame-btn" type="button" data-full="sahara-panel" aria-label="Close Sahara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <div class="sh-head">
+          <h2 class="sh-logo">SAHARA</h2>
+          <p class="sh-tag" id="sh-tag"></p>
+        </div>
+        <div class="sh-secs" id="sh-secs" role="tablist" aria-label="Sahara sections"></div>
+        <h3 class="sh-title" id="sh-title"></h3>
+        <form class="sh-form" id="sh-form" autocomplete="off">
+          <label class="sr-only" for="sh-input" id="sh-label">New item</label>
+          <input type="text" id="sh-input" maxlength="200" enterkeyhint="done">
+          <button type="submit" class="sh-btn">Add</button>
+        </form>
+        <ul class="sh-list" id="sh-list" role="tabpanel"></ul>
+        <div class="sh-empty" id="sh-empty" hidden></div>
+        <button class="sh-small sh-clear" id="sh-clear" type="button" hidden>Clear done</button>
         </div>
       </div>
 
@@ -2921,7 +3038,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | wins
+  let currentTab = 'active'; // active (Now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -2948,18 +3065,18 @@ body.is-shake .wrap { animation: shake .4s; }
   const tabTomorrow = $('tab-tomorrow');
   const tomorrowListEl = $('tomorrow-list');
   const tomorrowEmptyEl = $('tomorrow-empty-state');
-  const TAB_ORDER = ['active', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'wins'];
+  const TAB_ORDER = ['active', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins'];
   const TAB_EL = {
     active: tabActive, tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
-    notes: $('tab-notes'), wins: $('tab-wins'),
+    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'),
   };
   const TAB_NAME = {
     active: 'Now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
-    notes: 'Notes', wins: 'Wins',
+    notes: 'Notes', sahara: 'Sahara', wins: 'Wins',
   };
   // Tabs that show their own panel instead of a job list.
-  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), wins: $('wins-panel') };
-  // Now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Wins.
+  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel') };
+  // Now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
   const MISSION_TABS = ['active', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
   const tabMissions = $('tab-missions');
@@ -3599,7 +3716,7 @@ body.is-shake .wrap { animation: shake .4s; }
       TAB_EL[tab].tabIndex = on ? 0 : -1;
     });
 
-    // ezycal (the calendar), the Hood, notes and wins: no jobs, so nothing below applies. The
+    // ezycal (the calendar), the Hood, notes, Sahara and wins: no jobs, so nothing below applies. The
     // calendar and Hood frames load the first time they're opened and stay, so coming back is instant.
     Object.entries(PANEL_TABS).forEach(([tab, panel]) => { panel.hidden = currentTab !== tab; });
     const onPanel = currentTab in PANEL_TABS;
@@ -3607,7 +3724,9 @@ body.is-shake .wrap { animation: shake .4s; }
     if (currentTab === 'hood' && !hoodFrame.getAttribute('src')) hoodFrame.setAttribute('src', HOOD_URL);
     if (currentTab === 'notes') renderNotes();
     if (currentTab === 'wins') renderWins();
+    if (currentTab === 'sahara') renderSahara();
     $('count-wins').textContent = String(wins.length);
+    $('count-sahara').textContent = String(sahara.filter((x) => !x.done).length);
 
     $('count-active').textContent = String(active.length);
     $('count-missions').textContent = String(active.length);
@@ -4673,7 +4792,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // ── Backup: progress only lives in this browser, so offer a file copy ──
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
     'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_gone', 'gta_muted', 'gta_seeded',
-    'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone'];
+    'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
   function mergeNotes(d, sum) {
@@ -4700,6 +4819,22 @@ body.is-shake .wrap { animation: shake .4s; }
       sum.wins = (sum.wins || 0) + 1;
     });
     winsGone = Array.from(goneIds).slice(-500);
+  }
+
+  // Sahara: combined by id; a deleted item stays deleted; the newest change to an item wins.
+  function mergeSahara(d, sum) {
+    const list = (v) => (Array.isArray(v) ? v : []);
+    const goneIds = new Set([...saharaGone, ...list(d.mp_sahara_gone).filter(Number.isFinite)]);
+    sahara = sahara.filter((x) => !goneIds.has(x.id));
+    list(d.mp_sahara).map(cleanSahara).forEach((x) => {
+      if (!x || goneIds.has(x.id)) return;
+      const mine = sahara.find((y) => y.id === x.id);
+      if (!mine) sahara.push(x);
+      else if (x.updatedAt > mine.updatedAt) Object.assign(mine, x);
+      else return;
+      sum.sahara = (sum.sahara || 0) + 1;
+    });
+    saharaGone = Array.from(goneIds).slice(-500);
   }
 
   // Merge a backup into what is on this device. Nothing is overwritten:
@@ -4767,12 +4902,14 @@ body.is-shake .wrap { animation: shake .4s; }
 
     mergeNotes(d, sum);
     mergeWins(d, sum);
+    mergeSahara(d, sum);
 
     gone = Array.from(goneSet).slice(-500);
     store.set('gta_seeded', true);
     saveData();
     saveNotes();
     saveWins();
+    saveSahara();
     renderUI();
     return sum;
   }
@@ -4805,6 +4942,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.lined) bits.push(`${sum.lined} lined up`);
         if (sum.removed) bits.push(`${sum.removed} already done elsewhere`);
         if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
+        if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         toast(bits.length ? `Merged · ${bits.join(' · ')}` : 'Merged · already up to date', { duration: 4500 });
       } catch { toast("That isn't a Mission Board backup"); }
     };
@@ -4915,6 +5053,7 @@ body.is-shake .wrap { animation: shake .4s; }
       gta_big_score: bigScore, gta_big_trophies: trophies, gta_gone: gone,
       mp_notes: notes, mp_notes_gone: notesGone,
       mp_wins: wins, mp_wins_gone: winsGone,
+      mp_sahara: sahara, mp_sahara_gone: saharaGone,
     }));
     const load = (src) => new Promise((resolve, reject) => {
       const s = document.createElement('script');
@@ -4942,6 +5081,10 @@ body.is-shake .wrap { animation: shake .4s; }
       if (wins.some((w) => !theirWins.has(w.id))) return true;
       const theirWinsGone = new Set(list(d.mp_wins_gone));
       if (winsGone.some((g) => !theirWinsGone.has(g))) return true;
+      const theirSahara = new Map(list(d.mp_sahara).map((x) => [x && x.id, x]));
+      if (sahara.some((x) => !theirSahara.has(x.id) || x.updatedAt > (theirSahara.get(x.id).updatedAt || 0))) return true;
+      const theirSaharaGone = new Set(list(d.mp_sahara_gone));
+      if (saharaGone.some((g) => !theirSaharaGone.has(g))) return true;
       const tb = d.gta_big_score;
       if (bigScore && !tb) return true;
       if (bigScore && tb && tb.id === bigScore.id) {
@@ -4963,6 +5106,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.updated) bits.push(`${sum.updated} starred`);
         if (sum.notes) bits.push(`${sum.notes} note${sum.notes === 1 ? '' : 's'}`);
         if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
+        if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         if (bits.length) toast(`Synced · ${bits.join(' · ')}`);
       }
       if (cloudIsBehind(d || {})) schedule(1500);
@@ -5474,6 +5618,230 @@ body.is-shake .wrap { animation: shake .4s; }
     });
   });
 
+  // ── Sahara: the to-do split into sections, in the Sahara app's pixel look ──
+  // Pixel art is a grid of strings where X is a filled pixel, drawn as SVG squares (as in Sahara).
+  const pixelSvg = (rows) => {
+    const d = rows.flatMap((row, y) => [...row].flatMap((c, x) => (c === 'X' ? [`M${x} ${y}h1v1h-1z`] : []))).join('');
+    return `<svg class="px" viewBox="0 0 ${rows[0].length} ${rows.length}" aria-hidden="true"><path fill="currentColor" d="${d}"/></svg>`;
+  };
+  const PX = {
+    heart: ['.XX...XX.', 'XXXX.XXXX', 'XXXXXXXXX', 'XXXXXXXXX', '.XXXXXXX.', '..XXXXX..', '...XXX...', '....X....'],
+    heartOff: ['.XX...XX.', 'X..X.X..X', 'X...X...X', 'X.......X', '.X.....X.', '..X...X..', '...X.X...', '....X....'],
+    calendar: ['.X.....X.', 'XXXXXXXXX', 'XXXXXXXXX', 'X.......X', 'X.X.X.X.X', 'X.......X', 'X.X.X...X', 'XXXXXXXXX'],
+    star: ['....X....', '....X....', '...XXX...', 'XXXXXXXXX', '.XXXXXXX.', '..XXXXX..', '..XXXXX..', '.XXX.XXX.', '.XX...XX.'],
+    people: ['.XX.......', '.XX.......', 'XXXX......', 'XXXX...XX.', '.XX....XX.', '.XX...XXXX', '.XX...XXXX', '.XX....XX.'],
+    check: ['.......XX', '......XXX', '.....XXX.', 'X...XXX..', 'XX.XXX...', 'XXXXX....', '.XXX.....', '..X......'],
+    book: ['XXXX.XXXX', 'X..X.X..X', 'X.XX.XX.X', 'X..X.X..X', 'X.XX.XX.X', 'X..X.X..X', 'XXXXXXXXX', '....X....'],
+    moon: ['..XXXX..', '.XXX....', 'XXX.....', 'XXX.....', 'XXX.....', 'XXXX....', '.XXXXXX.', '..XXXX..'],
+    sparkle: ['...X...', '...X...', '..XXX..', 'XXXXXXX', '..XXX..', '...X...', '...X...'],
+  };
+  // The sections. Rename one by changing its name, not its id (the id is what's saved with each item).
+  const SAHARA_SECTIONS = [
+    { id: 'plans', name: 'Plans', color: '#7bc8ff', px: PX.calendar, hint: 'e.g. Weekend at the coast', empty: 'Trips, dates, big days. Line up what you\'re looking forward to.' },
+    { id: 'fun', name: 'Fun', color: '#ffd166', px: PX.star, hint: 'e.g. Try the new ramen place', empty: 'Films, places, games, things you want to do just because.' },
+    { id: 'friends', name: 'Friends', color: '#ff5c99', px: PX.people, hint: 'e.g. Call Sam back', empty: 'Who to text, call, visit or send a little something.' },
+    { id: 'todo', name: 'To-do', color: '#5fd3b0', px: PX.check, hint: 'e.g. Post the parcel', empty: 'The everyday stuff. Tap the heart when it\'s done.' },
+    { id: 'lessons', name: 'Lessons', color: '#ff9f43', px: PX.book, hint: 'e.g. Ask for help sooner', empty: 'Things life taught you, so future you remembers.' },
+    { id: 'dreams', name: 'Dreams', color: '#cdb4f0', px: PX.moon, hint: 'e.g. See the northern lights', empty: 'Someday things. Big, small, wild. Write them down.' },
+    { id: 'self', name: 'Self care', color: '#ff8a8a', px: PX.sparkle, hint: 'e.g. Early night, no phone', empty: 'Little ways to look after you.' },
+  ];
+  const SAHARA_CHEERS = ['Nice one', 'Heart filled', 'Look at you go', 'Done and dusted', 'Proud of you', 'One less thing'];
+  const shSec = (id) => SAHARA_SECTIONS.find((s) => s.id === id) || SAHARA_SECTIONS.find((s) => s.id === 'todo');
+  function cleanSahara(x) {
+    if (!x || typeof x.text !== 'string' || !x.text.trim() || !Number.isFinite(x.id)) return null;
+    return { id: x.id, sec: shSec(x.sec).id, text: x.text.slice(0, 200), done: x.done === true, updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id };
+  }
+  let sahara = (Array.isArray(store.get('mp_sahara', [])) ? store.get('mp_sahara', []) : []).map(cleanSahara).filter(Boolean);
+  // Ids of items deleted on this device, so a sync or merge doesn't bring them back.
+  let saharaGone = (Array.isArray(store.get('mp_sahara_gone', [])) ? store.get('mp_sahara_gone', []) : []).filter(Number.isFinite);
+  const markSaharaGone = (id) => { if (!saharaGone.includes(id)) saharaGone = saharaGone.concat(id).slice(-500); };
+  const saveSahara = () => {
+    store.set('mp_sahara', sahara);
+    store.set('mp_sahara_gone', saharaGone);
+    if (onSaved) onSaved();
+  };
+  // The section you were last on, kept per device.
+  let shCurrent = shSec(store.get('mp_sahara_sec', 'todo')).id;
+  let shOpen = null; // the item whose edit tray is open
+  const shPanel = $('sahara-panel');
+  const shList = $('sh-list');
+  const shForm = $('sh-form');
+  const shInput = $('sh-input');
+
+  function shItemEl(x) {
+    const sec = shSec(x.sec);
+    const li = h('li', { class: x.done ? 'sh-item is-done' : 'sh-item', 'data-id': String(x.id) },
+      h('div', { class: 'sh-row' },
+        h('button', { class: 'sh-tick', type: 'button', 'data-act': 'tick', 'aria-pressed': String(x.done), 'aria-label': x.done ? `Not done yet: ${x.text}` : `Done: ${x.text}`, icon: pixelSvg(x.done ? PX.heart : PX.heartOff) }),
+        h('button', { class: 'sh-text', type: 'button', 'data-act': 'open', 'aria-expanded': String(shOpen === x.id) }, x.text)));
+    if (shOpen === x.id) {
+      const edit = h('input', { class: 'sh-edit', type: 'text', maxlength: '200', 'aria-label': 'Edit item', enterkeyhint: 'done' });
+      edit.value = x.text;
+      li.append(h('div', { class: 'sh-tray' },
+        edit,
+        h('span', { class: 'sh-tray-label' }, 'Move to'),
+        h('div', { class: 'sh-moves' }, ...SAHARA_SECTIONS.filter((s) => s.id !== sec.id).map((s) => h('button', { class: 'sh-move', type: 'button', 'data-act': 'move', 'data-sec': s.id, style: `--sec:${s.color}` }, iconEl(pixelSvg(s.px)), s.name))),
+        h('div', { class: 'sh-tray-row' },
+          h('button', { class: 'sh-small sh-small--danger', type: 'button', 'data-act': 'del' }, 'Delete'),
+          h('button', { class: 'sh-small', type: 'button', 'data-act': 'close' }, 'Done editing'))));
+    }
+    return li;
+  }
+  function renderSahara(popId) {
+    const sec = shSec(shCurrent);
+    shPanel.style.setProperty('--sec', sec.color);
+    const open = sahara.filter((x) => !x.done).length;
+    $('sh-tag').textContent = `${open} to go · ${sahara.length - open} done`;
+    $('count-sahara').textContent = String(open);
+    $('sh-secs').replaceChildren(...SAHARA_SECTIONS.map((s) => {
+      const n = sahara.filter((x) => x.sec === s.id && !x.done).length;
+      return h('button', { class: 'sh-sec', type: 'button', role: 'tab', 'aria-selected': String(s.id === sec.id), 'data-sec': s.id, style: `--sec:${s.color}` },
+        iconEl(pixelSvg(s.px)), h('span', { class: 'sh-sec-name' }, s.name), n ? h('span', { class: 'sh-sec-n' }, String(n)) : null);
+    }));
+    $('sh-title').replaceChildren(iconEl(pixelSvg(sec.px)), sec.name);
+    $('sh-label').textContent = `New item for ${sec.name}`;
+    shInput.placeholder = sec.hint;
+    // Open items newest first, then the done ones (most recently done first).
+    const items = sahara.filter((x) => x.sec === sec.id)
+      .sort((a, b) => (a.done - b.done) || (a.done ? b.updatedAt - a.updatedAt : b.id - a.id));
+    shList.replaceChildren(...items.map(shItemEl));
+    shList.hidden = items.length === 0;
+    const empty = $('sh-empty');
+    empty.hidden = items.length > 0;
+    empty.replaceChildren(iconEl(pixelSvg(PX.heartOff)), h('b', null, `No ${sec.name.toLowerCase()} yet`), sec.empty);
+    const done = items.filter((x) => x.done).length;
+    const clear = $('sh-clear');
+    clear.hidden = done === 0;
+    clear.textContent = `Clear done (${done})`;
+    if (popId != null) {
+      const btn = shList.querySelector(`[data-id="${popId}"] .sh-tick`);
+      if (btn) btn.classList.add('is-pop');
+    }
+    if (shOpen != null) {
+      const edit = shList.querySelector('.sh-edit');
+      if (edit) edit.focus({ preventScroll: true });
+    }
+  }
+  function shSetSection(id) {
+    shCurrent = shSec(id).id;
+    shOpen = null;
+    store.set('mp_sahara_sec', shCurrent);
+    renderSahara();
+  }
+  $('sh-secs').addEventListener('click', (e) => {
+    const b = e.target.closest('.sh-sec');
+    if (b) { shSetSection(b.dataset.sec); haptic(8); }
+  });
+  shForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = shInput.value.trim().replace(/\s+/g, ' ');
+    if (!text) { shInput.focus(); return; }
+    let id = Date.now();
+    while (sahara.some((x) => x.id === id)) id++;
+    sahara.push({ id, sec: shCurrent, text, done: false, updatedAt: Date.now() });
+    shInput.value = '';
+    shOpen = null;
+    saveSahara();
+    renderSahara();
+    sfx.add();
+    haptic(12);
+    shInput.focus();
+  });
+  const shItemOf = (el) => {
+    const li = el.closest('.sh-item');
+    return li ? sahara.find((x) => x.id === Number(li.dataset.id)) : null;
+  };
+  shList.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    const x = shItemOf(btn);
+    if (!x) return;
+    const act = btn.dataset.act;
+    if (act === 'tick') {
+      x.done = !x.done;
+      x.updatedAt = Date.now();
+      saveSahara();
+      renderSahara(x.done ? x.id : null);
+      if (x.done) { sfx.coin(); haptic([12, 30, 12]); toast(`${pick(SAHARA_CHEERS)} ♥`); } else sfx.tick();
+    } else if (act === 'open') {
+      shOpen = shOpen === x.id ? null : x.id;
+      renderSahara();
+    } else if (act === 'close') {
+      shOpen = null;
+      renderSahara();
+    } else if (act === 'move') {
+      const to = shSec(btn.dataset.sec);
+      x.sec = to.id;
+      x.updatedAt = Date.now();
+      shOpen = null;
+      saveSahara();
+      renderSahara();
+      sfx.lock();
+      toast(`Moved to ${to.name}`, { action: 'Go there', onAction: () => shSetSection(to.id) });
+    } else if (act === 'del') {
+      sahara = sahara.filter((y) => y !== x);
+      markSaharaGone(x.id);
+      shOpen = null;
+      holdSync();
+      saveSahara();
+      renderSahara();
+      sfx.drop();
+      toast('Deleted', {
+        action: 'Undo',
+        duration: 6000,
+        onAction: () => {
+          saharaGone = saharaGone.filter((g) => g !== x.id);
+          x.updatedAt = Date.now();
+          sahara.push(x);
+          saveSahara();
+          renderSahara();
+        },
+      });
+    }
+  });
+  // Editing saves as you type; an emptied box keeps the old text.
+  shList.addEventListener('input', (e) => {
+    if (!e.target.classList.contains('sh-edit')) return;
+    const x = shItemOf(e.target);
+    const text = e.target.value.trim().replace(/\s+/g, ' ');
+    if (!x || !text) return;
+    x.text = text;
+    x.updatedAt = Date.now();
+    saveSahara();
+    e.target.closest('.sh-item').querySelector('.sh-text').textContent = text;
+  });
+  shList.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.classList.contains('sh-edit')) { e.preventDefault(); shOpen = null; renderSahara(); }
+  });
+  shList.addEventListener('animationend', (e) => {
+    const t = e.target.closest('.sh-tick');
+    if (t) t.classList.remove('is-pop');
+  });
+  $('sh-clear').addEventListener('click', () => {
+    const cleared = sahara.filter((x) => x.sec === shCurrent && x.done);
+    if (!cleared.length) return;
+    sahara = sahara.filter((x) => !cleared.includes(x));
+    cleared.forEach((x) => markSaharaGone(x.id));
+    shOpen = null;
+    holdSync();
+    saveSahara();
+    renderSahara();
+    sfx.drop();
+    toast(`Cleared ${cleared.length}`, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        const ids = new Set(cleared.map((x) => x.id));
+        saharaGone = saharaGone.filter((g) => !ids.has(g));
+        const t = Date.now();
+        cleared.forEach((x) => { x.updatedAt = t; });
+        sahara = sahara.concat(cleared);
+        saveSahara();
+        renderSahara();
+      },
+    });
+  });
+
   // ── Wins: log any win; each one lands in a random section with random aura ──
   // The sections, hype lines and quick wins are plain lists: edit them freely. A section's id is
   // what's saved with each win, so rename a section by changing its name, not its id.
@@ -5713,7 +6081,7 @@ body.is-shake .wrap { animation: shake .4s; }
   window.addEventListener('resize', fitFrames);
   fitFrames();
 
-  // ── App windows: Missions, Ezycal, Hood, Notes and Wins each open full page ──
+  // ── App windows: Missions, Ezycal, Hood, Notes, Sahara and Wins each open full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
   // (and, where the browser allows it, the whole screen), like raccoon mode. Close, Esc or the
   // phone's back gesture goes back to the home screen.
@@ -5738,7 +6106,7 @@ body.is-shake .wrap { animation: shake .4s; }
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
       if (!fromHistory && history.state && history.state.mpApp) history.back();
-      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'wins-panel': TAB_EL.wins }[panel.id];
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){
