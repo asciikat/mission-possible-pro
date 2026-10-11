@@ -1658,6 +1658,157 @@ body.is-shake .wrap { animation: shake .4s; }
 .empty--notes > svg { color: var(--gold); }
 .empty--notes { margin: 12px 0 0; }
 
+/* ───────────────────────── wins ───────────────────────── */
+/* the Wins button on the home screen: a full-width gold banner under the other apps */
+#top-tabs #tab-wins {
+  grid-column: 1 / -1;
+  border-left-color: var(--gold);
+  background: linear-gradient(100deg, rgba(255, 209, 102, .18), rgba(255, 61, 127, .10) 65%, rgba(255, 255, 255, .03));
+}
+#top-tabs #tab-wins .count { background: var(--gold); }
+.tab-label { display: inline-flex; align-items: center; gap: 10px; }
+.tab-label svg { width: 26px; height: 26px; color: var(--gold); }
+@media (min-width: 900px) {
+  #top-tabs { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  #top-tabs #tab-wins { grid-column: auto; }
+}
+@media (hover: hover) { #top-tabs #tab-wins:hover { background: linear-gradient(100deg, rgba(255, 209, 102, .26), rgba(255, 61, 127, .14) 65%, rgba(255, 255, 255, .05)); } }
+
+/* inside: the score, one box to log a win, quick wins, then the wins by section */
+.wins-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 4px 0 14px; }
+.wins-total {
+  display: block;
+  font: 900 clamp(46px, 13vw, 72px)/.85 var(--font-display);
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #fff4c8 8%, var(--gold) 50%, var(--flare) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.wins-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right; }
+.wins-aura { font: 700 13px/1.2 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.wins-aura b { display: block; font: 900 26px/1 var(--font-display); letter-spacing: .02em; color: var(--gold); }
+.wins-side .btn { min-height: 36px; padding: 0 11px; font-size: 12px; border-color: rgba(255, 209, 102, .5); color: var(--gold); }
+.wins-side .btn svg { width: 16px; height: 16px; }
+.composer--win { padding: 0; }
+.composer--win .dock-row:focus-within {
+  border-color: rgba(255, 209, 102, .75);
+  box-shadow: 0 0 0 4px rgba(255, 209, 102, .14), 0 14px 40px -14px rgba(255, 209, 102, .55);
+}
+.composer--win .add-btn { background: linear-gradient(100deg, var(--gold), var(--flare)); }
+.win-quick { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; scrollbar-width: none; }
+.win-quick::-webkit-scrollbar { display: none; }
+.win-chip {
+  flex: none;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px dashed rgba(255, 209, 102, .4);
+  background: none;
+  color: var(--smog);
+  font: 700 13px/1 var(--font-hud);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.win-chip::before { content: "+ "; color: var(--gold); }
+@media (hover: hover) { .win-chip:hover { color: var(--ink); border-style: solid; } }
+.win-secs { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+.win-sec {
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--sec);
+  background: var(--asphalt-hi);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sec) 12%, transparent), transparent 64px), var(--asphalt-hi);
+}
+.win-sec-head { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.win-sec-head svg { flex: none; width: 24px; height: 24px; color: var(--sec); }
+.win-sec-name { flex: 1; min-width: 0; font: 900 24px/1 var(--font-display); text-transform: uppercase; color: var(--sec); }
+.win-sec-count { padding: 4px 7px; background: var(--sec); color: var(--shade); font: 800 13px/1 var(--font-hud); letter-spacing: .08em; }
+.win-list { list-style: none; margin: 0; padding: 0; }
+.win { display: flex; align-items: center; gap: 10px; padding: 8px 2px 8px 12px; border-top: 1px solid var(--line); }
+.win-num { flex: none; min-width: 42px; font: 900 20px/1 var(--font-display); color: var(--sec); }
+.win-body { flex: 1; min-width: 0; }
+.win-text { display: block; font-weight: 600; overflow-wrap: anywhere; }
+.win-meta { display: block; margin-top: 2px; font: 600 12px/1.2 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.win-meta b { color: var(--gold); font-weight: 800; }
+.win-del { flex: none; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; }
+.win-del svg { width: 16px; height: 16px; }
+.win.is-new { animation: winIn 1.2s var(--glide); }
+@keyframes winIn { from { background: color-mix(in srgb, var(--sec) 35%, transparent); } }
+.empty--wins > svg { color: var(--gold); }
+.empty--wins { margin: 18px 0 0; }
+
+/* a new win: the sections spin like a slot machine, land on one, then the aura counts up */
+.winfx {
+  --sec: var(--gold);
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow: hidden;
+  text-align: center;
+  background: rgba(5, 4, 10, 0);
+  cursor: pointer;
+  transition: background .3s;
+}
+.winfx.is-on { background: rgba(5, 4, 10, .95); }
+.winfx-rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 170vmax;
+  height: 170vmax;
+  margin: -85vmax 0 0 -85vmax;
+  background: repeating-conic-gradient(rgba(255, 209, 102, .14) 0 8deg, transparent 8deg 22deg);
+  background: repeating-conic-gradient(color-mix(in srgb, var(--sec) 20%, transparent) 0 8deg, transparent 8deg 22deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0, transparent 55%);
+  mask-image: radial-gradient(circle, #000 0, transparent 55%);
+  opacity: 0;
+  transition: opacity .5s;
+  animation: winSpin 22s linear infinite;
+}
+.winfx.is-landed .winfx-rays { opacity: 1; }
+@keyframes winSpin { to { transform: rotate(360deg); } }
+.winfx-inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 680px; }
+.winfx-kicker { font: 800 clamp(14px, 3.6vw, 20px)/1 var(--font-hud); letter-spacing: .4em; text-transform: uppercase; color: var(--gold); }
+.winfx-icon { width: clamp(56px, 15vw, 88px); height: clamp(56px, 15vw, 88px); color: var(--sec); }
+.winfx-icon svg { width: 100%; height: 100%; }
+.winfx-reel {
+  display: grid;
+  place-items: center;
+  min-height: 1.8em;
+  font: 900 clamp(46px, 12.5vw, 118px)/.88 var(--font-display);
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--sec);
+  text-shadow: 4px 5px 0 var(--shade);
+}
+.winfx-aura {
+  font: 900 clamp(34px, 9vw, 70px)/1 var(--font-display);
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #fff4c8 8%, var(--gold) 48%, var(--flare) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--shade);
+}
+.winfx-what { max-width: 30ch; font: 600 clamp(17px, 4.4vw, 22px)/1.3 var(--font-body); color: var(--ink); overflow-wrap: anywhere; }
+.winfx-hype { font: 700 clamp(13px, 3.4vw, 16px)/1.3 var(--font-hud); letter-spacing: .2em; text-transform: uppercase; color: var(--neon); }
+.winfx-aura, .winfx-what, .winfx-hype { opacity: 0; }
+.winfx.is-landed .winfx-aura, .winfx.is-landed .winfx-what, .winfx.is-landed .winfx-hype { animation: rise .45s var(--glide) forwards; }
+.winfx.is-landed .winfx-what { animation-delay: .12s; }
+.winfx.is-landed .winfx-hype { animation-delay: .3s; }
+.winfx.is-landed .winfx-reel, .winfx.is-landed .winfx-icon { animation: winPop .55s var(--snap); }
+@keyframes winPop { 0% { transform: scale(1.5) rotate(-4deg); } 60% { transform: scale(.95) rotate(-2deg); } 100% { transform: rotate(-2deg); } }
+.winfx.is-landed .winfx-reel { transform: rotate(-2deg); }
+.winfx.is-jackpot .winfx-kicker { color: var(--neon); }
+@media (prefers-reduced-motion: reduce) {
+  .winfx-rays { animation: none; }
+  .winfx.is-landed .winfx-reel, .winfx.is-landed .winfx-icon { animation: none; }
+  .winfx.is-landed .winfx-aura, .winfx.is-landed .winfx-what, .winfx.is-landed .winfx-hype { animation: none; opacity: 1; }
+}
+
 /* raccoon mode: the picker is laid out like the job board (tabs, composer, job rows), and the
    running timer fills the screen in the board's night-city colours */
 #coon-btn { position: relative; color: var(--flare); border-color: rgba(255, 155, 61, .45); }
@@ -2265,6 +2416,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <button class="tab" id="tab-calendar" type="button" aria-controls="calendar-panel">Ezycal</button>
           <button class="tab" id="tab-hood" type="button" aria-controls="hood-panel">Hood</button>
           <button class="tab" id="tab-notes" type="button" aria-controls="notes-panel">Notes</button>
+          <button class="tab" id="tab-wins" type="button" aria-controls="wins-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>Wins</span> <span class="count" id="count-wins">0</span></button>
         </nav>
       </div>
 
@@ -2376,6 +2528,43 @@ body.is-shake .wrap { animation: shake .4s; }
         </div>
       </div>
 
+      <!-- Wins: log any win, big or small. Each one lands in a random section with a random
+           amount of aura. Saved on this device and synced like notes. -->
+      <div class="wins-panel frame-panel" id="wins-panel" role="region" aria-label="Wins" data-name="Wins" hidden>
+        <div class="frame-bar"><span>Wins</span><button class="frame-btn" type="button" data-full="wins-panel" aria-label="Close Wins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <div class="wins-hero">
+          <div>
+            <p class="eyebrow">Trophy room</p>
+            <strong class="wins-total" id="wins-total">0 wins</strong>
+          </div>
+          <div class="wins-side">
+            <span class="wins-aura"><b id="wins-aura">0</b>aura</span>
+            <button class="btn" id="wins-relive" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor" stroke="none"/></svg>Relive one</button>
+          </div>
+        </div>
+        <form class="composer composer--win" id="win-form" autocomplete="off">
+          <label class="sr-only" for="win-input">New win</label>
+          <div class="dock-row">
+            <input type="text" id="win-input" maxlength="140" enterkeyhint="done" placeholder="What went right?">
+            <button type="submit" class="add-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Win
+            </button>
+          </div>
+        </form>
+        <div class="win-quick" id="win-quick" aria-label="Quick wins"></div>
+        <div class="win-secs" id="win-secs"></div>
+        <div class="empty empty--wins" id="wins-empty" hidden>
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M14 8h20v10a10 10 0 01-20 0V8z"/><path d="M14 12H8v2a6 6 0 006 6M34 12h6v2a6 6 0 01-6 6M24 28v6M16 40h16M19 34h10"/></svg>
+          <div>
+            <h3>No wins yet</h3>
+            <p>Type one above or tap a quick win. Got up? Drank water? That's a win. Each one lands somewhere random.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
     </section>
   </div>
 
@@ -2433,6 +2622,18 @@ body.is-shake .wrap { animation: shake .4s; }
     <div class="boss-meta" id="boss-meta"></div>
   </div>
   <div class="boss-hint">Tap to continue</div>
+</div>
+<div class="winfx" id="win-fx" hidden aria-hidden="true">
+  <div class="winfx-rays"></div>
+  <div class="winfx-inner">
+    <div class="winfx-kicker" id="winfx-kicker">Win #1</div>
+    <div class="winfx-icon" id="winfx-icon"></div>
+    <div class="winfx-reel" id="winfx-reel">Legendary</div>
+    <div class="winfx-aura" id="winfx-aura">+0 aura</div>
+    <div class="winfx-what" id="winfx-what"></div>
+    <div class="winfx-hype" id="winfx-hype"></div>
+  </div>
+  <div class="ov-hint">Tap to continue</div>
 </div>
 <canvas class="fx" id="fx" aria-hidden="true"></canvas>
 
@@ -2720,7 +2921,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes
+  let currentTab = 'active'; // active (Now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | wins
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -2747,18 +2948,18 @@ body.is-shake .wrap { animation: shake .4s; }
   const tabTomorrow = $('tab-tomorrow');
   const tomorrowListEl = $('tomorrow-list');
   const tomorrowEmptyEl = $('tomorrow-empty-state');
-  const TAB_ORDER = ['active', 'tomorrow', 'jail', 'calendar', 'hood', 'notes'];
+  const TAB_ORDER = ['active', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'wins'];
   const TAB_EL = {
     active: tabActive, tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
-    notes: $('tab-notes'),
+    notes: $('tab-notes'), wins: $('tab-wins'),
   };
   const TAB_NAME = {
     active: 'Now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
-    notes: 'Notes',
+    notes: 'Notes', wins: 'Wins',
   };
   // Tabs that show their own panel instead of a job list.
-  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel') };
-  // Now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes.
+  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), wins: $('wins-panel') };
+  // Now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Wins.
   const MISSION_TABS = ['active', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
   const tabMissions = $('tab-missions');
@@ -2796,6 +2997,10 @@ body.is-shake .wrap { animation: shake .4s; }
     note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg>',
     crown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5L3 8z"/></svg>',
     trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>',
+    flame: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.2 0-3.3 2.4-5.4 3.6-8.3.4 1.9 1.4 3 2.6 3.6C12 7 13.2 4.6 15.6 3c-.3 2.9.8 4.6 2 6.3 1 1.4 1.9 3 1.9 5.2 0 3.9-3 6.5-7.5 6.5z"/></svg>',
+    bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 2.5L4.5 13.5H11l-1 8 9-11.5h-6.5z"/></svg>',
+    gem: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 4h11L21 9l-9 11.5L3 9z"/><path d="M3 9h18M12 20.5L8.5 9l2-5M12 20.5L15.5 9l-2-5"/></svg>',
+    spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5l2.3 6.6 6.7 2.4-6.7 2.4L12 20.5l-2.3-6.6-6.7-2.4 6.7-2.4z"/></svg>',
     soundOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M16.5 9.5l5 5M21.5 9.5l-5 5"/></svg>',
   };
 
@@ -3394,13 +3599,15 @@ body.is-shake .wrap { animation: shake .4s; }
       TAB_EL[tab].tabIndex = on ? 0 : -1;
     });
 
-    // ezycal (the calendar), the Hood and notes: no jobs, so nothing below applies. The
+    // ezycal (the calendar), the Hood, notes and wins: no jobs, so nothing below applies. The
     // calendar and Hood frames load the first time they're opened and stay, so coming back is instant.
     Object.entries(PANEL_TABS).forEach(([tab, panel]) => { panel.hidden = currentTab !== tab; });
     const onPanel = currentTab in PANEL_TABS;
     if (currentTab === 'calendar' && !calendarFrame.getAttribute('src')) calendarFrame.setAttribute('src', CALENDAR_URL);
     if (currentTab === 'hood' && !hoodFrame.getAttribute('src')) hoodFrame.setAttribute('src', HOOD_URL);
     if (currentTab === 'notes') renderNotes();
+    if (currentTab === 'wins') renderWins();
+    $('count-wins').textContent = String(wins.length);
 
     $('count-active').textContent = String(active.length);
     $('count-missions').textContent = String(active.length);
@@ -4466,7 +4673,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // ── Backup: progress only lives in this browser, so offer a file copy ──
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
     'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_gone', 'gta_muted', 'gta_seeded',
-    'mp_notes', 'mp_notes_gone'];
+    'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
   function mergeNotes(d, sum) {
@@ -4480,6 +4687,19 @@ body.is-shake .wrap { animation: shake .4s; }
       else if (n.updatedAt > mine.updatedAt) { mine.text = n.text.slice(0, 5000); mine.updatedAt = n.updatedAt; mine.pinned = !!n.pinned; sum.notes = (sum.notes || 0) + 1; }
     });
     notesGone = Array.from(goneIds).slice(-500);
+  }
+
+  // Wins: combined by id; a deleted win stays deleted. A win never changes once it's logged.
+  function mergeWins(d, sum) {
+    const list = (v) => (Array.isArray(v) ? v : []);
+    const goneIds = new Set([...winsGone, ...list(d.mp_wins_gone).filter(Number.isFinite)]);
+    wins = wins.filter((w) => !goneIds.has(w.id));
+    list(d.mp_wins).map(cleanWin).forEach((w) => {
+      if (!w || goneIds.has(w.id) || wins.some((x) => x.id === w.id)) return;
+      wins.push(w);
+      sum.wins = (sum.wins || 0) + 1;
+    });
+    winsGone = Array.from(goneIds).slice(-500);
   }
 
   // Merge a backup into what is on this device. Nothing is overwritten:
@@ -4546,11 +4766,13 @@ body.is-shake .wrap { animation: shake .4s; }
     trophies = trophies.sort((a, b) => b.at - a.at).slice(0, 100);
 
     mergeNotes(d, sum);
+    mergeWins(d, sum);
 
     gone = Array.from(goneSet).slice(-500);
     store.set('gta_seeded', true);
     saveData();
     saveNotes();
+    saveWins();
     renderUI();
     return sum;
   }
@@ -4582,6 +4804,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.added) bits.push(`${sum.added} job${sum.added === 1 ? '' : 's'} added`);
         if (sum.lined) bits.push(`${sum.lined} lined up`);
         if (sum.removed) bits.push(`${sum.removed} already done elsewhere`);
+        if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
         toast(bits.length ? `Merged · ${bits.join(' · ')}` : 'Merged · already up to date', { duration: 4500 });
       } catch { toast("That isn't a Mission Board backup"); }
     };
@@ -4691,6 +4914,7 @@ body.is-shake .wrap { animation: shake .4s; }
       gta_wins: totalWinsCount, gta_cash: totalCash, gta_heists: heistsScored,
       gta_big_score: bigScore, gta_big_trophies: trophies, gta_gone: gone,
       mp_notes: notes, mp_notes_gone: notesGone,
+      mp_wins: wins, mp_wins_gone: winsGone,
     }));
     const load = (src) => new Promise((resolve, reject) => {
       const s = document.createElement('script');
@@ -4714,6 +4938,10 @@ body.is-shake .wrap { animation: shake .4s; }
       if (notes.some((n) => !theirNotes.has(n.id) || n.updatedAt > theirNotes.get(n.id).updatedAt)) return true;
       const theirNotesGone = new Set(list(d.mp_notes_gone));
       if (notesGone.some((g) => !theirNotesGone.has(g))) return true;
+      const theirWins = new Set(list(d.mp_wins).map((w) => w && w.id));
+      if (wins.some((w) => !theirWins.has(w.id))) return true;
+      const theirWinsGone = new Set(list(d.mp_wins_gone));
+      if (winsGone.some((g) => !theirWinsGone.has(g))) return true;
       const tb = d.gta_big_score;
       if (bigScore && !tb) return true;
       if (bigScore && tb && tb.id === bigScore.id) {
@@ -4734,6 +4962,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.removed) bits.push(`${sum.removed} done or moved`);
         if (sum.updated) bits.push(`${sum.updated} starred`);
         if (sum.notes) bits.push(`${sum.notes} note${sum.notes === 1 ? '' : 's'}`);
+        if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
         if (bits.length) toast(`Synced · ${bits.join(' · ')}`);
       }
       if (cloudIsBehind(d || {})) schedule(1500);
@@ -5245,6 +5474,228 @@ body.is-shake .wrap { animation: shake .4s; }
     });
   });
 
+  // ── Wins: log any win; each one lands in a random section with random aura ──
+  // The sections, hype lines and quick wins are plain lists: edit them freely. A section's id is
+  // what's saved with each win, so rename a section by changing its name, not its id.
+  const WIN_SECTIONS = [
+    { id: 'legend', name: 'Legendary', color: '#ffd166', icon: ICON.crown },
+    { id: 'banger', name: 'Certified Banger', color: '#ff9b3d', icon: ICON.flame },
+    { id: 'main', name: 'Main Character', color: '#ff3d7f', icon: ICON.spark },
+    { id: 'galaxy', name: 'Galaxy Brain', color: '#c2a8ff', icon: ICON.bolt },
+    { id: 'untouchable', name: 'Untouchable', color: '#2ee6c8', icon: ICON.gem },
+    { id: 'hof', name: 'Hall of Fame', color: '#6fa0ff', icon: ICON.trophy },
+  ];
+  const WIN_HYPE = [
+    'Somebody call the news', 'Frame it. Hang it. Worship it.', 'The crowd goes absolutely feral',
+    'History books updated', 'Put it on a billboard', "They'll write songs about this",
+    'Unstoppable. Unbothered. Unreal.', 'Main event energy', 'The whole city felt that',
+    'Hall of Fame on line one',
+  ];
+  const QUICK_WINS = ['Got out of bed', 'Drank water', 'Ate a real meal', 'Went outside', 'Took my meds',
+    'Replied to a text', 'Tidied one thing', 'Asked for help'];
+  const WIN_IDEAS = ['finally made that call', 'went for a walk', 'said no to something', 'cooked dinner',
+    'showed up anyway', 'paid a bill', 'had a shower'];
+  const JACKPOT_AURA = 10000;
+  // Mostly a few hundred, sometimes thousands, now and then a five-figure jackpot.
+  const rollAura = () => {
+    const r = Math.random();
+    if (r < 0.05) return JACKPOT_AURA + Math.floor(Math.random() * 90000);
+    if (r < 0.3) return 1000 + Math.floor(Math.random() * 9000);
+    return 100 + Math.floor(Math.random() * 900);
+  };
+  const secOf = (w) => WIN_SECTIONS.find((s) => s.id === w.sec) || WIN_SECTIONS[0];
+  function cleanWin(w) {
+    if (!w || typeof w.text !== 'string' || !w.text.trim() || !Number.isFinite(w.id) || !Number.isFinite(w.aura)) return null;
+    return { id: w.id, text: w.text.slice(0, 140), aura: Math.max(0, Math.round(w.aura)), sec: secOf(w).id };
+  }
+  let wins = (Array.isArray(store.get('mp_wins', [])) ? store.get('mp_wins', []) : []).map(cleanWin).filter(Boolean);
+  // Ids of wins deleted on this device, so a sync or merge doesn't bring them back.
+  let winsGone = (Array.isArray(store.get('mp_wins_gone', [])) ? store.get('mp_wins_gone', []) : []).filter(Number.isFinite);
+  const saveWins = () => {
+    store.set('mp_wins', wins);
+    store.set('mp_wins_gone', winsGone);
+    if (onSaved) onSaved();
+  };
+  const winForm = $('win-form');
+  const winInput = $('win-input');
+  const winSecsEl = $('win-secs');
+  const plainNum = (n) => n.toLocaleString('en-US');
+  // Wins are numbered in the order they were logged: #1 is the first one.
+  const winNumber = (w) => wins.filter((x) => x.id <= w.id).length;
+
+  function renderWins(newId) {
+    const total = wins.reduce((sum, w) => sum + w.aura, 0);
+    $('wins-total').textContent = `${plainNum(wins.length)} win${wins.length === 1 ? '' : 's'}`;
+    $('wins-aura').textContent = plainNum(total);
+    $('wins-relive').hidden = wins.length === 0;
+    $('wins-empty').hidden = wins.length > 0;
+    $('count-wins').textContent = String(wins.length);
+    const numbers = new Map(wins.slice().sort((a, b) => a.id - b.id).map((w, i) => [w.id, i + 1]));
+    winSecsEl.replaceChildren(...WIN_SECTIONS.map((sec) => {
+      const mine = wins.filter((w) => w.sec === sec.id).sort((a, b) => b.id - a.id);
+      if (!mine.length) return null;
+      return h('section', { class: 'win-sec', style: `--sec:${sec.color}`, 'aria-label': sec.name },
+        h('div', { class: 'win-sec-head' },
+          iconEl(sec.icon),
+          h('span', { class: 'win-sec-name' }, sec.name),
+          h('span', { class: 'win-sec-count' }, String(mine.length))),
+        h('ul', { class: 'win-list' }, ...mine.map((w) => h('li', { class: w.id === newId ? 'win is-new' : 'win', 'data-id': String(w.id) },
+          h('span', { class: 'win-num' }, `#${numbers.get(w.id)}`),
+          h('span', { class: 'win-body' },
+            h('span', { class: 'win-text' }, w.text),
+            h('span', { class: 'win-meta' }, h('b', null, `+${plainNum(w.aura)} aura`), ` · ${shortDate(w.id)}`)),
+          h('button', { class: 'win-del', type: 'button', 'aria-label': `Delete win "${w.text}"`, icon: ICON.x })))));
+    }).filter(Boolean));
+    if (!winInput.value && document.activeElement !== winInput) winInput.placeholder = `e.g. ${pick(WIN_IDEAS)}`;
+  }
+  $('win-quick').replaceChildren(...QUICK_WINS.map((t) => h('button', { class: 'win-chip', type: 'button' }, t)));
+
+  function addWin(text) {
+    let id = Date.now();
+    while (wins.some((w) => w.id === id)) id++;
+    const win = { id, text: text.slice(0, 140), aura: rollAura(), sec: pick(WIN_SECTIONS).id };
+    wins.push(win);
+    saveWins();
+    renderWins(id);
+    spotlightWin(win, true);
+  }
+  winForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = winInput.value.trim().replace(/\s+/g, ' ');
+    if (!text) {
+      winForm.classList.remove('is-shake');
+      void winForm.offsetWidth;
+      winForm.classList.add('is-shake');
+      winInput.focus();
+      return;
+    }
+    winInput.value = '';
+    addWin(text);
+  });
+  $('win-quick').addEventListener('click', (e) => {
+    const chip = e.target.closest('.win-chip');
+    if (chip) addWin(chip.textContent);
+  });
+  $('wins-relive').addEventListener('click', () => { if (wins.length) spotlightWin(pick(wins), false); });
+  winSecsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.win-del');
+    if (!btn) return;
+    const id = Number(btn.closest('.win').dataset.id);
+    const w = wins.find((x) => x.id === id);
+    if (!w) return;
+    wins = wins.filter((x) => x !== w);
+    if (!winsGone.includes(id)) winsGone = winsGone.concat(id).slice(-500);
+    holdSync();
+    saveWins();
+    renderWins();
+    sfx.drop();
+    toast('Win deleted', {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        winsGone = winsGone.filter((g) => g !== id);
+        wins.push(w);
+        saveWins();
+        renderWins();
+      },
+    });
+  });
+
+  // The celebration: the sections spin like a slot machine, land on the win's section,
+  // then the aura counts up with fireworks. A jackpot gets the big fanfare. Tap to skip.
+  const winFx = $('win-fx');
+  let winFxTimers = [];
+  let winFxRaf = 0;
+  let winFxFocus = null;
+  const winLater = (fn, ms) => { winFxTimers.push(setTimeout(fn, ms)); };
+  function setReel(sec) {
+    winFx.style.setProperty('--sec', sec.color);
+    $('winfx-reel').textContent = sec.name;
+    $('winfx-icon').innerHTML = sec.icon; // static markup from ICON only
+  }
+  function countAura(to) {
+    const el = $('winfx-aura');
+    cancelAnimationFrame(winFxRaf);
+    if (reduceMotion()) { el.textContent = `+${plainNum(to)} aura`; return; }
+    const t0 = performance.now();
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / 900);
+      el.textContent = `+${plainNum(Math.round(to * (1 - Math.pow(1 - k, 3))))} aura`;
+      if (k < 1) winFxRaf = requestAnimationFrame(step);
+    };
+    winFxRaf = requestAnimationFrame(step);
+  }
+  function spotlightWin(win, fresh) {
+    winFxTimers.forEach(clearTimeout);
+    winFxTimers = [];
+    const sec = secOf(win);
+    const n = winNumber(win);
+    const jackpot = win.aura >= JACKPOT_AURA;
+    winFx.classList.remove('is-landed', 'is-jackpot');
+    $('winfx-kicker').textContent = `${fresh ? '' : 'Throwback · '}Win #${n}${jackpot ? ' · Jackpot' : ''}`;
+    $('winfx-what').textContent = `“${win.text}”`;
+    $('winfx-hype').textContent = pick(WIN_HYPE);
+    $('winfx-aura').textContent = '+0 aura';
+    // close the phone's keyboard so the whole show is visible
+    winFxFocus = document.activeElement;
+    if (winFxFocus === winInput) winInput.blur();
+    winFx.hidden = false;
+    winFx.setAttribute('aria-hidden', 'false');
+    void winFx.offsetWidth;
+    winFx.classList.add('is-on');
+    $('announcer').textContent = `Win number ${n}: ${sec.name}. Plus ${plainNum(win.aura)} aura.`;
+    const land = () => {
+      setReel(sec);
+      winFx.classList.add('is-landed');
+      winFx.classList.toggle('is-jackpot', jackpot);
+      countAura(win.aura);
+      if (jackpot) {
+        sfx.bossFanfare();
+        haptic([40, 60, 40, 60, 160]);
+        confetti.burst(170);
+      } else {
+        sfx.rankUp();
+        haptic([30, 40, 30]);
+      }
+      const r = $('winfx-reel').getBoundingClientRect();
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      confetti.firework(x, y, sec.color);
+      winLater(() => confetti.firework(x - Math.min(160, innerWidth / 4), y - 60, pick(WIN_SECTIONS).color), 260);
+      winLater(() => confetti.firework(x + Math.min(160, innerWidth / 4), y - 30, pick(WIN_SECTIONS).color), 480);
+      winLater(hideWinFx, jackpot ? 4600 : 3200);
+    };
+    if (reduceMotion()) { land(); return; }
+    // spin through the sections, slowing down like a slot reel
+    let i = Math.floor(Math.random() * WIN_SECTIONS.length);
+    let t = 0;
+    let gap = 50;
+    for (let k = 0; k < 14; k++) {
+      t += gap;
+      gap *= 1.15;
+      winLater(() => { i = (i + 1) % WIN_SECTIONS.length; setReel(WIN_SECTIONS[i]); sfx.tick(); }, t);
+    }
+    winLater(land, t + 180);
+  }
+  function hideWinFx() {
+    if (winFx.hidden) return;
+    winFxTimers.forEach(clearTimeout);
+    winFxTimers = [];
+    winFx.classList.remove('is-on');
+    winFx.setAttribute('aria-hidden', 'true');
+    setTimeout(() => { if (!winFx.classList.contains('is-on')) winFx.hidden = true; }, 350);
+    // back to the box for the next win on a computer; on a phone, don't pop the keyboard back up
+    if (winFxFocus === winInput && window.matchMedia('(hover: hover)').matches) winInput.focus({ preventScroll: true });
+  }
+  winFx.addEventListener('click', hideWinFx);
+  // Esc skips the show without also closing the Wins window behind it.
+  window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || winFx.hidden || !winFx.classList.contains('is-on')) return;
+    e.stopPropagation();
+    e.preventDefault();
+    hideWinFx();
+  }, true);
+
   // ── Ezycal and Hood frames: fit the screen ─────────────────────────────
   // Each frame is as tall as the screen below the top bar. The frame also carries how much
   // of it the top bar covers (data-cover-top), so The Hood can keep its sheets in view.
@@ -5262,7 +5713,7 @@ body.is-shake .wrap { animation: shake .4s; }
   window.addEventListener('resize', fitFrames);
   fitFrames();
 
-  // ── App windows: Missions, Ezycal, Hood and Notes each open full page ──
+  // ── App windows: Missions, Ezycal, Hood, Notes and Wins each open full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
   // (and, where the browser allows it, the whole screen), like raccoon mode. Close, Esc or the
   // phone's back gesture goes back to the home screen.
@@ -5287,7 +5738,7 @@ body.is-shake .wrap { animation: shake .4s; }
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
       if (!fromHistory && history.state && history.state.mpApp) history.back();
-      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes }[panel.id];
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'wins-panel': TAB_EL.wins }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){

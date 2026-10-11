@@ -2,7 +2,7 @@
 
 Mission Possible as an all-in-one: the to-do board, the **Ezycal** calendar,
 **The Hood** (the GTA-style map of your homies from
-[asciikat/homies](https://github.com/asciikat/homies)) and **Notes**, each one
+[asciikat/homies](https://github.com/asciikat/homies)), **Notes** and **Wins**, each one
 tab away. Built on Mission Possible Plus.
 
 Single page: `index.html`. The Ezycal tab shows the separate calendar at
@@ -11,8 +11,8 @@ loaded the first time you open the tab).
 
 ## Apps, each in its own window
 
-The home screen shows four big buttons: **Missions**, **Ezycal**, **Hood** and
-**Notes**. Tapping one opens that app in its own full-page window (in a browser tab it also
+The home screen shows big buttons for **Missions**, **Ezycal**, **Hood** and
+**Notes**, with **Wins** as a gold banner underneath. Tapping one opens that app in its own full-page window (in a browser tab it also
 goes full screen; the installed app already fills the screen, so it skips that and
 Android's "to exit full screen" message), so you only see that app, never the others. **✕
 Close**, Esc, or the phone's back gesture takes you back to the home screen. The
@@ -54,6 +54,27 @@ into a job (jobs are one line, 140 letters max), and a job's menu (tap its text)
 
 Notes sync between devices and are included in Save/Merge backup (newest edit wins; a
 deleted note stays deleted). Tab choices and the running timer stay on each device.
+
+## Wins
+
+**Wins** is where any win goes, big or small. Type it and hit Enter (or tap **Win**), or tap a
+quick win (*Got out of bed*, *Drank water*...) to log it in one go. Every win:
+
+- gets a number (#1 is your first),
+- lands in a **random section**: Legendary, Certified Banger, Main Character, Galaxy Brain,
+  Untouchable or Hall of Fame,
+- and scores a **random amount of aura**: usually a few hundred, sometimes thousands, and now
+  and then a five-figure **jackpot**.
+
+Logging one plays the show: the sections spin like a slot machine, land on yours, the aura counts
+up and fireworks go off (a jackpot gets the big fanfare). Tap anywhere or press Esc to skip it.
+Inside, the total wins and aura sit at the top and your wins are grouped by section, newest first.
+**Relive one** replays a random past win. The × on a win deletes it (with Undo). The count on the
+Wins button is how many wins you've logged.
+
+The sections, hype lines and quick wins are the `WIN_SECTIONS`, `WIN_HYPE` and `QUICK_WINS` lists
+in `index.html`; edit them freely (keep a section's `id` the same so old wins stay in it). Wins
+sync between devices like notes and are included in Save/Merge backup (a deleted win stays deleted).
 
 ## Raccoon mode
 
