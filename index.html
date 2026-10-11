@@ -2486,12 +2486,34 @@ body.is-shake .wrap { animation: shake .4s; }
   .overlay.is-on .ov-stamp, .overlay.is-on .ov-kicker, .overlay.is-on .ov-sub { opacity: 1; animation: none !important; transform: rotate(-5deg); }
   .overlay.is-on .ov-kicker, .overlay.is-on .ov-sub { transform: none; }
 }
+
+/* ── Chill mode ──────────────────────────────────────────────────────────
+   Gear → Chill mode. Plain, quiet and flat: no glow, grain, sky, banner, cash, rank, Big Score,
+   heist or pay-rate panels, no animation, confetti or sound. Jobs, Ezycal, Hood, Notes, Sahara
+   and Wins all still work and pay out as usual; only the show is skipped. Per device. */
+.chill-title { display: none; }
+.chill body::before, .chill body::after,
+.chill .hero, .chill .big, .chill .side,
+.chill .rank, .chill .cash, .chill .stars,
+.chill #fx, .chill .overlay, .chill .boss, .chill .winfx, .chill .promo { display: none !important; }
+.chill .chill-title { display: block; font: 700 18px/1 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--smog); }
+.chill .hud { background: var(--night); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.chill .hud-inner { justify-content: space-between; }
+.chill .layout { display: block; }
+.chill *, .chill *::before, .chill *::after {
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+  scroll-behavior: auto !important;
+}
 </style>
+<script>try { if (JSON.parse(localStorage.getItem('mp_chill'))) document.documentElement.classList.add('chill'); } catch (e) { /* no storage: normal mode */ }</script>
 </head>
 <body>
 
 <header class="hud">
   <div class="hud-inner">
+    <span class="chill-title">Chill mode</span>
     <div class="rank">
       <div class="rank-badge" id="rank-badge" aria-hidden="true">1</div>
       <div class="rank-text">
@@ -3027,6 +3049,14 @@ body.is-shake .wrap { animation: shake .4s; }
 <dialog class="modal modal--tabs" id="tabs-dialog" aria-labelledby="tabs-title">
   <form method="dialog">
     <p class="eyebrow">Settings</p>
+    <ul class="tab-toggles chill-row">
+      <li><label class="tab-toggle">
+        <span>Chill mode</span>
+        <input type="checkbox" id="chill-toggle">
+        <span class="switch" aria-hidden="true"></span>
+      </label></li>
+    </ul>
+    <p>Chill mode drops the graphics, animations, confetti and sound, and hides the cash, rank, Big Score and heist panels. Jobs still pay out; you just don't get the show.</p>
     <h2 id="tabs-title">Tabs</h2>
     <p>Switch tabs on or off. Turning one off only hides it; nothing in it is deleted.</p>
     <ul class="tab-toggles" id="tab-toggles"></ul>
@@ -3144,6 +3174,10 @@ body.is-shake .wrap { animation: shake .4s; }
   let simulatedTimeOffset = toInt(store.get('gta_time_offset', 0));
   let heistsScored = toInt(store.get('gta_heists', 0));
   let muted = store.get('gta_muted', false) === true;
+  // Chill mode (gear menu): flat and quiet, no graphics, animation, confetti or sound. Per device,
+  // under its own key, so the other apps on this site and every synced list are untouched.
+  let chill = store.get('mp_chill', false) === true;
+  document.documentElement.classList.toggle('chill', chill);
 
   function cleanBig(b) {
     if (!b || typeof b.text !== 'string') return null;
@@ -3267,7 +3301,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const iconEl = (svg) => { const t = document.createElement('template'); t.innerHTML = svg; return t.content.firstChild; };
   const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
   const shortDate = (t) => new Date(t).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
-  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = () => chill || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
   // ── Time & rules ──────────────────────────────────────────────────────
@@ -3339,7 +3373,7 @@ body.is-shake .wrap { animation: shake .4s; }
     let ctx = null;
     let out = null;
     function ready(force) {
-      if (muted && !force) return false;
+      if ((muted || chill) && !force) return false;
       try {
         if (!ctx) {
           const AC = window.AudioContext || window.webkitAudioContext;
@@ -3502,7 +3536,7 @@ body.is-shake .wrap { animation: shake .4s; }
     } catch { customJingleState = 'missing'; }
   }
   function playHeistJingle() {
-    if (muted) return;
+    if (muted || chill) return;
     if (!customJingle || customJingleState === 'missing') { sfx.jingle(); return; }
     try {
       customJingle.currentTime = 0;
@@ -3612,6 +3646,7 @@ body.is-shake .wrap { animation: shake .4s; }
   }
   let skyKey = '';
   function paintSky(force) {
+    if (chill) return; // the sky is hidden in chill mode: skip the drawing
     const cv = $('hero-sky');
     const rect = cv.getBoundingClientRect();
     const w = Math.max(1, Math.round(rect.width));
@@ -3998,6 +4033,7 @@ body.is-shake .wrap { animation: shake .4s; }
 
   let promoTimer = 0;
   function showPromo(idx) {
+    if (chill) { toast(`Promoted: ${RANKS[idx].name}`); return; }
     const next = RANKS[idx + 1];
     $('promo-rank').textContent = RANKS[idx].name;
     $('promo-next').textContent = next ? `Next: ${next.name} at ${money(next.min)}` : 'You run this city now';
@@ -4117,6 +4153,11 @@ body.is-shake .wrap { animation: shake .4s; }
   let ovHideTimer = 0;
   let lastFocus = null;
   function triggerGTAAnimation(promotedIdx) {
+    if (chill) { // same result (the heist clears), without the show
+      clearHeist();
+      toast(`Heist scored · ${HEIST_SIZE} wins banked${promotedIdx != null ? ` · Promoted: ${RANKS[promotedIdx].name}` : ''}`);
+      return;
+    }
     const parts = [h('div', null, `${HEIST_SIZE} wins banked · Stash `, h('b', null, money(totalCash)))];
     if (promotedIdx != null) parts.push(h('div', { class: 'ov-promo' }, `Promoted: ${RANKS[promotedIdx].name}`));
     $('ov-sub').replaceChildren(...parts);
@@ -4762,6 +4803,12 @@ body.is-shake .wrap { animation: shake .4s; }
     requestAnimationFrame(step);
   }
   function celebrateBigScore(b, prevCash, promoted) {
+    if (chill) { // paid and trophied already; just no show
+      renderUI();
+      animateCash(prevCash, totalCash);
+      toast(`Big score pulled off${promoted != null ? ` · Promoted: ${RANKS[promoted].name}` : ''}`, { amount: `+${money(BIG_PAY)}` });
+      return;
+    }
     bossPrevCash = prevCash;
     bossPromoted = promoted;
     bossCanClose = false;
@@ -5448,7 +5495,17 @@ body.is-shake .wrap { animation: shake .4s; }
     syncToggles();
     renderBoard();
   }
+  function setChill(on) {
+    chill = on;
+    store.set('mp_chill', chill);
+    document.documentElement.classList.toggle('chill', chill);
+    if (chill) { hideWinFx(); hideBoss(true); hideOverlay(); } // close any show that's mid-way
+    else paintSky(true);
+    renderUI();
+  }
+  $('chill-toggle').addEventListener('change', (e) => setChill(e.target.checked));
   $('tabs-btn').addEventListener('click', () => {
+    $('chill-toggle').checked = chill;
     buildToggles();
     if (typeof tabsDialog.showModal === 'function') tabsDialog.showModal();
     else tabsDialog.setAttribute('open', '');
@@ -6532,6 +6589,7 @@ body.is-shake .wrap { animation: shake .4s; }
     winFxRaf = requestAnimationFrame(step);
   }
   function spotlightWin(win, fresh) {
+    if (chill) { toast(`${fresh ? '' : 'Throwback · '}Win #${winNumber(win)} · ${secOf(win).name}`, { amount: `+${plainNum(win.aura)} aura` }); return; }
     winFxTimers.forEach(clearTimeout);
     winFxTimers = [];
     const sec = secOf(win);
