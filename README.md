@@ -58,13 +58,29 @@ deleted note stays deleted). Tab choices and the running timer stay on each devi
 ## Sahara
 
 **Sahara** is a to-do list split into sections, dressed like the Sahara app (night purple, pixel
-font, pixel hearts). The sections are **Plans**, **Fun**, **Friends**, **To-do**, **Lessons**,
-**Dreams** and **Self care**; tap one to switch, and it opens on the one you used last.
+font, pixel hearts). The sections are **Plans**, **Fun**, **Friends**, **To-do**, **Fitness**,
+**Lessons**, **Dreams** and **Self care**; tap one to switch, and it opens on the one you used last.
 
 - Type in the box and press Enter to add to the section you're on.
 - Tap the heart to tick an item off (it fills in and drops to the bottom); tap again to undo.
 - Tap an item's text to edit it, **Move to** another section, or **Delete** it (with Undo).
 - **Clear done** removes the ticked items in that section (with Undo).
+
+**Fitness** is the one section that isn't a list: it's a points system for getting active.
+
+- Tap an activity (**Bike ride**, **Scooter**, **Hike**, **Walk**), then tap how long (15 min to
+  2 h, or type your own minutes). The session earns points for the time: 1 hour of a 50-an-hour
+  bike ride is 50 points, 30 minutes is 25. Every log has Undo.
+- Points are worth money: **10 points = $1** by default, so a 1-hour bike ride is $5. The card at
+  the top shows the points to cash in and what they're worth.
+- **Pay out** when you settle up: it records the payout and starts the balance again (with Undo).
+- **History** lists every session and payout; the × deletes one (with Undo).
+- **Points & rates** (at the bottom) sets each activity's points per hour and how many points make
+  $1, renames activities and adds your own (e.g. Swim). New rates count from the next session;
+  sessions already logged keep their points.
+
+The default rates are Bike ride 50, Scooter 40, Hike 60 and Walk 30 points an hour ($5, $4, $6 and
+$3 an hour). Fitness syncs and backs up with everything else.
 
 The count on the Sahara button is how many items are still to go, across all sections. Sahara is
 kept apart from the jobs board: its items have their own storage and never touch jobs, cash or
