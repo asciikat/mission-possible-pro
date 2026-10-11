@@ -1831,6 +1831,82 @@ body.is-shake .wrap { animation: shake .4s; }
 }
 @media (prefers-reduced-motion: reduce) { .sh-tick.is-pop .px { animation: none; } }
 
+/* Sahara fitness: a points score, tap an activity then how long, a history, editable rates */
+.sh-card { padding: 14px; border: 3px solid var(--sh-border); background: var(--sh-card); box-shadow: 4px 4px 0 var(--sh-shadow); }
+.sh-score { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.sh-score-label { font: 400 9px/1.4 var(--sh-pixel); color: var(--sh-muted); }
+.sh-score-pts { display: block; margin: 6px 0 4px; font: 400 30px/1 var(--sh-pixel); color: var(--sec); text-shadow: 3px 3px 0 var(--sh-shadow); }
+.sh-score-cash { font: 400 13px/1.4 var(--sh-pixel); color: var(--sh-text); }
+.sh-score-sub { display: block; margin-top: 8px; font: 400 8px/1.6 var(--sh-pixel); color: var(--sh-muted); }
+.sh-score .sh-btn { min-height: 48px; }
+.sh-h { margin: 22px 0 10px; font: 400 10px/1.4 var(--sh-pixel); color: var(--sh-muted); }
+.sh-acts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sh-act {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border: 3px solid var(--sh-border);
+  background: var(--sh-card);
+  color: var(--sh-text);
+  box-shadow: 3px 3px 0 var(--sh-shadow);
+  text-align: left;
+  cursor: pointer;
+}
+.sh-act .px { width: 34px; height: 26px; color: var(--sec); }
+.sh-act-name { font: 400 10px/1.4 var(--sh-pixel); }
+.sh-act-rate { font: 400 8px/1.4 var(--sh-pixel); color: var(--sh-muted); }
+.sh-act[aria-pressed="true"] { border-color: var(--sec); background: color-mix(in srgb, var(--sec) 18%, var(--sh-card)); }
+.sh-act:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--sh-shadow); }
+.sh-durs { margin-top: 12px; }
+.sh-durs-q { margin: 0 0 10px; font: 400 9px/1.6 var(--sh-pixel); color: var(--sh-text); }
+.sh-dur-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.sh-dur {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border: 3px solid var(--sec);
+  background: var(--sh-bg);
+  color: var(--sh-text);
+  font: 400 11px/1 var(--sh-pixel);
+  cursor: pointer;
+}
+.sh-dur small { font: 400 8px/1.3 var(--sh-pixel); color: var(--sec); }
+.sh-dur:active { transform: translate(2px, 2px); }
+.sh-own { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.sh-own input, .sh-rate input { width: 76px; padding: 8px; border: 3px solid var(--sh-border); outline: 0; background: var(--sh-bg); color: var(--sh-text); font: 600 16px/1.2 var(--font-body); }
+.sh-own input:focus, .sh-rate input:focus { border-color: var(--sec); }
+.sh-own span { font: 400 8px/1.4 var(--sh-pixel); color: var(--sh-muted); }
+.sh-own .sh-small { margin-left: auto; }
+.sh-week { margin: 14px 0 0; font: 400 8px/1.8 var(--sh-pixel); color: var(--sh-muted); }
+.sh-log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.sh-log li { display: flex; align-items: center; gap: 10px; padding: 8px 4px 8px 12px; border: 3px solid var(--sh-border); background: var(--sh-card); }
+.sh-log .px { flex: none; width: 24px; height: 20px; color: var(--sec); }
+.sh-log-body { flex: 1; min-width: 0; }
+.sh-log-what { display: block; font: 600 15px/1.3 var(--font-body); }
+.sh-log-when { display: block; margin-top: 2px; font: 400 7px/1.6 var(--sh-pixel); color: var(--sh-muted); }
+.sh-log-pts { flex: none; font: 400 10px/1 var(--sh-pixel); color: var(--sec); }
+.sh-log li.is-pay { border-style: dashed; }
+.sh-log li.is-pay .sh-log-pts { color: var(--sh-muted); }
+.sh-log-del { flex: none; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; background: none; color: var(--sh-muted); cursor: pointer; }
+.sh-log-del svg { width: 15px; height: 15px; }
+.sh-more { margin-top: 10px; }
+.sh-rates { margin-top: 22px; }
+.sh-rates summary { font: 400 10px/1.4 var(--sh-pixel); color: var(--sh-muted); cursor: pointer; }
+.sh-rates[open] summary { margin-bottom: 12px; }
+.sh-rate { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 2px solid var(--sh-dots); }
+.sh-rate .px { flex: none; width: 22px; height: 18px; color: var(--sec); }
+.sh-rate .sh-rate-name { flex: 1; min-width: 0; width: auto; }
+.sh-rate small { flex: none; width: 54px; font: 400 7px/1.4 var(--sh-pixel); color: var(--sh-muted); }
+.sh-rates-note { margin: 10px 0 0; font: 400 8px/1.8 var(--sh-pixel); color: var(--sh-muted); }
+.sh-rates-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
+.sh-rates-row label { display: flex; align-items: center; gap: 8px; font: 400 8px/1.4 var(--sh-pixel); color: var(--sh-muted); }
+.sh-rates-row input { width: 64px; padding: 8px; border: 3px solid var(--sh-border); outline: 0; background: var(--sh-bg); color: var(--sh-text); font: 600 16px/1.2 var(--font-body); }
+.sh-fit input:focus-visible { outline: none; }
+
 /* a new win: the sections spin like a slot machine, land on one, then the aura counts up */
 .winfx {
   --sec: var(--gold);
@@ -2642,6 +2718,8 @@ body.is-shake .wrap { animation: shake .4s; }
         <ul class="sh-list" id="sh-list" role="tabpanel"></ul>
         <div class="sh-empty" id="sh-empty" hidden></div>
         <button class="sh-small sh-clear" id="sh-clear" type="button" hidden>Clear done</button>
+        <!-- Fitness: log a bike ride, scooter session, hike... and earn points worth money -->
+        <div class="sh-fit" id="sh-fit" hidden></div>
         </div>
       </div>
 
@@ -4792,7 +4870,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // ── Backup: progress only lives in this browser, so offer a file copy ──
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
     'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_gone', 'gta_muted', 'gta_seeded',
-    'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone'];
+    'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone', 'mp_fit', 'mp_fit_gone', 'mp_fit_cfg'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
   function mergeNotes(d, sum) {
@@ -4835,6 +4913,21 @@ body.is-shake .wrap { animation: shake .4s; }
       sum.sahara = (sum.sahara || 0) + 1;
     });
     saharaGone = Array.from(goneIds).slice(-500);
+  }
+
+  // Sahara fitness: sessions and payouts combined by id (a deleted one stays deleted); the
+  // newest change to the rates wins.
+  function mergeFit(d, sum) {
+    const list = (v) => (Array.isArray(v) ? v : []);
+    const goneIds = new Set([...fitGone, ...list(d.mp_fit_gone).filter(Number.isFinite)]);
+    fitLog = fitLog.filter((e) => !goneIds.has(e.id));
+    list(d.mp_fit).map(cleanFit).forEach((e) => {
+      if (!e || goneIds.has(e.id) || fitLog.some((x) => x.id === e.id)) return;
+      fitLog.push(e);
+      sum.fit = (sum.fit || 0) + 1;
+    });
+    fitGone = Array.from(goneIds).slice(-500);
+    if (d.mp_fit_cfg && Number.isFinite(d.mp_fit_cfg.updatedAt) && d.mp_fit_cfg.updatedAt > fitCfg.updatedAt) fitCfg = cleanFitCfg(d.mp_fit_cfg);
   }
 
   // Merge a backup into what is on this device. Nothing is overwritten:
@@ -4903,6 +4996,7 @@ body.is-shake .wrap { animation: shake .4s; }
     mergeNotes(d, sum);
     mergeWins(d, sum);
     mergeSahara(d, sum);
+    mergeFit(d, sum);
 
     gone = Array.from(goneSet).slice(-500);
     store.set('gta_seeded', true);
@@ -4910,6 +5004,7 @@ body.is-shake .wrap { animation: shake .4s; }
     saveNotes();
     saveWins();
     saveSahara();
+    saveFit();
     renderUI();
     return sum;
   }
@@ -4943,6 +5038,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.removed) bits.push(`${sum.removed} already done elsewhere`);
         if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
+        if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
         toast(bits.length ? `Merged · ${bits.join(' · ')}` : 'Merged · already up to date', { duration: 4500 });
       } catch { toast("That isn't a Mission Board backup"); }
     };
@@ -5054,6 +5150,7 @@ body.is-shake .wrap { animation: shake .4s; }
       mp_notes: notes, mp_notes_gone: notesGone,
       mp_wins: wins, mp_wins_gone: winsGone,
       mp_sahara: sahara, mp_sahara_gone: saharaGone,
+      mp_fit: fitLog, mp_fit_gone: fitGone, mp_fit_cfg: fitCfg,
     }));
     const load = (src) => new Promise((resolve, reject) => {
       const s = document.createElement('script');
@@ -5085,6 +5182,11 @@ body.is-shake .wrap { animation: shake .4s; }
       if (sahara.some((x) => !theirSahara.has(x.id) || x.updatedAt > (theirSahara.get(x.id).updatedAt || 0))) return true;
       const theirSaharaGone = new Set(list(d.mp_sahara_gone));
       if (saharaGone.some((g) => !theirSaharaGone.has(g))) return true;
+      const theirFit = new Set(list(d.mp_fit).map((e) => e && e.id));
+      if (fitLog.some((e) => !theirFit.has(e.id))) return true;
+      const theirFitGone = new Set(list(d.mp_fit_gone));
+      if (fitGone.some((g) => !theirFitGone.has(g))) return true;
+      if (fitCfg.updatedAt > ((d.mp_fit_cfg && d.mp_fit_cfg.updatedAt) || 0)) return true;
       const tb = d.gta_big_score;
       if (bigScore && !tb) return true;
       if (bigScore && tb && tb.id === bigScore.id) {
@@ -5107,6 +5209,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.notes) bits.push(`${sum.notes} note${sum.notes === 1 ? '' : 's'}`);
         if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
+        if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
         if (bits.length) toast(`Synced · ${bits.join(' · ')}`);
       }
       if (cloudIsBehind(d || {})) schedule(1500);
@@ -5634,6 +5737,11 @@ body.is-shake .wrap { animation: shake .4s; }
     book: ['XXXX.XXXX', 'X..X.X..X', 'X.XX.XX.X', 'X..X.X..X', 'X.XX.XX.X', 'X..X.X..X', 'XXXXXXXXX', '....X....'],
     moon: ['..XXXX..', '.XXX....', 'XXX.....', 'XXX.....', 'XXX.....', 'XXXX....', '.XXXXXX.', '..XXXX..'],
     sparkle: ['...X...', '...X...', '..XXX..', 'XXXXXXX', '..XXX..', '...X...', '...X...'],
+    bike: ['........XX.', '...XXX...X.', '....X...X..', '..XXXXXXX..', '.XXX.X.XXX.', 'X..XX.XX..X', 'X..X...X..X', '.XX.....XX.'],
+    scooter: ['......XXX', '........X', '........X', '........X', '........X', '.XXXXXXXX', 'XX.....XX', 'XX.....XX'],
+    hike: ['....X......', '...XXX.....', '..XX.XX.X..', '..X...XXXX.', '.XX....X.XX', 'XX.......XX', 'X.........X', 'XXXXXXXXXXX'],
+    shoe: ['XXX......', 'XXX......', 'XXX......', 'XXXX.....', 'XXXXXXX..', 'XXXXXXXXX', 'XXXXXXXXX', '.........'],
+    coin: ['..XXXXX..', '.X.....X.', 'X..XXX..X', 'X..X....X', 'X..XXX..X', 'X....X..X', '.X.XXX.X.', '..XXXXX..'],
   };
   // The sections. Rename one by changing its name, not its id (the id is what's saved with each item).
   const SAHARA_SECTIONS = [
@@ -5641,6 +5749,7 @@ body.is-shake .wrap { animation: shake .4s; }
     { id: 'fun', name: 'Fun', color: '#ffd166', px: PX.star, hint: 'e.g. Try the new ramen place', empty: 'Films, places, games, things you want to do just because.' },
     { id: 'friends', name: 'Friends', color: '#ff5c99', px: PX.people, hint: 'e.g. Call Sam back', empty: 'Who to text, call, visit or send a little something.' },
     { id: 'todo', name: 'To-do', color: '#5fd3b0', px: PX.check, hint: 'e.g. Post the parcel', empty: 'The everyday stuff. Tap the heart when it\'s done.' },
+    { id: 'fit', name: 'Fitness', color: '#7cf29a', px: PX.bike, fit: true },
     { id: 'lessons', name: 'Lessons', color: '#ff9f43', px: PX.book, hint: 'e.g. Ask for help sooner', empty: 'Things life taught you, so future you remembers.' },
     { id: 'dreams', name: 'Dreams', color: '#cdb4f0', px: PX.moon, hint: 'e.g. See the northern lights', empty: 'Someday things. Big, small, wild. Write them down.' },
     { id: 'self', name: 'Self care', color: '#ff8a8a', px: PX.sparkle, hint: 'e.g. Early night, no phone', empty: 'Little ways to look after you.' },
@@ -5649,7 +5758,8 @@ body.is-shake .wrap { animation: shake .4s; }
   const shSec = (id) => SAHARA_SECTIONS.find((s) => s.id === id) || SAHARA_SECTIONS.find((s) => s.id === 'todo');
   function cleanSahara(x) {
     if (!x || typeof x.text !== 'string' || !x.text.trim() || !Number.isFinite(x.id)) return null;
-    return { id: x.id, sec: shSec(x.sec).id, text: x.text.slice(0, 200), done: x.done === true, updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id };
+    const sec = shSec(x.sec);
+    return { id: x.id, sec: sec.fit ? 'todo' : sec.id, text: x.text.slice(0, 200), done: x.done === true, updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id };
   }
   let sahara = (Array.isArray(store.get('mp_sahara', [])) ? store.get('mp_sahara', []) : []).map(cleanSahara).filter(Boolean);
   // Ids of items deleted on this device, so a sync or merge doesn't bring them back.
@@ -5680,7 +5790,7 @@ body.is-shake .wrap { animation: shake .4s; }
       li.append(h('div', { class: 'sh-tray' },
         edit,
         h('span', { class: 'sh-tray-label' }, 'Move to'),
-        h('div', { class: 'sh-moves' }, ...SAHARA_SECTIONS.filter((s) => s.id !== sec.id).map((s) => h('button', { class: 'sh-move', type: 'button', 'data-act': 'move', 'data-sec': s.id, style: `--sec:${s.color}` }, iconEl(pixelSvg(s.px)), s.name))),
+        h('div', { class: 'sh-moves' }, ...SAHARA_SECTIONS.filter((s) => s.id !== sec.id && !s.fit).map((s) => h('button', { class: 'sh-move', type: 'button', 'data-act': 'move', 'data-sec': s.id, style: `--sec:${s.color}` }, iconEl(pixelSvg(s.px)), s.name))),
         h('div', { class: 'sh-tray-row' },
           h('button', { class: 'sh-small sh-small--danger', type: 'button', 'data-act': 'del' }, 'Delete'),
           h('button', { class: 'sh-small', type: 'button', 'data-act': 'close' }, 'Done editing'))));
@@ -5694,11 +5804,16 @@ body.is-shake .wrap { animation: shake .4s; }
     $('sh-tag').textContent = `${open} to go · ${sahara.length - open} done`;
     $('count-sahara').textContent = String(open);
     $('sh-secs').replaceChildren(...SAHARA_SECTIONS.map((s) => {
-      const n = sahara.filter((x) => x.sec === s.id && !x.done).length;
+      const n = s.fit ? fitBalance() : sahara.filter((x) => x.sec === s.id && !x.done).length;
       return h('button', { class: 'sh-sec', type: 'button', role: 'tab', 'aria-selected': String(s.id === sec.id), 'data-sec': s.id, style: `--sec:${s.color}` },
         iconEl(pixelSvg(s.px)), h('span', { class: 'sh-sec-name' }, s.name), n ? h('span', { class: 'sh-sec-n' }, String(n)) : null);
     }));
     $('sh-title').replaceChildren(iconEl(pixelSvg(sec.px)), sec.name);
+    // Fitness has its own view instead of a list
+    $('sh-fit').hidden = !sec.fit;
+    [shForm, shList, $('sh-empty'), $('sh-clear')].forEach((el) => { if (sec.fit) el.hidden = true; });
+    if (sec.fit) { renderFit(); return; }
+    shForm.hidden = false;
     $('sh-label').textContent = `New item for ${sec.name}`;
     shInput.placeholder = sec.hint;
     // Open items newest first, then the done ones (most recently done first).
@@ -5725,6 +5840,7 @@ body.is-shake .wrap { animation: shake .4s; }
   function shSetSection(id) {
     shCurrent = shSec(id).id;
     shOpen = null;
+    fitPick = null;
     store.set('mp_sahara_sec', shCurrent);
     renderSahara();
   }
@@ -5840,6 +5956,272 @@ body.is-shake .wrap { animation: shake .4s; }
         renderSahara();
       },
     });
+  });
+
+  // ── Sahara fitness: sessions earn points, points are worth money ───────
+  // Each activity earns a number of points per hour; a session earns its share (30 min of a
+  // 50-an-hour bike ride is 25). Points turn into money at "points per $1" (10 by default, so a
+  // 1-hour bike ride is 50 points, $5). Pay out records that you've settled up and starts the
+  // balance again. Rates are in the "Points & rates" box and only change sessions logged after.
+  const FIT_ICONS = { bike: PX.bike, scooter: PX.scooter, hike: PX.hike, walk: PX.shoe, other: PX.star };
+  const FIT_DEFAULT = {
+    perDollar: 10,
+    acts: [
+      { id: 'bike', name: 'Bike ride', rate: 50, icon: 'bike' },
+      { id: 'scooter', name: 'Scooter', rate: 40, icon: 'scooter' },
+      { id: 'hike', name: 'Hike', rate: 60, icon: 'hike' },
+      { id: 'walk', name: 'Walk', rate: 30, icon: 'walk' },
+    ],
+    updatedAt: 0,
+  };
+  const FIT_DURS = [15, 30, 45, 60, 90, 120];
+  const FIT_CHEERS = ['Legs of steel', 'Look at her go', 'Fit and fabulous', 'Pedal power', 'Unstoppable', 'Earned it'];
+  const clampInt = (v, lo, hi, dflt) => { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : dflt; };
+  function cleanFitCfg(c) {
+    if (!c || !Array.isArray(c.acts)) return JSON.parse(JSON.stringify(FIT_DEFAULT));
+    const acts = c.acts.filter((a) => a && typeof a.id === 'string' && typeof a.name === 'string' && a.name.trim())
+      .map((a) => ({ id: a.id.slice(0, 40), name: a.name.slice(0, 30), rate: clampInt(a.rate, 0, 10000, 0), icon: a.icon in FIT_ICONS ? a.icon : 'other' }));
+    return {
+      perDollar: clampInt(c.perDollar, 1, 10000, FIT_DEFAULT.perDollar),
+      acts: acts.length ? acts : JSON.parse(JSON.stringify(FIT_DEFAULT.acts)),
+      updatedAt: Number.isFinite(c.updatedAt) ? c.updatedAt : 0,
+    };
+  }
+  function cleanFit(e) {
+    if (!e || !Number.isFinite(e.id) || !Number.isFinite(e.pts) || e.pts < 0) return null;
+    if (e.kind === 'pay') return { id: e.id, kind: 'pay', pts: Math.round(e.pts) };
+    if (typeof e.name !== 'string' || !Number.isFinite(e.mins)) return null;
+    return { id: e.id, kind: 'session', act: typeof e.act === 'string' ? e.act : '', name: e.name.slice(0, 30), icon: e.icon in FIT_ICONS ? e.icon : 'other', mins: clampInt(e.mins, 1, 24 * 60, 60), pts: Math.round(e.pts) };
+  }
+  let fitCfg = cleanFitCfg(store.get('mp_fit_cfg', null));
+  let fitLog = (Array.isArray(store.get('mp_fit', [])) ? store.get('mp_fit', []) : []).map(cleanFit).filter(Boolean);
+  let fitGone = (Array.isArray(store.get('mp_fit_gone', [])) ? store.get('mp_fit_gone', []) : []).filter(Number.isFinite);
+  let fitPick = null; // the activity picked, waiting for how long
+  const saveFit = () => {
+    store.set('mp_fit_cfg', fitCfg);
+    store.set('mp_fit', fitLog);
+    store.set('mp_fit_gone', fitGone);
+    if (onSaved) onSaved();
+  };
+  const fitEarned = () => fitLog.filter((e) => e.kind === 'session').reduce((t, e) => t + e.pts, 0);
+  const fitPaid = () => fitLog.filter((e) => e.kind === 'pay').reduce((t, e) => t + e.pts, 0);
+  function fitBalance() { return Math.max(0, fitEarned() - fitPaid()); }
+  const fitCash = (pts) => `$${(pts / fitCfg.perDollar).toFixed(2)}`;
+  const fitPts = (rate, mins) => Math.round((rate * mins) / 60);
+  const fitLen = (mins) => (mins < 60 ? `${mins} min` : `${Math.floor(mins / 60)}h${mins % 60 ? ` ${mins % 60}m` : ''}`);
+  const fitWhen = (t) => new Date(t).toLocaleString('en-US', { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+  let fitShowAll = false;
+
+  function renderFit() {
+    const el = $('sh-fit');
+    const bal = fitBalance();
+    const chosen = fitCfg.acts.find((a) => a.id === fitPick);
+    // this week: Monday to now
+    const wk = new Date(); wk.setHours(0, 0, 0, 0); wk.setDate(wk.getDate() - ((wk.getDay() + 6) % 7));
+    const week = fitLog.filter((e) => e.kind === 'session' && e.id >= wk.getTime());
+    const weekMins = week.reduce((t, e) => t + e.mins, 0);
+    const log = fitLog.slice().sort((a, b) => b.id - a.id);
+    const shown = fitShowAll ? log : log.slice(0, 8);
+
+    const kids = [
+      h('div', { class: 'sh-card sh-score' },
+        h('div', null,
+          h('span', { class: 'sh-score-label' }, 'Points to cash in'),
+          h('strong', { class: 'sh-score-pts' }, plainNum(bal)),
+          h('span', { class: 'sh-score-cash' }, `= ${fitCash(bal)}`),
+          h('span', { class: 'sh-score-sub' }, `${plainNum(fitEarned())} earned all time · ${fitCash(fitPaid())} paid out`)),
+        bal > 0 ? h('button', { class: 'sh-btn', type: 'button', 'data-fit': 'pay' }, `Pay out ${fitCash(bal)}`) : null),
+      h('h4', { class: 'sh-h' }, chosen ? 'How long?' : 'Log a session'),
+      h('div', { class: 'sh-acts' }, ...fitCfg.acts.map((a) => h('button', { class: 'sh-act', type: 'button', 'data-fit': 'pick', 'data-act': a.id, 'aria-pressed': String(a.id === fitPick) },
+        iconEl(pixelSvg(FIT_ICONS[a.icon])),
+        h('span', { class: 'sh-act-name' }, a.name),
+        h('span', { class: 'sh-act-rate' }, `${plainNum(a.rate)} pts/hr · ${fitCash(a.rate)}`)))),
+    ];
+    if (chosen) {
+      kids.push(h('div', { class: 'sh-card sh-durs' },
+        h('p', { class: 'sh-durs-q' }, `${chosen.name}: how long?`),
+        h('div', { class: 'sh-dur-grid' }, ...FIT_DURS.map((m) => h('button', { class: 'sh-dur', type: 'button', 'data-fit': 'log', 'data-mins': String(m) },
+          fitLen(m), h('small', null, `+${plainNum(fitPts(chosen.rate, m))}`)))),
+        h('form', { class: 'sh-own', 'data-fit': 'own' },
+          h('input', { type: 'number', name: 'mins', min: '1', max: '1440', inputmode: 'numeric', placeholder: 'min', 'aria-label': 'Minutes' }),
+          h('span', null, 'minutes'),
+          h('button', { class: 'sh-small', type: 'submit' }, 'Log'))));
+    }
+    kids.push(h('p', { class: 'sh-week' }, week.length
+      ? `This week: ${week.length} session${week.length === 1 ? '' : 's'} · ${fitLen(weekMins)} · +${plainNum(week.reduce((t, e) => t + e.pts, 0))} pts`
+      : 'This week: nothing yet. One ride gets it going.'));
+    if (log.length) {
+      kids.push(h('h4', { class: 'sh-h' }, 'History'));
+      kids.push(h('ul', { class: 'sh-log' }, ...shown.map((e) => (e.kind === 'pay'
+        ? h('li', { class: 'is-pay', 'data-id': String(e.id) },
+          iconEl(pixelSvg(PX.coin)),
+          h('span', { class: 'sh-log-body' }, h('span', { class: 'sh-log-what' }, `Paid out ${fitCash(e.pts)}`), h('span', { class: 'sh-log-when' }, fitWhen(e.id))),
+          h('span', { class: 'sh-log-pts' }, `-${plainNum(e.pts)}`),
+          h('button', { class: 'sh-log-del', type: 'button', 'data-fit': 'del', 'aria-label': 'Delete this payout', icon: ICON.x }))
+        : h('li', { 'data-id': String(e.id) },
+          iconEl(pixelSvg(FIT_ICONS[e.icon])),
+          h('span', { class: 'sh-log-body' }, h('span', { class: 'sh-log-what' }, `${e.name} · ${fitLen(e.mins)}`), h('span', { class: 'sh-log-when' }, fitWhen(e.id))),
+          h('span', { class: 'sh-log-pts' }, `+${plainNum(e.pts)}`),
+          h('button', { class: 'sh-log-del', type: 'button', 'data-fit': 'del', 'aria-label': `Delete ${e.name} session`, icon: ICON.x }))))));
+      if (log.length > 8) kids.push(h('button', { class: 'sh-small sh-more', type: 'button', 'data-fit': 'more' }, fitShowAll ? 'Show fewer' : `Show all ${log.length}`));
+    }
+    // rates: name, points per hour, remove; add your own; points per $1
+    const rates = h('details', { class: 'sh-rates' },
+      h('summary', null, 'Points & rates'),
+      ...fitCfg.acts.map((a) => h('div', { class: 'sh-rate', 'data-act': a.id },
+        iconEl(pixelSvg(FIT_ICONS[a.icon])),
+        h('input', { class: 'sh-rate-name', type: 'text', maxlength: '30', value: a.name, 'data-field': 'name', 'aria-label': 'Activity name' }),
+        h('input', { type: 'number', min: '0', max: '10000', inputmode: 'numeric', value: String(a.rate), 'data-field': 'rate', 'aria-label': `${a.name} points per hour` }),
+        h('small', null, `pts/hr ${fitCash(a.rate)}`),
+        fitCfg.acts.length > 1 ? h('button', { class: 'sh-log-del', type: 'button', 'data-fit': 'rm', 'aria-label': `Remove ${a.name}`, icon: ICON.x }) : null)),
+      h('div', { class: 'sh-rates-row' },
+        h('button', { class: 'sh-small', type: 'button', 'data-fit': 'add' }, '+ Add activity'),
+        h('label', null, 'Points per $1', h('input', { type: 'number', min: '1', max: '10000', inputmode: 'numeric', value: String(fitCfg.perDollar), 'data-field': 'perDollar' }))),
+      h('p', { class: 'sh-rates-note' }, 'New rates count from the next session. Sessions already logged keep their points.'));
+    if (fitRatesOpen) rates.open = true;
+    kids.push(rates);
+    el.replaceChildren(...kids);
+  }
+  let fitRatesOpen = false;
+
+  function fitLogSession(mins, fromEl) {
+    const a = fitCfg.acts.find((x) => x.id === fitPick);
+    if (!a) return;
+    let id = Date.now();
+    while (fitLog.some((e) => e.id === id)) id++;
+    const entry = { id, kind: 'session', act: a.id, name: a.name, icon: a.icon, mins, pts: fitPts(a.rate, mins) };
+    fitLog.push(entry);
+    fitPick = null;
+    saveFit();
+    if (fromEl) floatText(fromEl, `+${plainNum(entry.pts)}`);
+    renderSahara();
+    sfx.coin();
+    haptic([20, 40, 20]);
+    confetti.burst(entry.pts >= 50 ? 60 : 30);
+    toast(`${pick(FIT_CHEERS)} · +${plainNum(entry.pts)} pts`, {
+      amount: fitCash(entry.pts),
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        fitLog = fitLog.filter((e) => e !== entry);
+        if (!fitGone.includes(entry.id)) fitGone = fitGone.concat(entry.id).slice(-500);
+        saveFit();
+        renderSahara();
+      },
+    });
+  }
+  const fitEl = $('sh-fit');
+  fitEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-fit]');
+    if (!btn || btn.tagName === 'FORM') return;
+    const act = btn.dataset.fit;
+    if (act === 'pick') {
+      fitPick = fitPick === btn.dataset.act ? null : btn.dataset.act;
+      renderFit();
+      haptic(8);
+      const durs = fitEl.querySelector('.sh-durs');
+      if (durs && durs.scrollIntoView) durs.scrollIntoView({ block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+    } else if (act === 'log') {
+      fitLogSession(Number(btn.dataset.mins), btn);
+    } else if (act === 'pay') {
+      const pts = fitBalance();
+      if (pts <= 0) return;
+      let id = Date.now();
+      while (fitLog.some((x) => x.id === id)) id++;
+      const entry = { id, kind: 'pay', pts };
+      fitLog.push(entry);
+      holdSync();
+      saveFit();
+      renderSahara();
+      playHeistJingle();
+      haptic([40, 60, 40]);
+      confetti.burst(140);
+      toast(`Paid out ${fitCash(pts)}`, {
+        action: 'Undo',
+        duration: 6000,
+        onAction: () => {
+          fitLog = fitLog.filter((x) => x !== entry);
+          if (!fitGone.includes(entry.id)) fitGone = fitGone.concat(entry.id).slice(-500);
+          saveFit();
+          renderSahara();
+        },
+      });
+    } else if (act === 'del') {
+      const id = Number(btn.closest('li').dataset.id);
+      const entry = fitLog.find((x) => x.id === id);
+      if (!entry) return;
+      fitLog = fitLog.filter((x) => x !== entry);
+      if (!fitGone.includes(id)) fitGone = fitGone.concat(id).slice(-500);
+      holdSync();
+      saveFit();
+      renderSahara();
+      sfx.drop();
+      toast(entry.kind === 'pay' ? 'Payout deleted' : 'Session deleted', {
+        action: 'Undo',
+        duration: 6000,
+        onAction: () => {
+          fitGone = fitGone.filter((g) => g !== id);
+          fitLog.push(entry);
+          saveFit();
+          renderSahara();
+        },
+      });
+    } else if (act === 'more') {
+      fitShowAll = !fitShowAll;
+      renderFit();
+    } else if (act === 'add') {
+      let n = 1;
+      while (fitCfg.acts.some((a) => a.id === `own${n}`)) n++;
+      fitCfg.acts.push({ id: `own${n}`, name: 'New activity', rate: 40, icon: 'other' });
+      fitCfg.updatedAt = Date.now();
+      fitRatesOpen = true;
+      saveFit();
+      renderSahara();
+      const inputs = fitEl.querySelectorAll('.sh-rate-name');
+      if (inputs.length) { inputs[inputs.length - 1].focus(); inputs[inputs.length - 1].select(); }
+    } else if (act === 'rm') {
+      const id = btn.closest('.sh-rate').dataset.act;
+      const i = fitCfg.acts.findIndex((a) => a.id === id);
+      if (i < 0 || fitCfg.acts.length < 2) return;
+      const [gone] = fitCfg.acts.splice(i, 1);
+      if (fitPick === id) fitPick = null;
+      fitCfg.updatedAt = Date.now();
+      fitRatesOpen = true;
+      saveFit();
+      renderSahara();
+      toast(`Removed ${gone.name}`, {
+        action: 'Undo',
+        duration: 6000,
+        onAction: () => {
+          fitCfg.acts.splice(Math.min(i, fitCfg.acts.length), 0, gone);
+          fitCfg.updatedAt = Date.now();
+          saveFit();
+          renderSahara();
+        },
+      });
+    }
+  });
+  fitEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const mins = clampInt(e.target.elements.mins.value, 0, 1440, 0);
+    if (mins < 1) { e.target.elements.mins.focus(); return; }
+    fitLogSession(mins, e.target.querySelector('button'));
+  });
+  fitEl.addEventListener('toggle', (e) => { if (e.target.classList.contains('sh-rates')) fitRatesOpen = e.target.open; }, true);
+  // Rates save when you leave a box (or press Enter), so typing doesn't jump around.
+  fitEl.addEventListener('change', (e) => {
+    const field = e.target.dataset.field;
+    if (!field) return;
+    if (field === 'perDollar') fitCfg.perDollar = clampInt(e.target.value, 1, 10000, fitCfg.perDollar);
+    else {
+      const a = fitCfg.acts.find((x) => x.id === e.target.closest('.sh-rate').dataset.act);
+      if (!a) return;
+      if (field === 'name') a.name = e.target.value.trim().slice(0, 30) || a.name;
+      if (field === 'rate') a.rate = clampInt(e.target.value, 0, 10000, a.rate);
+    }
+    fitCfg.updatedAt = Date.now();
+    saveFit();
+    renderSahara();
   });
 
   // ── Wins: log any win; each one lands in a random section with random aura ──
