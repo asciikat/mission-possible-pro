@@ -40,6 +40,12 @@ what's in it. The **raccoon icon** next to it opens raccoon mode (see below). **
 Score** is the slim gold bar under the banner; tap it to plan it, add prep steps or
 cash it in.
 
+**Search notes:** type a word in the search box above your notes and only the notes containing it
+show (any case; type two words and a note needs both). **Copy these** then copies just those notes,
+newest first with a blank line between each, and each note's own copy button copies one. Clear
+the search with the × or Esc; it also clears when you add a note or leave Notes. Nuke notes hides
+while you're searching, so it can't wipe notes you can't see.
+
 **Notes tools:** tap the **pin** in a note's top-right corner to keep it at the top (pinned
 notes get a gold tint; tap again to unpin, and pins sync too). **Share** opens your phone's share
 menu (WhatsApp, Messages, email...) with the note's text; where there's no share menu it copies
