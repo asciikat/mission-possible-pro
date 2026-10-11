@@ -59,7 +59,7 @@ deleted note stays deleted). Tab choices and the running timer stay on each devi
 
 **Sahara** is a to-do list split into sections, dressed like the Sahara app (night purple, pixel
 font, pixel hearts). The sections are **Plans**, **Fun**, **Friends**, **To-do**, **Fitness**,
-**Lessons**, **Dreams** and **Self care**; tap one to switch, and it opens on the one you used last.
+**Calendar**, **Lessons**, **Dreams** and **Self care**; tap one to switch, and it opens on the one you used last.
 
 - Type in the box and press Enter to add to the section you're on.
 - Tap the heart to tick an item off (it fills in and drops to the bottom); tap again to undo.
@@ -81,6 +81,14 @@ font, pixel hearts). The sections are **Plans**, **Fun**, **Friends**, **To-do**
 
 The default rates are Bike ride 50, Scooter 40, Hike 60 and Walk 30 points an hour ($5, $4, $6 and
 $3 an hour). Fitness syncs and backs up with everything else.
+
+**Calendar** is the real Ezycal, in Sahara's look (it opens `../calendar/?embed=1&theme=sahara`).
+It's the same calendar as the Ezycal button and the standalone Ezycal: same events, same sync, so
+anything added in one shows in the others. It loads the first time you open the section.
+
+**Coming up**, at the top of every other section, lists the next three events from Ezycal (today's
+are highlighted; finished, dismissed and past events are skipped). Tap it to open the Calendar. It
+only reads Ezycal's saved events, never changes them, and refreshes when the calendar saves.
 
 The count on the Sahara button is how many items are still to go, across all sections. Sahara is
 kept apart from the jobs board: its items have their own storage and never touch jobs, cash or
