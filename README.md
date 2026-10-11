@@ -122,6 +122,16 @@ The sections, hype lines and quick wins are the `WIN_SECTIONS`, `WIN_HYPE` and `
 in `index.html`; edit them freely (keep a section's `id` the same so old wins stay in it). Wins
 sync between devices like notes and are included in Save/Merge backup (a deleted win stays deleted).
 
+## Chill mode
+
+**Gear → Chill mode** switches the whole app to a plain, quiet look: no glow, film grain, sky or
+banner, no animations, confetti or sound, and the cash, rank, Big Score, heist and pay-rate panels
+are hidden. What's left is the six app buttons and the apps themselves. Nothing is switched off
+underneath: finishing a job still pays, banks toward the heist and ranks you up, and a win or Big
+Score still counts. The celebration is just a one-line toast instead of the show. It's kept per
+device (`mp_chill`, its own key), so it never syncs, backs up or touches the other apps on this
+site. Switch it off the same way to get everything back.
+
 ## Raccoon mode
 
 The raccoon icon opens the timers, laid out like the board. The first time, it asks you
