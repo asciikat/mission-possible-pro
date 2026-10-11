@@ -2,8 +2,8 @@
 
 Mission Possible as an all-in-one: the to-do board, the **Ezycal** calendar,
 **The Hood** (the GTA-style map of your homies from
-[asciikat/homies](https://github.com/asciikat/homies)), **Notes** and **Wins**, each one
-tab away. Built on Mission Possible Plus.
+[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara** and **Wins**,
+each one tab away. Built on Mission Possible Plus.
 
 Single page: `index.html`. The Ezycal tab shows the separate calendar at
 `../calendar/`, and the Hood tab shows The Hood at `../homies/` (both in a frame,
@@ -11,8 +11,8 @@ loaded the first time you open the tab).
 
 ## Apps, each in its own window
 
-The home screen shows big buttons for **Missions**, **Ezycal**, **Hood** and
-**Notes**, with **Wins** as a gold banner underneath. Tapping one opens that app in its own full-page window (in a browser tab it also
+The home screen shows six big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
+**Sahara** and **Wins**. Tapping one opens that app in its own full-page window (in a browser tab it also
 goes full screen; the installed app already fills the screen, so it skips that and
 Android's "to exit full screen" message), so you only see that app, never the others. **✕
 Close**, Esc, or the phone's back gesture takes you back to the home screen. The
@@ -54,6 +54,22 @@ into a job (jobs are one line, 140 letters max), and a job's menu (tap its text)
 
 Notes sync between devices and are included in Save/Merge backup (newest edit wins; a
 deleted note stays deleted). Tab choices and the running timer stay on each device.
+
+## Sahara
+
+**Sahara** is a to-do list split into sections, dressed like the Sahara app (night purple, pixel
+font, pixel hearts). The sections are **Plans**, **Fun**, **Friends**, **To-do**, **Lessons**,
+**Dreams** and **Self care**; tap one to switch, and it opens on the one you used last.
+
+- Type in the box and press Enter to add to the section you're on.
+- Tap the heart to tick an item off (it fills in and drops to the bottom); tap again to undo.
+- Tap an item's text to edit it, **Move to** another section, or **Delete** it (with Undo).
+- **Clear done** removes the ticked items in that section (with Undo).
+
+The count on the Sahara button is how many items are still to go, across all sections. Sahara is
+kept apart from the jobs board: its items have their own storage and never touch jobs, cash or
+heists. They sync between devices and are included in Save/Merge backup, like notes. The sections
+are the `SAHARA_SECTIONS` list in `index.html` (keep a section's `id` the same when renaming it).
 
 ## Wins
 
