@@ -23,6 +23,11 @@ Hood's own button in its top bar closes its window too.
 - **Now**: today's jobs (was "Today")
 - **Not now**: jobs lined up for later; they land on Now at 7 AM (was "Tomorrow")
 - **Lock up**: jobs 7 days or older (was "Jail")
+- **Now now** (optional): today only. Tap **+ Now now** next to the lists (or push a job there) to
+  add it. It works like Now (stars, pay, finish), and whatever is still on it at midnight goes
+  back to Now with its age and stars intact. Every list can move a job to Now now (**Push to Now
+  now** / **Do it now now** in a job's tray), and from Now now a job can go back to Now, to Not now
+  or to Notes. Hide the list again with the gear; hiding never deletes what's in it.
 
 Missions always opens on Now. The count on the Missions button is how many jobs
 are on Now. Inside the window you can switch lists, add jobs and finish them;
