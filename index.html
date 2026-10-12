@@ -1669,6 +1669,7 @@ body.is-shake .wrap { animation: shake .4s; }
   cursor: pointer;
 }
 .note-move svg { width: 15px; height: 15px; }
+.note-move--nownow { border-color: var(--flare); background: rgba(255, 155, 61, .18); }
 .note-move--dusk { border-color: rgba(154, 107, 255, .5); background: rgba(154, 107, 255, .06); color: var(--dusk-ink); }
 .notes-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; }
 /* search: a keyword shows only the notes that have it; Copy all then copies just those */
@@ -5724,6 +5725,7 @@ body.is-shake .wrap { animation: shake .4s; }
       h('div', { class: 'note-foot' },
         h('time', null, stamp(n.updatedAt)),
         h('span', { class: 'note-actions' },
+          h('button', { class: 'note-move note-move--nownow', type: 'button', 'data-to': 'nownow', 'aria-label': 'Make this a job for Now now' }, iconEl(ICON.bolt), 'Now now'),
           isTabOn('active') ? h('button', { class: 'note-move', type: 'button', 'data-to': 'today', 'aria-label': 'Make this a job for Now' }, iconEl(ICON.sunrise), 'Now') : null,
           isTabOn('tomorrow') ? h('button', { class: 'note-move note-move--dusk', type: 'button', 'data-to': 'tomorrow', 'aria-label': 'Line this up for Not now' }, iconEl(ICON.moon), 'Not now') : null,
           h('button', { class: 'note-share', type: 'button', 'aria-label': 'Share note', title: 'Share', icon: ICON.share }),
@@ -5850,8 +5852,12 @@ body.is-shake .wrap { animation: shake .4s; }
     const id = uniqueId();
     const job = when === 'tomorrow'
       ? { id, text, startsAt: nextMorning(now()) }
-      : { id, text, createdAt: now() };
-    if (when === 'tomorrow') tomorrowMissions.push(job); else missions.push(job);
+      : when === 'nownow'
+        ? { id, text, createdAt: now(), expiresAt: endOfDay(now()) }
+        : { id, text, createdAt: now() };
+    if (when === 'tomorrow') tomorrowMissions.push(job);
+    else if (when === 'nownow') { nowNowMissions.push(job); showNowNow(); }
+    else missions.push(job);
     justAddedId = id;
     holdSync();
     saveNotes();
@@ -5859,12 +5865,13 @@ body.is-shake .wrap { animation: shake .4s; }
     renderUI();
     sfx.add();
     haptic(12);
-    toast(when === 'tomorrow' ? `Lined up · lands ${landLabel(job.startsAt)}` : 'Moved to Now', {
+    toast(when === 'tomorrow' ? `Lined up · lands ${landLabel(job.startsAt)}` : when === 'nownow' ? 'Moved to Now now' : 'Moved to Now', {
       action: 'Undo',
       duration: 6000,
       onAction: () => {
         missions = missions.filter((m) => m.id !== id);
         tomorrowMissions = tomorrowMissions.filter((m) => m.id !== id);
+        nowNowMissions = nowNowMissions.filter((m) => m.id !== id);
         markGone(id);
         notesGone = notesGone.filter((g) => g !== n.id);
         n.updatedAt = Date.now();
