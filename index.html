@@ -2561,8 +2561,9 @@ body.is-shake .wrap { animation: shake .4s; }
   .overlay.is-on .ov-kicker, .overlay.is-on .ov-sub { transform: none; }
 }
 /* ───────────────────────── Now now mode ─────────────────────────
-   For a day that's too much: the Now now list on its own, full screen. Same fonts and colours as
-   the board, but round, big and bright, and it only ever counts what's done. */
+   For a day that's too much: the Now now list on its own, full screen. It's the board turned up:
+   the same night city, hard edges and HUD type, with big buttons, a sunset over the top, police
+   lights at the edges, and a "Mission passed" stamp for every job. It only ever counts what's done. */
 .nn {
   position: fixed;
   inset: 0;
@@ -2570,23 +2571,33 @@ body.is-shake .wrap { animation: shake .4s; }
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: var(--night);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 46px, rgba(255, 255, 255, .025) 46px 47px),
+    var(--night);
   color: var(--ink);
 }
 .nn-glow { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
-.nn-glow i {
-  position: absolute;
-  width: 70vmax;
-  height: 70vmax;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: .32;
-  animation: nnDrift 18s ease-in-out infinite alternate;
+.nn-glow i { position: absolute; }
+/* sunset over the skyline */
+.nn-glow i:nth-child(1) {
+  left: -10%;
+  right: -10%;
+  top: -38vh;
+  height: 70vh;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 61, 127, .5), rgba(255, 155, 61, .18) 45%, transparent 72%);
 }
-.nn-glow i:nth-child(1) { left: -25vmax; top: -30vmax; background: radial-gradient(circle, var(--neon), transparent 65%); }
-.nn-glow i:nth-child(2) { right: -30vmax; top: 10vh; background: radial-gradient(circle, var(--flare), transparent 65%); animation-delay: -6s; }
-.nn-glow i:nth-child(3) { left: -10vmax; bottom: -40vmax; background: radial-gradient(circle, var(--dusk), transparent 65%); animation-delay: -12s; }
-@keyframes nnDrift { to { transform: translate(8vmax, 6vmax) scale(1.15); } }
+/* police lights, low and slow at the edges */
+.nn-glow i:nth-child(2), .nn-glow i:nth-child(3) {
+  bottom: -20vh;
+  width: 60vw;
+  height: 60vh;
+  border-radius: 50%;
+  filter: blur(50px);
+  animation: nnSiren 3.2s ease-in-out infinite;
+}
+.nn-glow i:nth-child(2) { left: -30vw; background: rgba(255, 51, 73, .32); }
+.nn-glow i:nth-child(3) { right: -30vw; background: rgba(61, 123, 255, .32); animation-delay: -1.6s; }
+@keyframes nnSiren { 50% { opacity: .25; } }
 .nn-wrap {
   position: relative;
   display: flex;
@@ -2598,165 +2609,164 @@ body.is-shake .wrap { animation: shake .4s; }
   margin: 0 auto;
   padding: calc(14px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
 }
-.nn-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.nn-title {
-  display: inline-flex;
+.nn-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.nn-kicker {
+  display: flex;
   align-items: center;
   gap: 8px;
-  margin: 0;
-  font: 900 44px/1 var(--font-display);
+  font: 800 13px/1 var(--font-hud);
+  letter-spacing: .32em;
   text-transform: uppercase;
-  letter-spacing: .02em;
-  background: linear-gradient(90deg, var(--gold), var(--flare) 45%, var(--neon));
+  color: var(--gold);
+}
+.nn-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--neon); box-shadow: 0 0 10px var(--neon); animation: live 1.8s ease-in-out infinite; }
+.nn-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  font: 900 clamp(46px, 13.5vw, 84px)/.82 var(--font-display);
+  letter-spacing: .005em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: skewX(-7deg);
+  transform-origin: left bottom;
+  filter: drop-shadow(0 4px 0 rgba(5, 4, 10, .9));
+}
+.nn-title span {
+  background: linear-gradient(100deg, var(--neon) 10%, var(--flare) 90%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.nn-title svg { width: 36px; height: 36px; color: var(--gold); flex: none; }
+.nn-title svg { width: .62em; height: .62em; color: var(--gold); flex: none; }
 .nn-close {
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   flex: none;
-  width: 48px;
-  height: 48px;
-  border: 1.5px solid rgba(255, 255, 255, .22);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .06);
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  background: rgba(5, 4, 10, .5);
   color: var(--ink);
+  font: 800 14px/1 var(--font-hud);
+  letter-spacing: .14em;
+  text-transform: uppercase;
   cursor: pointer;
 }
-.nn-close svg { width: 22px; height: 22px; }
-.nn-hype { margin: -4px 0 0; min-height: 1.3em; font: 700 19px/1.3 var(--font-body); color: var(--smog); }
+.nn-close svg { width: 18px; height: 18px; }
+.nn-hype { margin: 0; min-height: 1.3em; font: 700 18px/1.3 var(--font-hud); letter-spacing: .04em; color: var(--smog); }
+/* jobs pulled today: only shows once there's something to show */
 .nn-score {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px 10px;
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: rgba(124, 242, 154, .08);
-  border: 1.5px solid rgba(124, 242, 154, .28);
+  gap: 6px 12px;
+  padding: 12px 16px;
+  background: linear-gradient(100deg, rgba(124, 242, 154, .14), transparent 70%), var(--asphalt);
+  border-left: 4px solid var(--cash);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
 }
-.nn-score b { font: 900 34px/1 var(--font-display); color: var(--cash); }
-.nn-score span { font: 800 15px/1 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--cash); }
+.nn-score b { font: 900 40px/1 var(--font-display); color: var(--cash); }
+.nn-score span { flex: 1; min-width: 0; font: 800 14px/1.2 var(--font-hud); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
+.nn-score span em { font-style: normal; color: var(--cash); }
 .nn-score.is-bump b { animation: nnBump .5s var(--snap); }
-@keyframes nnBump { 40% { transform: scale(1.6); } }
-.nn-dots { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 0 auto; padding: 0; list-style: none; }
-.nn-dots li { width: 14px; height: 14px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+@keyframes nnBump { 40% { transform: scale(1.5); } }
+.nn-dots { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 0 auto; padding: 0; list-style: none; }
+.nn-dots li { display: grid; color: var(--cash); }
+.nn-dots svg { width: 24px; height: 18px; }
 .nn-dots li.is-new { animation: nnPop .6s var(--snap); }
-@keyframes nnPop { 0% { transform: scale(0); } 60% { transform: scale(1.7); } }
+@keyframes nnPop { 0% { transform: scale(0) rotate(-30deg); } 60% { transform: scale(1.6) rotate(8deg); } }
 .nn-add {
   display: flex;
-  align-items: center;
   gap: 8px;
-  padding: 6px 6px 6px 20px;
-  border-radius: 999px;
+  padding: 6px;
   background: var(--asphalt-hi);
-  border: 1.5px solid rgba(255, 155, 61, .45);
+  border: 1.5px solid rgba(255, 61, 127, .45);
   transition: border-color .2s, box-shadow .2s;
 }
-.nn-add:focus-within { border-color: var(--flare); box-shadow: 0 0 0 5px rgba(255, 155, 61, .16), 0 16px 40px -16px rgba(255, 155, 61, .6); }
+.nn-add:focus-within { border-color: var(--neon); box-shadow: 0 0 0 4px rgba(255, 61, 127, .16), 0 14px 40px -14px rgba(255, 61, 127, .6); }
 .nn-add.is-shake { animation: nudge .35s; }
-.nn-add input { flex: 1; min-width: 0; height: 52px; border: 0; background: none; color: var(--ink); font: 600 19px/1.2 var(--font-body); outline: none; }
+.nn-add input { flex: 1; min-width: 0; padding: 0 10px; border: 0; background: none; color: var(--ink); font: 600 19px/1.2 var(--font-body); outline: none; }
 .nn-add input::placeholder { color: var(--dim); }
 .nn-plus {
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   flex: none;
-  width: 56px;
-  height: 56px;
+  min-height: 56px;
+  padding: 0 20px 0 16px;
   border: 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--flare) 50%, var(--neon));
+  background: var(--neon);
   color: var(--shade);
+  font: 800 20px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
   cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
   transition: transform .12s;
 }
-.nn-plus svg { width: 26px; height: 26px; }
-.nn-plus:active { transform: scale(.9); }
-.nn-list { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.nn-plus svg { width: 22px; height: 22px; }
+.nn-plus:active { transform: translateY(1px) scale(.97); }
+.nn-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .nn-card {
-  --c: var(--flare);
+  --c: var(--neon);
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
-  padding: 14px 18px 14px 14px;
-  border-radius: 28px;
-  border: 2px solid color-mix(in srgb, var(--c) 60%, transparent);
-  background: linear-gradient(120deg, color-mix(in srgb, var(--c) 22%, transparent), transparent 70%), var(--asphalt-hi);
-  box-shadow: 0 14px 34px -18px var(--c);
+  padding: 14px 18px 14px 16px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--c) 13%, transparent), transparent 60%), var(--asphalt-hi);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--c);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
   transition: opacity .25s, transform .25s, filter .25s;
 }
-.nn-card.is-new { animation: nnIn .5s var(--snap); }
-@keyframes nnIn { from { transform: scale(.85); opacity: 0; } }
+.nn-card.is-new { animation: nnIn .45s var(--snap); }
+@keyframes nnIn { from { transform: translateX(-24px); opacity: 0; } }
 .nn-done {
   display: grid;
   place-items: center;
-  width: 68px;
-  height: 68px;
+  width: 66px;
+  height: 66px;
   border: 3px solid var(--c);
   border-radius: 50%;
-  background: color-mix(in srgb, var(--c) 14%, transparent);
+  background: color-mix(in srgb, var(--c) 10%, transparent);
   color: var(--c);
   cursor: pointer;
   transition: transform .15s, background .15s, color .15s;
 }
-.nn-done svg { width: 32px; height: 32px; opacity: .55; transition: opacity .15s; }
+.nn-done svg { width: 30px; height: 30px; opacity: .5; transition: opacity .15s; }
 .nn-done:active { transform: scale(.88); }
 .nn-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 4px 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; }
 .nn-text { font: 700 21px/1.25 var(--font-body); overflow-wrap: anywhere; }
-.nn-pay {
-  justify-self: end;
-  padding: 7px 12px;
-  border-radius: 999px;
-  background: rgba(124, 242, 154, .12);
-  color: var(--cash);
-  font: 900 20px/1 var(--font-display);
-  white-space: nowrap;
-}
+.nn-pay { justify-self: end; color: var(--cash); font: 900 28px/1 var(--font-display); white-space: nowrap; }
 .nn-tray { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
-.nn-tray button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1.5px solid rgba(255, 255, 255, .22);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .05);
-  color: var(--ink);
-  font: 800 14px/1 var(--font-hud);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-.nn-tray button svg { width: 16px; height: 16px; }
-.nn-tray .nn-later { border-color: rgba(154, 107, 255, .55); color: var(--dusk-ink); }
-.nn-tray .nn-let-go { border-color: rgba(255, 255, 255, .16); color: var(--smog); }
-/* "Just pick one": the chosen card glows; the rest step back */
-.nn-list.has-pick .nn-card:not(.is-picked) { opacity: .38; filter: saturate(.5); }
-.nn-card.is-picked { transform: scale(1.03); box-shadow: 0 0 0 3px var(--c), 0 0 40px -4px var(--c); }
+.nn-tray .tray-btn { min-height: 44px; font-size: 14px; }
+/* "Pick my next job": the chosen one lights up; the rest step back */
+.nn-list.has-pick .nn-card:not(.is-picked) { opacity: .35; filter: saturate(.4); }
+.nn-card.is-picked { transform: scale(1.02); background: linear-gradient(100deg, color-mix(in srgb, var(--c) 26%, transparent), transparent 70%), var(--asphalt-hi); }
 .nn-card.is-picked .nn-done { animation: blip 1.6s ease-out infinite; }
 .nn-card.is-won { animation: nnWon .45s ease-out forwards; pointer-events: none; }
 .nn-card.is-won .nn-done { background: var(--c); color: var(--shade); }
 .nn-card.is-won .nn-done svg { opacity: 1; }
-@keyframes nnWon { 30% { transform: scale(1.05); } 100% { transform: scale(.9); opacity: 0; } }
+@keyframes nnWon { 30% { transform: translateX(6px); } 100% { transform: translateX(-40px); opacity: 0; } }
 .nn-card.is-dropped { opacity: 0; transform: translateX(30px); }
-.nn-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 26px 12px 8px; text-align: center; }
+.nn-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 26px 12px 8px; text-align: center; }
 .nn-empty-orb {
   display: grid;
   place-items: center;
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--flare) 50%, var(--neon));
+  width: 92px;
+  height: 92px;
+  background: linear-gradient(135deg, var(--neon), var(--flare));
   color: var(--shade);
-  box-shadow: 0 0 50px -6px var(--flare);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+  filter: drop-shadow(0 0 24px rgba(255, 61, 127, .5));
 }
-.nn-empty-orb svg { width: 48px; height: 48px; }
-.nn-empty h3 { margin: 6px 0 0; font: 900 34px/1 var(--font-display); text-transform: uppercase; }
+.nn-empty-orb svg { width: 46px; height: 46px; }
+.nn-empty h3 { margin: 8px 0 0; font: 900 40px/.9 var(--font-display); text-transform: uppercase; transform: skewX(-7deg); }
 .nn-empty p { margin: 0; max-width: 34ch; color: var(--smog); font-size: 18px; }
 .nn-pick {
   align-self: center;
@@ -2765,59 +2775,70 @@ body.is-shake .wrap { animation: shake .4s; }
   gap: 10px;
   min-height: 56px;
   margin-top: 6px;
-  padding: 0 26px;
-  border: 2px solid var(--neon);
-  border-radius: 999px;
-  background: rgba(255, 61, 127, .12);
-  color: var(--ink);
+  padding: 0 24px;
+  border: 2px solid var(--gold);
+  background: rgba(255, 209, 102, .08);
+  color: var(--gold);
   font: 800 17px/1 var(--font-hud);
-  letter-spacing: .12em;
+  letter-spacing: .14em;
   text-transform: uppercase;
   cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
 }
-.nn-pick svg { width: 22px; height: 22px; color: var(--neon); }
+.nn-pick svg { width: 22px; height: 22px; }
 .nn-pick:active { transform: scale(.96); }
-/* the big word after a job is done */
+/* "Mission passed": the board's own stamp, after every job */
 .nn-splash {
   position: fixed;
   left: 50%;
-  top: 42%;
+  top: 40%;
   z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
   pointer-events: none;
-  font: 900 clamp(56px, 18vw, 120px)/1 var(--font-display);
-  text-transform: uppercase;
-  white-space: nowrap;
-  background: linear-gradient(90deg, var(--gold), var(--flare), var(--neon));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 6px 24px rgba(255, 61, 127, .5));
+  text-align: center;
   opacity: 0;
   transform: translate(-50%, -50%);
 }
-.nn-splash.is-on { animation: nnSplash 1.1s var(--snap) forwards; }
-@keyframes nnSplash {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(.3) rotate(-8deg); }
-  25% { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(-3deg); }
-  70% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-3deg); }
-  100% { opacity: 0; transform: translate(-50%, -60%) scale(1.05) rotate(-3deg); }
+.nn-splash-kicker { font: 800 clamp(14px, 4vw, 22px)/1 var(--font-hud); letter-spacing: .42em; text-transform: uppercase; color: var(--gold); }
+.nn-splash-stamp {
+  display: block;
+  font: 900 clamp(64px, 19vw, 150px)/.82 var(--font-display);
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #fff4c8 8%, var(--gold) 48%, var(--flare) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 3px var(--shade);
+  filter: drop-shadow(6px 7px 0 rgba(255, 61, 127, .9));
 }
-.nn-close:focus-visible, .nn-plus:focus-visible, .nn-done:focus-visible, .nn-pick:focus-visible, .nn-tray button:focus-visible, .nn-body:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.nn-splash-sub { font: 800 clamp(16px, 4.4vw, 24px)/1 var(--font-hud); letter-spacing: .14em; text-transform: uppercase; color: var(--cash); }
+.nn-splash.is-on { animation: nnSplash 1.3s var(--snap) forwards; }
+@keyframes nnSplash {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(1.6); }
+  18% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  75% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(.96); }
+}
+.nn-close:focus-visible, .nn-plus:focus-visible, .nn-done:focus-visible, .nn-pick:focus-visible, .nn-body:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 @media (hover: hover) {
   .nn-done:hover { background: var(--c); color: var(--shade); }
   .nn-done:hover svg { opacity: 1; }
-  .nn-close:hover, .nn-tray button:hover { background: rgba(255, 255, 255, .12); }
-  .nn-pick:hover { background: rgba(255, 61, 127, .22); }
+  .nn-close:hover { background: rgba(255, 255, 255, .1); }
+  .nn-pick:hover { background: rgba(255, 209, 102, .18); }
 }
 @media (max-width: 430px) {
-  .nn-title { font-size: 38px; }
-  .nn-card { gap: 12px; padding: 12px 14px 12px 12px; border-radius: 24px; }
-  .nn-done { width: 60px; height: 60px; }
+  .nn-close span { display: none; }
+  .nn-card { gap: 12px; padding: 12px 14px 12px 12px; }
+  .nn-done { width: 58px; height: 58px; }
   .nn-text { font-size: 19px; }
-  .nn-pay { font-size: 17px; padding: 6px 10px; }
+  .nn-pay { font-size: 24px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nn-glow i, .nn-card.is-picked .nn-done { animation: none; }
+  .nn-glow i, .nn-card.is-picked .nn-done, .nn-kicker::before { animation: none; }
 }
 </style>
 </head>
@@ -3035,23 +3056,27 @@ body.is-shake .wrap { animation: shake .4s; }
       </div>
 
       <!-- Now now mode: the Now now list on its own, full screen. Big round buttons, lots of colour,
-           and it only counts what you've done (never what's left). Opens when Now now is opened. -->
+           and it only counts what you've done (never what's left). Opens when Now now is opened.
+           Same night city as the board: hard edges, HUD type, a "Mission passed" stamp per job. -->
       <section class="nn" id="nn" role="dialog" aria-modal="true" aria-labelledby="nn-title" hidden>
         <div class="nn-glow" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="nn-wrap">
           <header class="nn-top">
-            <h2 class="nn-title" id="nn-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 2.5L4.5 13.5H11l-1 8 9-11.5h-6.5z"/></svg>Now now</h2>
-            <button class="nn-close" id="nn-close" type="button" aria-label="Close Now now and go back to the board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            <div>
+              <p class="nn-kicker">Today's hit list</p>
+              <h2 class="nn-title" id="nn-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 2.5L4.5 13.5H11l-1 8 9-11.5h-6.5z"/></svg><span>Now now</span></h2>
+            </div>
+            <button class="nn-close" id="nn-close" type="button" aria-label="Close Now now and go back to the board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Board</span></button>
           </header>
           <p class="nn-hype" id="nn-hype" aria-live="polite"></p>
           <div class="nn-score" id="nn-score">
-            <b id="nn-done">0</b><span>done today</span>
+            <b id="nn-done">0</b><span id="nn-done-label"></span>
             <ol class="nn-dots" id="nn-dots" aria-hidden="true"></ol>
           </div>
           <form class="nn-add" id="nn-form" autocomplete="off">
             <label class="sr-only" for="nn-input">New job for Now now</label>
-            <input type="text" id="nn-input" maxlength="140" enterkeyhint="done" placeholder="What's the one thing?">
-            <button type="submit" class="nn-plus" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+            <input type="text" id="nn-input" maxlength="140" enterkeyhint="done" placeholder="What's the one job?">
+            <button type="submit" class="nn-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add</button>
           </form>
           <ul class="nn-list" id="nn-list"></ul>
           <div class="nn-empty" id="nn-empty" hidden>
@@ -3059,9 +3084,13 @@ body.is-shake .wrap { animation: shake .4s; }
             <h3 id="nn-empty-title"></h3>
             <p id="nn-empty-text"></p>
           </div>
-          <button class="nn-pick" id="nn-pick" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor" stroke="none"/></svg>Just pick one for me</button>
+          <button class="nn-pick" id="nn-pick" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor" stroke="none"/></svg>Pick my next job</button>
         </div>
-        <div class="nn-splash" id="nn-splash" aria-hidden="true"></div>
+        <div class="nn-splash" id="nn-splash" aria-hidden="true">
+          <span class="nn-splash-kicker" id="nn-splash-kicker"></span>
+          <span class="nn-splash-stamp" id="nn-splash-stamp"></span>
+          <span class="nn-splash-sub" id="nn-splash-sub"></span>
+        </div>
       </section>
       </div>
 
@@ -4679,7 +4708,7 @@ body.is-shake .wrap { animation: shake .4s; }
     if (pickedId === id) pickedId = null;
     const heistDone = visibleCompletedMissions.length >= HEIST_SIZE;
     if (heistDone) heistsScored++;
-    if (kind === 'nownow') bumpNowNowDone();
+    if (kind === 'nownow') bumpNowNowDone(reward);
     saveData();
 
     sfx.coin();
@@ -4948,18 +4977,21 @@ body.is-shake .wrap { animation: shake .4s; }
   // the back gesture goes back to the board.
   const nnEl = $('nn');
   const nnListEl = $('nn-list');
-  const NN_COLORS = ['var(--neon)', 'var(--flare)', 'var(--gold)', 'var(--palm)', 'var(--dusk)', 'var(--siren-b)'];
+  // The board's own accents, one per job: hot pink, sunset orange, gold, palm teal.
+  const NN_COLORS = ['var(--neon)', 'var(--flare)', 'var(--gold)', 'var(--palm)'];
   const NN_HELLO = [
-    "One thing. That's all you need right now.", "You don't have to do it all. Just this.",
-    'Small moves count. Every single one.', 'Start messy. It still counts.',
-    'Two minutes is enough to start.', 'Pick one. The rest can wait.',
+    'One job. In and out.', 'Keep it simple. One job at a time.', "Nobody's counting. Just pull one.",
+    'Small job, real money.', 'The rest can wait outside.', 'Pick a target. Move.',
   ];
-  const NN_WINS = ['YES!', 'BOOM', 'NAILED IT', 'LEGEND', 'ON FIRE', 'EASY', 'LOOK AT YOU', 'UNSTOPPABLE'];
+  // [kicker, stamp] for the "Mission passed" moment
+  const NN_WINS = [
+    ['Mission', 'Passed'], ['Clean', 'Getaway'], ['Easy', 'Money'], ['No', 'Sweat'], ['Big', 'Moves'], ['Too', 'Easy'],
+  ];
   const NN_AFTER = [
-    'That counts. Breathe, then the next one if you want.', 'Look at you go.', 'Momentum looks good on you.',
-    "Done is done. That's yours now.", 'One less thing on your mind.', 'Keep that energy.',
+    "Clean. Next one when you're ready.", "That's money in the bag.", 'Respect.',
+    'Smooth. Breathe, then the next one.', 'One less thing on the street.', 'The crew saw that.',
   ];
-  const nnColor = (id) => NN_COLORS[Math.abs(Math.floor(id)) % NN_COLORS.length];
+  const nnColor = (i) => NN_COLORS[i % NN_COLORS.length];
   let nnOpen = false;
   let nnTray = null;      // which card's options are open
   let nnPicked = null;    // "Just pick one for me"
@@ -4968,13 +5000,14 @@ body.is-shake .wrap { animation: shake .4s; }
   const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
   let nnDone = store.get('mp_nownow_done', null);
   const nnDoneToday = () => (nnDone && nnDone.day === dayKey(now()) && Number.isFinite(nnDone.n) ? nnDone.n : 0);
-  function bumpNowNowDone() {
-    nnDone = { day: dayKey(now()), n: nnDoneToday() + 1 };
+  const nnCashToday = () => (nnDoneToday() && Number.isFinite(nnDone.cash) ? nnDone.cash : 0);
+  function bumpNowNowDone(reward) {
+    nnDone = { day: dayKey(now()), n: nnDoneToday() + 1, cash: nnCashToday() + reward };
     store.set('mp_nownow_done', nnDone);
     nnNewDot = true;
   }
 
-  function nnCardEl(m) {
+  function nnCardEl(m, i) {
     const open = nnTray === m.id;
     const reward = calculateReward(calculateDaysOld(m.createdAt));
     const cls = ['nn-card'];
@@ -4985,10 +5018,11 @@ body.is-shake .wrap { animation: shake .4s; }
       h('button', { class: 'nn-body', type: 'button', 'data-act': 'toggle', 'aria-expanded': String(open) }, h('span', { class: 'nn-text' }, m.text)),
       h('span', { class: 'nn-pay' }, `+${money(reward)}`),
       open ? h('div', { class: 'nn-tray' },
-        h('button', { type: 'button', 'data-act': 'today' }, iconEl(ICON.sunrise), 'Back to Now'),
-        h('button', { class: 'nn-later', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Tomorrow'),
-        h('button', { class: 'nn-let-go', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Let it go')) : null);
-    li.style.setProperty('--c', nnColor(m.id));
+        h('button', { class: 'tray-btn', type: 'button', 'data-act': 'today' }, iconEl(ICON.sunrise), 'Back to Now'),
+        h('button', { class: 'tray-btn tray-btn--dusk', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Tomorrow'),
+        isTabOn('notes') ? h('button', { class: 'tray-btn tray-btn--note', type: 'button', 'data-act': 'note' }, iconEl(ICON.note), 'Move to notes') : null,
+        h('button', { class: 'tray-btn tray-btn--danger', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Let it go')) : null);
+    li.style.setProperty('--c', nnColor(i));
     return li;
   }
 
@@ -4997,18 +5031,16 @@ body.is-shake .wrap { animation: shake .4s; }
     const jobs = nowNowMissions.slice().sort(byHeat);
     if (nnPicked != null && !jobs.some((m) => m.id === nnPicked)) nnPicked = null;
     nnListEl.classList.toggle('has-pick', nnPicked != null);
-    nnListEl.replaceChildren(...jobs.map(nnCardEl));
+    nnListEl.replaceChildren(...jobs.map((m, i) => nnCardEl(m, i)));
     nnJustAdded = null;
 
     const done = nnDoneToday();
     $('nn-score').hidden = done === 0; // it only shows up to celebrate, never to say "0"
     $('nn-done').textContent = String(done);
-    const shown = Math.min(done, 12);
-    $('nn-dots').replaceChildren(...Array.from({ length: shown }, (_, i) => {
-      const dot = h('li', { class: nnNewDot && i === shown - 1 ? 'is-new' : null });
-      dot.style.setProperty('--c', NN_COLORS[i % NN_COLORS.length]);
-      return dot;
-    }));
+    $('nn-done-label').replaceChildren(`job${done === 1 ? '' : 's'} pulled today · `, h('em', null, `${money(nnCashToday())} banked`));
+    const shown = Math.min(done, 10);
+    $('nn-dots').replaceChildren(...Array.from({ length: shown }, (_, i) =>
+      h('li', { class: nnNewDot && i === shown - 1 ? 'is-new' : null, icon: ICON.cash })));
     if (nnNewDot) {
       const score = $('nn-score');
       score.classList.remove('is-bump');
@@ -5018,10 +5050,10 @@ body.is-shake .wrap { animation: shake .4s; }
     nnNewDot = false;
 
     $('nn-empty').hidden = jobs.length > 0;
-    $('nn-empty-title').textContent = done ? 'All clear!' : 'Clear head';
+    $('nn-empty-title').textContent = done ? 'Streets are clean' : 'Quiet streets';
     $('nn-empty-text').textContent = done
-      ? `You did ${done}. That's a win, whatever else happens today.`
-      : "Add the one thing that's buzzing around your head. Just one.";
+      ? `You pulled ${done} job${done === 1 ? '' : 's'} today. That's respect, whatever else happens.`
+      : "Add the one job that's on your mind. Just one.";
     $('nn-pick').hidden = jobs.length < 2;
   }
 
@@ -5034,11 +5066,14 @@ body.is-shake .wrap { animation: shake .4s; }
     confetti.firework(r.left + r.width / 2, r.top + r.height / 2, resolved || '#ff9b3d');
     confetti.burst(nowNowMissions.length ? 24 : 70);
     const splash = $('nn-splash');
-    splash.textContent = pick(NN_WINS);
+    const [kicker, stamp] = pick(NN_WINS);
+    $('nn-splash-kicker').textContent = kicker;
+    $('nn-splash-stamp').textContent = stamp;
+    $('nn-splash-sub').textContent = card.querySelector('.nn-pay').textContent;
     splash.classList.remove('is-on');
     void splash.offsetWidth;
     splash.classList.add('is-on');
-    $('nn-hype').textContent = nowNowMissions.length ? pick(NN_AFTER) : 'Every single one. Go you.';
+    $('nn-hype').textContent = nowNowMissions.length ? pick(NN_AFTER) : 'Every last one. Boss move.';
     haptic([20, 40, 30]);
   }
 
@@ -5079,7 +5114,7 @@ body.is-shake .wrap { animation: shake .4s; }
       card.scrollIntoView({ block: 'center', behavior: reduceMotion() ? 'auto' : 'smooth' });
       card.querySelector('.nn-done').focus({ preventScroll: true });
     }
-    $('nn-hype').textContent = 'This one. Just this one.';
+    $('nn-hype').textContent = 'This one. In and out.';
     sfx.lock();
     haptic(20);
   }
@@ -5121,6 +5156,7 @@ body.is-shake .wrap { animation: shake .4s; }
     else if (act === 'today') nowNowToToday(id, card);
     else if (act === 'tomorrow') pushToTomorrow(id, card);
     else if (act === 'drop') dropMission(id, btn);
+    else if (act === 'note') jobToNote(id);
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape' || !nnOpen || !overlay.hidden || !boss.hidden || document.querySelector('dialog[open]')) return;
