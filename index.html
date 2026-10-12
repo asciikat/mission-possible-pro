@@ -1705,6 +1705,44 @@ body.is-shake .wrap { animation: shake .4s; }
 .note-del svg { width: 16px; height: 16px; }
 .empty--notes > svg { color: var(--gold); }
 .empty--notes { margin: 12px 0 0; }
+/* quick notes: just for the day. The way in is a small, quiet link at the top of Notes */
+.quick-row { display: flex; justify-content: flex-end; margin: -4px 0 6px; }
+.quick-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--dim);
+  font: 700 12px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.quick-open svg { width: 14px; height: 14px; }
+.quick-open b { font-weight: 700; color: var(--smog); }
+.quick-open:hover { color: var(--ink); }
+.quick-intro { margin: 0 0 10px; color: var(--smog); font-size: 15px; }
+.note-move--gold { border-color: rgba(255, 209, 102, .5); background: rgba(255, 209, 102, .06); color: var(--gold); }
+.quick-list .note-foot { flex-wrap: wrap; row-gap: 2px; }
+.quick-list .note-actions { flex-wrap: wrap; justify-content: flex-end; }
+.note-age { color: var(--gold); }
+#quick-bar { flex-wrap: wrap; }
+/* settings: what happens to quick notes left over from a past day */
+.quick-setting { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.quick-setting h3 { margin: 0 0 6px; font: 800 22px/1 var(--font-display); letter-spacing: .02em; text-transform: uppercase; }
+.quick-setting p { margin: 0 0 10px; font-size: 15px; }
+.quick-setting select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: var(--asphalt-hi);
+  color: var(--ink);
+  font: 600 16px/1.2 var(--font-body);
+}
 
 /* ───────────────────────── wins ───────────────────────── */
 /* the Wins button on the home screen: gold, last in the grid */
@@ -3045,6 +3083,7 @@ body.is-shake .wrap { animation: shake .4s; }
       <div class="notes-panel frame-panel" id="notes-panel" role="region" aria-label="Notes" data-name="Notes" hidden>
         <div class="frame-bar"><span>Notes</span><button class="frame-btn" type="button" data-full="notes-panel" aria-label="Close Notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
         <div class="frame-body tab-panel">
+        <div class="quick-row"><button class="quick-open" id="quick-open" type="button" aria-controls="quick-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M13.5 2.5L4.5 13.5H11l-1 8 9-11.5h-6.5z"/></svg>Quick notes <b id="quick-open-n"></b></button></div>
         <form class="note-form" id="note-form" autocomplete="off">
           <label class="sr-only" for="note-input">New note</label>
           <textarea id="note-input" rows="2" maxlength="5000" placeholder="Jot it down before it's gone"></textarea>
@@ -3076,6 +3115,39 @@ body.is-shake .wrap { animation: shake .4s; }
           <div>
             <h3>No notes yet</h3>
             <p>Phone numbers, ideas, the thing you'll forget in five minutes. Edit any note by tapping it.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Quick notes: notes for today only. Opened from the small link at the top of Notes. They're wiped
+           when the day turns over (7 AM) unless Settings says to move leftovers into Notes. -->
+      <div class="quick-panel frame-panel" id="quick-panel" role="region" aria-label="Quick notes" data-name="Quick notes" hidden>
+        <div class="frame-bar"><span>Quick notes</span><button class="frame-btn" type="button" data-full="quick-panel" aria-label="Close Quick notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <p class="quick-intro" id="quick-intro"></p>
+        <form class="note-form" id="quick-form" autocomplete="off">
+          <label class="sr-only" for="quick-input">New quick note</label>
+          <textarea id="quick-input" rows="2" maxlength="5000" placeholder="Just for today"></textarea>
+          <div class="note-form-row">
+            <span class="note-hint" id="quick-hint">Saved on this device</span>
+            <button type="submit" class="add-btn add-btn--gold">Quick note</button>
+          </div>
+        </form>
+        <div class="notes-bar" id="quick-bar" hidden>
+          <span class="notes-count" id="quick-count">0 quick notes</span>
+          <span class="notes-bar-actions">
+            <button class="btn" id="quick-copy-all" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy all</button>
+            <button class="btn" id="quick-keep-all" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg>To Notes</button>
+            <button class="btn btn--danger" id="quick-clear" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Clear</button>
+          </span>
+        </div>
+        <ul class="notes quick-list" id="quick-list" aria-label="Quick notes"></ul>
+        <div class="empty empty--notes" id="quick-empty" hidden>
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M27 4L9 26h13l-2 18 19-24H26z"/></svg>
+          <div>
+            <h3>Nothing quick yet</h3>
+            <p>The thing you only need today. A plate number, who to call back, what to grab on the way home.</p>
           </div>
         </div>
         </div>
@@ -3366,6 +3438,18 @@ body.is-shake .wrap { animation: shake .4s; }
     <h2 id="tabs-title">Tabs</h2>
     <p>Switch tabs on or off. Turning one off only hides it; nothing in it is deleted.</p>
     <ul class="tab-toggles" id="tab-toggles"></ul>
+    <div class="quick-setting">
+      <h3>Quick notes</h3>
+      <p>They're just for the day. What happens to ones left over when the day turns over at 7 AM?</p>
+      <label class="sr-only" for="quick-after">Quick notes left over</label>
+      <select id="quick-after">
+        <option value="0">Wipe them</option>
+        <option value="1">Move them into Notes at the next day</option>
+        <option value="2">Move them into Notes after 2 days</option>
+        <option value="3">Move them into Notes after 3 days</option>
+        <option value="7">Move them into Notes after a week</option>
+      </select>
+    </div>
     <div class="modal-actions">
       <button class="btn" id="tabs-all" type="button">All on</button>
       <button class="btn" value="close" type="submit" autofocus>Done</button>
@@ -3541,13 +3625,14 @@ body.is-shake .wrap { animation: shake .4s; }
   const TAB_EL = {
     active: tabActive, nownow: $('tab-nownow'), tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
     notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'),
+    quick: $('quick-open'), // not a home-screen tab: the quiet link at the top of Notes opens it
   };
   const TAB_NAME = {
     active: 'Now', nownow: 'Now now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
     notes: 'Notes', sahara: 'Sahara', wins: 'Wins',
   };
   // Tabs that show their own panel instead of a job list.
-  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel') };
+  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), quick: $('quick-panel') };
   // Now, Now now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
   const MISSION_TABS = ['active', 'nownow', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
@@ -4219,6 +4304,8 @@ body.is-shake .wrap { animation: shake .4s; }
     if (currentTab === 'calendar' && !calendarFrame.getAttribute('src')) calendarFrame.setAttribute('src', CALENDAR_URL);
     if (currentTab === 'hood' && !hoodFrame.getAttribute('src')) hoodFrame.setAttribute('src', HOOD_URL);
     if (currentTab === 'notes') renderNotes();
+    if (currentTab === 'quick') renderQuick();
+    updateQuickBtn();
     if (currentTab === 'wins') renderWins();
     if (currentTab === 'sahara') renderSahara();
     $('count-wins').textContent = String(wins.length);
@@ -6081,11 +6168,13 @@ body.is-shake .wrap { animation: shake .4s; }
     simulatedTimeOffset += DAY_MS;
     saveData();
     const landed = landTomorrowJobs();
+    const swept = sweepQuick();
     const timedOut = landNowNowJobs();
     if (timedOut) saveData();
     renderUI();
     paintSky(true);
     toast(`Clock moved to ${shortDate(now())}${landed ? ` · ${landed.count} landed` : ''}${timedOut ? ` · ${timedOut.count} back from Now now` : ''}`);
+    if (swept && swept.moved) setTimeout(() => announceQuick(swept), 2600);
   });
   $('reset-clock').addEventListener('click', () => {
     simulatedTimeOffset = 0;
@@ -6120,12 +6209,14 @@ body.is-shake .wrap { animation: shake .4s; }
   const signature = () => missions.concat(nowNowMissions).map((m) => calculateDaysOld(m.createdAt)).join(',') + '|' + tomorrowMissions.length + '|' + skyPhase();
   function refreshIfAged() {
     const landed = landTomorrowJobs();
+    const swept = sweepQuick();
     const timedOut = landNowNowJobs();
     if (timedOut) saveData();
     const sig = signature();
-    if (sig !== ageSignature || landed || timedOut) { ageSignature = sig; renderUI(); }
+    if (sig !== ageSignature || landed || timedOut || swept) { ageSignature = sig; renderUI(); }
     announceLanded(landed, true);
     announceTimedOut(timedOut, true);
+    announceQuick(swept);
   }
   setInterval(refreshIfAged, 60 * 1000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshIfAged(); });
@@ -6241,6 +6332,7 @@ body.is-shake .wrap { animation: shake .4s; }
     if (window.innerWidth === notesWidth) return;
     notesWidth = window.innerWidth;
     fitNotes();
+    fitQuick();
   });
   function renderNotes() {
     // Don't rebuild under someone's fingers: a note being edited keeps its focus.
@@ -6419,6 +6511,16 @@ body.is-shake .wrap { animation: shake .4s; }
       return ok;
     }
   }
+  // The phone's own share menu (WhatsApp, Messages, email...); copy where there isn't one.
+  async function shareText(text) {
+    if (navigator.share) {
+      try { await navigator.share({ text }); } catch (err) {
+        if (err && err.name !== 'AbortError') toast(await copyText(text) ? "Couldn't share · copied instead" : "Couldn't share");
+      }
+    } else {
+      toast(await copyText(text) ? 'No share menu here · copied instead' : "Couldn't share");
+    }
+  }
   // Copies every note shown: all of them, or only the ones matching the search.
   $('notes-copy-all').addEventListener('click', async () => {
     const shown = shownNotes();
@@ -6482,15 +6584,7 @@ body.is-shake .wrap { animation: shake .4s; }
     if (share) {
       const [li, n] = noteOf(share);
       if (!n) return;
-      const text = li.querySelector('textarea').value.trim() || n.text;
-      // the phone's own share menu (WhatsApp, Messages, email...); copy where there isn't one
-      if (navigator.share) {
-        try { await navigator.share({ text }); } catch (err) {
-          if (err && err.name !== 'AbortError') toast(await copyText(text) ? "Couldn't share · copied instead" : "Couldn't share");
-        }
-      } else {
-        toast(await copyText(text) ? 'No share menu here · copied instead' : "Couldn't share");
-      }
+      await shareText(li.querySelector('textarea').value.trim() || n.text);
       return;
     }
     const copy = e.target.closest('.note-copy');
@@ -6530,6 +6624,297 @@ body.is-shake .wrap { animation: shake .4s; }
         renderNotes();
       },
     });
+  });
+
+  // ── Quick notes: notes for today only ──────────────────────────────────
+  // Opened from the small link at the top of Notes. They have the same options as a regular note
+  // (pin, Now, Not now, share, copy, delete) plus one more: Notes, which keeps the note for good.
+  // A quick note belongs to a day, and the day turns over at 7 AM like Now does. Left over, it's
+  // wiped, or (Settings, under the gear) moved into Notes after 1, 2, 3 or 7 days instead.
+  // Quick notes stay on this device: they're not synced or in the backup.
+  let quickNotes = (Array.isArray(store.get('mp_quick', [])) ? store.get('mp_quick', []) : [])
+    .filter((n) => n && typeof n.text === 'string' && Number.isFinite(n.id) && Number.isFinite(n.updatedAt))
+    .map((n) => ({ ...n, createdAt: Number.isFinite(n.createdAt) ? n.createdAt : n.id }));
+  const QUICK_AFTER = [0, 1, 2, 3, 7]; // days a leftover waits before moving into Notes; 0 = wiped
+  let quickAfter = QUICK_AFTER.includes(store.get('mp_quick_after', 0)) ? store.get('mp_quick_after', 0) : 0;
+  const saveQuick = () => store.set('mp_quick', quickNotes);
+  $('quick-after').value = String(quickAfter);
+  const quickListEl = $('quick-list');
+  const quickForm = $('quick-form');
+  const quickInput = $('quick-input');
+  const quickPanelEl = $('quick-panel');
+  // Which day a time belongs to; a new one starts at 7 AM. 0 = still the same day.
+  const appDay = (t) => {
+    const d = new Date(t - MORNING_HOUR * 3600000);
+    return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / DAY_MS);
+  };
+  const quickAge = (n) => Math.max(0, appDay(now()) - appDay(n.createdAt));
+  const AGE_WORDS = ['', 'Yesterday', '2 days ago', '3 days ago'];
+  const ageWord = (age) => AGE_WORDS[age] || `${age} days ago`;
+  const newestQuick = () => quickNotes.slice().sort((a, b) => (!!b.pinned - !!a.pinned) || b.createdAt - a.createdAt || b.id - a.id);
+  // A note id nobody has used yet (notes already deleted count as used).
+  const freeNoteId = (want) => {
+    let id = want;
+    while (notes.some((x) => x.id === id) || notesGone.includes(id)) id++;
+    return id;
+  };
+
+  // The day turned over: wipe what's left from before, or move it into Notes if that's what
+  // Settings says and it has waited long enough. Returns what happened, or null if nothing did.
+  function sweepQuick() {
+    const due = quickNotes.filter((n) => {
+      const age = quickAge(n);
+      return age >= 1 && (!quickAfter || age >= quickAfter);
+    });
+    if (!due.length) return null;
+    quickNotes = quickNotes.filter((n) => !due.includes(n));
+    let moved = 0;
+    if (quickAfter) {
+      due.forEach((n) => {
+        const text = n.text.trim();
+        if (!text) return;
+        notes.push({ id: freeNoteId(n.id), text, updatedAt: Date.now(), pinned: !!n.pinned });
+        moved++;
+      });
+      if (moved) saveNotes();
+    }
+    saveQuick();
+    return { moved, wiped: due.length - moved };
+  }
+  function announceQuick(swept) {
+    if (!swept || !swept.moved) return;
+    toast(`New day · ${swept.moved} quick note${swept.moved === 1 ? '' : 's'} moved into Notes`, { duration: 4000 });
+  }
+
+  function updateQuickBtn() {
+    $('quick-open-n').textContent = quickNotes.length ? String(quickNotes.length) : '';
+  }
+  function quickIntro() {
+    return quickAfter === 0
+      ? `Just for today. They're wiped when the day turns over at ${MORNING_HOUR} AM.`
+      : `Just for today. Left over at ${MORNING_HOUR} AM, they move into Notes${quickAfter === 1 ? '' : ` after ${quickAfter === 7 ? 'a week' : `${quickAfter} days`}`}.`;
+  }
+  function quickEl(n) {
+    const ta = h('textarea', { rows: '1', maxlength: '5000', 'aria-label': 'Quick note' });
+    ta.value = n.text;
+    const age = quickAge(n);
+    return h('li', { class: n.pinned ? 'note is-pinned' : 'note', 'data-id': String(n.id) },
+      ta,
+      h('button', { class: n.pinned ? 'note-pin is-on' : 'note-pin', type: 'button', 'aria-pressed': String(!!n.pinned), 'aria-label': n.pinned ? 'Unpin note' : 'Pin note to the top', title: n.pinned ? 'Unpin' : 'Pin', icon: ICON.pin }),
+      h('div', { class: 'note-foot' },
+        h('time', null, age ? h('span', { class: 'note-age' }, `${ageWord(age)} · `) : null, stamp(n.updatedAt)),
+        h('span', { class: 'note-actions' },
+          h('button', { class: 'note-move note-move--gold', type: 'button', 'data-to': 'notes', 'aria-label': 'Put this in Notes to keep it' }, iconEl(ICON.note), 'Notes'),
+          h('button', { class: 'note-move note-move--nownow', type: 'button', 'data-to': 'nownow', 'aria-label': 'Make this a job for Now now' }, iconEl(ICON.bolt), 'Now now'),
+          isTabOn('active') ? h('button', { class: 'note-move', type: 'button', 'data-to': 'today', 'aria-label': 'Make this a job for Now' }, iconEl(ICON.sunrise), 'Now') : null,
+          isTabOn('tomorrow') ? h('button', { class: 'note-move note-move--dusk', type: 'button', 'data-to': 'tomorrow', 'aria-label': 'Line this up for Not now' }, iconEl(ICON.moon), 'Not now') : null,
+          h('button', { class: 'note-share', type: 'button', 'aria-label': 'Share note', title: 'Share', icon: ICON.share }),
+          h('button', { class: 'note-copy', type: 'button', 'aria-label': 'Copy note', title: 'Copy', icon: ICON.copy }),
+          h('button', { class: 'note-del', type: 'button', 'aria-label': 'Delete note', icon: ICON.x }))));
+  }
+  // Each box grows to fit its text, which it can only measure while on screen (as in Notes).
+  function fitQuick() {
+    if (quickPanelEl.hidden || !quickPanelEl.classList.contains('is-full')) return;
+    quickListEl.querySelectorAll('textarea').forEach(autosize);
+    autosize(quickInput);
+  }
+  function renderQuick() {
+    // Don't rebuild under someone's fingers: a note being edited keeps its focus.
+    const ae = document.activeElement;
+    if (ae && ae.tagName === 'TEXTAREA' && quickListEl.contains(ae)) return;
+    const shown = newestQuick();
+    quickListEl.replaceChildren(...shown.map(quickEl));
+    quickListEl.hidden = shown.length === 0;
+    $('quick-empty').hidden = shown.length > 0;
+    $('quick-bar').hidden = shown.length === 0;
+    $('quick-count').textContent = `${shown.length} quick note${shown.length === 1 ? '' : 's'}`;
+    $('quick-intro').textContent = quickIntro();
+    $('quick-after').value = String(quickAfter);
+    updateQuickBtn();
+    fitQuick();
+  }
+
+  quickForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = quickInput.value.trim();
+    if (!text) { quickInput.focus(); return; }
+    let id = Date.now();
+    while (quickNotes.some((n) => n.id === id)) id++;
+    quickNotes.push({ id, text, createdAt: now(), updatedAt: Date.now() });
+    saveQuick();
+    quickInput.value = '';
+    renderQuick();
+    quickInput.focus();
+    sfx.add();
+    haptic(12);
+    toast('Quick note saved');
+  });
+  quickInput.addEventListener('input', () => autosize(quickInput));
+  quickInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); quickForm.requestSubmit(); }
+  });
+  const quickOf = (el) => {
+    const li = el.closest('.note');
+    return li ? [li, quickNotes.find((n) => n.id === Number(li.dataset.id))] : [null, null];
+  };
+  quickListEl.addEventListener('input', (e) => {
+    if (e.target.tagName !== 'TEXTAREA') return;
+    const [li, n] = quickOf(e.target);
+    if (!n) return;
+    n.text = e.target.value;
+    n.updatedAt = Date.now();
+    saveQuick();
+    autosize(e.target);
+    li.querySelector('time').lastChild.textContent = stamp(n.updatedAt);
+  });
+  // A quick note emptied out and left behind is gone.
+  quickListEl.addEventListener('focusout', (e) => {
+    if (e.target.tagName !== 'TEXTAREA') return;
+    const [, n] = quickOf(e.target);
+    if (!n || n.text.trim()) return;
+    quickNotes = quickNotes.filter((x) => x !== n);
+    saveQuick();
+    setTimeout(renderQuick, 0);
+  });
+
+  // Quick note to a regular note: keeps its place by date, and its pin.
+  function quickToNotes(list) {
+    const moving = list.filter((n) => n.text.trim());
+    if (!moving.length) { toast(list.length === 1 ? 'That note is empty' : 'Nothing to move'); return; }
+    const made = moving.map((n) => ({ from: n, note: { id: freeNoteId(n.id), text: n.text.trim(), updatedAt: Date.now(), pinned: !!n.pinned } }));
+    quickNotes = quickNotes.filter((n) => !moving.includes(n));
+    made.forEach(({ note }) => notes.push(note));
+    holdSync();
+    saveQuick();
+    saveNotes();
+    renderUI();
+    sfx.lock();
+    haptic(10);
+    toast(moving.length === 1 ? 'Put in Notes' : `${moving.length} quick notes put in Notes`, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        made.forEach(({ from, note }) => {
+          notes = notes.filter((x) => x !== note);
+          markNoteGone(note.id);
+          quickNotes.push(from);
+        });
+        saveQuick();
+        saveNotes();
+        renderUI();
+      },
+    });
+  }
+  // Quick note to a job on Now or Not now, same rules as a regular note.
+  function quickToJob(n, when) {
+    const text = n.text.trim().replace(/\s+/g, ' ');
+    if (!text) { toast('That note is empty'); return; }
+    if (text.length > 140) { toast('Too long for a job (140 letters max). Trim the note first.', { duration: 3600 }); return; }
+    quickNotes = quickNotes.filter((x) => x !== n);
+    const id = uniqueId();
+    const job = when === 'tomorrow'
+      ? { id, text, startsAt: nextMorning(now()) }
+      : when === 'nownow'
+        ? { id, text, createdAt: now(), expiresAt: endOfDay(now()) }
+        : { id, text, createdAt: now() };
+    if (when === 'tomorrow') tomorrowMissions.push(job);
+    else if (when === 'nownow') { nowNowMissions.push(job); showNowNow(); }
+    else missions.push(job);
+    justAddedId = id;
+    holdSync();
+    saveQuick();
+    saveData();
+    renderUI();
+    sfx.add();
+    haptic(12);
+    toast(when === 'tomorrow' ? `Lined up · lands ${landLabel(job.startsAt)}` : when === 'nownow' ? 'Moved to Now now' : 'Moved to Now', {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        missions = missions.filter((m) => m.id !== id);
+        tomorrowMissions = tomorrowMissions.filter((m) => m.id !== id);
+        nowNowMissions = nowNowMissions.filter((m) => m.id !== id);
+        markGone(id);
+        quickNotes.push(n);
+        saveQuick();
+        saveData();
+        renderUI();
+      },
+    });
+  }
+  function undoableQuickRemove(removed, msg) {
+    quickNotes = quickNotes.filter((n) => !removed.includes(n));
+    saveQuick();
+    renderUI();
+    sfx.drop();
+    haptic(30);
+    toast(msg, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => { quickNotes = quickNotes.concat(removed); saveQuick(); renderUI(); },
+    });
+  }
+
+  quickListEl.addEventListener('click', async (e) => {
+    const pin = e.target.closest('.note-pin');
+    if (pin) {
+      const [, n] = quickOf(pin);
+      if (!n) return;
+      n.pinned = !n.pinned;
+      n.updatedAt = Date.now();
+      saveQuick();
+      renderQuick();
+      haptic(12);
+      toast(n.pinned ? 'Pinned to the top' : 'Unpinned');
+      return;
+    }
+    const share = e.target.closest('.note-share');
+    if (share) {
+      const [li, n] = quickOf(share);
+      if (n) await shareText(li.querySelector('textarea').value.trim() || n.text);
+      return;
+    }
+    const copy = e.target.closest('.note-copy');
+    if (copy) {
+      const [li, n] = quickOf(copy);
+      if (!n) return;
+      const ok = await copyText(li.querySelector('textarea').value.trim() || n.text);
+      haptic(12);
+      toast(ok ? 'Note copied' : "Couldn't copy · try again");
+      return;
+    }
+    const move = e.target.closest('.note-move');
+    if (move) {
+      const [, n] = quickOf(move);
+      if (!n) return;
+      if (move.dataset.to === 'notes') quickToNotes([n]); else quickToJob(n, move.dataset.to);
+      return;
+    }
+    const del = e.target.closest('.note-del');
+    if (!del) return;
+    const [, n] = quickOf(del);
+    if (n) undoableQuickRemove([n], 'Quick note deleted');
+  });
+
+  $('quick-copy-all').addEventListener('click', async () => {
+    const shown = newestQuick();
+    if (!shown.length) return;
+    const ok = await copyText(shown.map((n) => n.text.trim()).join('\n\n'));
+    haptic(12);
+    toast(ok ? `Copied ${shown.length} quick note${shown.length === 1 ? '' : 's'}` : "Couldn't copy · try again");
+  });
+  $('quick-keep-all').addEventListener('click', () => quickToNotes(newestQuick()));
+  $('quick-clear').addEventListener('click', () => {
+    if (!quickNotes.length) return;
+    undoableQuickRemove(quickNotes.slice(), `${quickNotes.length} quick note${quickNotes.length === 1 ? '' : 's'} cleared`);
+  });
+  $('quick-after').addEventListener('change', (e) => {
+    const v = Number(e.target.value);
+    quickAfter = QUICK_AFTER.includes(v) ? v : 0;
+    store.set('mp_quick_after', quickAfter);
+    const swept = sweepQuick(); // a new rule can apply to notes already left over
+    renderUI();
+    toast(quickAfter ? `Leftover quick notes move into Notes${swept && swept.moved ? ` · ${swept.moved} moved now` : ''}` : 'Leftover quick notes are wiped');
   });
 
   // ── Sahara: the to-do split into sections, in the Sahara app's pixel look ──
@@ -7371,12 +7756,12 @@ body.is-shake .wrap { animation: shake .4s; }
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
       if (!fromHistory && history.state && history.state.mpApp) history.go(nnWasOpen && history.state.mpNowNow ? -2 : -1);
-      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins }[panel.id];
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){
       if (open === panel) return;
-      if (open) { show(open, false); open = panel; show(panel, true); fitFrames(); fitNotes(); return; } // switch apps in place
+      if (open) { show(open, false); open = panel; show(panel, true); fitFrames(); fitNotes(); fitQuick(); return; } // switch apps in place
       open = panel;
       show(panel, true);
       const body = panel.querySelector('.frame-body');
@@ -7384,6 +7769,7 @@ body.is-shake .wrap { animation: shake .4s; }
       document.documentElement.classList.add('frame-open');
       fitFrames();
       fitNotes();
+      fitQuick();
       // In a browser tab the whole page goes full screen (so toasts, Undo and the heist overlay
       // still show). The installed app already fills the screen, so it skips this and Android's
       // "to exit full screen" banner with it.
@@ -8091,12 +8477,14 @@ body.is-shake .wrap { animation: shake .4s; }
 
   // ── Boot ───────────────────────────────────────────────────────────────
   const landedAtBoot = landTomorrowJobs();
+  const sweptAtBoot = sweepQuick();
   const timedOutAtBoot = landNowNowJobs();
   if (timedOutAtBoot) saveData();
   renderUI();
   ageSignature = signature();
   announceLanded(landedAtBoot, false);
   announceTimedOut(timedOutAtBoot, false);
+  announceQuick(sweptAtBoot);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => paintSky(true));
 })();
 </script>

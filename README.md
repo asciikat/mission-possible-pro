@@ -67,6 +67,14 @@ Notes and jobs trade places: each note has **Now** and **Not now** buttons that 
 into a job (jobs are one line, 140 letters max), and a job's menu (tap its text) has
 **Move to notes**. Every move has Undo.
 
+**Quick notes** are notes for today only. The small, quiet **Quick notes** link at the top of Notes
+opens them in their own full page. They work like regular notes (pin, **Now**, **Not now**, share, copy,
+delete, edit in place) plus **Notes**, which moves one into regular Notes to keep it (the **To Notes**
+button moves them all). The day turns over at 7 AM, like Now: leftover quick notes are wiped, unless
+you open the **gear** and choose, under **Quick notes**, to move leftovers into Notes instead (at the
+next day, or after 2 days, 3 days or a week). Every move and delete has Undo. Quick notes stay on the
+device they're written on (they aren't synced or in the backup); only what lands in Notes syncs.
+
 Notes sync between devices and are included in Save/Merge backup (newest edit wins; a
 deleted note stays deleted). Tab choices and the running timer stay on each device.
 
