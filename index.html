@@ -367,6 +367,11 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
   box-shadow: 0 0 0 4px rgba(154, 107, 255, .16), 0 14px 40px -14px rgba(154, 107, 255, .55);
 }
 .composer--tomorrow .add-btn { background: var(--dusk); }
+.composer--nownow .dock-row:focus-within {
+  border-color: rgba(255, 155, 61, .8);
+  box-shadow: 0 0 0 4px rgba(255, 155, 61, .16), 0 14px 40px -14px rgba(255, 155, 61, .55);
+}
+.composer--nownow .add-btn { background: var(--flare); }
 @keyframes nudge { 25% { transform: translateX(-6px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
 
 /* ───────────────────────── heist tracker ───────────────────────── */
@@ -705,6 +710,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 }
 #tab-jail[aria-selected="true"]::after { background: var(--siren-r); }
 #tab-tomorrow[aria-selected="true"]::after { background: var(--dusk); }
+#tab-nownow[aria-selected="true"]::after { background: var(--flare); }
 #tab-calendar[aria-selected="true"]::after { background: var(--palm); }
 #tab-hood[aria-selected="true"]::after { background: var(--gold); }
 /* Missions: Now, Not now and Lock up sit in their own smaller row, shown only while Missions is open,
@@ -717,6 +723,25 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
   text-transform: none;
 }
 .mission-bar .frame-btn { align-self: center; flex: none; }
+/* the little button that adds the Now now list; gone once the list is on */
+.subtab-add {
+  align-self: center;
+  flex: none;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1.5px dashed rgba(255, 155, 61, .6);
+  background: transparent;
+  color: var(--flare);
+  font: 800 14px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .15s, transform .12s;
+}
+.subtab-add:active { transform: scale(.96); }
+.subtab-add:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (hover: hover) { .subtab-add:hover { background: rgba(255, 155, 61, .14); } }
 /* the home screen: the four apps as big buttons; tapping one opens its window */
 .board-head { border-bottom: 0; padding-bottom: 16px; }
 #top-tabs {
@@ -991,6 +1016,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 }
 .tray-btn svg { width: 16px; height: 16px; }
 .tray-btn--dusk { border-color: rgba(154, 107, 255, .5); color: var(--dusk-ink); }
+.tray-btn--flare { border-color: rgba(255, 155, 61, .55); color: var(--flare); }
 .tray-btn--note { border-color: rgba(255, 209, 102, .5); color: var(--gold); }
 .tray-btn--danger { border-color: rgba(255, 51, 73, .45); color: #ff6b7a; }
 .job.is-open { border-color: rgba(255, 255, 255, .26); }
@@ -1008,6 +1034,13 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
   100% { box-shadow: 0 0 0 0 transparent; }
 }
 .job.is-maxed { animation: nudge .35s; }
+
+/* now now: today only, back on Now at midnight */
+.job--nownow {
+  border-color: rgba(255, 155, 61, .55);
+  box-shadow: inset 4px 0 0 var(--flare);
+}
+.job--nownow:not(.job--jail) { background: linear-gradient(100deg, rgba(255, 155, 61, .12), transparent 55%), var(--asphalt-hi); }
 
 /* tomorrow: lined up, not live yet */
 .job--tomorrow {
@@ -1129,6 +1162,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visibl
 .empty > svg { flex: none; width: 52px; height: 52px; color: var(--neon); }
 .empty--jail > svg { color: var(--palm); }
 .empty--tomorrow > svg { color: var(--dusk-ink); }
+.empty--nownow > svg { color: var(--flare); }
 .empty h3 { margin: 0 0 6px; font: 900 28px/1 var(--font-display); text-transform: uppercase; }
 .empty p { margin: 0; color: var(--smog); max-width: 42ch; }
 .sweep { transform-origin: 24px 24px; animation: sweep 4s linear infinite; }
@@ -2459,6 +2493,7 @@ body.is-shake .wrap { animation: shake .4s; }
   .subtabs .tab { font-size: 19px; }
   #top-tabs .tab { padding: 16px 12px; font-size: 21px; }
   .mission-bar .frame-btn span { display: none; }
+  .subtab-add { padding: 0 8px; font-size: 13px; }
   .count { min-width: 17px; padding: 2px 4px; font-size: 11px; }
   .stash { gap: 6px; }
   .icon-btn { width: 34px; height: 34px; }
@@ -2636,9 +2671,11 @@ body.is-shake .wrap { animation: shake .4s; }
       <div class="frame-bar mission-bar">
         <div class="tabs subtabs" id="mission-tabs" role="tablist" aria-label="Job lists">
           <button class="tab" id="tab-active" role="tab" type="button" aria-selected="true" aria-controls="active-list">Now <span class="count" id="count-active">0</span></button>
+          <button class="tab" id="tab-nownow" role="tab" type="button" aria-selected="false" aria-controls="nownow-list" tabindex="-1" hidden>Now now <span class="count" id="count-nownow">0</span></button>
           <button class="tab" id="tab-tomorrow" role="tab" type="button" aria-selected="false" aria-controls="tomorrow-list" tabindex="-1">Not now <span class="count" id="count-tomorrow">0</span></button>
           <button class="tab" id="tab-jail" role="tab" type="button" aria-selected="false" aria-controls="jail-list" tabindex="-1">Lock up <span class="count" id="count-jail">0</span></button>
         </div>
+        <button class="subtab-add" id="add-nownow" type="button" aria-label="Add a Now now list: today only, back on Now at midnight">+ Now now</button>
         <button class="frame-btn" type="button" data-full="missions-panel" aria-label="Close Missions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button>
       </div>
       <div class="frame-body">
@@ -2668,6 +2705,15 @@ body.is-shake .wrap { animation: shake .4s; }
         <div>
           <h3>Board's clear</h3>
           <p>Add a job above. Tiny ones count: "drink water" pays $50 too.</p>
+        </div>
+      </div>
+
+      <ul class="jobs" id="nownow-list" role="tabpanel" aria-labelledby="tab-nownow" hidden></ul>
+      <div class="empty empty--nownow" id="nownow-empty-state" hidden>
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true"><path d="M27 5L11 27h11l-2 16 17-24H26z"/></svg>
+        <div>
+          <h3>Nothing right now</h3>
+          <p>Push a job here to do it today. Whatever's left goes back to Now at midnight.</p>
         </div>
       </div>
 
@@ -3159,6 +3205,9 @@ body.is-shake .wrap { animation: shake .4s; }
   let bigScore = cleanBig(store.get('gta_big_score', null));
   let tomorrowMissions = (Array.isArray(store.get('gta_tomorrow', [])) ? store.get('gta_tomorrow', []) : [])
     .filter((m) => m && typeof m.text === 'string' && Number.isFinite(m.id) && Number.isFinite(m.startsAt));
+  // Now now: jobs for today only. Same shape as Now, plus the time they time out (the end of the day).
+  let nowNowMissions = (Array.isArray(store.get('gta_nownow', [])) ? store.get('gta_nownow', []) : [])
+    .filter((m) => m && typeof m.text === 'string' && Number.isFinite(m.id) && Number.isFinite(m.createdAt) && Number.isFinite(m.expiresAt));
   // Ids of jobs finished or dropped on this device, so a merge doesn't bring them back.
   let gone = (Array.isArray(store.get('gta_gone', [])) ? store.get('gta_gone', []) : []).filter(Number.isFinite);
   const markGone = (id) => { if (!gone.includes(id)) gone = gone.concat(id).slice(-500); };
@@ -3169,7 +3218,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins
+  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -3196,19 +3245,21 @@ body.is-shake .wrap { animation: shake .4s; }
   const tabTomorrow = $('tab-tomorrow');
   const tomorrowListEl = $('tomorrow-list');
   const tomorrowEmptyEl = $('tomorrow-empty-state');
-  const TAB_ORDER = ['active', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins'];
+  const nowNowListEl = $('nownow-list');
+  const nowNowEmptyEl = $('nownow-empty-state');
+  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins'];
   const TAB_EL = {
-    active: tabActive, tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
+    active: tabActive, nownow: $('tab-nownow'), tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
     notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'),
   };
   const TAB_NAME = {
-    active: 'Now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
+    active: 'Now', nownow: 'Now now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
     notes: 'Notes', sahara: 'Sahara', wins: 'Wins',
   };
   // Tabs that show their own panel instead of a job list.
   const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel') };
-  // Now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
-  const MISSION_TABS = ['active', 'tomorrow', 'jail'];
+  // Now, Now now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
+  const MISSION_TABS = ['active', 'nownow', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
   const tabMissions = $('tab-missions');
   const missionsPanel = $('missions-panel');
@@ -3216,6 +3267,12 @@ body.is-shake .wrap { animation: shake .4s; }
   let tabsOff = (Array.isArray(store.get('mp_tabs_off', [])) ? store.get('mp_tabs_off', []) : [])
     .filter((t) => TAB_ORDER.includes(t));
   if (tabsOff.length >= TAB_ORDER.length) tabsOff = [];
+  // Now now starts switched off: the "+ Now now" button in Missions (or the gear) turns it on.
+  if (!store.has('mp_nownow_seen')) {
+    store.set('mp_nownow_seen', true);
+    if (!tabsOff.includes('nownow')) tabsOff = tabsOff.concat('nownow');
+    store.set('mp_tabs_off', tabsOff);
+  }
   const isTabOn = (tab) => !tabsOff.includes(tab);
   const shownTabs = () => TAB_ORDER.filter(isTabOn);
   const calendarPanel = $('calendar-panel');
@@ -3281,6 +3338,12 @@ body.is-shake .wrap { animation: shake .4s; }
     if (d.getTime() <= t) d.setDate(d.getDate() + 1);
     return d.getTime();
   }
+  // The end of the day: the next midnight after time t. Now now jobs time out then.
+  function endOfDay(t) {
+    const d = new Date(t);
+    d.setHours(24, 0, 0, 0);
+    return d.getTime();
+  }
   // A job's wanted level only lasts for the day: it cools off at the next 7 AM.
   const heatOf = (m) => (m.heat > 0 && m.heatUntil > now() ? Math.min(MAX_HEAT, m.heat) : 0);
   // Hottest first; among equal heat, the most recently bumped wins; otherwise keep the order added.
@@ -3317,6 +3380,7 @@ body.is-shake .wrap { animation: shake .4s; }
     store.set('gta_big_score', bigScore);
     store.set('gta_big_trophies', trophies);
     store.set('gta_tomorrow', tomorrowMissions);
+    store.set('gta_nownow', nowNowMissions);
     store.set('gta_gone', gone);
     if (onSaved) onSaved();
   }
@@ -3687,7 +3751,7 @@ body.is-shake .wrap { animation: shake .4s; }
 
     let jailed = 0;
     let five0 = 0;
-    missions.forEach((m) => {
+    missions.concat(nowNowMissions).forEach((m) => {
       const d = calculateDaysOld(m.createdAt);
       if (d >= 7) jailed++;
       if (d >= 14) five0++;
@@ -3706,7 +3770,8 @@ body.is-shake .wrap { animation: shake .4s; }
     muteBtn.setAttribute('aria-label', muted ? 'Turn sound on' : 'Mute sound');
   }
 
-  function jobEl(m) {
+  function jobEl(m, kind) {
+    const nowNow = kind === 'nownow';
     const d = calculateDaysOld(m.createdAt);
     const reward = calculateReward(d);
     const jail = d >= 7;
@@ -3725,6 +3790,7 @@ body.is-shake .wrap { animation: shake .4s; }
 
     const cls = ['job'];
     if (jail) cls.push('job--jail');
+    if (nowNow) cls.push('job--nownow');
     if (lastCall) cls.push('job--lastcall');
     if (d === 6) cls.push('job--final');
     if (m.id === pickedId) cls.push('is-picked');
@@ -3766,7 +3832,10 @@ body.is-shake .wrap { animation: shake .4s; }
           stars)),
       h('div', { class: 'job-tray', id: `tray-${key}`, hidden: !open },
         heat ? h('button', { class: 'tray-btn', type: 'button', 'data-act': 'cool' }, iconEl(ICON.star), 'Reset stars') : null,
-        jail ? null : h('button', { class: 'tray-btn tray-btn--dusk', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Push to Not now'),
+        nowNow
+          ? h('button', { class: 'tray-btn', type: 'button', 'data-act': 'today' }, iconEl(ICON.sunrise), 'Back to Now')
+          : h('button', { class: 'tray-btn tray-btn--flare', type: 'button', 'data-act': 'nownow' }, iconEl(ICON.bolt), 'Push to Now now'),
+        jail && !nowNow ? null : h('button', { class: 'tray-btn tray-btn--dusk', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Push to Not now'),
         isTabOn('notes') ? h('button', { class: 'tray-btn tray-btn--note', type: 'button', 'data-act': 'note' }, iconEl(ICON.note), 'Move to notes') : null,
         h('button', { class: 'tray-btn tray-btn--danger', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Drop job'),
       ),
@@ -3787,6 +3856,7 @@ body.is-shake .wrap { animation: shake .4s; }
       h('span', { class: 'pay' }, money(calculateReward(0))),
       h('div', { class: 'job-tray', id: `tray-${key}`, hidden: !open },
         h('button', { class: 'tray-btn', type: 'button', 'data-act': 'today' }, iconEl(ICON.sunrise), 'Do it now'),
+        h('button', { class: 'tray-btn tray-btn--flare', type: 'button', 'data-act': 'nownow' }, iconEl(ICON.bolt), 'Do it now now'),
         isTabOn('notes') ? h('button', { class: 'tray-btn tray-btn--note', type: 'button', 'data-act': 'note' }, iconEl(ICON.note), 'Move to notes') : null,
         h('button', { class: 'tray-btn tray-btn--danger', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Drop job'),
       ),
@@ -3826,16 +3896,21 @@ body.is-shake .wrap { animation: shake .4s; }
       if (d >= 7) { jail.push(m); jailPay += calculateReward(d); if (d >= 14) five0 = true; } else { active.push(m); activePay += calculateReward(d); }
     });
     const lined = tomorrowMissions.slice().sort((a, b) => a.startsAt - b.startsAt);
+    const nowNow = nowNowMissions.slice().sort(byHeat);
+    let nowNowPay = 0;
+    nowNow.forEach((m) => { nowNowPay += calculateReward(calculateDaysOld(m.createdAt)); });
     active.sort(byHeat);
     jail.sort(byHeat);
-    activeListEl.replaceChildren(...active.map(jobEl));
-    jailListEl.replaceChildren(...jail.map(jobEl));
+    activeListEl.replaceChildren(...active.map((m) => jobEl(m)));
+    jailListEl.replaceChildren(...jail.map((m) => jobEl(m)));
+    nowNowListEl.replaceChildren(...nowNow.map((m) => jobEl(m, 'nownow')));
     tomorrowListEl.replaceChildren(...lined.map(tomorrowEl));
     justAddedId = null;
     landedIds.clear();
 
     const lists = {
       active: [activeListEl, emptyStateEl, active.length],
+      nownow: [nowNowListEl, nowNowEmptyEl, nowNow.length],
       tomorrow: [tomorrowListEl, tomorrowEmptyEl, lined.length],
       jail: [jailListEl, jailEmptyStateEl, jail.length],
     };
@@ -3862,6 +3937,8 @@ body.is-shake .wrap { animation: shake .4s; }
     $('count-active').textContent = String(active.length);
     $('count-missions').textContent = String(active.length);
     $('count-tomorrow').textContent = String(lined.length);
+    $('count-nownow').textContent = String(nowNow.length);
+    $('add-nownow').hidden = isTabOn('nownow');
     const jailCount = $('count-jail');
     jailCount.textContent = String(jail.length);
     jailCount.classList.toggle('is-hot', jail.length > 0);
@@ -3876,11 +3953,14 @@ body.is-shake .wrap { animation: shake .4s; }
 
     // composer: adds to Now or Not now; hidden on Lock up
     const onTomorrow = currentTab === 'tomorrow';
+    const onNowNow = currentTab === 'nownow';
     form.hidden = currentTab === 'jail';
     form.classList.toggle('composer--tomorrow', onTomorrow);
-    $('mission-label').textContent = onTomorrow ? 'New job for Not now' : 'New job for Now';
+    form.classList.toggle('composer--nownow', onNowNow);
+    $('mission-label').textContent = onTomorrow ? 'New job for Not now' : onNowNow ? 'New job for Now now' : 'New job for Now';
     if (onTomorrow) input.placeholder = 'Line up a job for later';
-    else if (input.placeholder.startsWith('Line up')) input.placeholder = `e.g. ${PLACEHOLDER_IDEAS[ideaIndex]}`;
+    else if (onNowNow) input.placeholder = 'What has to happen today?';
+    else if (/^(Line up|What has to)/.test(input.placeholder)) input.placeholder = `e.g. ${PLACEHOLDER_IDEAS[ideaIndex]}`;
 
     // one-line summary + pick-for-me
     const n = lists[currentTab][2];
@@ -3889,6 +3969,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const plural = (k, word) => `${k} ${word}${k === 1 ? '' : 's'}`;
     let summary;
     if (currentTab === 'active') summary = [`${plural(n, 'job')} · `, h('b', null, money(activePay)), ' on the table'];
+    else if (onNowNow) summary = [`${plural(n, 'job')} · `, h('b', null, money(nowNowPay)), ' · back on Now at midnight'];
     else if (onTomorrow) summary = [`${n} lined up · landing ${landLabel(nextMorning(now()))}`];
     else summary = [`${n} locked up · `, h('b', null, money(jailPay)), ' to break out'];
     $('board-bar-text').replaceChildren(...summary);
@@ -4173,6 +4254,20 @@ body.is-shake .wrap { animation: shake .4s; }
     setTimeout(done, 210);
   }
 
+  // Jobs on Now and Now now work the same, so most actions look the job up in whichever list holds it.
+  const jobsIn = (kind) => (kind === 'nownow' ? nowNowMissions : missions);
+  function locate(id) {
+    let kind = 'now';
+    let index = missions.findIndex((m) => m.id === id);
+    if (index < 0) { kind = 'nownow'; index = nowNowMissions.findIndex((m) => m.id === id); }
+    return { kind, index };
+  }
+  const freshId = () => {
+    let id = Date.now();
+    while ([missions, nowNowMissions, tomorrowMissions].some((l) => l.some((x) => x.id === id))) id++;
+    return id;
+  };
+
   function addMission(text) {
     let id = Date.now();
     while (missions.some((m) => m.id === id)) id++;
@@ -4187,11 +4282,11 @@ body.is-shake .wrap { animation: shake .4s; }
   }
 
   function completeMission(id, btn) {
-    const index = missions.findIndex((m) => m.id === id);
+    const { kind, index } = locate(id);
     if (index < 0) return;
     const card = btn.closest('.job');
     if (card.classList.contains('is-done')) return;
-    const m = missions[index];
+    const m = jobsIn(kind)[index];
     const reward = calculateReward(calculateDaysOld(m.createdAt));
     const wasWanted = heatOf(m) > 0;
     const prevCash = totalCash;
@@ -4200,7 +4295,7 @@ body.is-shake .wrap { animation: shake .4s; }
     totalCash += reward;
     totalWinsCount++;
     visibleCompletedMissions.push(m.text);
-    missions.splice(index, 1);
+    jobsIn(kind).splice(index, 1);
     markGone(id);
     if (pickedId === id) pickedId = null;
     const heistDone = visibleCompletedMissions.length >= HEIST_SIZE;
@@ -4230,11 +4325,11 @@ body.is-shake .wrap { animation: shake .4s; }
   }
 
   function dropMission(id, btn) {
-    const index = missions.findIndex((m) => m.id === id);
+    const { kind, index } = locate(id);
     if (index < 0) return;
     const card = btn.closest('.job');
     if (card.classList.contains('is-dropped')) return;
-    const [m] = missions.splice(index, 1);
+    const [m] = jobsIn(kind).splice(index, 1);
     markGone(id);
     if (pickedId === id) pickedId = null;
     holdSync();
@@ -4242,7 +4337,8 @@ body.is-shake .wrap { animation: shake .4s; }
     sfx.drop();
     haptic(10);
     const undo = () => {
-      missions.splice(Math.min(index, missions.length), 0, m);
+      const list = jobsIn(kind);
+      list.splice(Math.min(index, list.length), 0, m);
       unmarkGone(m.id);
       saveData();
       renderUI();
@@ -4293,13 +4389,12 @@ body.is-shake .wrap { animation: shake .4s; }
   }
 
   function pushToTomorrow(id, card) {
-    const index = missions.findIndex((m) => m.id === id);
+    const { kind, index } = locate(id);
     if (index < 0 || card.classList.contains('is-dropped')) return;
-    const [m] = missions.splice(index, 1);
+    const [m] = jobsIn(kind).splice(index, 1);
     // A moved job gets a fresh id and the old one is marked gone, so the move
     // carries over to other devices instead of leaving a copy in both lists.
-    let newId = Date.now();
-    while (tomorrowMissions.some((t) => t.id === newId) || missions.some((x) => x.id === newId)) newId++;
+    const newId = freshId();
     const item = { id: newId, text: m.text, startsAt: nextMorning(now()) };
     tomorrowMissions.push(item);
     markGone(m.id);
@@ -4311,7 +4406,8 @@ body.is-shake .wrap { animation: shake .4s; }
     haptic(10);
     const undo = () => {
       tomorrowMissions = tomorrowMissions.filter((t) => t.id !== item.id);
-      missions.splice(Math.min(index, missions.length), 0, m);
+      const list = jobsIn(kind);
+      list.splice(Math.min(index, list.length), 0, m);
       unmarkGone(m.id);
       saveData();
       renderUI();
@@ -4326,8 +4422,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const index = tomorrowMissions.findIndex((m) => m.id === id);
     if (index < 0) return;
     const [m] = tomorrowMissions.splice(index, 1);
-    let newId = Date.now();
-    while (missions.some((x) => x.id === newId) || tomorrowMissions.some((t) => t.id === newId)) newId++;
+    const newId = freshId();
     missions.push({ id: newId, text: m.text, createdAt: now() });
     markGone(m.id);
     justAddedId = newId;
@@ -4355,6 +4450,112 @@ body.is-shake .wrap { animation: shake .4s; }
       renderUI();
       toast('Job dropped', { action: 'Undo', onAction: undo, duration: 5000 });
     });
+  }
+
+  // ── Now now: today only; whatever is left goes back to Now at the end of the day ──
+  // Pressing "+ Now now" (or pushing a job there) switches the list on.
+  function showNowNow() {
+    if (isTabOn('nownow')) return;
+    setTabsOff(tabsOff.filter((t) => t !== 'nownow'));
+  }
+  function addNowNow(text) {
+    const id = freshId();
+    nowNowMissions.push({ id, text, createdAt: now(), expiresAt: endOfDay(now()) });
+    justAddedId = id;
+    saveData();
+    renderUI();
+    sfx.add();
+    haptic(12);
+    toast('Job on Now now', { amount: `pays ${money(50)}` });
+  }
+  // From Now or Lock up. The job keeps its age (and stars) while it's here.
+  function pushToNowNow(id, card) {
+    const { kind, index } = locate(id);
+    if (kind !== 'now' || index < 0 || card.classList.contains('is-dropped')) return;
+    const [m] = missions.splice(index, 1);
+    const item = Object.assign({}, m, { id: freshId(), expiresAt: endOfDay(now()) });
+    nowNowMissions.push(item);
+    markGone(m.id);
+    if (pickedId === id) pickedId = null;
+    openTray = null;
+    showNowNow();
+    holdSync();
+    saveData();
+    sfx.lock();
+    haptic(10);
+    const undo = () => {
+      nowNowMissions = nowNowMissions.filter((t) => t.id !== item.id);
+      missions.splice(Math.min(index, missions.length), 0, m);
+      unmarkGone(m.id);
+      saveData();
+      renderUI();
+    };
+    animateOut(card, 'is-dropped', () => {
+      renderUI();
+      toast('Pushed to Now now', { action: 'Undo', onAction: undo, duration: 5000 });
+    });
+  }
+  function nowNowToToday(id, card) {
+    const { kind, index } = locate(id);
+    if (kind !== 'nownow' || index < 0 || card.classList.contains('is-dropped')) return;
+    const [m] = nowNowMissions.splice(index, 1);
+    const item = Object.assign({}, m, { id: freshId() });
+    delete item.expiresAt;
+    missions.push(item);
+    markGone(m.id);
+    openTray = null;
+    holdSync();
+    saveData();
+    sfx.lock();
+    haptic(10);
+    const undo = () => {
+      missions = missions.filter((t) => t.id !== item.id);
+      nowNowMissions.splice(Math.min(index, nowNowMissions.length), 0, m);
+      unmarkGone(m.id);
+      saveData();
+      renderUI();
+    };
+    animateOut(card, 'is-dropped', () => {
+      renderUI();
+      toast('Back on Now', { action: 'Undo', onAction: undo, duration: 5000 });
+    });
+  }
+  function tomorrowToNowNow(id) {
+    const index = tomorrowMissions.findIndex((m) => m.id === id);
+    if (index < 0) return;
+    const [m] = tomorrowMissions.splice(index, 1);
+    const newId = freshId();
+    nowNowMissions.push({ id: newId, text: m.text, createdAt: now(), expiresAt: endOfDay(now()) });
+    markGone(m.id);
+    justAddedId = newId;
+    openTray = null;
+    showNowNow();
+    currentTab = 'nownow';
+    holdSync();
+    saveData();
+    renderUI();
+    sfx.add();
+    haptic(12);
+    toast('Moved to Now now', { amount: `pays ${money(calculateReward(0))}` });
+  }
+  // The end of the day: every Now now job still here goes back to Now. It keeps its id,
+  // age and stars, so two devices doing this at once don't each make a copy.
+  function landNowNowJobs() {
+    const t = now();
+    const due = nowNowMissions.filter((m) => m.expiresAt <= t);
+    if (!due.length) return null;
+    nowNowMissions = nowNowMissions.filter((m) => m.expiresAt > t);
+    due.forEach((m) => {
+      const item = Object.assign({}, m);
+      delete item.expiresAt;
+      if (!missions.some((x) => x.id === item.id)) { missions.push(item); landedIds.add(item.id); }
+    });
+    return { count: due.length };
+  }
+  function announceTimedOut(res, withSound) {
+    if (!res) return;
+    toast(`Now now timed out · ${res.count} job${res.count === 1 ? '' : 's'} back on Now`, { duration: 4000 });
+    if (withSound) { sfx.lock(); haptic([20, 40, 20]); }
   }
 
   // Move every lined-up job whose 7 AM has passed onto today's board.
@@ -4398,7 +4599,7 @@ body.is-shake .wrap { animation: shake .4s; }
   }
 
   function raiseHeat(id, btn) {
-    const m = missions.find((x) => x.id === id);
+    const m = missions.concat(nowNowMissions).find((x) => x.id === id);
     if (!m) return;
     const list = btn.closest('.jobs');
     const card = btn.closest('.job');
@@ -4431,7 +4632,7 @@ body.is-shake .wrap { animation: shake .4s; }
   }
 
   function coolDown(id, card) {
-    const m = missions.find((x) => x.id === id);
+    const m = missions.concat(nowNowMissions).find((x) => x.id === id);
     if (!m) return;
     const prev = { heat: m.heat, heatUntil: m.heatUntil };
     m.heat = 0;
@@ -4468,10 +4669,10 @@ body.is-shake .wrap { animation: shake .4s; }
   let rolling = false;
   function pickForMe() {
     if (rolling) return;
-    const list = currentTab === 'jail' ? jailListEl : activeListEl;
+    const list = currentTab === 'jail' ? jailListEl : currentTab === 'nownow' ? nowNowListEl : activeListEl;
     const cards = [...list.querySelectorAll('.job')];
     if (!cards.length) {
-      toast(currentTab === 'active' ? 'Add a job first' : 'Lock up is empty. Nice.');
+      toast(currentTab === 'jail' ? 'Lock up is empty. Nice.' : 'Add a job first');
       return;
     }
     list.querySelectorAll('.is-picked').forEach((c) => c.classList.remove('is-picked'));
@@ -4825,6 +5026,7 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     input.value = '';
     if (currentTab === 'tomorrow') addTomorrow(text);
+    else if (currentTab === 'nownow') addNowNow(text);
     else addMission(text);
     input.focus();
   });
@@ -4838,6 +5040,7 @@ body.is-shake .wrap { animation: shake .4s; }
     if (act === 'toggle') { toggleTray(card); return; }
     if (card.classList.contains('job--tomorrow')) {
       if (act === 'today') moveToToday(id);
+      else if (act === 'nownow') tomorrowToNowNow(id);
       else if (act === 'note') jobToNote(id);
       else if (act === 'drop') dropTomorrow(id, card);
       return;
@@ -4846,11 +5049,13 @@ body.is-shake .wrap { animation: shake .4s; }
     if (act === 'done') completeMission(id, btn);
     else if (act === 'drop') dropMission(id, btn);
     else if (act === 'tomorrow') pushToTomorrow(id, card);
+    else if (act === 'nownow') pushToNowNow(id, card);
+    else if (act === 'today') nowNowToToday(id, card);
     else if (act === 'note') jobToNote(id);
     else if (act === 'heat') raiseHeat(id, btn);
     else if (act === 'cool') coolDown(id, card);
   }
-  [activeListEl, tomorrowListEl, jailListEl].forEach((list) => list.addEventListener('click', onListClick));
+  [activeListEl, nowNowListEl, tomorrowListEl, jailListEl].forEach((list) => list.addEventListener('click', onListClick));
 
   $('big-toggle').addEventListener('click', () => setBigOpen($('big-body').hidden));
 
@@ -4874,7 +5079,14 @@ body.is-shake .wrap { animation: shake .4s; }
   MISSION_TABS.forEach((tab) => TAB_EL[tab].addEventListener('click', () => setTab(tab)));
   Object.keys(PANEL_TABS).forEach((tab) => TAB_EL[tab].addEventListener('click', () => openApp(tab)));
   tabMissions.addEventListener('click', () => openApp('missions'));
-  // Arrow keys step through Now, Not now, Lock up.
+  // The "+ Now now" button adds the Now now list and opens it.
+  $('add-nownow').addEventListener('click', () => {
+    showNowNow();
+    setTab('nownow');
+    sfx.add();
+    toast('Now now is on · jobs here go back to Now at midnight', { duration: 3600 });
+  });
+  // Arrow keys step through Now, Now now, Not now, Lock up.
   $('mission-tabs').addEventListener('keydown', (e) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
     e.preventDefault();
@@ -4911,6 +5123,7 @@ body.is-shake .wrap { animation: shake .4s; }
     trophies = [];
     gone = [];
     tomorrowMissions = [];
+    nowNowMissions = [];
     openTray = null;
     pickedId = null;
     lastBankedCount = 0;
@@ -4922,7 +5135,7 @@ body.is-shake .wrap { animation: shake .4s; }
 
   // ── Backup: progress only lives in this browser, so offer a file copy ──
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
-    'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_gone', 'gta_muted', 'gta_seeded',
+    'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_nownow', 'gta_gone', 'gta_muted', 'gta_seeded',
     'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone', 'mp_fit', 'mp_fit_gone', 'mp_fit_cfg'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
@@ -4992,24 +5205,32 @@ body.is-shake .wrap { animation: shake .4s; }
     const goneSet = new Set([...gone, ...list(d.gta_gone).filter(Number.isFinite)]);
     const sum = { added: 0, removed: 0, lined: 0 };
 
-    const before = missions.length + tomorrowMissions.length;
+    const before = missions.length + tomorrowMissions.length + nowNowMissions.length;
     missions = missions.filter((m) => !goneSet.has(m.id));
     tomorrowMissions = tomorrowMissions.filter((m) => !goneSet.has(m.id));
-    sum.removed = before - missions.length - tomorrowMissions.length;
+    nowNowMissions = nowNowMissions.filter((m) => !goneSet.has(m.id));
+    sum.removed = before - missions.length - tomorrowMissions.length - nowNowMissions.length;
 
-    const have = new Set([...missions, ...tomorrowMissions].map((m) => m.id));
-    list(d.gta_missions).filter((m) => isJob(m, 'createdAt')).forEach((m) => {
-      if (goneSet.has(m.id)) return;
+    const have = new Set([...missions, ...tomorrowMissions, ...nowNowMissions].map((m) => m.id));
+    const takeJob = (m) => {
+      if (goneSet.has(m.id)) return false;
       if (have.has(m.id)) {
         // Same job on both: the most recent star change wins.
-        const mine = missions.find((x) => x.id === m.id);
+        const mine = missions.concat(nowNowMissions).find((x) => x.id === m.id);
         if (mine && (m.heatAt || 0) > (mine.heatAt || 0)) {
           mine.heat = m.heat || 0; mine.heatAt = m.heatAt; mine.heatUntil = m.heatUntil;
           sum.updated = (sum.updated || 0) + 1;
         }
-        return;
+        return false;
       }
-      missions.push(m); have.add(m.id); sum.added++;
+      have.add(m.id);
+      return true;
+    };
+    list(d.gta_missions).filter((m) => isJob(m, 'createdAt')).forEach((m) => {
+      if (takeJob(m)) { missions.push(m); sum.added++; }
+    });
+    list(d.gta_nownow).filter((m) => isJob(m, 'createdAt') && Number.isFinite(m.expiresAt)).forEach((m) => {
+      if (takeJob(m)) { nowNowMissions.push(m); sum.added++; }
     });
     list(d.gta_tomorrow).filter((m) => isJob(m, 'startsAt')).forEach((m) => {
       if (goneSet.has(m.id) || have.has(m.id)) return;
@@ -5052,6 +5273,7 @@ body.is-shake .wrap { animation: shake .4s; }
     mergeFit(d, sum);
 
     gone = Array.from(goneSet).slice(-500);
+    landNowNowJobs(); // anything that timed out while the other device was away goes back to Now
     store.set('gta_seeded', true);
     saveData();
     saveNotes();
@@ -5197,7 +5419,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const who = () => (user && user.email) || 'your account';
     const list = (v) => (Array.isArray(v) ? v : []);
     const payload = () => JSON.parse(JSON.stringify({
-      gta_missions: missions, gta_tomorrow: tomorrowMissions, gta_visible_completed: visibleCompletedMissions,
+      gta_missions: missions, gta_tomorrow: tomorrowMissions, gta_nownow: nowNowMissions, gta_visible_completed: visibleCompletedMissions,
       gta_wins: totalWinsCount, gta_cash: totalCash, gta_heists: heistsScored,
       gta_big_score: bigScore, gta_big_trophies: trophies, gta_gone: gone,
       mp_notes: notes, mp_notes_gone: notesGone,
@@ -5215,14 +5437,14 @@ body.is-shake .wrap { animation: shake .4s; }
 
     // Does the cloud copy lack something this device has? Then upload.
     function cloudIsBehind(d) {
-      const theirIds = new Set([...list(d.gta_missions), ...list(d.gta_tomorrow)].map((m) => m && m.id));
-      if ([...missions, ...tomorrowMissions].some((m) => !theirIds.has(m.id))) return true;
+      const theirIds = new Set([...list(d.gta_missions), ...list(d.gta_tomorrow), ...list(d.gta_nownow)].map((m) => m && m.id));
+      if ([...missions, ...tomorrowMissions, ...nowNowMissions].some((m) => !theirIds.has(m.id))) return true;
       const theirGone = new Set(list(d.gta_gone));
       if (gone.some((g) => !theirGone.has(g))) return true;
       if (totalCash > toInt(d.gta_cash) || totalWinsCount > toInt(d.gta_wins) || heistsScored > toInt(d.gta_heists)) return true;
       if (trophies.length > list(d.gta_big_trophies).length) return true;
-      const theirs = new Map(list(d.gta_missions).map((m) => [m && m.id, m]));
-      if (missions.some((m) => (m.heatAt || 0) > ((theirs.get(m.id) || {}).heatAt || 0))) return true;
+      const theirs = new Map([...list(d.gta_missions), ...list(d.gta_nownow)].map((m) => [m && m.id, m]));
+      if (missions.concat(nowNowMissions).some((m) => (m.heatAt || 0) > ((theirs.get(m.id) || {}).heatAt || 0))) return true;
       const theirNotes = new Map(list(d.mp_notes).map((n) => [n && n.id, n]));
       if (notes.some((n) => !theirNotes.has(n.id) || n.updatedAt > theirNotes.get(n.id).updatedAt)) return true;
       const theirNotesGone = new Set(list(d.mp_notes_gone));
@@ -5372,9 +5594,11 @@ body.is-shake .wrap { animation: shake .4s; }
     simulatedTimeOffset += DAY_MS;
     saveData();
     const landed = landTomorrowJobs();
+    const timedOut = landNowNowJobs();
+    if (timedOut) saveData();
     renderUI();
     paintSky(true);
-    toast(`Clock moved to ${shortDate(now())}${landed ? ` · ${landed.count} landed` : ''}`);
+    toast(`Clock moved to ${shortDate(now())}${landed ? ` · ${landed.count} landed` : ''}${timedOut ? ` · ${timedOut.count} back from Now now` : ''}`);
   });
   $('reset-clock').addEventListener('click', () => {
     simulatedTimeOffset = 0;
@@ -5406,12 +5630,15 @@ body.is-shake .wrap { animation: shake .4s; }
 
   // Jobs age by the hour, so refresh when something would actually change.
   let ageSignature = '';
-  const signature = () => missions.map((m) => calculateDaysOld(m.createdAt)).join(',') + '|' + tomorrowMissions.length + '|' + skyPhase();
+  const signature = () => missions.concat(nowNowMissions).map((m) => calculateDaysOld(m.createdAt)).join(',') + '|' + tomorrowMissions.length + '|' + skyPhase();
   function refreshIfAged() {
     const landed = landTomorrowJobs();
+    const timedOut = landNowNowJobs();
+    if (timedOut) saveData();
     const sig = signature();
-    if (sig !== ageSignature || landed) { ageSignature = sig; renderUI(); }
+    if (sig !== ageSignature || landed || timedOut) { ageSignature = sig; renderUI(); }
     announceLanded(landed, true);
+    announceTimedOut(timedOut, true);
   }
   setInterval(refreshIfAged, 60 * 1000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshIfAged(); });
@@ -5611,7 +5838,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const uniqueId = () => {
     let id = Date.now();
     const taken = (x) => x.id === id;
-    while (notes.some(taken) || missions.some(taken) || tomorrowMissions.some(taken)) id++;
+    while (notes.some(taken) || missions.some(taken) || tomorrowMissions.some(taken) || nowNowMissions.some(taken)) id++;
     return id;
   };
   function noteToJob(n, when) {
@@ -5650,9 +5877,12 @@ body.is-shake .wrap { animation: shake .4s; }
   }
   function jobToNote(id) {
     const fromToday = missions.findIndex((m) => m.id === id);
-    const fromTomorrow = fromToday < 0 ? tomorrowMissions.findIndex((m) => m.id === id) : -1;
-    if (fromToday < 0 && fromTomorrow < 0) return;
-    const job = fromToday >= 0 ? missions.splice(fromToday, 1)[0] : tomorrowMissions.splice(fromTomorrow, 1)[0];
+    const fromNowNow = fromToday < 0 ? nowNowMissions.findIndex((m) => m.id === id) : -1;
+    const fromTomorrow = fromToday < 0 && fromNowNow < 0 ? tomorrowMissions.findIndex((m) => m.id === id) : -1;
+    if (fromToday < 0 && fromNowNow < 0 && fromTomorrow < 0) return;
+    const job = fromToday >= 0 ? missions.splice(fromToday, 1)[0]
+      : fromNowNow >= 0 ? nowNowMissions.splice(fromNowNow, 1)[0]
+      : tomorrowMissions.splice(fromTomorrow, 1)[0];
     markGone(id);
     if (pickedId === id) pickedId = null;
     openTray = null;
@@ -5671,6 +5901,7 @@ body.is-shake .wrap { animation: shake .4s; }
         notes = notes.filter((n) => n !== note);
         markNoteGone(note.id);
         if (fromToday >= 0) missions.splice(Math.min(fromToday, missions.length), 0, job);
+        else if (fromNowNow >= 0) nowNowMissions.splice(Math.min(fromNowNow, nowNowMissions.length), 0, job);
         else tomorrowMissions.splice(Math.min(fromTomorrow, tomorrowMissions.length), 0, job);
         unmarkGone(id);
         saveNotes();
@@ -7364,9 +7595,12 @@ body.is-shake .wrap { animation: shake .4s; }
 
   // ── Boot ───────────────────────────────────────────────────────────────
   const landedAtBoot = landTomorrowJobs();
+  const timedOutAtBoot = landNowNowJobs();
+  if (timedOutAtBoot) saveData();
   renderUI();
   ageSignature = signature();
   announceLanded(landedAtBoot, false);
+  announceTimedOut(timedOutAtBoot, false);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => paintSky(true));
 })();
 </script>
