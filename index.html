@@ -2522,6 +2522,265 @@ body.is-shake .wrap { animation: shake .4s; }
   .overlay.is-on .ov-stamp, .overlay.is-on .ov-kicker, .overlay.is-on .ov-sub { opacity: 1; animation: none !important; transform: rotate(-5deg); }
   .overlay.is-on .ov-kicker, .overlay.is-on .ov-sub { transform: none; }
 }
+/* ───────────────────────── Now now mode ─────────────────────────
+   For a day that's too much: the Now now list on its own, full screen. Same fonts and colours as
+   the board, but round, big and bright, and it only ever counts what's done. */
+.nn {
+  position: fixed;
+  inset: 0;
+  z-index: 44; /* over the Missions window; toasts, confetti and the heist overlay stay on top */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--night);
+  color: var(--ink);
+}
+.nn-glow { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+.nn-glow i {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: .32;
+  animation: nnDrift 18s ease-in-out infinite alternate;
+}
+.nn-glow i:nth-child(1) { left: -25vmax; top: -30vmax; background: radial-gradient(circle, var(--neon), transparent 65%); }
+.nn-glow i:nth-child(2) { right: -30vmax; top: 10vh; background: radial-gradient(circle, var(--flare), transparent 65%); animation-delay: -6s; }
+.nn-glow i:nth-child(3) { left: -10vmax; bottom: -40vmax; background: radial-gradient(circle, var(--dusk), transparent 65%); animation-delay: -12s; }
+@keyframes nnDrift { to { transform: translate(8vmax, 6vmax) scale(1.15); } }
+.nn-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 620px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+.nn-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.nn-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font: 900 44px/1 var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  background: linear-gradient(90deg, var(--gold), var(--flare) 45%, var(--neon));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.nn-title svg { width: 36px; height: 36px; color: var(--gold); flex: none; }
+.nn-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 1.5px solid rgba(255, 255, 255, .22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  color: var(--ink);
+  cursor: pointer;
+}
+.nn-close svg { width: 22px; height: 22px; }
+.nn-hype { margin: -4px 0 0; min-height: 1.3em; font: 700 19px/1.3 var(--font-body); color: var(--smog); }
+.nn-score {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(124, 242, 154, .08);
+  border: 1.5px solid rgba(124, 242, 154, .28);
+}
+.nn-score b { font: 900 34px/1 var(--font-display); color: var(--cash); }
+.nn-score span { font: 800 15px/1 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--cash); }
+.nn-score.is-bump b { animation: nnBump .5s var(--snap); }
+@keyframes nnBump { 40% { transform: scale(1.6); } }
+.nn-dots { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 0 auto; padding: 0; list-style: none; }
+.nn-dots li { width: 14px; height: 14px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+.nn-dots li.is-new { animation: nnPop .6s var(--snap); }
+@keyframes nnPop { 0% { transform: scale(0); } 60% { transform: scale(1.7); } }
+.nn-add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 20px;
+  border-radius: 999px;
+  background: var(--asphalt-hi);
+  border: 1.5px solid rgba(255, 155, 61, .45);
+  transition: border-color .2s, box-shadow .2s;
+}
+.nn-add:focus-within { border-color: var(--flare); box-shadow: 0 0 0 5px rgba(255, 155, 61, .16), 0 16px 40px -16px rgba(255, 155, 61, .6); }
+.nn-add.is-shake { animation: nudge .35s; }
+.nn-add input { flex: 1; min-width: 0; height: 52px; border: 0; background: none; color: var(--ink); font: 600 19px/1.2 var(--font-body); outline: none; }
+.nn-add input::placeholder { color: var(--dim); }
+.nn-plus {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--flare) 50%, var(--neon));
+  color: var(--shade);
+  cursor: pointer;
+  transition: transform .12s;
+}
+.nn-plus svg { width: 26px; height: 26px; }
+.nn-plus:active { transform: scale(.9); }
+.nn-list { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.nn-card {
+  --c: var(--flare);
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px 14px 14px;
+  border-radius: 28px;
+  border: 2px solid color-mix(in srgb, var(--c) 60%, transparent);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--c) 22%, transparent), transparent 70%), var(--asphalt-hi);
+  box-shadow: 0 14px 34px -18px var(--c);
+  transition: opacity .25s, transform .25s, filter .25s;
+}
+.nn-card.is-new { animation: nnIn .5s var(--snap); }
+@keyframes nnIn { from { transform: scale(.85); opacity: 0; } }
+.nn-done {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border: 3px solid var(--c);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  color: var(--c);
+  cursor: pointer;
+  transition: transform .15s, background .15s, color .15s;
+}
+.nn-done svg { width: 32px; height: 32px; opacity: .55; transition: opacity .15s; }
+.nn-done:active { transform: scale(.88); }
+.nn-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 4px 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; }
+.nn-text { font: 700 21px/1.25 var(--font-body); overflow-wrap: anywhere; }
+.nn-pay {
+  justify-self: end;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(124, 242, 154, .12);
+  color: var(--cash);
+  font: 900 20px/1 var(--font-display);
+  white-space: nowrap;
+}
+.nn-tray { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
+.nn-tray button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .05);
+  color: var(--ink);
+  font: 800 14px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.nn-tray button svg { width: 16px; height: 16px; }
+.nn-tray .nn-later { border-color: rgba(154, 107, 255, .55); color: var(--dusk-ink); }
+.nn-tray .nn-let-go { border-color: rgba(255, 255, 255, .16); color: var(--smog); }
+/* "Just pick one": the chosen card glows; the rest step back */
+.nn-list.has-pick .nn-card:not(.is-picked) { opacity: .38; filter: saturate(.5); }
+.nn-card.is-picked { transform: scale(1.03); box-shadow: 0 0 0 3px var(--c), 0 0 40px -4px var(--c); }
+.nn-card.is-picked .nn-done { animation: blip 1.6s ease-out infinite; }
+.nn-card.is-won { animation: nnWon .45s ease-out forwards; pointer-events: none; }
+.nn-card.is-won .nn-done { background: var(--c); color: var(--shade); }
+.nn-card.is-won .nn-done svg { opacity: 1; }
+@keyframes nnWon { 30% { transform: scale(1.05); } 100% { transform: scale(.9); opacity: 0; } }
+.nn-card.is-dropped { opacity: 0; transform: translateX(30px); }
+.nn-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 26px 12px 8px; text-align: center; }
+.nn-empty-orb {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--flare) 50%, var(--neon));
+  color: var(--shade);
+  box-shadow: 0 0 50px -6px var(--flare);
+}
+.nn-empty-orb svg { width: 48px; height: 48px; }
+.nn-empty h3 { margin: 6px 0 0; font: 900 34px/1 var(--font-display); text-transform: uppercase; }
+.nn-empty p { margin: 0; max-width: 34ch; color: var(--smog); font-size: 18px; }
+.nn-pick {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  margin-top: 6px;
+  padding: 0 26px;
+  border: 2px solid var(--neon);
+  border-radius: 999px;
+  background: rgba(255, 61, 127, .12);
+  color: var(--ink);
+  font: 800 17px/1 var(--font-hud);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.nn-pick svg { width: 22px; height: 22px; color: var(--neon); }
+.nn-pick:active { transform: scale(.96); }
+/* the big word after a job is done */
+.nn-splash {
+  position: fixed;
+  left: 50%;
+  top: 42%;
+  z-index: 3;
+  pointer-events: none;
+  font: 900 clamp(56px, 18vw, 120px)/1 var(--font-display);
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: linear-gradient(90deg, var(--gold), var(--flare), var(--neon));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 6px 24px rgba(255, 61, 127, .5));
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+.nn-splash.is-on { animation: nnSplash 1.1s var(--snap) forwards; }
+@keyframes nnSplash {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.3) rotate(-8deg); }
+  25% { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(-3deg); }
+  70% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-3deg); }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1.05) rotate(-3deg); }
+}
+.nn-close:focus-visible, .nn-plus:focus-visible, .nn-done:focus-visible, .nn-pick:focus-visible, .nn-tray button:focus-visible, .nn-body:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+@media (hover: hover) {
+  .nn-done:hover { background: var(--c); color: var(--shade); }
+  .nn-done:hover svg { opacity: 1; }
+  .nn-close:hover, .nn-tray button:hover { background: rgba(255, 255, 255, .12); }
+  .nn-pick:hover { background: rgba(255, 61, 127, .22); }
+}
+@media (max-width: 430px) {
+  .nn-title { font-size: 38px; }
+  .nn-card { gap: 12px; padding: 12px 14px 12px 12px; border-radius: 24px; }
+  .nn-done { width: 60px; height: 60px; }
+  .nn-text { font-size: 19px; }
+  .nn-pay { font-size: 17px; padding: 6px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nn-glow i, .nn-card.is-picked .nn-done { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -2736,6 +2995,36 @@ body.is-shake .wrap { animation: shake .4s; }
         </div>
       </div>
       </div>
+
+      <!-- Now now mode: the Now now list on its own, full screen. Big round buttons, lots of colour,
+           and it only counts what you've done (never what's left). Opens when Now now is opened. -->
+      <section class="nn" id="nn" role="dialog" aria-modal="true" aria-labelledby="nn-title" hidden>
+        <div class="nn-glow" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="nn-wrap">
+          <header class="nn-top">
+            <h2 class="nn-title" id="nn-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 2.5L4.5 13.5H11l-1 8 9-11.5h-6.5z"/></svg>Now now</h2>
+            <button class="nn-close" id="nn-close" type="button" aria-label="Close Now now and go back to the board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+          </header>
+          <p class="nn-hype" id="nn-hype" aria-live="polite"></p>
+          <div class="nn-score" id="nn-score">
+            <b id="nn-done">0</b><span>done today</span>
+            <ol class="nn-dots" id="nn-dots" aria-hidden="true"></ol>
+          </div>
+          <form class="nn-add" id="nn-form" autocomplete="off">
+            <label class="sr-only" for="nn-input">New job for Now now</label>
+            <input type="text" id="nn-input" maxlength="140" enterkeyhint="done" placeholder="What's the one thing?">
+            <button type="submit" class="nn-plus" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+          </form>
+          <ul class="nn-list" id="nn-list"></ul>
+          <div class="nn-empty" id="nn-empty" hidden>
+            <div class="nn-empty-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 2.5L4.5 13.5H11l-1 8 9-11.5h-6.5z"/></svg></div>
+            <h3 id="nn-empty-title"></h3>
+            <p id="nn-empty-text"></p>
+          </div>
+          <button class="nn-pick" id="nn-pick" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor" stroke="none"/></svg>Just pick one for me</button>
+        </div>
+        <div class="nn-splash" id="nn-splash" aria-hidden="true"></div>
+      </section>
       </div>
 
       <!-- The calendar is its own page (../calendar/), shown here in a frame. It loads the
@@ -4024,6 +4313,7 @@ body.is-shake .wrap { animation: shake .4s; }
     renderBig();
     renderDev();
     paintSky();
+    renderNowNowMode();
   }
 
   // ── Feedback ───────────────────────────────────────────────────────────
@@ -4285,8 +4575,9 @@ body.is-shake .wrap { animation: shake .4s; }
   function completeMission(id, btn) {
     const { kind, index } = locate(id);
     if (index < 0) return;
-    const card = btn.closest('.job');
-    if (card.classList.contains('is-done')) return;
+    const card = btn.closest('.job, .nn-card');
+    const doneCls = card.classList.contains('nn-card') ? 'is-won' : 'is-done';
+    if (card.classList.contains(doneCls)) return;
     const m = jobsIn(kind)[index];
     const reward = calculateReward(calculateDaysOld(m.createdAt));
     const wasWanted = heatOf(m) > 0;
@@ -4301,6 +4592,7 @@ body.is-shake .wrap { animation: shake .4s; }
     if (pickedId === id) pickedId = null;
     const heistDone = visibleCompletedMissions.length >= HEIST_SIZE;
     if (heistDone) heistsScored++;
+    if (kind === 'nownow') bumpNowNowDone();
     saveData();
 
     sfx.coin();
@@ -4320,15 +4612,16 @@ body.is-shake .wrap { animation: shake .4s; }
       else toast(`${wasWanted ? 'Lost the cops' : pick(HYPE)} · Heist ${visibleCompletedMissions.length}/${HEIST_SIZE}`, { amount: `+${money(reward)}` });
       if (wasWanted) sfx.sirenDown();
     };
+    if (doneCls === 'is-won') nnCelebrate(btn);
     if (reduceMotion()) { finish(); return; }
-    card.classList.add('is-done');
+    card.classList.add(doneCls);
     setTimeout(() => collapseThen(card, finish), 430);
   }
 
   function dropMission(id, btn) {
     const { kind, index } = locate(id);
     if (index < 0) return;
-    const card = btn.closest('.job');
+    const card = btn.closest('.job, .nn-card');
     if (card.classList.contains('is-dropped')) return;
     const [m] = jobsIn(kind).splice(index, 1);
     markGone(id);
@@ -4463,6 +4756,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const id = freshId();
     nowNowMissions.push({ id, text, createdAt: now(), expiresAt: endOfDay(now()) });
     justAddedId = id;
+    nnJustAdded = id;
     saveData();
     renderUI();
     sfx.add();
@@ -4532,9 +4826,11 @@ body.is-shake .wrap { animation: shake .4s; }
     openTray = null;
     showNowNow();
     currentTab = 'nownow';
+    nnJustAdded = newId;
     holdSync();
     saveData();
     renderUI();
+    openNowNowMode();
     sfx.add();
     haptic(12);
     toast('Moved to Now now', { amount: `pays ${money(calculateReward(0))}` });
@@ -4558,6 +4854,195 @@ body.is-shake .wrap { animation: shake .4s; }
     toast(`Now now timed out · ${res.count} job${res.count === 1 ? '' : 's'} back on Now`, { duration: 4000 });
     if (withSound) { sfx.lock(); haptic([20, 40, 20]); }
   }
+
+  // ── Now now mode: the Now now list on its own, full screen ──
+  // For an overloaded day: big round buttons, bright colours, a splash for every job done, and a
+  // count that only ever goes up (it never shows what's left). Opening Now now opens it; ✕, Esc or
+  // the back gesture goes back to the board.
+  const nnEl = $('nn');
+  const nnListEl = $('nn-list');
+  const NN_COLORS = ['var(--neon)', 'var(--flare)', 'var(--gold)', 'var(--palm)', 'var(--dusk)', 'var(--siren-b)'];
+  const NN_HELLO = [
+    "One thing. That's all you need right now.", "You don't have to do it all. Just this.",
+    'Small moves count. Every single one.', 'Start messy. It still counts.',
+    'Two minutes is enough to start.', 'Pick one. The rest can wait.',
+  ];
+  const NN_WINS = ['YES!', 'BOOM', 'NAILED IT', 'LEGEND', 'ON FIRE', 'EASY', 'LOOK AT YOU', 'UNSTOPPABLE'];
+  const NN_AFTER = [
+    'That counts. Breathe, then the next one if you want.', 'Look at you go.', 'Momentum looks good on you.',
+    "Done is done. That's yours now.", 'One less thing on your mind.', 'Keep that energy.',
+  ];
+  const nnColor = (id) => NN_COLORS[Math.abs(Math.floor(id)) % NN_COLORS.length];
+  let nnOpen = false;
+  let nnTray = null;      // which card's options are open
+  let nnPicked = null;    // "Just pick one for me"
+  let nnJustAdded = null;
+  let nnNewDot = false;
+  const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
+  let nnDone = store.get('mp_nownow_done', null);
+  const nnDoneToday = () => (nnDone && nnDone.day === dayKey(now()) && Number.isFinite(nnDone.n) ? nnDone.n : 0);
+  function bumpNowNowDone() {
+    nnDone = { day: dayKey(now()), n: nnDoneToday() + 1 };
+    store.set('mp_nownow_done', nnDone);
+    nnNewDot = true;
+  }
+
+  function nnCardEl(m) {
+    const open = nnTray === m.id;
+    const reward = calculateReward(calculateDaysOld(m.createdAt));
+    const cls = ['nn-card'];
+    if (m.id === nnPicked) cls.push('is-picked');
+    if (m.id === nnJustAdded) cls.push('is-new');
+    const li = h('li', { class: cls.join(' '), 'data-id': String(m.id) },
+      h('button', { class: 'nn-done', type: 'button', 'data-act': 'done', 'aria-label': `Done: "${m.text}" (+${money(reward)})`, icon: ICON.check }),
+      h('button', { class: 'nn-body', type: 'button', 'data-act': 'toggle', 'aria-expanded': String(open) }, h('span', { class: 'nn-text' }, m.text)),
+      h('span', { class: 'nn-pay' }, `+${money(reward)}`),
+      open ? h('div', { class: 'nn-tray' },
+        h('button', { type: 'button', 'data-act': 'today' }, iconEl(ICON.sunrise), 'Back to Now'),
+        h('button', { class: 'nn-later', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Tomorrow'),
+        h('button', { class: 'nn-let-go', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Let it go')) : null);
+    li.style.setProperty('--c', nnColor(m.id));
+    return li;
+  }
+
+  function renderNowNowMode() {
+    if (!nnOpen) return;
+    const jobs = nowNowMissions.slice().sort(byHeat);
+    if (nnPicked != null && !jobs.some((m) => m.id === nnPicked)) nnPicked = null;
+    nnListEl.classList.toggle('has-pick', nnPicked != null);
+    nnListEl.replaceChildren(...jobs.map(nnCardEl));
+    nnJustAdded = null;
+
+    const done = nnDoneToday();
+    $('nn-score').hidden = done === 0; // it only shows up to celebrate, never to say "0"
+    $('nn-done').textContent = String(done);
+    const shown = Math.min(done, 12);
+    $('nn-dots').replaceChildren(...Array.from({ length: shown }, (_, i) => {
+      const dot = h('li', { class: nnNewDot && i === shown - 1 ? 'is-new' : null });
+      dot.style.setProperty('--c', NN_COLORS[i % NN_COLORS.length]);
+      return dot;
+    }));
+    if (nnNewDot) {
+      const score = $('nn-score');
+      score.classList.remove('is-bump');
+      void score.offsetWidth;
+      score.classList.add('is-bump');
+    }
+    nnNewDot = false;
+
+    $('nn-empty').hidden = jobs.length > 0;
+    $('nn-empty-title').textContent = done ? 'All clear!' : 'Clear head';
+    $('nn-empty-text').textContent = done
+      ? `You did ${done}. That's a win, whatever else happens today.`
+      : "Add the one thing that's buzzing around your head. Just one.";
+    $('nn-pick').hidden = jobs.length < 2;
+  }
+
+  // The big moment: a splash word, a firework in the card's colour, and a kind line.
+  function nnCelebrate(btn) {
+    const card = btn.closest('.nn-card');
+    const color = getComputedStyle(card).getPropertyValue('--c').trim();
+    const r = btn.getBoundingClientRect();
+    const resolved = color.startsWith('var(') ? getComputedStyle(document.documentElement).getPropertyValue(color.slice(4, -1)).trim() : color;
+    confetti.firework(r.left + r.width / 2, r.top + r.height / 2, resolved || '#ff9b3d');
+    confetti.burst(nowNowMissions.length ? 24 : 70);
+    const splash = $('nn-splash');
+    splash.textContent = pick(NN_WINS);
+    splash.classList.remove('is-on');
+    void splash.offsetWidth;
+    splash.classList.add('is-on');
+    $('nn-hype').textContent = nowNowMissions.length ? pick(NN_AFTER) : 'Every single one. Go you.';
+    haptic([20, 40, 30]);
+  }
+
+  function openNowNowMode() {
+    if (nnOpen) { renderNowNowMode(); return; }
+    nnOpen = true;
+    nnTray = null;
+    nnPicked = null;
+    $('nn-hype').textContent = pick(NN_HELLO);
+    nnEl.hidden = false;
+    nnEl.scrollTop = 0;
+    document.documentElement.classList.add('nn-open');
+    if (!(history.state && history.state.mpNowNow)) history.pushState({ mpApp: 1, mpNowNow: 1 }, '');
+    renderNowNowMode();
+    $('nn-close').focus({ preventScroll: true });
+    sfx.lock();
+    haptic(15);
+  }
+  function closeNowNowMode(fromHistory) {
+    if (!nnOpen) return;
+    nnOpen = false;
+    nnEl.hidden = true;
+    document.documentElement.classList.remove('nn-open');
+    if (!fromHistory && history.state && history.state.mpNowNow) history.back();
+    if (currentTab === 'nownow') setTab('active', true);
+  }
+
+  function nnPick() {
+    const cards = [...nnListEl.querySelectorAll('.nn-card')];
+    if (!cards.length) return;
+    let choices = cards.filter((c) => Number(c.dataset.id) !== nnPicked);
+    if (!choices.length) choices = cards;
+    nnPicked = Number(pick(choices).dataset.id);
+    nnTray = null;
+    renderNowNowMode();
+    const card = nnListEl.querySelector(`.nn-card[data-id="${nnPicked}"]`);
+    if (card) {
+      card.scrollIntoView({ block: 'center', behavior: reduceMotion() ? 'auto' : 'smooth' });
+      card.querySelector('.nn-done').focus({ preventScroll: true });
+    }
+    $('nn-hype').textContent = 'This one. Just this one.';
+    sfx.lock();
+    haptic(20);
+  }
+
+  $('nn-close').addEventListener('click', () => closeNowNowMode());
+  $('nn-pick').addEventListener('click', nnPick);
+  $('nn-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const field = $('nn-input');
+    const text = field.value.trim();
+    if (!text) {
+      const f = $('nn-form');
+      f.classList.remove('is-shake');
+      void f.offsetWidth;
+      f.classList.add('is-shake');
+      field.focus();
+      return;
+    }
+    field.value = '';
+    addNowNow(text);
+    field.focus();
+  });
+  nnListEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    const card = btn.closest('.nn-card');
+    const id = Number(card.dataset.id);
+    const act = btn.dataset.act;
+    if (act === 'toggle') {
+      nnTray = nnTray === id ? null : id;
+      renderNowNowMode();
+      sfx.tick();
+      const again = nnListEl.querySelector(`.nn-card[data-id="${id}"] .nn-body`);
+      if (again) again.focus({ preventScroll: true });
+      return;
+    }
+    nnTray = null;
+    if (act === 'done') { if (nnPicked === id) nnPicked = null; completeMission(id, btn); }
+    else if (act === 'today') nowNowToToday(id, card);
+    else if (act === 'tomorrow') pushToTomorrow(id, card);
+    else if (act === 'drop') dropMission(id, btn);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !nnOpen || !overlay.hidden || !boss.hidden || document.querySelector('dialog[open]')) return;
+    e.stopImmediatePropagation(); // Esc closes Now now only, not the Missions window under it
+    closeNowNowMode();
+  });
+  window.addEventListener('popstate', () => {
+    if (nnOpen && !(history.state && history.state.mpNowNow)) closeNowNowMode(true);
+  });
 
   // Move every lined-up job whose 7 AM has passed onto today's board.
   // They start their clock at that 7 AM, so the usual pay rules apply from there.
@@ -5070,6 +5555,7 @@ body.is-shake .wrap { animation: shake .4s; }
     currentTab = tab;
     openTray = null;
     renderBoard();
+    if (tab === 'nownow' && missionsPanel.classList.contains('is-full')) { openNowNowMode(); return; }
     if (focus) TAB_EL[tab].focus();
   }
   // Open an app in its own window: 'missions' (always on Now), a Missions list, or a panel tab.
@@ -6876,13 +7362,15 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     function exit(fromHistory){
       if (!open) return;
+      const nnWasOpen = nnOpen;
+      if (nnWasOpen) closeNowNowMode(true);
       const panel = open; open = null;
       show(panel, false);
       if (panel === notesPanelEl && notesQuery) clearNotesSearch(); // a search only lasts while Notes is open
       document.documentElement.classList.remove('frame-open');
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
-      if (!fromHistory && history.state && history.state.mpApp) history.back();
+      if (!fromHistory && history.state && history.state.mpApp) history.go(nnWasOpen && history.state.mpNowNow ? -2 : -1);
       const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
@@ -6908,8 +7396,9 @@ body.is-shake .wrap { animation: shake .4s; }
     document.querySelectorAll('[data-full]').forEach((btn) => btn.addEventListener('click', () => exit()));
     // the system's own back gesture or Esc leaves real full screen or the window: follow it
     document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && open) exit(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !document.querySelector('dialog[open]')) exit(); });
-    window.addEventListener('popstate', () => { if (open) exit(true); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !nnOpen && !document.querySelector('dialog[open]')) exit(); });
+    // Back out of Now now mode lands on the Missions window's own entry: stay in Missions then
+    window.addEventListener('popstate', () => { if (open && !(history.state && history.state.mpApp)) exit(true); });
     // a reload while a window was open leaves its history entry behind: start clean
     if (history.state && history.state.mpApp) history.replaceState(null, '');
     // The Hood loads after its window opens: tell it once it's there
