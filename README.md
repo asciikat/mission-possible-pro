@@ -30,7 +30,7 @@ Hood's own button in its top bar closes its window too.
   or to Notes, and a note has a **Now now** button too. Opening Now now goes into **Now now
   mode**: the list on its own, full screen, for a day that's too much. Big round buttons, bright
   colours, a splash and a firework for every job done, a "done today" count that only ever goes
-  up (it never shows what's left), and **Just pick one for me**. ✕, Esc or the back gesture goes
+  up (it never shows what's left), and **Pick my next job**. It keeps the board's street look: hard edges, a sunset and police lights, and a "Mission passed" stamp for every job. A job's options there are Back to Now, Tomorrow, Move to notes and Let it go. ✕, Esc or the back gesture goes
   back to the board. Hide the list again with the gear; hiding never deletes what's in it.
 
 Missions always opens on Now. The count on the Missions button is how many jobs
