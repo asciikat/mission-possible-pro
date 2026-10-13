@@ -2,7 +2,7 @@
 
 Mission Possible as an all-in-one: the to-do board, the **Ezycal** calendar,
 **The Hood** (the GTA-style map of your homies from
-[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara** and **Wins**,
+[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara**, **Wins** and **Hustle**,
 each one tab away. Built on Mission Possible Plus.
 
 Single page: `index.html`. The Ezycal tab shows the separate calendar at
@@ -11,8 +11,8 @@ loaded the first time you open the tab).
 
 ## Apps, each in its own window
 
-The home screen shows six big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
-**Sahara** and **Wins**. Tapping one opens that app in its own full-page window (in a browser tab it also
+The home screen shows seven big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
+**Sahara**, **Wins** and **Hustle**. Tapping one opens that app in its own full-page window (in a browser tab it also
 goes full screen; the installed app already fills the screen, so it skips that and
 Android's "to exit full screen" message), so you only see that app, never the others. **✕
 Close**, Esc, or the phone's back gesture takes you back to the home screen. The
@@ -138,6 +138,29 @@ Wins button is how many wins you've logged.
 The sections, hype lines and quick wins are the `WIN_SECTIONS`, `WIN_HYPE` and `QUICK_WINS` lists
 in `index.html`; edit them freely (keep a section's `id` the same so old wins stay in it). Wins
 sync between devices like notes and are included in Save/Merge backup (a deleted win stays deleted).
+
+## Hustle
+
+**Hustle** is where money ideas go. A *hustle* is something you want to try, like **Etsy t-shirts**,
+and the ideas for it collect underneath.
+
+- Type a hustle in the box at the top (or tap a starter like *Dog walking*) and it opens straight
+  away, ready for ideas. Type **Etsy**, then add *Dad joke tees*, *Dog mom designs*, *Funny nurse
+  shirts*, one after another. Enter adds and keeps the box open.
+- Come across a different idea? Go **Hustles** (back), type another hustle, or drop it in **Loose
+  ideas**, the pocket at the top of the list for ideas that don't have a home yet. In Loose ideas,
+  tap an idea's **⋯** and **Make it a hustle** to promote it, or **Move to** a hustle you already have.
+- Tap an idea's icon to move it along: **Idea** (bulb), **Trying it** (clock), **Making money**
+  (coin), then back to Idea. Ideas making money sit at the top of their hustle.
+- Tap an idea (or its **⋯**) to edit it, **Move to** another hustle, or **Delete** it (with Undo).
+  Paste a link into an idea and it becomes tappable.
+- **Rename** and **Delete** are at the top of a hustle. Deleting a hustle never loses its ideas:
+  they move to Loose ideas, and Undo puts everything back.
+
+The count on the Hustle button is how many ideas you have. Hustles and ideas sync between devices
+and are in Save/Merge backup, like notes (newest edit wins; a deleted one stays deleted). They're kept
+apart from the jobs board, so nothing here touches jobs, cash or heists. The starters are the
+`HUSTLE_STARTERS` list in `index.html`.
 
 ## Raccoon mode
 
