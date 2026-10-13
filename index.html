@@ -1818,6 +1818,137 @@ body.is-shake .wrap { animation: shake .4s; }
 .empty--wins > svg { color: var(--gold); }
 .empty--wins { margin: 18px 0 0; }
 
+/* ───────────────────────── hustle ───────────────────────── */
+/* Hustle: money ideas. A hustle is something to try (Etsy t-shirts); ideas collect under it, and
+   loose ideas wait in a pocket until they become a hustle. Cash green, like the money it's after. */
+#top-tabs #tab-hustle {
+  grid-column: 1 / -1; /* the odd one out gets the full row */
+  border-left-color: var(--cash);
+  background: linear-gradient(100deg, rgba(124, 242, 154, .16), rgba(255, 209, 102, .08) 65%, rgba(255, 255, 255, .03));
+}
+#top-tabs #tab-hustle .count { background: var(--cash); }
+#top-tabs #tab-hustle .tab-label svg { color: var(--cash); }
+@media (hover: hover) { #top-tabs #tab-hustle:hover { background: linear-gradient(100deg, rgba(124, 242, 154, .24), rgba(255, 209, 102, .12) 65%, rgba(255, 255, 255, .05)); } }
+
+#hustle-panel { --hu: var(--cash); }
+.hu-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 4px 0 14px; }
+.hu-title {
+  display: block;
+  font: 900 clamp(46px, 13vw, 72px)/.85 var(--font-display);
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #eafff0 8%, var(--cash) 52%, var(--palm) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hu-tag { text-align: right; font: 700 13px/1.4 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.composer--hu { padding: 0; }
+.composer--hu .dock-row:focus-within {
+  border-color: rgba(124, 242, 154, .75);
+  box-shadow: 0 0 0 4px rgba(124, 242, 154, .14), 0 14px 40px -14px rgba(124, 242, 154, .5);
+}
+.composer--hu .add-btn { background: linear-gradient(100deg, var(--cash), var(--palm)); }
+.hu-quick { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; scrollbar-width: none; }
+.hu-quick::-webkit-scrollbar { display: none; }
+.hu-quick:empty { display: none; }
+.hu-chip {
+  flex: none;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px dashed rgba(124, 242, 154, .4);
+  background: none;
+  color: var(--smog);
+  font: 700 13px/1 var(--font-hud);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.hu-chip::before { content: "+ "; color: var(--cash); }
+@media (hover: hover) { .hu-chip:hover { color: var(--ink); border-style: solid; } }
+
+/* the hustles: one big card each, plus the loose-ideas pocket */
+.hu-cards { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.hu-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 12px 14px 14px;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--c);
+  background: var(--asphalt-hi);
+  background: linear-gradient(100deg, color-mix(in srgb, var(--c) 13%, transparent), transparent 60%), var(--asphalt-hi);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.hu-card--loose { border-style: dashed; border-left-style: solid; }
+.hu-card-body { flex: 1; min-width: 0; }
+.hu-card-name { display: block; font: 900 26px/1 var(--font-display); text-transform: uppercase; overflow-wrap: anywhere; }
+.hu-card-meta { display: block; margin-top: 5px; font: 600 13px/1.3 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--smog); }
+.hu-card-meta b { color: var(--cash); font-weight: 800; }
+.hu-card-n { flex: none; min-width: 34px; padding: 6px 8px; background: var(--c); color: var(--shade); font: 900 20px/1 var(--font-display); text-align: center; }
+.hu-card-chev { flex: none; width: 18px; height: 18px; color: var(--smog); }
+.hu-card:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--c); }
+@media (hover: hover) { .hu-card:hover { border-color: var(--c); } }
+
+/* inside one hustle */
+.hu-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding-bottom: 12px; }
+.hu-bar .btn { min-height: 36px; padding: 0 11px; font-size: 12px; }
+.hu-bar .btn svg { width: 16px; height: 16px; }
+.hu-bar-r { display: flex; gap: 8px; }
+.hu-name { margin: 0; font: 900 clamp(38px, 11vw, 60px)/.9 var(--font-display); text-transform: uppercase; color: var(--hu); overflow-wrap: anywhere; }
+.hu-sub { margin: 6px 0 14px; font: 700 13px/1.3 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.hu-rename { display: flex; gap: 8px; margin: 0 0 14px; }
+.hu-rename input { flex: 1; min-width: 0; min-height: 44px; padding: 0 10px; border: 1px solid var(--hu); background: var(--asphalt-hi); color: var(--ink); font: 600 17px/1.2 var(--font-body); }
+.hu-rename .btn { min-height: 44px; }
+.hu-ideas { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.hu-idea { --sec: var(--st); border: 1px solid var(--line); border-left: 4px solid var(--st); background: var(--asphalt-hi); }
+.hu-idea.is-new { animation: winIn 1.2s var(--glide); }
+.hu-row { display: flex; align-items: center; gap: 4px; }
+.hu-status {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--st);
+  cursor: pointer;
+}
+.hu-status svg { width: 26px; height: 26px; }
+.hu-body { flex: 1; min-width: 0; padding: 10px 0; cursor: pointer; }
+.hu-text { display: block; font-weight: 600; overflow-wrap: anywhere; }
+.hu-text a { color: var(--cash); text-decoration: underline; text-underline-offset: 3px; }
+.hu-meta { display: block; margin-top: 3px; font: 700 12px/1.2 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.hu-meta b { color: var(--st); font-weight: 800; }
+.hu-more { flex: none; display: grid; place-items: center; width: 44px; height: 52px; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; }
+.hu-more svg { width: 20px; height: 20px; }
+.hu-tray { display: flex; flex-direction: column; gap: 10px; padding: 2px 12px 12px 14px; }
+.hu-edit { width: 100%; min-height: 44px; padding: 0 10px; border: 1px solid var(--line); background: var(--asphalt); color: var(--ink); font: 600 16px/1.3 var(--font-body); }
+.hu-edit:focus { outline: none; border-color: var(--hu); }
+.hu-tray-label { font: 800 12px/1 var(--font-hud); letter-spacing: .14em; text-transform: uppercase; color: var(--smog); }
+.hu-moves { display: flex; flex-wrap: wrap; gap: 6px; }
+.hu-move, .hu-act {
+  min-height: 38px;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  background: none;
+  color: var(--ink);
+  font: 700 13px/1 var(--font-hud);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.hu-act--go { border-color: rgba(124, 242, 154, .6); color: var(--cash); }
+.hu-act--danger { border-color: rgba(255, 138, 138, .6); color: #ff8a8a; }
+.hu-tray-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+@media (hover: hover) { .hu-move:hover, .hu-act:hover { background: rgba(255, 255, 255, .07); } }
+.empty--hu > svg { color: var(--cash); }
+.empty--hu { margin: 18px 0 0; }
+
 /* ───────────────────────── sahara ───────────────────────── */
 /* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
    dressed like the Sahara app: night purple, dotted ground, chunky borders, pixel hearts. */
@@ -2981,6 +3112,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <button class="tab" id="tab-notes" type="button" aria-controls="notes-panel">Notes</button>
           <button class="tab" id="tab-sahara" type="button" aria-controls="sahara-panel"><span class="tab-label"><svg class="px" viewBox="0 0 9 8" aria-hidden="true"><path fill="currentColor" d="M1 0h2v1h-2zM6 0h2v1h-2zM0 1h4v1h-4zM5 1h4v1h-4zM0 2h9v2h-9zM1 4h7v1h-7zM2 5h5v1h-5zM3 6h3v1h-3zM4 7h1v1h-1z"/></svg>Sahara</span> <span class="count" id="count-sahara">0</span></button>
           <button class="tab" id="tab-wins" type="button" aria-controls="wins-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>Wins</span> <span class="count" id="count-wins">0</span></button>
+          <button class="tab" id="tab-hustle" type="button" aria-controls="hustle-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.6 9.3c-.5-.9-1.4-1.4-2.6-1.4-1.5 0-2.6.8-2.6 2 0 2.8 5.2 1.5 5.2 4.3 0 1.2-1.1 2-2.6 2-1.2 0-2.2-.5-2.7-1.5M12 6.4v1.5M12 16.1v1.5"/></svg>Hustle</span> <span class="count" id="count-hustle">0</span></button>
         </nav>
       </div>
 
@@ -3245,6 +3377,80 @@ body.is-shake .wrap { animation: shake .4s; }
           <div>
             <h3>No wins yet</h3>
             <p>Type one above or tap a quick win. Got up? Drank water? That's a win. Each one lands somewhere random.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Hustle: money ideas. Type a hustle (Etsy t-shirts), open it and collect ideas under it. Ideas
+           you stumble on before you know where they go wait in Loose ideas. Saved on this device and
+           synced like notes. -->
+      <div class="hustle-panel frame-panel" id="hustle-panel" role="region" aria-label="Hustle" data-name="Hustle" hidden>
+        <div class="frame-bar"><span>Hustle</span><button class="frame-btn" type="button" data-full="hustle-panel" aria-label="Close Hustle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <!-- all your hustles -->
+        <div id="hu-home">
+          <div class="hu-hero">
+            <div>
+              <p class="eyebrow">Money ideas</p>
+              <strong class="hu-title">Hustle</strong>
+            </div>
+            <span class="hu-tag" id="hu-tag"></span>
+          </div>
+          <form class="composer composer--hu" id="hu-form" autocomplete="off">
+            <label class="sr-only" for="hu-input">New hustle</label>
+            <div class="dock-row">
+              <input type="text" id="hu-input" maxlength="60" enterkeyhint="done" placeholder="New hustle, e.g. Etsy">
+              <button type="submit" class="add-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Hustle
+              </button>
+            </div>
+          </form>
+          <div class="hu-quick" id="hu-quick" aria-label="Hustle starters"></div>
+          <ul class="hu-cards" id="hu-cards"></ul>
+          <div class="empty empty--hu" id="hu-empty" hidden>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M29 18.5c-1-1.8-2.8-2.8-5.2-2.8-3 0-5.2 1.6-5.2 4 0 5.6 10.4 3 10.4 8.6 0 2.4-2.2 4-5.2 4-2.4 0-4.4-1-5.4-3M24 12.5v3M24 32.3v3"/></svg>
+            <div>
+              <h3>No hustles yet</h3>
+              <p>Type one above, like Etsy, or tap a starter. Open it and collect every idea for it. Got an idea that doesn't fit yet? Drop it in Loose ideas.</p>
+            </div>
+          </div>
+        </div>
+        <!-- inside one hustle (or the Loose ideas pocket) -->
+        <div id="hu-one" hidden>
+          <div class="hu-bar">
+            <button class="btn" id="hu-back" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Hustles</button>
+            <div class="hu-bar-r" id="hu-bar-r">
+              <button class="btn" id="hu-rename-btn" type="button">Rename</button>
+              <button class="btn btn--danger" id="hu-delete-btn" type="button">Delete</button>
+            </div>
+          </div>
+          <h2 class="hu-name" id="hu-name"></h2>
+          <p class="hu-sub" id="hu-sub"></p>
+          <form class="hu-rename" id="hu-rename" autocomplete="off" hidden>
+            <label class="sr-only" for="hu-rename-input">Hustle name</label>
+            <input type="text" id="hu-rename-input" maxlength="60" enterkeyhint="done">
+            <button class="btn" type="submit">Save</button>
+            <button class="btn" id="hu-rename-cancel" type="button">Cancel</button>
+          </form>
+          <form class="composer composer--hu" id="hu-idea-form" autocomplete="off">
+            <label class="sr-only" for="hu-idea-input" id="hu-idea-label">New idea</label>
+            <div class="dock-row">
+              <input type="text" id="hu-idea-input" maxlength="300" enterkeyhint="done">
+              <button type="submit" class="add-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Idea
+              </button>
+            </div>
+          </form>
+          <ul class="hu-ideas" id="hu-ideas"></ul>
+          <div class="empty empty--hu" id="hu-idea-empty" hidden>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M17 36h14M19 42h10M24 6a12 12 0 00-7 21.8c1.2.9 2 2.4 2 4.2h10c0-1.8.8-3.3 2-4.2A12 12 0 0024 6z"/></svg>
+            <div>
+              <h3>No ideas yet</h3>
+              <p id="hu-idea-empty-text">Type your first idea above. Paste a link and it becomes tappable.</p>
+            </div>
           </div>
         </div>
         </div>
@@ -3621,7 +3827,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins
+  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins | hustle
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -3650,19 +3856,19 @@ body.is-shake .wrap { animation: shake .4s; }
   const tomorrowEmptyEl = $('tomorrow-empty-state');
   const nowNowListEl = $('nownow-list');
   const nowNowEmptyEl = $('nownow-empty-state');
-  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins'];
+  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins', 'hustle'];
   const TAB_EL = {
     active: tabActive, nownow: $('tab-nownow'), tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
-    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'),
+    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'), hustle: $('tab-hustle'),
     quick: $('quick-open'), // not a home-screen tab: the quiet link at the top of Notes opens it
   };
   const TAB_NAME = {
     active: 'Now', nownow: 'Now now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
-    notes: 'Notes', sahara: 'Sahara', wins: 'Wins',
+    notes: 'Notes', sahara: 'Sahara', wins: 'Wins', hustle: 'Hustle',
   };
   // Tabs that show their own panel instead of a job list.
-  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), quick: $('quick-panel') };
-  // Now, Now now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
+  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), hustle: $('hustle-panel'), quick: $('quick-panel') };
+  // Now, Now now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins, Hustle.
   const MISSION_TABS = ['active', 'nownow', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
   const tabMissions = $('tab-missions');
@@ -4326,7 +4532,7 @@ body.is-shake .wrap { animation: shake .4s; }
       TAB_EL[tab].tabIndex = on ? 0 : -1;
     });
 
-    // ezycal (the calendar), the Hood, notes, Sahara and wins: no jobs, so nothing below applies. The
+    // ezycal (the calendar), the Hood, notes, Sahara, wins and hustle: no jobs, so nothing below applies. The
     // calendar and Hood frames load the first time they're opened and stay, so coming back is instant.
     Object.entries(PANEL_TABS).forEach(([tab, panel]) => { panel.hidden = currentTab !== tab; });
     const onPanel = currentTab in PANEL_TABS;
@@ -4337,6 +4543,8 @@ body.is-shake .wrap { animation: shake .4s; }
     updateQuickBtn();
     if (currentTab === 'wins') renderWins();
     if (currentTab === 'sahara') renderSahara();
+    if (currentTab === 'hustle') renderHustle();
+    $('count-hustle').textContent = String(huIdeas.length);
     $('count-wins').textContent = String(wins.length);
     $('count-sahara').textContent = String(sahara.filter((x) => !x.done).length);
 
@@ -5746,7 +5954,8 @@ body.is-shake .wrap { animation: shake .4s; }
   // ── Backup: progress only lives in this browser, so offer a file copy ──
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
     'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_nownow', 'gta_gone', 'gta_muted', 'gta_seeded',
-    'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone', 'mp_fit', 'mp_fit_gone', 'mp_fit_cfg'];
+    'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone', 'mp_fit', 'mp_fit_gone', 'mp_fit_cfg',
+    'mp_hustles', 'mp_hustles_gone', 'mp_hustle_ideas', 'mp_hustle_ideas_gone'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
   function mergeNotes(d, sum) {
@@ -5804,6 +6013,27 @@ body.is-shake .wrap { animation: shake .4s; }
     });
     fitGone = Array.from(goneIds).slice(-500);
     if (d.mp_fit_cfg && Number.isFinite(d.mp_fit_cfg.updatedAt) && d.mp_fit_cfg.updatedAt > fitCfg.updatedAt) fitCfg = cleanFitCfg(d.mp_fit_cfg);
+  }
+
+  // Hustle: hustles and their ideas, each combined by id; a deleted one stays deleted; the newest
+  // change to one wins.
+  function mergeHustle(d, sum) {
+    const list = (v) => (Array.isArray(v) ? v : []);
+    const combine = (mine, theirs, theirGone, ourGone, clean) => {
+      const goneIds = new Set([...ourGone, ...list(theirGone).filter(Number.isFinite)]);
+      let out = mine.filter((x) => !goneIds.has(x.id));
+      list(theirs).map(clean).forEach((x) => {
+        if (!x || goneIds.has(x.id)) return;
+        const have = out.find((y) => y.id === x.id);
+        if (!have) out.push(x);
+        else if (x.updatedAt > have.updatedAt) Object.assign(have, x);
+        else return;
+        sum.hustle = (sum.hustle || 0) + 1;
+      });
+      return [out, Array.from(goneIds).slice(-500)];
+    };
+    [hustles, hustlesGone] = combine(hustles, d.mp_hustles, d.mp_hustles_gone, hustlesGone, cleanHustle);
+    [huIdeas, huIdeasGone] = combine(huIdeas, d.mp_hustle_ideas, d.mp_hustle_ideas_gone, huIdeasGone, cleanIdea);
   }
 
   // Merge a backup into what is on this device. Nothing is overwritten:
@@ -5881,6 +6111,7 @@ body.is-shake .wrap { animation: shake .4s; }
     mergeWins(d, sum);
     mergeSahara(d, sum);
     mergeFit(d, sum);
+    mergeHustle(d, sum);
 
     gone = Array.from(goneSet).slice(-500);
     landNowNowJobs(); // anything that timed out while the other device was away goes back to Now
@@ -5890,6 +6121,7 @@ body.is-shake .wrap { animation: shake .4s; }
     saveWins();
     saveSahara();
     saveFit();
+    saveHustle();
     renderUI();
     return sum;
   }
@@ -5924,6 +6156,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
+        if (sum.hustle) bits.push(`${sum.hustle} hustle item${sum.hustle === 1 ? '' : 's'}`);
         toast(bits.length ? `Merged · ${bits.join(' · ')}` : 'Merged · already up to date', { duration: 4500 });
       } catch { toast("That isn't a Mission Board backup"); }
     };
@@ -6036,6 +6269,8 @@ body.is-shake .wrap { animation: shake .4s; }
       mp_wins: wins, mp_wins_gone: winsGone,
       mp_sahara: sahara, mp_sahara_gone: saharaGone,
       mp_fit: fitLog, mp_fit_gone: fitGone, mp_fit_cfg: fitCfg,
+      mp_hustles: hustles, mp_hustles_gone: hustlesGone,
+      mp_hustle_ideas: huIdeas, mp_hustle_ideas_gone: huIdeasGone,
     }));
     const load = (src) => new Promise((resolve, reject) => {
       const s = document.createElement('script');
@@ -6072,6 +6307,14 @@ body.is-shake .wrap { animation: shake .4s; }
       const theirFitGone = new Set(list(d.mp_fit_gone));
       if (fitGone.some((g) => !theirFitGone.has(g))) return true;
       if (fitCfg.updatedAt > ((d.mp_fit_cfg && d.mp_fit_cfg.updatedAt) || 0)) return true;
+      const theirHustles = new Map(list(d.mp_hustles).map((x) => [x && x.id, x]));
+      if (hustles.some((x) => !theirHustles.has(x.id) || x.updatedAt > (theirHustles.get(x.id).updatedAt || 0))) return true;
+      const theirHustlesGone = new Set(list(d.mp_hustles_gone));
+      if (hustlesGone.some((g) => !theirHustlesGone.has(g))) return true;
+      const theirHuIdeas = new Map(list(d.mp_hustle_ideas).map((x) => [x && x.id, x]));
+      if (huIdeas.some((x) => !theirHuIdeas.has(x.id) || x.updatedAt > (theirHuIdeas.get(x.id).updatedAt || 0))) return true;
+      const theirHuIdeasGone = new Set(list(d.mp_hustle_ideas_gone));
+      if (huIdeasGone.some((g) => !theirHuIdeasGone.has(g))) return true;
       const tb = d.gta_big_score;
       if (bigScore && !tb) return true;
       if (bigScore && tb && tb.id === bigScore.id) {
@@ -6095,6 +6338,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.wins) bits.push(`${sum.wins} win${sum.wins === 1 ? '' : 's'}`);
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
+        if (sum.hustle) bits.push(`${sum.hustle} hustle item${sum.hustle === 1 ? '' : 's'}`);
         if (bits.length) toast(`Synced · ${bits.join(' · ')}`);
       }
       if (cloudIsBehind(d || {})) schedule(1500);
@@ -7764,7 +8008,409 @@ body.is-shake .wrap { animation: shake .4s; }
   window.addEventListener('resize', fitFrames);
   fitFrames();
 
-  // ── App windows: Missions, Ezycal, Hood, Notes, Sahara and Wins each open full page ──
+  // ── Hustle: money ideas ──
+  // A hustle is something to try (Etsy t-shirts) and ideas collect under it. An idea that doesn't
+  // belong anywhere yet waits in Loose ideas (hustle 0) until it's moved, or becomes a hustle of its
+  // own. An idea whose hustle was deleted on another device shows up in Loose ideas too.
+  const HUSTLE_STARTERS = ['Etsy t-shirts', 'Print on demand', 'Flipping thrift finds', 'Dog walking', 'Car washing',
+    'Tutoring', 'Mowing lawns', 'Selling crafts'];
+  const HUSTLE_COLORS = ['#7cf29a', '#ffd166', '#ff3d7f', '#2ee6c8', '#c2a8ff', '#ff9b3d', '#6fa0ff'];
+  const LOOSE_COLOR = '#a69cbc';
+  const HU_ICON = {
+    bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>',
+    coin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.6 9.3c-.5-.9-1.4-1.4-2.6-1.4-1.5 0-2.6.8-2.6 2 0 2.8 5.2 1.5 5.2 4.3 0 1.2-1.1 2-2.6 2-1.2 0-2.2-.5-2.7-1.5M12 6.4v1.5M12 16.1v1.5"/></svg>',
+    chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>',
+    dots: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5.5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18.5" cy="12" r="1.8"/></svg>',
+  };
+  // An idea starts as an Idea, then you're Trying it, then it's Making money. Tap its icon to step on.
+  const HU_STATUS = [
+    { id: 'idea', name: 'Idea', color: '#ffd166', icon: HU_ICON.bulb },
+    { id: 'doing', name: 'Trying it', color: '#c2a8ff', icon: HU_ICON.clock },
+    { id: 'earning', name: 'Making money', color: '#7cf29a', icon: HU_ICON.coin },
+  ];
+  const huStatus = (i) => HU_STATUS.find((s) => s.id === i.status) || HU_STATUS[0];
+  const HU_NAME_MAX = 60;
+  const HU_IDEA_MAX = 300;
+  const huName = (v) => String(v).replace(/\s+/g, ' ').trim().slice(0, HU_NAME_MAX);
+
+  function cleanHustle(x) {
+    if (!x || typeof x.name !== 'string' || !huName(x.name) || !Number.isFinite(x.id)) return null;
+    return { id: x.id, name: huName(x.name), updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id };
+  }
+  function cleanIdea(x) {
+    if (!x || typeof x.text !== 'string' || !x.text.trim() || !Number.isFinite(x.id)) return null;
+    return {
+      id: x.id,
+      hustle: Number.isFinite(x.hustle) ? x.hustle : 0,
+      text: x.text.trim().slice(0, HU_IDEA_MAX),
+      status: huStatus(x).id,
+      updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id,
+    };
+  }
+  const storedList = (key) => (Array.isArray(store.get(key, [])) ? store.get(key, []) : []);
+  let hustles = storedList('mp_hustles').map(cleanHustle).filter(Boolean);
+  let huIdeas = storedList('mp_hustle_ideas').map(cleanIdea).filter(Boolean);
+  // Ids deleted on this device, so a sync or merge doesn't bring them back.
+  let hustlesGone = storedList('mp_hustles_gone').filter(Number.isFinite);
+  let huIdeasGone = storedList('mp_hustle_ideas_gone').filter(Number.isFinite);
+  const huGoneAdd = (arr, id) => (arr.includes(id) ? arr : arr.concat(id).slice(-500));
+  const saveHustle = () => {
+    store.set('mp_hustles', hustles);
+    store.set('mp_hustles_gone', hustlesGone);
+    store.set('mp_hustle_ideas', huIdeas);
+    store.set('mp_hustle_ideas_gone', huIdeasGone);
+    if (onSaved) onSaved();
+  };
+
+  const hustleById = (id) => hustles.find((x) => x.id === id);
+  const ideaHome = (i) => (hustleById(i.hustle) ? i.hustle : 0); // 0 is Loose ideas
+  const ideasIn = (hid) => huIdeas.filter((i) => ideaHome(i) === hid);
+  const huColor = (hid) => (hid === 0 ? LOOSE_COLOR : HUSTLE_COLORS[Math.abs(hid) % HUSTLE_COLORS.length]);
+  const huTitle = (hid) => (hid === 0 ? 'Loose ideas' : (hustleById(hid) || {}).name || '');
+  const huPlural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  const huSvg = (svg, cls) => { const el = iconEl(svg); if (cls) el.classList.add(cls); return el; };
+  const nextId = (list, gone) => { let id = Date.now(); while (list.some((x) => x.id === id) || gone.includes(id)) id++; return id; };
+
+  // null is the list of hustles; 0 is Loose ideas; anything else is that hustle's id.
+  let huView = null;
+  let huTray = null;      // which idea's edit/move tray is open
+  let huRenaming = false;
+  let huNewId = null;     // the idea just added, so it can flash
+  const hustlePanel = $('hustle-panel');
+  const huFormEl = $('hu-form');
+  const huInput = $('hu-input');
+  const huIdeaForm = $('hu-idea-form');
+  const huIdeaInput = $('hu-idea-input');
+  const huRenameForm = $('hu-rename');
+  const huRenameInput = $('hu-rename-input');
+  const huIdeasEl = $('hu-ideas');
+  const huScrollTop = () => { const b = hustlePanel.querySelector('.frame-body'); if (b) b.scrollTop = 0; };
+
+  // Links in an idea are tappable. Only http(s) ones; the rest stays plain text.
+  function huLinkify(text) {
+    const out = [];
+    text.split(/(https?:\/\/[^\s]+)/g).forEach((part, k) => {
+      if (k % 2 === 0) { if (part) out.push(part); return; }
+      const [, url, tail] = part.match(/^(.*?)([.,;:!?)\]]*)$/);
+      try {
+        const u = new URL(url);
+        if (!/^https?:$/.test(u.protocol)) throw new Error('not web');
+        out.push(h('a', { href: u.href, target: '_blank', rel: 'noopener noreferrer' }, url));
+      } catch { out.push(url); }
+      if (tail) out.push(tail);
+    });
+    return out;
+  }
+
+  // "3 ideas · 1 trying · 1 making money"
+  function huSummary(hid) {
+    const mine = ideasIn(hid);
+    if (!mine.length) return { text: 'No ideas yet', money: '' };
+    const doing = mine.filter((i) => i.status === 'doing').length;
+    const earning = mine.filter((i) => i.status === 'earning').length;
+    return { text: [huPlural(mine.length, 'idea'), doing ? `${doing} trying` : ''].filter(Boolean).join(' · '), money: earning ? `${earning} making money` : '' };
+  }
+
+  function renderHustle() {
+    if (huView !== null && huView !== 0 && !hustleById(huView)) { huView = null; huTray = null; huRenaming = false; } // deleted elsewhere
+    $('count-hustle').textContent = String(huIdeas.length);
+    $('hu-home').hidden = huView !== null;
+    $('hu-one').hidden = huView === null;
+    if (huView === null) renderHustleHome(); else renderHustleOne();
+  }
+
+  function renderHustleHome() {
+    hustlePanel.style.removeProperty('--hu');
+    $('hu-tag').textContent = `${huPlural(hustles.length, 'hustle')} · ${huPlural(huIdeas.length, 'idea')}`;
+    const card = (hid) => {
+      const sum = huSummary(hid);
+      return h('li', null, h('button', { class: hid === 0 ? 'hu-card hu-card--loose' : 'hu-card', type: 'button', 'data-hid': String(hid), style: `--c:${huColor(hid)}` },
+        h('span', { class: 'hu-card-body' },
+          h('span', { class: 'hu-card-name' }, huTitle(hid)),
+          h('span', { class: 'hu-card-meta' }, sum.text, sum.money ? ' · ' : '', sum.money ? h('b', null, sum.money) : null)),
+        h('span', { class: 'hu-card-n' }, String(ideasIn(hid).length)),
+        huSvg(HU_ICON.chev, 'hu-card-chev')));
+    };
+    // Loose ideas always sits first: the quick place to drop something before it has a home.
+    $('hu-cards').replaceChildren(card(0), ...hustles.slice().sort((a, b) => b.id - a.id).map((x) => card(x.id)));
+    $('hu-empty').hidden = hustles.length > 0;
+    const taken = new Set(hustles.map((x) => x.name.toLowerCase()));
+    $('hu-quick').replaceChildren(...HUSTLE_STARTERS.filter((t) => !taken.has(t.toLowerCase())).map((t) => h('button', { class: 'hu-chip', type: 'button' }, t)));
+  }
+
+  function renderHustleOne() {
+    const hid = huView;
+    const loose = hid === 0;
+    const name = huTitle(hid);
+    hustlePanel.style.setProperty('--hu', huColor(hid));
+    $('hu-name').textContent = name;
+    const sum = huSummary(hid);
+    $('hu-sub').textContent = loose ? `Ideas without a home yet · ${sum.text}` : [sum.text, sum.money].filter(Boolean).join(' · ');
+    $('hu-bar-r').hidden = loose; // Loose ideas can't be renamed or deleted
+    huRenameForm.hidden = loose || !huRenaming;
+    const hint = loose ? 'Got a random idea? Drop it here' : `New idea for ${name}`;
+    huIdeaInput.placeholder = hint;
+    $('hu-idea-label').textContent = hint;
+    $('hu-idea-empty-text').textContent = loose
+      ? 'Come across something that might make money? Drop it here and sort it later. Tap an idea to make it a hustle.'
+      : 'Type your first idea above. Paste a link and it becomes tappable.';
+
+    const rank = (i) => HU_STATUS.indexOf(huStatus(i)); // making money first, then trying it, then plain ideas
+    const mine = ideasIn(hid).sort((a, b) => (rank(b) - rank(a)) || (b.id - a.id));
+    $('hu-idea-empty').hidden = mine.length > 0;
+    const targets = (loose ? [] : [{ id: 0, name: 'Loose ideas' }]).concat(hustles.filter((x) => x.id !== hid));
+    huIdeasEl.replaceChildren(...mine.map((i) => {
+      const st = huStatus(i);
+      const next = HU_STATUS[(HU_STATUS.indexOf(st) + 1) % HU_STATUS.length];
+      const open = huTray === i.id;
+      return h('li', { class: i.id === huNewId ? 'hu-idea is-new' : 'hu-idea', 'data-id': String(i.id), style: `--st:${st.color}` },
+        h('div', { class: 'hu-row' },
+          h('button', { class: 'hu-status', type: 'button', 'aria-label': `${st.name}. Tap to mark it ${next.name}` }, huSvg(st.icon)),
+          h('div', { class: 'hu-body' },
+            h('span', { class: 'hu-text' }, ...huLinkify(i.text)),
+            h('span', { class: 'hu-meta' }, h('b', null, st.name), ` · ${shortDate(i.id)}`)),
+          h('button', { class: 'hu-more', type: 'button', 'aria-expanded': String(open), 'aria-label': `Edit, move or delete "${i.text}"` }, huSvg(HU_ICON.dots))),
+        open ? h('div', { class: 'hu-tray' },
+          h('input', { class: 'hu-edit', type: 'text', maxlength: String(HU_IDEA_MAX), value: i.text, 'aria-label': 'Edit idea' }),
+          targets.length ? h('span', { class: 'hu-tray-label' }, 'Move to') : null,
+          targets.length ? h('div', { class: 'hu-moves' }, ...targets.map((t) => h('button', { class: 'hu-move', type: 'button', 'data-move': String(t.id) }, t.name))) : null,
+          h('div', { class: 'hu-tray-row' },
+            loose ? h('button', { class: 'hu-act hu-act--go', type: 'button', 'data-act': 'hustle' }, 'Make it a hustle') : h('span'),
+            h('button', { class: 'hu-act hu-act--danger', type: 'button', 'data-act': 'delete' }, 'Delete'))) : null);
+    }));
+    huNewId = null;
+  }
+
+  function openHustle(hid) {
+    huView = hid;
+    huTray = null;
+    huRenaming = false;
+    renderHustle();
+    huScrollTop();
+  }
+
+  // A new hustle, or the one you already have with that name (typing Etsy twice opens the first).
+  function addHustle(raw) {
+    const name = huName(raw);
+    if (!name) return null;
+    const have = hustles.find((x) => x.name.toLowerCase() === name.toLowerCase());
+    if (have) return { hu: have, fresh: false };
+    const id = nextId(hustles, hustlesGone);
+    const hu = { id, name, updatedAt: id };
+    hustles.push(hu);
+    saveHustle();
+    return { hu, fresh: true };
+  }
+  function startHustle(raw) {
+    const made = addHustle(raw);
+    if (!made) return false;
+    if (made.fresh) sfx.add();
+    else toast(`You already have ${made.hu.name}`);
+    openHustle(made.hu.id);
+    huIdeaInput.focus({ preventScroll: true }); // straight on to collecting ideas
+    return true;
+  }
+  const shake = (form, input) => {
+    form.classList.remove('is-shake');
+    void form.offsetWidth;
+    form.classList.add('is-shake');
+    input.focus();
+  };
+
+  huFormEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!huName(huInput.value)) { shake(huFormEl, huInput); return; }
+    startHustle(huInput.value);
+    huInput.value = '';
+  });
+  $('hu-quick').addEventListener('click', (e) => {
+    const chip = e.target.closest('.hu-chip');
+    if (chip) startHustle(chip.textContent);
+  });
+  $('hu-cards').addEventListener('click', (e) => {
+    const card = e.target.closest('.hu-card');
+    if (card) openHustle(Number(card.dataset.hid));
+  });
+  $('hu-back').addEventListener('click', () => {
+    huView = null;
+    huTray = null;
+    huRenaming = false;
+    renderHustle();
+    huScrollTop();
+  });
+  // Opening the Hustle app always starts on the list of hustles.
+  TAB_EL.hustle.addEventListener('click', () => { huView = null; huTray = null; huRenaming = false; renderHustle(); });
+
+  // Rename a hustle
+  $('hu-rename-btn').addEventListener('click', () => {
+    huRenaming = true;
+    renderHustle();
+    huRenameInput.value = huTitle(huView);
+    huRenameInput.focus();
+    huRenameInput.select();
+  });
+  $('hu-rename-cancel').addEventListener('click', () => { huRenaming = false; renderHustle(); });
+  huRenameForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const hu = hustleById(huView);
+    const name = huName(huRenameInput.value);
+    if (!hu || !name) { huRenameInput.focus(); return; }
+    const clash = hustles.find((x) => x !== hu && x.name.toLowerCase() === name.toLowerCase());
+    if (clash) { toast(`You already have ${clash.name}`); return; }
+    hu.name = name;
+    hu.updatedAt = Date.now();
+    huRenaming = false;
+    saveHustle();
+    renderHustle();
+  });
+
+  // Delete a hustle: its ideas aren't lost, they move to Loose ideas. Undo puts it all back.
+  $('hu-delete-btn').addEventListener('click', () => {
+    const hu = hustleById(huView);
+    if (!hu) return;
+    const moved = ideasIn(hu.id);
+    hustles = hustles.filter((x) => x !== hu);
+    hustlesGone = huGoneAdd(hustlesGone, hu.id);
+    moved.forEach((i) => { i.hustle = 0; i.updatedAt = Date.now(); });
+    holdSync();
+    saveHustle();
+    openHustle(null);
+    sfx.drop();
+    toast(moved.length ? `${hu.name} deleted · ${huPlural(moved.length, 'idea')} moved to Loose ideas` : `${hu.name} deleted`, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        hustlesGone = hustlesGone.filter((g) => g !== hu.id);
+        hustles.push(hu);
+        moved.forEach((i) => { i.hustle = hu.id; i.updatedAt = Date.now(); });
+        saveHustle();
+        renderHustle();
+      },
+    });
+  });
+
+  // Add an idea to the hustle you're in (or to Loose ideas)
+  huIdeaForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = huIdeaInput.value.replace(/\s+/g, ' ').trim().slice(0, HU_IDEA_MAX);
+    if (!text) { shake(huIdeaForm, huIdeaInput); return; }
+    const id = nextId(huIdeas, huIdeasGone);
+    huIdeas.push({ id, hustle: huView, text, status: 'idea', updatedAt: id });
+    huNewId = id;
+    huTray = null;
+    huIdeaInput.value = '';
+    saveHustle();
+    renderHustle();
+    sfx.add();
+    huIdeaInput.focus({ preventScroll: true }); // keep going: one idea after another
+  });
+
+  // Turn a loose idea into a hustle of its own. A short idea becomes the hustle; a long one stays
+  // as the hustle's first idea so none of its words are lost.
+  function ideaToHustle(idea) {
+    const name = idea.text.length <= HU_NAME_MAX ? idea.text : `${idea.text.slice(0, HU_NAME_MAX - 1).trimEnd()}…`;
+    const made = addHustle(name);
+    if (!made) return;
+    const keep = idea.text !== name;
+    const wasOld = !made.fresh;
+    if (keep) { idea.hustle = made.hu.id; idea.updatedAt = Date.now(); } else {
+      huIdeas = huIdeas.filter((x) => x !== idea);
+      huIdeasGone = huGoneAdd(huIdeasGone, idea.id);
+    }
+    holdSync();
+    saveHustle();
+    openHustle(made.hu.id);
+    huIdeaInput.focus({ preventScroll: true });
+    sfx.add();
+    toast(`${made.hu.name} is a hustle now`, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        if (!wasOld) { hustles = hustles.filter((x) => x !== made.hu); hustlesGone = huGoneAdd(hustlesGone, made.hu.id); }
+        if (keep) { idea.hustle = 0; idea.updatedAt = Date.now(); } else {
+          huIdeasGone = huIdeasGone.filter((g) => g !== idea.id);
+          huIdeas.push(idea);
+        }
+        saveHustle();
+        openHustle(0);
+      },
+    });
+  }
+
+  huIdeasEl.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return; // a link just opens
+    const li = e.target.closest('.hu-idea');
+    const idea = li && huIdeas.find((x) => x.id === Number(li.dataset.id));
+    if (!idea) return;
+    if (e.target.closest('.hu-status')) {
+      // Idea -> Trying it -> Making money -> back to Idea
+      idea.status = HU_STATUS[(HU_STATUS.indexOf(huStatus(idea)) + 1) % HU_STATUS.length].id;
+      idea.updatedAt = Date.now();
+      huNewId = idea.id; // it moves up the list as it progresses: flash it so it's easy to follow
+      saveHustle();
+      renderHustle();
+      sfx.add();
+    } else if (e.target.closest('.hu-body, .hu-more')) {
+      huTray = huTray === idea.id ? null : idea.id;
+      renderHustle();
+      if (huTray === idea.id) huIdeasEl.querySelector(`[data-id="${idea.id}"] .hu-edit`)?.focus({ preventScroll: true });
+    } else if (e.target.closest('.hu-move')) {
+      const to = Number(e.target.closest('.hu-move').dataset.move);
+      const from = idea.hustle;
+      idea.hustle = to;
+      idea.updatedAt = Date.now();
+      huTray = null;
+      saveHustle();
+      renderHustle();
+      sfx.add();
+      toast(`Moved to ${huTitle(to)}`, {
+        action: 'Undo',
+        duration: 5000,
+        onAction: () => { idea.hustle = from; idea.updatedAt = Date.now(); saveHustle(); renderHustle(); },
+      });
+    } else if (e.target.closest('[data-act="hustle"]')) {
+      ideaToHustle(idea);
+    } else if (e.target.closest('[data-act="delete"]')) {
+      huIdeas = huIdeas.filter((x) => x !== idea);
+      huIdeasGone = huGoneAdd(huIdeasGone, idea.id);
+      huTray = null;
+      holdSync();
+      saveHustle();
+      renderHustle();
+      sfx.drop();
+      toast('Idea deleted', {
+        action: 'Undo',
+        duration: 6000,
+        onAction: () => {
+          huIdeasGone = huIdeasGone.filter((g) => g !== idea.id);
+          huIdeas.push(idea);
+          saveHustle();
+          renderHustle();
+        },
+      });
+    }
+  });
+  // Editing saves as you finish (Enter, or tapping away). It doesn't redraw the list, so a tap on
+  // Move or Delete right after still lands.
+  huIdeasEl.addEventListener('change', (e) => {
+    const input = e.target.closest('.hu-edit');
+    const li = input && input.closest('.hu-idea');
+    const idea = li && huIdeas.find((x) => x.id === Number(li.dataset.id));
+    if (!idea) return;
+    const text = input.value.replace(/\s+/g, ' ').trim().slice(0, HU_IDEA_MAX);
+    if (!text) { input.value = idea.text; return; } // an idea can't be blank: delete it instead
+    if (text === idea.text) return;
+    idea.text = text;
+    idea.updatedAt = Date.now();
+    saveHustle();
+    li.querySelector('.hu-text').replaceChildren(...huLinkify(text));
+  });
+  huIdeasEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.closest('.hu-edit')) { e.preventDefault(); e.target.blur(); }
+  });
+
+  // ── App windows: Missions, Ezycal, Hood, Notes, Sahara, Wins and Hustle each open full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
   // (and, where the browser allows it, the whole screen), like raccoon mode. Close, Esc or the
   // phone's back gesture goes back to the home screen.
@@ -7792,7 +8438,7 @@ body.is-shake .wrap { animation: shake .4s; }
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
       if (!fromHistory && history.state && history.state.mpApp) history.go(nnWasOpen && history.state.mpNowNow ? -2 : -1);
-      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins }[panel.id];
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins, 'hustle-panel': TAB_EL.hustle }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){
