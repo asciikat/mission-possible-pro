@@ -153,12 +153,15 @@ the clock is running).
   finish earlier than the start counts as running past midnight.
 - **Snap receipt** opens the camera; the photo is saved straight away and you can then add the
   amount, date and what it was for. **Use a photo I already have** picks one from the phone.
+- **Hourly rate**: type what you're paid an hour and Hours shows what you're owed: this week at
+  the top, all time beside it, and next to each week and each entry. One rate covers every hour
+  logged, so changing it re-prices them all. Receipts are totalled separately and aren't added in.
 - Tap any entry or receipt to change or delete it (with Undo). On a receipt, **Share photo** sends
   the picture to WhatsApp, email, Files and so on; **Retake** replaces it.
 - The timesheet is grouped by week (Monday to Sunday) with each week's total. **Copy** copies the
   whole thing as text; **Spreadsheet** downloads it as a `.csv` file for Excel or Google Sheets.
 
-Hours and receipt details (date, amount, note) sync between devices and are in Save/Merge backup,
+Hours, the hourly rate and receipt details (date, amount, note) sync between devices and are in Save/Merge backup,
 like notes. **Receipt photos stay on the device that took them** (they're too big for the free
 sync), and aren't in the backup file: share the ones you need to keep. Photos are shrunk to
 1600px so they don't fill the phone. Nuke data doesn't touch Hours.
