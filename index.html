@@ -1856,6 +1856,19 @@ body.is-shake .wrap { animation: shake .4s; }
 .hr-go--snap { background: var(--gold); }
 .hr-go.is-running { background: var(--cash); }
 @media (hover: hover) { .hr-go:hover { filter: brightness(1.08); } }
+.hr-owed { display: block; white-space: nowrap; margin-top: 8px; font: 800 15px/1.1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.hr-owed b { font: 900 30px/1 var(--font-display); letter-spacing: .02em; color: var(--cash); margin-right: 6px; }
+.hr-rate { display: flex; align-items: center; gap: 10px; margin-top: 8px; padding: 8px 12px; border: 1px solid var(--line); border-left: 3px solid var(--cash); background: var(--asphalt-hi); }
+.hr-rate > span:first-child { flex: 1; min-width: 0; font: 700 13px/1.2 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.hr-rate > span:first-child b { display: block; margin-bottom: 2px; color: var(--ink); font-weight: 800; }
+.hr-rate-box { flex: none; display: flex; align-items: center; gap: 4px; padding: 0 10px; border: 1px solid var(--line); background: var(--asphalt); font: 800 18px/1 var(--font-hud); color: var(--cash); }
+.hr-rate-box:focus-within { border-color: var(--cash); box-shadow: 0 0 0 3px rgba(124, 242, 154, .18); }
+.hr-rate-box input { width: 84px; min-height: 44px; padding: 0; border: 0; outline: 0; background: none; color: var(--ink); font: 700 19px/1 var(--font-body); text-align: right; -moz-appearance: textfield; appearance: textfield; }
+.hr-rate-box input::-webkit-outer-spin-button, .hr-rate-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.hr-rate-box small { font: 700 13px/1 var(--font-hud); letter-spacing: .08em; color: var(--smog); }
+.hr-row-dur small, .hr-week-sum small { display: block; margin-top: 3px; font: 800 15px/1 var(--font-hud); letter-spacing: .04em; color: var(--cash); text-align: right; }
+.hr-week-sum { text-align: right; }
+.hr-row-dur { text-align: right; }
 .hr-under { display: flex; justify-content: space-between; gap: 10px; min-height: 36px; margin-top: 2px; }
 .hr-link {
   min-height: 36px;
@@ -3412,9 +3425,10 @@ body.is-shake .wrap { animation: shake .4s; }
           <div>
             <p class="eyebrow">This week</p>
             <strong class="hr-total" id="hr-week">0h</strong>
+            <span class="hr-owed" id="hr-owed" hidden><b id="hr-owed-week">$0</b>owed</span>
           </div>
           <div class="hr-side">
-            <span class="hr-stat"><b id="hr-all">0h</b>all time</span>
+            <span class="hr-stat"><b id="hr-all">0h</b><span id="hr-all-label">all time</span></span>
             <span class="hr-stat hr-stat--cash"><b id="hr-spent">$0</b>receipts</span>
           </div>
         </div>
@@ -3433,6 +3447,10 @@ body.is-shake .wrap { animation: shake .4s; }
           <span></span>
           <button class="hr-link" id="hr-pick" type="button">Use a photo I already have</button>
         </div>
+        <label class="hr-rate">
+          <span><b>Hourly rate</b><span id="hr-rate-hint">Set it to see what you're owed</span></span>
+          <span class="hr-rate-box">$<input type="number" id="hr-rate" inputmode="decimal" step="0.01" min="0" placeholder="0.00" aria-label="Hourly rate in dollars"><small>/ hour</small></span>
+        </label>
         <input type="file" id="hr-cam" accept="image/*" capture="environment" hidden>
         <input type="file" id="hr-file" accept="image/*" hidden>
 
@@ -6021,7 +6039,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
     'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_nownow', 'gta_gone', 'gta_muted', 'gta_seeded',
     'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone', 'mp_fit', 'mp_fit_gone', 'mp_fit_cfg',
-    'mp_hours', 'mp_hours_gone', 'mp_rcpts', 'mp_rcpts_gone'];
+    'mp_hours', 'mp_hours_gone', 'mp_rcpts', 'mp_rcpts_gone', 'mp_hours_cfg'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
   function mergeNotes(d, sum) {
@@ -6072,6 +6090,8 @@ body.is-shake .wrap { animation: shake .4s; }
     const goneR = new Set([...rcptsGone, ...list(d.mp_rcpts_gone).filter(Number.isFinite)]);
     rcpts = fold(rcpts, d.mp_rcpts, goneR, cleanRcpt);
     rcptsGone = Array.from(goneR).slice(-500);
+    // the hourly rate: the newest change wins
+    if (d.mp_hours_cfg && Number.isFinite(d.mp_hours_cfg.updatedAt) && d.mp_hours_cfg.updatedAt > hrCfg.updatedAt) { hrCfg = cleanHrCfg(d.mp_hours_cfg); sum.hours = (sum.hours || 0) + 1; }
   }
 
   // Sahara: combined by id; a deleted item stays deleted; the newest change to an item wins.
@@ -6338,7 +6358,7 @@ body.is-shake .wrap { animation: shake .4s; }
       mp_wins: wins, mp_wins_gone: winsGone,
       mp_sahara: sahara, mp_sahara_gone: saharaGone,
       mp_fit: fitLog, mp_fit_gone: fitGone, mp_fit_cfg: fitCfg,
-      mp_hours: hours, mp_hours_gone: hoursGone, mp_rcpts: rcpts, mp_rcpts_gone: rcptsGone,
+      mp_hours: hours, mp_hours_gone: hoursGone, mp_rcpts: rcpts, mp_rcpts_gone: rcptsGone, mp_hours_cfg: hrCfg,
     }));
     const load = (src) => new Promise((resolve, reject) => {
       const s = document.createElement('script');
@@ -6381,6 +6401,7 @@ body.is-shake .wrap { animation: shake .4s; }
       if (rcpts.some((x) => !theirRcpts.has(x.id) || x.updatedAt > (theirRcpts.get(x.id).updatedAt || 0))) return true;
       const theirHoursGone = new Set([...list(d.mp_hours_gone), ...list(d.mp_rcpts_gone)]);
       if (hoursGone.concat(rcptsGone).some((g) => !theirHoursGone.has(g))) return true;
+      if (hrCfg.updatedAt > ((d.mp_hours_cfg && d.mp_hours_cfg.updatedAt) || 0)) return true;
       const tb = d.gta_big_score;
       if (bigScore && !tb) return true;
       if (bigScore && tb && tb.id === bigScore.id) {
@@ -8126,7 +8147,15 @@ body.is-shake .wrap { animation: shake .4s; }
   let rcptsGone = (Array.isArray(store.get('mp_rcpts_gone', [])) ? store.get('mp_rcpts_gone', []) : []).filter(Number.isFinite);
   // When the clock was started (0 = not running). Stays on this device.
   let hrClockAt = Math.max(0, toInt(store.get('mp_clock', 0)));
+  // The hourly rate (0 = not set). One rate covers every hour logged; changing it re-prices them all.
+  const cleanHrCfg = (c) => ({
+    rate: c && Number.isFinite(c.rate) && c.rate > 0 ? Math.min(100000, Math.round(c.rate * 100) / 100) : 0,
+    updatedAt: c && Number.isFinite(c.updatedAt) ? c.updatedAt : 0,
+  });
+  let hrCfg = cleanHrCfg(store.get('mp_hours_cfg', null));
+  const hrPay = (mins) => Math.round(mins / 60 * hrCfg.rate * 100) / 100;
   const saveHours = () => {
+    store.set('mp_hours_cfg', hrCfg);
     store.set('mp_hours', hours);
     store.set('mp_hours_gone', hoursGone);
     store.set('mp_rcpts', rcpts);
@@ -8208,6 +8237,16 @@ body.is-shake .wrap { animation: shake .4s; }
   const hrRcptsEl = $('hr-rcpts');
   const hrClockBtn = $('hr-clock');
   const hrCam = $('hr-cam');
+  const hrRateIn = $('hr-rate');
+  // The rate saves as it's typed, and everything re-prices straight away.
+  hrRateIn.addEventListener('input', () => {
+    const n = Number(hrRateIn.value);
+    hrCfg = cleanHrCfg({ rate: hrRateIn.value.trim() && Number.isFinite(n) ? n : 0, updatedAt: Date.now() });
+    saveHours();
+    renderHours();
+  });
+  hrRateIn.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') hrRateIn.blur(); });
+  hrRateIn.addEventListener('blur', () => { hrRateIn.value = hrCfg.rate > 0 ? String(hrCfg.rate) : ''; });
   const hrFile = $('hr-file');
   const hrBreakOpts = (sel, value) => {
     const opts = HR_BREAKS.includes(value) ? HR_BREAKS : HR_BREAKS.concat(value).sort((a, b) => a - b);
@@ -8256,7 +8295,15 @@ body.is-shake .wrap { animation: shake .4s; }
     const thisWeek = hrWeekOf(today);
     const lastWeek = hrWeekOf(hrDaysAgo(7));
     $('hr-week').textContent = hrDur(hrWeekMins());
-    $('hr-all').textContent = `${hrDec(hours.reduce((sum, e) => sum + hrMins(e), 0))}h`;
+    const allMins = hours.reduce((sum, e) => sum + hrMins(e), 0);
+    const rated = hrCfg.rate > 0;
+    $('hr-all').style.color = rated ? 'var(--cash)' : '';
+    $('hr-all').textContent = rated ? hrCents(hrPay(allMins)) : `${hrDec(allMins)}h`;
+    $('hr-all-label').textContent = rated ? `all time · ${hrDec(allMins)}h` : 'all time';
+    $('hr-owed').hidden = !rated;
+    $('hr-owed-week').textContent = hrCents(hrPay(hrWeekMins()));
+    $('hr-rate-hint').textContent = rated ? `${hrCents(hrCfg.rate)} an hour, on every hour logged` : "Set it to see what you're owed";
+    if (document.activeElement !== hrRateIn) hrRateIn.value = rated ? String(hrCfg.rate) : '';
     const spent = rcpts.reduce((sum, r) => sum + (r.amount || 0), 0);
     $('hr-spent').textContent = spent % 1 ? hrCents(spent) : money(spent);
     hrCount();
@@ -8269,13 +8316,13 @@ body.is-shake .wrap { animation: shake .4s; }
     hrListEl.replaceChildren(...Array.from(weeks, ([wk, list]) => h('section', { class: 'hr-week' },
       h('div', { class: 'hr-week-head' },
         h('span', { class: 'hr-week-name' }, wk === thisWeek ? 'This week' : wk === lastWeek ? 'Last week' : `Week of ${hrDate(wk)}`),
-        h('span', { class: 'hr-week-sum' }, hrDur(list.reduce((sum, e) => sum + hrMins(e), 0)))),
+        h('span', { class: 'hr-week-sum' }, hrDur(list.reduce((sum, e) => sum + hrMins(e), 0)), rated ? h('small', null, hrCents(hrPay(list.reduce((sum, e) => sum + hrMins(e), 0)))) : null)),
       h('ul', { class: 'hr-rows' }, ...list.map((e) => h('li', null,
         h('button', { class: e.id === newId ? 'hr-row is-new' : 'hr-row', type: 'button', 'data-id': String(e.id), 'aria-label': `Change ${hrDate(e.date)}, ${hrDur(hrMins(e))}` },
           h('span', { class: 'hr-row-main' },
             h('span', { class: 'hr-row-day' }, e.date === today ? `Today · ${hrDate(e.date)}` : hrDate(e.date)),
             h('span', { class: 'hr-row-time' }, `${hrClock(e.start)} – ${hrClock(e.end)}${e.brk ? ` · ${e.brk}m break` : ''}${e.note ? ` · ${e.note}` : ''}`)),
-          h('span', { class: 'hr-row-dur' }, hrDur(hrMins(e))))))))));
+          h('span', { class: 'hr-row-dur' }, hrDur(hrMins(e)), rated ? h('small', null, hrCents(hrPay(hrMins(e)))) : null))))))));
     $('hr-list-empty').hidden = hours.length > 0;
 
     hrRcptsEl.replaceChildren(...rcpts.slice().sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id).map((r) => {
@@ -8579,12 +8626,13 @@ body.is-shake .wrap { animation: shake .4s; }
         if (hrWeekOf(e.date) !== wk) {
           wk = hrWeekOf(e.date);
           const sum = sorted.reduce((s, x) => s + (hrWeekOf(x.date) === wk ? hrMins(x) : 0), 0);
-          out.push('', `Week of ${hrDate(wk)}, ${wk.slice(0, 4)}: ${hrDur(sum)}`);
+          out.push('', `Week of ${hrDate(wk)}, ${wk.slice(0, 4)}: ${hrDur(sum)}${hrCfg.rate > 0 ? ` = ${hrCents(hrPay(sum))}` : ''}`);
         }
         out.push(`${hrDate(e.date)}: ${hrClock(e.start)} to ${hrClock(e.end)}${e.brk ? `, ${e.brk} min break` : ''} = ${hrDur(hrMins(e))}${e.note ? ` (${e.note})` : ''}`);
       });
       const total = sorted.reduce((s, e) => s + hrMins(e), 0);
       out.push('', `Total: ${hrDur(total)} (${hrDec(total)} hours)`);
+      if (hrCfg.rate > 0) out.push(`Owed: ${hrCents(hrPay(total))} at ${hrCents(hrCfg.rate)} an hour`);
     }
     if (rcpts.length) {
       if (out.length) out.push('');
@@ -8603,11 +8651,11 @@ body.is-shake .wrap { animation: shake .4s; }
     if (!hours.length && !rcpts.length) { toast('Nothing to save yet'); return; }
     // Text a spreadsheet could read as a formula gets a leading apostrophe.
     const cell = (v) => { const s = /^[=+\-@]/.test(String(v)) ? `'${v}` : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
-    const rows = [['Type', 'Date', 'Start', 'Finish', 'Break (min)', 'Hours', 'Amount', 'Note']];
+    const rows = [['Type', 'Date', 'Start', 'Finish', 'Break (min)', 'Hours', 'Rate', 'Pay', 'Amount', 'Note']];
     hours.slice().sort((a, b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start) || a.id - b.id)
-      .forEach((e) => rows.push(['Hours', e.date, e.start, e.end, e.brk, hrDec(hrMins(e)), '', e.note]));
+      .forEach((e) => rows.push(['Hours', e.date, e.start, e.end, e.brk, hrDec(hrMins(e)), hrCfg.rate > 0 ? hrCfg.rate.toFixed(2) : '', hrCfg.rate > 0 ? hrPay(hrMins(e)).toFixed(2) : '', '', e.note]));
     rcpts.slice().sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id)
-      .forEach((r) => rows.push(['Receipt', r.date, '', '', '', '', r.amount == null ? '' : r.amount.toFixed(2), r.note]));
+      .forEach((r) => rows.push(['Receipt', r.date, '', '', '', '', '', '', r.amount == null ? '' : r.amount.toFixed(2), r.note]));
     hrDownload(new Blob(['﻿' + rows.map((row) => row.map(cell).join(',')).join('\r\n')], { type: 'text/csv' }), `hours-${hrYmd(new Date())}.csv`);
     toast('Spreadsheet saved to your downloads');
   });
