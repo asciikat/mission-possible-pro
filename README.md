@@ -2,7 +2,7 @@
 
 Mission Possible as an all-in-one: the to-do board, the **Ezycal** calendar,
 **The Hood** (the GTA-style map of your homies from
-[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara** and **Wins**,
+[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara**, **Wins** and **Hours**,
 each one tab away. Built on Mission Possible Plus.
 
 Single page: `index.html`. The Ezycal tab shows the separate calendar at
@@ -11,8 +11,8 @@ loaded the first time you open the tab).
 
 ## Apps, each in its own window
 
-The home screen shows six big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
-**Sahara** and **Wins**. Tapping one opens that app in its own full-page window (in a browser tab it also
+The home screen shows seven big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
+**Sahara**, **Wins** and **Hours**. Tapping one opens that app in its own full-page window (in a browser tab it also
 goes full screen; the installed app already fills the screen, so it skips that and
 Android's "to exit full screen" message), so you only see that app, never the others. **✕
 Close**, Esc, or the phone's back gesture takes you back to the home screen. The
@@ -138,6 +138,33 @@ Wins button is how many wins you've logged.
 The sections, hype lines and quick wins are the `WIN_SECTIONS`, `WIN_HYPE` and `QUICK_WINS` lists
 in `index.html`; edit them freely (keep a section's `id` the same so old wins stay in it). Wins
 sync between devices like notes and are included in Save/Merge backup (a deleted win stays deleted).
+
+## Hours
+
+**Hours** is a timesheet: log the hours you work and keep photos of receipts. It's the wide blue
+button at the bottom of the home screen; the number on it is this week's hours (or **ON** while
+the clock is running).
+
+- **Clock in** starts timing; the same button turns into **Clock out** and logs the shift (date,
+  start and finish) when you tap it again. The clock keeps going if you close the app. **Cancel
+  the clock** stops it without logging anything.
+- **Add hours by hand**: pick the date (**Today** / **Yesterday** are one tap), a start and a
+  finish, an optional break and note, then **Log hours**. The times start on your last shift's. A
+  finish earlier than the start counts as running past midnight.
+- **Snap receipt** opens the camera; the photo is saved straight away and you can then add the
+  amount, date and what it was for. **Use a photo I already have** picks one from the phone.
+- Tap any entry or receipt to change or delete it (with Undo). On a receipt, **Share photo** sends
+  the picture to WhatsApp, email, Files and so on; **Retake** replaces it.
+- The timesheet is grouped by week (Monday to Sunday) with each week's total. **Copy** copies the
+  whole thing as text; **Spreadsheet** downloads it as a `.csv` file for Excel or Google Sheets.
+
+Hours and receipt details (date, amount, note) sync between devices and are in Save/Merge backup,
+like notes. **Receipt photos stay on the device that took them** (they're too big for the free
+sync), and aren't in the backup file: share the ones you need to keep. Photos are shrunk to
+1600px so they don't fill the phone. Nuke data doesn't touch Hours.
+
+Hours is self-contained: everything is in the `Hours` blocks of `index.html` and the `mp_hours*`,
+`mp_rcpts*` and `mp_clock` keys, so it can be switched off with the gear or removed later.
 
 ## Raccoon mode
 
