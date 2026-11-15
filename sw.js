@@ -2,7 +2,7 @@
 // Its saved copy is named mppro-*, so it never clashes with Mission Possible's or Plus's on the same site.
 // Pages are fetched fresh when online (so updates arrive) and fall back to the
 // last saved copy when offline. Sign-in and database traffic are never touched.
-const CACHE = 'mppro-v2';
+const CACHE = 'mppro-v3';
 const SHELL = ['./', 'index.html', 'firebase-config.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
   'icons/raccoon/calm.webp', 'icons/raccoon/sneaky.webp', 'icons/raccoon/feral.webp'];
