@@ -14,7 +14,7 @@ finish so you can actually look back at it.
 3. **Two task lists instead of four.** Old jobs get a kind question, not a jail.
 4. **One points system** that pays the same every time and can be spent on rewards you choose.
 5. **A Progress screen** that shows what you did today, this week and all time.
-6. **All nine modules kept**, sharing your existing data, so you can switch back to Pro any time.
+6. **Every module kept**, sharing your existing data, so you can switch back to Pro any time.
 
 ---
 
@@ -25,7 +25,7 @@ with the numbers.
 
 | What | In Pro today | Why it's a problem |
 | --- | --- | --- |
-| Home screen | 20 buttons before you open anything, plus a banner, the Big Score bar, the heist panel, a pay table and an 8-step rank ladder | No obvious place to start |
+| Home screen | 21 buttons before you open anything, plus a banner, the Big Score bar, the heist panel, a pay table and an 8-step rank ladder | No obvious place to start |
 | Scoring | Six systems: cash, rank, wanted stars, heist slots, aura, fitness points | Six things to track, none of them add up to one picture |
 | Real vs game money | Hours pay and receipts are real dollars, shown in the same green `$` as game cash | Easy to misread what you're really owed |
 | Pay rule | Same day $50, days 1 to 4 $40, days 5 to 6 **$100**, day 7+ $50 | Waiting five days pays double. It rewards putting things off |
@@ -88,6 +88,7 @@ Pro's home is a banner, a bar, seven tiles, and three information panels. Max's 
 ├────────────────────────────────────┤
 │  DO      Tasks    Focus   Calendar │
 │  KEEP    Notes    Lists   People   │
+│          Shelf                     │
 │  TRACK   Hours    Move    Progress │
 └────────────────────────────────────┘
 ```
@@ -97,7 +98,7 @@ Pro's home is a banner, a bar, seven tiles, and three information panels. Max's 
 - **Add anything** is one box for the whole app. It makes a task unless you tap **Note** or **Win**
   under it.
 - **Done today** only ever counts up. It never shows what's left.
-- **Nine tiles in three named rows**, always in the same place. That's every module in Pro.
+- **Ten tiles in three named groups**, always in the same place. That's every module in Pro.
 - If you're clocked in, the Hours tile shows it. If a timer is running, the Focus tile shows it.
 
 What leaves the home screen: the banner, the rank badge, the cash counter, the Big Score bar, the
@@ -120,6 +121,7 @@ Settings).
 | **Sahara** | **Lists** | Plans, Fun, Friends, To-do, Lessons, Dreams, Self care | One look. Any item gets a **Do today** button |
 | **Sahara → Fitness** | **Move** | Activities, rates, history, pay out | Its own tile. Points join the one points system |
 | **Wins** | inside **Progress** | Typing a win, quick wins | Fixed points. No random section, no slot machine |
+| **Shelf** | **Shelf** | Lookups, the three piles, ratings, who told you | Restyled. Finishing one shows in Progress |
 | **Hours** | **Hours** | Everything | Real dollars get their own look so they never read as points |
 | Gear, sync, backup, install | **Settings** | Everything | One page instead of four places |
 
@@ -178,6 +180,7 @@ Points replace cash, ranks, heists, aura and fitness points.
 | Finish a Big goal step | 15 | |
 | Finish the Big goal | 100 | |
 | Bike, scooter, hike, walk | As now (30 to 60 an hour) | Already works |
+| Finish something on the Shelf | 0 | It's for fun. It's recorded in Progress, but it isn't a chore to be paid for |
 | Hours worked | 0 | Already paid in real money |
 
 These numbers are a starting point and would be adjustable in Settings, the way Fitness rates are
@@ -290,7 +293,7 @@ Each stage is usable on its own, so it can stop after any of them.
 | **2. Tasks** | Today and Later, Just one, the check-in, Important and Hard, one clock | The simpler task flow |
 | **3. Record and Progress** | The done log, Today / Week / All time, milestones, weekly recap | You can see what you've achieved |
 | **4. Points and rewards** | One points system, the Rewards shelf, celebration levels | Smart rewards |
-| **5. Module tidy** | Notes merged, Lists restyled with Do today, Move and Focus as tiles, Wins inside Progress, Hours restyled | Everything in one look |
+| **5. Module tidy** | Notes merged, Lists restyled with Do today, Move and Focus as tiles, Wins inside Progress, Shelf and Hours restyled | Everything in one look |
 | **6. Calendar and People** | Calm themes for Ezycal and the Hood | The last two screens match |
 
 Stage 3 comes before stage 4 on purpose: points are only worth having once you can see where they
@@ -320,7 +323,7 @@ My recommendation is first in each row.
 
 - **A separate edition, not a rewrite of Pro.** Max would sit beside Pro, Plus and the original on
   `asciikat.github.io`. They already share one set of saved data and one synced board, so Max
-  reads your current jobs, notes, lists, wins, fitness and hours on day one, and Pro keeps working.
+  reads your current jobs, notes, lists, wins, fitness, shelf and hours on day one, and Pro keeps working.
 - **New saved data:** the done log, points, rewards, and settings. Pro ignores keys it doesn't
   know, so it is unaffected.
 - **Sync size.** The free sync holds about 1 MB per board. The done log would keep full detail for

@@ -1820,7 +1820,7 @@ body.is-shake .wrap { animation: shake .4s; }
 
 /* ───────────────────────── hours ───────────────────────── */
 /* Hours: clock in and out, add hours by hand, and keep photos of receipts. Blue, like a timecard. */
-#top-tabs #tab-hours { grid-column: 1 / -1; border-left-color: var(--hr); }
+#top-tabs #tab-hours { border-left-color: var(--hr); }
 #top-tabs #tab-hours .tab-label svg { color: var(--hr); }
 #top-tabs #tab-hours .count { background: var(--hr); }
 #top-tabs #tab-hours.is-running .count { background: var(--cash); animation: hrPulse 1.6s ease-in-out infinite; }
@@ -1982,6 +1982,135 @@ body.is-shake .wrap { animation: shake .4s; }
 .hr-pic-tools .btn svg { width: 16px; height: 16px; }
 .hr-pic-tools .btn:disabled { opacity: .4; cursor: default; }
 @media (max-width: 380px) { .hr-go b { font-size: 24px; } .hr-side { gap: 10px; } }
+
+/* ───────────────────────── shelf ───────────────────────── */
+/* Shelf: films, TV, books and games to get to, on the go, and finished. Orange. */
+:root { --sf: #ff9b3d; }
+#top-tabs #tab-shelf { border-left-color: var(--sf); }
+#top-tabs #tab-shelf .tab-label svg { color: var(--sf); }
+#top-tabs #tab-shelf .count { background: var(--sf); }
+.sf-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 4px 0 14px; }
+.sf-total { display: block; font: 900 clamp(40px, 11vw, 64px)/.85 var(--font-display); text-transform: uppercase; color: var(--ink); }
+.sf-side { display: flex; gap: 16px; text-align: right; }
+.sf-stat { font: 700 13px/1.2 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.sf-stat b { display: block; font: 900 26px/1 var(--font-display); letter-spacing: .02em; color: var(--sf); }
+.sf-types { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
+.sf-types::-webkit-scrollbar { display: none; }
+.sf-type {
+  flex: 1 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 9px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--smog);
+  font: 800 14px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sf-type svg { width: 18px; height: 18px; }
+.sf-type[aria-checked="true"] { border-color: var(--sf); background: rgba(255, 155, 61, .16); color: var(--ink); }
+.sf-type[aria-checked="true"] svg { color: var(--sf); }
+.composer--shelf { padding: 0; }
+.composer--shelf .dock-row:focus-within {
+  border-color: rgba(255, 155, 61, .75);
+  box-shadow: 0 0 0 4px rgba(255, 155, 61, .14), 0 14px 40px -14px rgba(255, 155, 61, .55);
+}
+.composer--shelf .add-btn, .sf-modal .add-btn { background: var(--sf); }
+.sf-sugs { border: 1px solid var(--line); border-top: 0; background: var(--asphalt-hi); }
+.sf-sugs:empty { display: none; }
+.sf-sug {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.sf-sugs > .sf-sug:first-child { border-top: 0; }
+@media (hover: hover) { .sf-sug:hover { background: rgba(255, 255, 255, .05); } }
+.sf-sug-text { flex: 1; min-width: 0; }
+.sf-sug-title { display: block; font-weight: 700; overflow-wrap: anywhere; }
+.sf-sug-sub { display: block; margin-top: 2px; font: 600 13px/1.25 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); overflow-wrap: anywhere; }
+.sf-sug-add { flex: none; font: 800 12px/1 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--sf); }
+.sf-sug-note { margin: 0; padding: 12px; color: var(--smog); font-size: 15px; }
+.sf-credit { margin: 0; padding: 6px 10px 8px; border-top: 1px solid var(--line); font-size: 12px; color: var(--dim); }
+.sf-credit a { color: var(--smog); }
+.sf-cover { position: relative; flex: none; display: grid; place-items: center; width: 40px; height: 58px; background: var(--shade); color: var(--dim); overflow: hidden; }
+.sf-cover img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.sf-cover svg { width: 20px; height: 20px; }
+.sf-from { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.sf-from span { flex: none; font: 700 12px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.sf-from input { flex: 1; min-width: 0; min-height: 40px; padding: 0 2px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; color: var(--ink); font: 600 16px/1.2 var(--font-body); outline: 0; }
+.sf-from input:focus { border-bottom-color: var(--sf); }
+.sf-from input::placeholder { color: var(--dim); }
+.sf-tabs, .sf-status { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.sf-tabs { margin: 20px 0 4px; }
+.sf-tab {
+  min-height: 46px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--smog);
+  font: 800 14px/1.1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sf-tab b { margin-left: 5px; color: var(--dim); font-weight: 800; }
+.sf-tab[aria-selected="true"], .sf-tab[aria-checked="true"] { border-color: var(--sf); background: rgba(255, 155, 61, .16); color: var(--ink); }
+.sf-tab[aria-selected="true"] b { color: var(--sf); }
+.sf-group { margin-top: 10px; border: 1px solid var(--line); background: var(--asphalt-hi); }
+.sf-group-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 0 6px 0 12px; border-bottom: 1px solid var(--line); }
+.sf-group-name { display: inline-flex; align-items: center; gap: 8px; font: 800 13px/1 var(--font-hud); letter-spacing: .14em; text-transform: uppercase; color: var(--smog); }
+.sf-group-name svg { width: 18px; height: 18px; color: var(--sf); }
+.sf-pick { min-height: 36px; padding: 0 8px; border: 0; background: none; color: var(--sf); font: 800 12px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.sf-items { list-style: none; margin: 0; padding: 0; }
+.sf-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-top: 1px solid var(--line); }
+.sf-items .sf-item:first-child { border-top: 0; }
+.sf-check { flex: none; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 2px solid var(--palm); border-radius: 50%; background: none; color: var(--palm); cursor: pointer; }
+.sf-check svg { width: 20px; height: 20px; opacity: .55; }
+.sf-check:active { background: var(--palm); color: var(--shade); }
+.sf-open { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.sf-item-text { flex: 1; min-width: 0; }
+.sf-item-title { display: block; font-weight: 700; overflow-wrap: anywhere; }
+.sf-item-sub { display: block; margin-top: 2px; font: 600 13px/1.25 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); overflow-wrap: anywhere; }
+.sf-item-from { display: block; margin-top: 2px; font-size: 14px; color: var(--sf); overflow-wrap: anywhere; }
+.sf-start { flex: none; min-height: 38px; padding: 0 10px; border: 1px solid var(--line); background: none; color: var(--smog); font: 800 12px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.sf-stars-s { flex: none; color: var(--gold); font-size: 14px; letter-spacing: 1px; white-space: nowrap; }
+.sf-stars-s.is-blank { color: var(--dim); font: 800 12px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; }
+.sf-item.is-new { animation: sfIn 1.6s var(--glide); }
+@keyframes sfIn { from { background: rgba(255, 155, 61, .34); } }
+/* the sheet: where it's at, how it was, who told you, and links out */
+.sf-modal { border-color: rgba(255, 155, 61, .5); }
+.sf-modal .eyebrow { margin-bottom: 10px; color: var(--sf); }
+.sf-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.sf-head .sf-cover { width: 72px; height: 104px; }
+.sf-head .sf-cover svg { width: 30px; height: 30px; }
+.sf-head h2 { margin: 0 0 6px; font-size: 30px; line-height: .95; overflow-wrap: anywhere; }
+.sf-head p { font-size: 15px; }
+.sf-label { display: block; margin: 14px 0 6px; font: 700 12px/1 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.sf-rate { display: flex; gap: 2px; }
+.sf-star { display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; }
+.sf-star svg { width: 32px; height: 32px; }
+.sf-star.is-on { color: var(--gold); }
+.sf-modal .hr-fields { margin-top: 14px; }
+.sf-more { margin-top: 12px; }
+.sf-more summary { min-height: 36px; font: 700 12px/36px var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); cursor: pointer; }
+.sf-more .hr-fields { margin-top: 4px; }
+.sf-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.sf-links .btn { min-height: 38px; padding: 0 11px; font-size: 12px; text-decoration: none; }
+.sf-links .btn svg { width: 14px; height: 14px; }
 
 /* ───────────────────────── sahara ───────────────────────── */
 /* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
@@ -3146,6 +3275,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <button class="tab" id="tab-notes" type="button" aria-controls="notes-panel">Notes</button>
           <button class="tab" id="tab-sahara" type="button" aria-controls="sahara-panel"><span class="tab-label"><svg class="px" viewBox="0 0 9 8" aria-hidden="true"><path fill="currentColor" d="M1 0h2v1h-2zM6 0h2v1h-2zM0 1h4v1h-4zM5 1h4v1h-4zM0 2h9v2h-9zM1 4h7v1h-7zM2 5h5v1h-5zM3 6h3v1h-3zM4 7h1v1h-1z"/></svg>Sahara</span> <span class="count" id="count-sahara">0</span></button>
           <button class="tab" id="tab-wins" type="button" aria-controls="wins-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>Wins</span> <span class="count" id="count-wins">0</span></button>
+          <button class="tab" id="tab-shelf" type="button" aria-controls="shelf-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M9 4v16M5 4h4M5 20h4M12.5 6.5l3-1 4.5 13.5-3 1zM3 20h18"/></svg>Shelf</span> <span class="count" id="count-shelf">0</span></button>
           <button class="tab" id="tab-hours" type="button" aria-controls="hours-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 8.5V13l3 2M9.5 2.5h5"/></svg>Hours</span> <span class="count" id="count-hours">0h</span></button>
         </nav>
       </div>
@@ -3415,6 +3545,42 @@ body.is-shake .wrap { animation: shake .4s; }
         </div>
         </div>
       </div>
+      <!-- Shelf: films, TV, books and games you want to get to. Typing a title looks it up
+           (Wikipedia for films and games, TVmaze for TV, Open Library for books) so it's saved
+           with its cover and year. Synced like notes. -->
+      <div class="shelf-panel frame-panel" id="shelf-panel" role="region" aria-label="Shelf" data-name="Shelf" hidden>
+        <div class="frame-bar"><span>Shelf</span><button class="frame-btn" type="button" data-full="shelf-panel" aria-label="Close Shelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <div class="sf-hero">
+          <div>
+            <p class="eyebrow">To get to</p>
+            <strong class="sf-total" id="sf-want">0 lined up</strong>
+          </div>
+          <div class="sf-side">
+            <span class="sf-stat"><b id="sf-now">0</b>on now</span>
+            <span class="sf-stat"><b id="sf-done">0</b>finished</span>
+          </div>
+        </div>
+        <div class="sf-types" id="sf-types" role="radiogroup" aria-label="What are you adding?"></div>
+        <form class="composer composer--shelf" id="sf-form" autocomplete="off">
+          <label class="sr-only" for="sf-input">Title</label>
+          <div class="dock-row">
+            <input type="text" id="sf-input" maxlength="140" enterkeyhint="done" autocapitalize="words" placeholder="Add a film…">
+            <button type="submit" class="add-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
+        </form>
+        <div class="sf-sugs" id="sf-sugs" aria-live="polite"></div>
+        <label class="sf-from"><span>Who told you?</span><input type="text" id="sf-from" maxlength="60" autocapitalize="words" placeholder="optional"></label>
+
+        <div class="sf-tabs" id="sf-tabs" role="tablist" aria-label="Where things are at"></div>
+        <div id="sf-list"></div>
+        <p class="hr-none" id="sf-empty" hidden></p>
+        </div>
+      </div>
+
 
       <!-- Hours: clock in and out or add hours by hand (date, start, finish, break), and keep
            photos of receipts. Entries sync like notes; the photos stay on this device. -->
@@ -3731,6 +3897,40 @@ body.is-shake .wrap { animation: shake .4s; }
   </form>
 </dialog>
 
+<dialog class="modal hr-modal sf-modal" id="sf-edit" aria-labelledby="sf-edit-title">
+  <form method="dialog" novalidate>
+    <p class="eyebrow" id="sfe-kicker">Shelf</p>
+    <div class="sf-head">
+      <span class="sf-cover" id="sfe-cover"></span>
+      <div>
+        <h2 id="sf-edit-title"></h2>
+        <p id="sfe-sub"></p>
+      </div>
+    </div>
+    <div class="sf-status" id="sfe-status" role="radiogroup" aria-label="Where it's at"></div>
+    <span class="sf-label" id="sfe-rate-label">How was it?</span>
+    <div class="sf-rate" id="sfe-rate" role="radiogroup" aria-labelledby="sfe-rate-label"></div>
+    <div class="hr-fields">
+      <label class="hr-field hr-field--wide"><span>Note</span><input type="text" id="sfe-note" maxlength="500" enterkeyhint="done" placeholder="e.g. up to chapter 12"></label>
+      <label class="hr-field hr-field--wide"><span>Who told you</span><input type="text" id="sfe-from" maxlength="60" enterkeyhint="done" autocapitalize="words"></label>
+    </div>
+    <div class="sf-links" id="sfe-links"></div>
+    <details class="sf-more">
+      <summary>Change the title or kind</summary>
+      <div class="hr-fields">
+        <label class="hr-field hr-field--wide"><span>Title</span><input type="text" id="sfe-title" maxlength="140" enterkeyhint="done"></label>
+        <label class="hr-field hr-field--wide"><span>Kind</span><select id="sfe-type"></select></label>
+      </div>
+    </details>
+    <div class="modal-actions">
+      <button class="btn btn--danger" id="sfe-del" type="button">Delete</button>
+      <span>
+        <button class="add-btn" type="submit">Done</button>
+      </span>
+    </div>
+  </form>
+</dialog>
+
 <dialog class="modal hr-modal" id="hr-edit" aria-labelledby="hr-edit-title">
   <form method="dialog" novalidate>
     <p class="eyebrow">Hours</p>
@@ -3911,7 +4111,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins | hours
+  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins | shelf | hours
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -3940,18 +4140,18 @@ body.is-shake .wrap { animation: shake .4s; }
   const tomorrowEmptyEl = $('tomorrow-empty-state');
   const nowNowListEl = $('nownow-list');
   const nowNowEmptyEl = $('nownow-empty-state');
-  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins', 'hours'];
+  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins', 'shelf', 'hours'];
   const TAB_EL = {
     active: tabActive, nownow: $('tab-nownow'), tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
-    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'), hours: $('tab-hours'),
+    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'), shelf: $('tab-shelf'), hours: $('tab-hours'),
     quick: $('quick-open'), // not a home-screen tab: the quiet link at the top of Notes opens it
   };
   const TAB_NAME = {
     active: 'Now', nownow: 'Now now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
-    notes: 'Notes', sahara: 'Sahara', wins: 'Wins', hours: 'Hours',
+    notes: 'Notes', sahara: 'Sahara', wins: 'Wins', shelf: 'Shelf', hours: 'Hours',
   };
   // Tabs that show their own panel instead of a job list.
-  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), hours: $('hours-panel'), quick: $('quick-panel') };
+  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), shelf: $('shelf-panel'), hours: $('hours-panel'), quick: $('quick-panel') };
   // Now, Now now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
   const MISSION_TABS = ['active', 'nownow', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
@@ -4626,6 +4826,8 @@ body.is-shake .wrap { animation: shake .4s; }
     if (currentTab === 'quick') renderQuick();
     updateQuickBtn();
     if (currentTab === 'wins') renderWins();
+    if (currentTab === 'shelf') renderShelf();
+    else $('count-shelf').textContent = String(shelf.filter((x) => x.status === 'want').length);
     if (currentTab === 'hours') renderHours();
     else hrCount();
     if (currentTab === 'sahara') renderSahara();
@@ -6039,7 +6241,8 @@ body.is-shake .wrap { animation: shake .4s; }
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
     'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_nownow', 'gta_gone', 'gta_muted', 'gta_seeded',
     'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone', 'mp_fit', 'mp_fit_gone', 'mp_fit_cfg',
-    'mp_hours', 'mp_hours_gone', 'mp_rcpts', 'mp_rcpts_gone', 'mp_hours_cfg'];
+    'mp_hours', 'mp_hours_gone', 'mp_rcpts', 'mp_rcpts_gone', 'mp_hours_cfg',
+    'mp_shelf', 'mp_shelf_gone'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
   function mergeNotes(d, sum) {
@@ -6066,6 +6269,22 @@ body.is-shake .wrap { animation: shake .4s; }
       sum.wins = (sum.wins || 0) + 1;
     });
     winsGone = Array.from(goneIds).slice(-500);
+  }
+
+  // Shelf: combined by id; a deleted item stays deleted; the newest change to an item wins.
+  function mergeShelf(d, sum) {
+    const list = (v) => (Array.isArray(v) ? v : []);
+    const goneIds = new Set([...shelfGone, ...list(d.mp_shelf_gone).filter(Number.isFinite)]);
+    shelf = shelf.filter((x) => !goneIds.has(x.id));
+    list(d.mp_shelf).map(cleanShelf).forEach((x) => {
+      if (!x || goneIds.has(x.id)) return;
+      const mine = shelf.find((y) => y.id === x.id);
+      if (!mine) shelf.push(x);
+      else if (x.updatedAt > mine.updatedAt) Object.assign(mine, x);
+      else return;
+      sum.shelf = (sum.shelf || 0) + 1;
+    });
+    shelfGone = Array.from(goneIds).slice(-500);
   }
 
   // Hours and receipts: combined by id; a deleted one stays deleted; the newest change wins.
@@ -6201,6 +6420,7 @@ body.is-shake .wrap { animation: shake .4s; }
     mergeSahara(d, sum);
     mergeFit(d, sum);
     mergeHours(d, sum);
+    mergeShelf(d, sum);
 
     gone = Array.from(goneSet).slice(-500);
     landNowNowJobs(); // anything that timed out while the other device was away goes back to Now
@@ -6211,6 +6431,7 @@ body.is-shake .wrap { animation: shake .4s; }
     saveSahara();
     saveFit();
     saveHours();
+    saveShelf();
     renderUI();
     return sum;
   }
@@ -6246,6 +6467,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
         if (sum.hours) bits.push(`${sum.hours} hours or receipt change${sum.hours === 1 ? '' : 's'}`);
+        if (sum.shelf) bits.push(`${sum.shelf} on the shelf`);
         toast(bits.length ? `Merged · ${bits.join(' · ')}` : 'Merged · already up to date', { duration: 4500 });
       } catch { toast("That isn't a Mission Board backup"); }
     };
@@ -6359,6 +6581,7 @@ body.is-shake .wrap { animation: shake .4s; }
       mp_sahara: sahara, mp_sahara_gone: saharaGone,
       mp_fit: fitLog, mp_fit_gone: fitGone, mp_fit_cfg: fitCfg,
       mp_hours: hours, mp_hours_gone: hoursGone, mp_rcpts: rcpts, mp_rcpts_gone: rcptsGone, mp_hours_cfg: hrCfg,
+      mp_shelf: shelf, mp_shelf_gone: shelfGone,
     }));
     const load = (src) => new Promise((resolve, reject) => {
       const s = document.createElement('script');
@@ -6402,6 +6625,10 @@ body.is-shake .wrap { animation: shake .4s; }
       const theirHoursGone = new Set([...list(d.mp_hours_gone), ...list(d.mp_rcpts_gone)]);
       if (hoursGone.concat(rcptsGone).some((g) => !theirHoursGone.has(g))) return true;
       if (hrCfg.updatedAt > ((d.mp_hours_cfg && d.mp_hours_cfg.updatedAt) || 0)) return true;
+      const theirShelf = new Map(list(d.mp_shelf).map((x) => [x && x.id, x]));
+      if (shelf.some((x) => !theirShelf.has(x.id) || x.updatedAt > (theirShelf.get(x.id).updatedAt || 0))) return true;
+      const theirShelfGone = new Set(list(d.mp_shelf_gone));
+      if (shelfGone.some((g) => !theirShelfGone.has(g))) return true;
       const tb = d.gta_big_score;
       if (bigScore && !tb) return true;
       if (bigScore && tb && tb.id === bigScore.id) {
@@ -6426,6 +6653,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
         if (sum.hours) bits.push(`${sum.hours} hours or receipt change${sum.hours === 1 ? '' : 's'}`);
+        if (sum.shelf) bits.push(`${sum.shelf} on the shelf`);
         if (bits.length) toast(`Synced · ${bits.join(' · ')}`);
       }
       if (cloudIsBehind(d || {})) schedule(1500);
@@ -8669,7 +8897,482 @@ body.is-shake .wrap { animation: shake .4s; }
     if (hrPhotoIds.size && currentTab === 'hours') renderHours();
   }).catch(() => {});
 
-  // ── App windows: Missions, Ezycal, Hood, Notes, Sahara and Wins each open full page ──
+  // ── Shelf: films, TV, books and games to get to, on the go, and finished ──
+  // Typing a title looks it up so it's saved with its cover and year: Wikipedia for films and
+  // games, TVmaze for TV, Open Library for books. All three are free and need no key. Nothing is
+  // looked up for Other, and Add always saves what was typed, so it works offline too.
+  // A kind's id is what's saved with each item, so rename a kind by changing its name, not its id.
+  const SF_ICON = {
+    film: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M8 4.5v15M16 4.5v15M3.5 9.5H8M3.5 14.5H8M16 9.5h4.5M16 14.5h4.5"/></svg>',
+    tv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="3" y="7" width="18" height="12.5" rx="1.5"/><path d="M8 3l4 4 4-4"/></svg>',
+    book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 6.5c-2-1.6-4.8-2-8-2v13c3.2 0 6 .4 8 2 2-1.600 4.800-2 8-2v-13c-3.200 0-6 .4-8 2zM12 6.500v13"/></svg>',
+    game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 8h10a4.500 4.500 0 014.400 5.500l-.6 2.700a2.300 2.300 0 01-4 1L15 15H9l-1.800 2.200a2.300 2.300 0 01-4-1l-.6-2.700A4.500 4.500 0 017 8z"/><path d="M7.500 10.500v3M6 12h3M16 11.500h.01M17.500 13h.01"/></svg>',
+    other: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.500L7 20z"/></svg>',
+    link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M11 6H6a1 1 0 00-1 1v11a1 1 0 001 1h11a1 1 0 001-1v-5"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.800l2.750 5.900 6.450.750-4.780 4.400 1.280 6.350L12 17l-5.700 3.200 1.280-6.350L2.800 9.450l6.450-.75z"/></svg>',
+  };
+  const SF_TYPES = [
+    { id: 'film', name: 'Film', plural: 'Films', ask: 'Add a film…', src: 'wiki', tpl: 'Infobox film' },
+    { id: 'tv', name: 'TV', plural: 'TV', ask: 'Add a TV show…', src: 'tvmaze', long: true },
+    { id: 'book', name: 'Book', plural: 'Books', ask: 'Add a book…', src: 'ol', long: true },
+    { id: 'game', name: 'Game', plural: 'Games', ask: 'Add a game…', src: 'wiki', tpl: 'Infobox video game', long: true },
+    { id: 'other', name: 'Other', plural: 'Other', ask: 'Add anything: album, podcast, place…', src: '', long: true },
+  ];
+  const SF_STATUS = [
+    { id: 'want', name: 'Lined up', empty: "Nothing lined up yet. Type a title above and it's saved for later." },
+    { id: 'now', name: 'On now', empty: 'Nothing on the go. Tap Start on something you’ve lined up.' },
+    { id: 'done', name: 'Finished', empty: 'Nothing finished yet. Tap the circle next to one when you’re done with it.' },
+  ];
+  const SF_SOURCE = {
+    wiki: ['Wikipedia', 'https://en.wikipedia.org/'],
+    tvmaze: ['TVmaze', 'https://www.tvmaze.com/'],
+    ol: ['Open Library', 'https://openlibrary.org/'],
+  };
+  const SF_IMG_HOSTS = ['covers.openlibrary.org', 'static.tvmaze.com', 'wikimedia.org'];
+  const SF_REF_HOSTS = ['openlibrary.org', 'tvmaze.com', 'wikipedia.org'];
+  const sfKind = (id) => SF_TYPES.find((t) => t.id === id) || SF_TYPES[SF_TYPES.length - 1];
+  // Covers and links only ever point at the lookup sites, over https.
+  const sfSafeUrl = (u, hosts) => {
+    try {
+      const p = new URL(u);
+      return p.protocol === 'https:' && hosts.some((host) => p.hostname === host || p.hostname.endsWith(`.${host}`)) ? p.href.slice(0, 500) : '';
+    } catch { return ''; }
+  };
+  function cleanShelf(x) {
+    if (!x || !Number.isFinite(x.id) || typeof x.title !== 'string' || !x.title.trim()) return null;
+    const str = (v, n) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
+    const status = SF_STATUS.some((s) => s.id === x.status) ? x.status : 'want';
+    return {
+      id: x.id,
+      type: sfKind(x.type).id,
+      title: str(x.title, 140),
+      year: Number.isFinite(x.year) && x.year > 0 && x.year < 3000 ? Math.round(x.year) : 0,
+      by: str(x.by, 80),
+      img: sfSafeUrl(x.img, SF_IMG_HOSTS),
+      ref: sfSafeUrl(x.ref, SF_REF_HOSTS),
+      imdb: /^tt\d{5,10}$/.test(x.imdb) ? x.imdb : '',
+      wd: /^Q\d{1,12}$/.test(x.wd) ? x.wd : '',
+      status,
+      rating: Math.min(5, Math.max(0, toInt(x.rating))),
+      note: str(x.note, 500),
+      from: str(x.from, 60),
+      doneAt: status === 'done' && Number.isFinite(x.doneAt) ? x.doneAt : 0,
+      updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id,
+    };
+  }
+  let shelf = (Array.isArray(store.get('mp_shelf', [])) ? store.get('mp_shelf', []) : []).map(cleanShelf).filter(Boolean);
+  // Ids deleted on this device, so a sync or merge doesn't bring them back.
+  let shelfGone = (Array.isArray(store.get('mp_shelf_gone', [])) ? store.get('mp_shelf_gone', []) : []).filter(Number.isFinite);
+  const saveShelf = () => {
+    store.set('mp_shelf', shelf);
+    store.set('mp_shelf_gone', shelfGone);
+    if (onSaved) onSaved();
+  };
+  // The kind you added last, and the pile you're looking at. Both stay on this device.
+  let sfType = sfKind(store.get('mp_shelf_type', 'film')).id;
+  let sfTab = 'want';
+
+  // Lookups. Each returns up to 8 matches: { title, year, by, sub, img, ref, imdb, wd }.
+  const sfJson = async (url, signal) => {
+    const res = await fetch(url, { signal });
+    if (!res.ok) throw new Error(String(res.status));
+    return res.json();
+  };
+  const SF_LOOKUP = {
+    async ol(q, signal) {
+      const d = await sfJson(`https://openlibrary.org/search.json?limit=8&fields=key,title,author_name,first_publish_year,cover_i&q=${encodeURIComponent(q)}`, signal);
+      return (Array.isArray(d.docs) ? d.docs : []).filter((b) => b && typeof b.title === 'string').map((b) => {
+        const by = (Array.isArray(b.author_name) ? b.author_name : []).slice(0, 2).join(', ');
+        return {
+          title: b.title, year: toInt(b.first_publish_year), by,
+          sub: [toInt(b.first_publish_year) || '', by].filter(Boolean).join(' · '),
+          img: Number.isFinite(b.cover_i) ? `https://covers.openlibrary.org/b/id/${b.cover_i}-M.jpg` : '',
+          ref: typeof b.key === 'string' && /^\/works\/\w+$/.test(b.key) ? `https://openlibrary.org${b.key}` : '',
+        };
+      });
+    },
+    async tvmaze(q, signal) {
+      const d = await sfJson(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(q)}`, signal);
+      return (Array.isArray(d) ? d : []).map((r) => r && r.show).filter((s) => s && typeof s.name === 'string').slice(0, 8).map((s) => {
+        const year = toInt(String(s.premiered || '').slice(0, 4));
+        const by = ((s.network || s.webChannel || {}).name) || '';
+        return {
+          title: s.name, year, by,
+          sub: [year || '', by].filter(Boolean).join(' · '),
+          img: (s.image && s.image.medium) || '',
+          ref: s.url || '',
+          imdb: (s.externals && s.externals.imdb) || '',
+        };
+      });
+    },
+    // Wikipedia articles of one kind (the ones carrying that infobox), with their poster or box art.
+    async wiki(q, signal, kind) {
+      const words = q.replace(/["*:()\\]/g, ' ').replace(/(^|\s)-+/g, ' ').trim().split(/\s+/).filter(Boolean);
+      if (!words.length) return [];
+      // the last word may still be half typed
+      if (/^[\p{L}\p{N}]{2,}$/u.test(words[words.length - 1])) words[words.length - 1] += '*';
+      const search = `${words.join(' ')} hastemplate:"${kind.tpl}"`;
+      const d = await sfJson('https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&generator=search&gsrnamespace=0&gsrlimit=8'
+        + '&prop=pageimages%7Cdescription%7Cpageprops&pilicense=any&pithumbsize=160&pilimit=8&ppprop=wikibase_item'
+        + `&gsrsearch=${encodeURIComponent(search)}`, signal);
+      const pages = (d.query && Array.isArray(d.query.pages)) ? d.query.pages : [];
+      return pages.filter((p) => p && typeof p.title === 'string').sort((a, b) => (a.index || 0) - (b.index || 0)).map((p) => {
+        const desc = typeof p.description === 'string' ? p.description : '';
+        const tail = (p.title.match(/\s\(([^)]*)\)$/) || [])[1] || '';
+        const year = toInt((tail.match(/\b(1[89]|20)\d\d\b/) || desc.match(/\b(1[89]|20)\d\d\b/) || [])[0]);
+        return {
+          title: p.title.replace(/\s\([^)]*\)$/, ''), year,
+          by: ((desc.match(/\bby (.+)$/) || [])[1] || '').slice(0, 80),
+          sub: [year && !desc.includes(String(year)) ? year : '', desc].filter(Boolean).join(' · '),
+          img: (p.thumbnail && p.thumbnail.source) || '',
+          ref: `https://en.wikipedia.org/wiki/${encodeURIComponent(p.title.replace(/ /g, '_'))}`,
+          wd: (p.pageprops && p.pageprops.wikibase_item) || '',
+        };
+      });
+    },
+  };
+  // A film's IMDb number comes from Wikidata, quietly, after it's saved. Without it the IMDb
+  // link searches IMDb for the title instead.
+  async function sfFindImdb(id) {
+    const x = shelf.find((i) => i.id === id);
+    if (!x || !x.wd || x.imdb || x.type !== 'film') return;
+    try {
+      const d = await sfJson(`https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&origin=*&property=P345&entity=${x.wd}`);
+      const claim = d && d.claims && d.claims.P345 && d.claims.P345[0];
+      const v = claim && claim.mainsnak && claim.mainsnak.datavalue && claim.mainsnak.datavalue.value;
+      if (typeof v !== 'string' || !/^tt\d{5,10}$/.test(v) || !shelf.includes(x) || x.imdb) return;
+      x.imdb = v;
+      x.updatedAt = Date.now();
+      saveShelf();
+      if (sfDraft && sfDraft.id === id) { sfDraft.imdb = v; sfPaintLinks(); }
+    } catch { /* offline, or Wikidata is busy: the search link still works */ }
+  }
+
+  const sfForm = $('sf-form');
+  const sfInput = $('sf-input');
+  const sfFromIn = $('sf-from');
+  const sfSugsEl = $('sf-sugs');
+  const sfListEl = $('sf-list');
+  const sfTabsEl = $('sf-tabs');
+  const sfTypesEl = $('sf-types');
+  const sfEdit = $('sf-edit');
+
+  function sfCover(x, cls) {
+    const box = h('span', { class: cls || 'sf-cover', icon: SF_ICON[x.type] || SF_ICON.other });
+    if (x.img) {
+      // the picture sits over the kind's icon; offline, or if it has moved, the icon shows instead
+      const img = h('img', { src: x.img, alt: '', loading: 'lazy', referrerpolicy: 'no-referrer' });
+      img.addEventListener('error', () => img.remove(), { once: true });
+      box.append(img);
+    }
+    return box;
+  }
+  const sfSubOf = (x) => [x.year || '', x.by].filter(Boolean).join(' · ');
+
+  function sfPaintTypes() {
+    sfTypesEl.replaceChildren(...SF_TYPES.map((t) => {
+      const btn = h('button', { class: 'sf-type', type: 'button', role: 'radio', 'data-type': t.id, 'aria-checked': String(t.id === sfType), icon: SF_ICON[t.id] });
+      btn.append(t.name);
+      return btn;
+    }));
+    sfInput.placeholder = sfKind(sfType).ask;
+  }
+  sfTypesEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sf-type');
+    if (!btn || btn.dataset.type === sfType) return;
+    sfType = btn.dataset.type;
+    store.set('mp_shelf_type', sfType);
+    sfPaintTypes();
+    sfSuggest(true);
+    sfInput.focus({ preventScroll: true });
+  });
+
+  function renderShelf(flashId) {
+    const count = (s) => shelf.filter((x) => x.status === s).length;
+    $('sf-want').textContent = `${count('want')} lined up`;
+    $('sf-now').textContent = String(count('now'));
+    $('sf-done').textContent = String(count('done'));
+    $('count-shelf').textContent = String(count('want'));
+    if (!sfTypesEl.childElementCount) sfPaintTypes();
+    sfTabsEl.replaceChildren(...SF_STATUS.map((s) => h('button', { class: 'sf-tab', type: 'button', role: 'tab', 'data-tab': s.id, 'aria-selected': String(s.id === sfTab) },
+      s.name, h('b', null, String(count(s.id))))));
+    const mine = shelf.filter((x) => x.status === sfTab)
+      .sort((a, b) => (sfTab === 'done' ? b.doneAt - a.doneAt : sfTab === 'now' ? b.updatedAt - a.updatedAt : b.id - a.id));
+    sfListEl.replaceChildren(...SF_TYPES.map((t) => {
+      const list = mine.filter((x) => x.type === t.id);
+      if (!list.length) return null;
+      return h('section', { class: 'sf-group', 'aria-label': t.plural },
+        h('div', { class: 'sf-group-head' },
+          h('span', { class: 'sf-group-name', icon: SF_ICON[t.id] }),
+          sfTab === 'want' && list.length > 1 ? h('button', { class: 'sf-pick', type: 'button', 'data-act': 'pick', 'data-type': t.id }, 'Pick one for me') : null),
+        h('ul', { class: 'sf-items' }, ...list.map((x) => {
+          const sub = [sfSubOf(x), x.status === 'done' && x.doneAt ? `Finished ${shortDate(x.doneAt)}` : ''].filter(Boolean).join(' · ');
+          return h('li', { class: x.id === flashId ? 'sf-item is-new' : 'sf-item', 'data-id': String(x.id) },
+            x.status === 'done' ? null : h('button', { class: 'sf-check', type: 'button', 'data-act': 'done', 'aria-label': `Finished "${x.title}"`, icon: ICON.check }),
+            h('button', { class: 'sf-open', type: 'button', 'data-act': 'open', 'aria-label': `Open "${x.title}"` },
+              sfCover(x),
+              h('span', { class: 'sf-item-text' },
+                h('span', { class: 'sf-item-title' }, x.title),
+                sub ? h('span', { class: 'sf-item-sub' }, sub) : null,
+                x.from ? h('span', { class: 'sf-item-from' }, `From ${x.from}`) : null,
+                x.note ? h('span', { class: 'sf-item-sub' }, x.note) : null)),
+            x.status === 'want' && t.long ? h('button', { class: 'sf-start', type: 'button', 'data-act': 'start' }, 'Start') : null,
+            x.status === 'done' ? h('span', { class: x.rating ? 'sf-stars-s' : 'sf-stars-s is-blank', 'aria-label': x.rating ? `${x.rating} out of 5` : 'Not rated' },
+              x.rating ? '★'.repeat(x.rating) + '☆'.repeat(5 - x.rating) : 'Rate') : null);
+        })));
+    }).filter(Boolean));
+    sfListEl.querySelectorAll('.sf-group-name').forEach((el) => el.append(el.closest('.sf-group').getAttribute('aria-label')));
+    const empty = $('sf-empty');
+    empty.hidden = mine.length > 0;
+    empty.textContent = SF_STATUS.find((s) => s.id === sfTab).empty;
+    if (flashId != null) {
+      const row = sfListEl.querySelector(`.sf-item[data-id="${flashId}"]`);
+      if (row && row.scrollIntoView) row.scrollIntoView({ block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+    }
+  }
+  sfTabsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sf-tab');
+    if (!btn) return;
+    sfTab = btn.dataset.tab;
+    renderShelf();
+  });
+
+  // Suggestions as you type. Old ones stay on screen until the new ones are in.
+  let sfFound = [];
+  let sfSeq = 0;
+  let sfTimer = 0;
+  let sfAbort = null;
+  const sfSugNote = (text) => sfSugsEl.replaceChildren(h('p', { class: 'sf-sug-note' }, text));
+  function sfClearSugs() {
+    clearTimeout(sfTimer);
+    if (sfAbort) sfAbort.abort();
+    sfSeq++;
+    sfFound = [];
+    sfSugsEl.replaceChildren();
+  }
+  function sfSuggest(now) {
+    const q = sfInput.value.trim().replace(/\s+/g, ' ');
+    const kind = sfKind(sfType);
+    if (q.length < 2 || !kind.src) { sfClearSugs(); return; }
+    clearTimeout(sfTimer);
+    if (sfAbort) sfAbort.abort();
+    const seq = ++sfSeq;
+    sfTimer = setTimeout(async () => {
+      if (!sfFound.length) sfSugNote('Looking it up…');
+      const ctl = new AbortController();
+      sfAbort = ctl;
+      const kill = setTimeout(() => ctl.abort(), 9000);
+      let found = null;
+      try { found = await SF_LOOKUP[kind.src](q, ctl.signal, kind); } catch { found = null; }
+      clearTimeout(kill);
+      if (seq !== sfSeq) return; // they've typed more since
+      sfFound = (found || []).slice(0, 6); // a short list is easier to pick from
+      if (!found) { sfSugNote("Couldn't look that up just now. Tap Add to save it as typed."); return; }
+      if (!found.length) { sfSugNote('No match. Tap Add to save it as typed.'); return; }
+      const [srcName, srcUrl] = SF_SOURCE[kind.src];
+      sfSugsEl.replaceChildren(
+        ...sfFound.map((r, i) => h('button', { class: 'sf-sug', type: 'button', 'data-i': String(i) },
+          sfCover({ type: kind.id, img: sfSafeUrl(r.img, SF_IMG_HOSTS) }),
+          h('span', { class: 'sf-sug-text' },
+            h('span', { class: 'sf-sug-title' }, r.title),
+            r.sub ? h('span', { class: 'sf-sug-sub' }, r.sub) : null),
+          h('span', { class: 'sf-sug-add', 'aria-hidden': 'true' }, 'Add'))),
+        h('p', { class: 'sf-credit' }, 'Matches from ', h('a', { href: srcUrl, target: '_blank', rel: 'noopener' }, srcName)));
+    }, now ? 0 : 400);
+  }
+  sfInput.addEventListener('input', () => sfSuggest(false));
+  sfSugsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sf-sug');
+    const r = btn && sfFound[Number(btn.dataset.i)];
+    if (r) addShelf({ type: sfType, title: r.title, year: r.year, by: r.by, img: r.img, ref: r.ref, imdb: r.imdb, wd: r.wd });
+  });
+
+  function sfRemove(x) {
+    shelf = shelf.filter((i) => i !== x);
+    if (!shelfGone.includes(x.id)) shelfGone = shelfGone.concat(x.id).slice(-500);
+    holdSync();
+    saveShelf();
+    renderShelf();
+  }
+  function addShelf(fields) {
+    const title = String(fields.title || '').trim().replace(/\s+/g, ' ');
+    if (!title) return null;
+    const same = (x) => x.type === fields.type && x.title.toLowerCase() === title.toLowerCase();
+    const dupe = shelf.find((x) => (fields.ref && x.ref === sfSafeUrl(fields.ref, SF_REF_HOSTS)) || (same(x) && (!fields.year || !x.year || x.year === fields.year)));
+    sfInput.value = '';
+    sfClearSugs();
+    if (dupe) {
+      sfTab = dupe.status;
+      renderShelf(dupe.id);
+      toast(`Already on your shelf · ${SF_STATUS.find((s) => s.id === dupe.status).name}`);
+      return null;
+    }
+    let id = Date.now();
+    while (shelf.some((x) => x.id === id)) id++;
+    const x = cleanShelf({ ...fields, id, title, status: 'want', from: sfFromIn.value, updatedAt: Date.now() });
+    sfFromIn.value = '';
+    shelf.push(x);
+    holdSync();
+    saveShelf();
+    sfTab = 'want';
+    renderShelf(x.id);
+    sfx.add();
+    toast(`On the shelf · ${x.title}`, { action: 'Undo', duration: 6000, onAction: () => sfRemove(x) });
+    sfFindImdb(x.id);
+    return x;
+  }
+  sfForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!sfInput.value.trim()) {
+      sfForm.classList.remove('is-shake');
+      void sfForm.offsetWidth;
+      sfForm.classList.add('is-shake');
+      sfInput.focus();
+      return;
+    }
+    addShelf({ type: sfType, title: sfInput.value });
+  });
+
+  function sfSetStatus(x, status) {
+    if (x.status === status) return;
+    x.status = status;
+    x.doneAt = status === 'done' ? Date.now() : 0;
+    x.updatedAt = Date.now();
+  }
+  sfListEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    if (btn.dataset.act === 'pick') {
+      const list = shelf.filter((x) => x.status === 'want' && x.type === btn.dataset.type);
+      if (!list.length) return;
+      const x = pick(list);
+      renderShelf(x.id);
+      sfx.tick();
+      toast(`How about · ${x.title}`);
+      return;
+    }
+    const x = shelf.find((i) => i.id === Number(btn.closest('.sf-item').dataset.id));
+    if (!x) return;
+    if (btn.dataset.act === 'open') { openShelf(x.id); return; }
+    if (btn.dataset.act === 'start') {
+      sfSetStatus(x, 'now');
+      saveShelf();
+      renderShelf();
+      sfx.add();
+      toast(`On now · ${x.title}`, { action: 'Undo', duration: 5000, onAction: () => { sfSetStatus(x, 'want'); saveShelf(); renderShelf(x.id); } });
+      return;
+    }
+    // Finished: it moves to Finished and the sheet opens so it can be rated (or put back).
+    sfSetStatus(x, 'done');
+    saveShelf();
+    renderShelf();
+    sfx.coin();
+    haptic(25);
+    openShelf(x.id, true);
+  });
+
+  // The sheet works on a copy; Done saves it, Esc leaves things as they were.
+  let sfDraft = null;
+  function sfPaintLinks() {
+    const x = sfDraft;
+    const q = `${x.title}${x.year ? ` ${x.year}` : ''}`;
+    const links = [];
+    if (x.type === 'film' || x.type === 'tv') links.push(['IMDb', x.imdb ? `https://www.imdb.com/title/${x.imdb}/` : `https://www.imdb.com/find/?s=tt&q=${encodeURIComponent(q)}`]);
+    if (x.type === 'book') {
+      links.push(['Open Library', x.ref || `https://openlibrary.org/search?q=${encodeURIComponent(x.title)}`]);
+      links.push(['Goodreads', `https://www.goodreads.com/search?q=${encodeURIComponent(`${x.title} ${x.by}`.trim())}`]);
+    } else if (x.ref) links.push([x.ref.includes('tvmaze.com') ? 'TVmaze' : 'Wikipedia', x.ref]);
+    links.push(['Search the web', `https://www.google.com/search?q=${encodeURIComponent(`${q} ${x.type === 'other' ? '' : sfKind(x.type).name.toLowerCase()}`.trim())}`]);
+    $('sfe-links').replaceChildren(...links.map(([name, href]) => {
+      const a = h('a', { class: 'btn', href, target: '_blank', rel: 'noopener' }, name);
+      a.append(iconEl(SF_ICON.link));
+      return a;
+    }));
+  }
+  function sfPaintSheet() {
+    const x = sfDraft;
+    $('sfe-status').replaceChildren(...SF_STATUS.map((s) => h('button', { class: 'sf-tab', type: 'button', role: 'radio', 'data-status': s.id, 'aria-checked': String(s.id === x.status) }, s.name)));
+    $('sfe-rate').replaceChildren(...[1, 2, 3, 4, 5].map((n) => h('button', { class: n <= x.rating ? 'sf-star is-on' : 'sf-star', type: 'button', role: 'radio', 'data-star': String(n), 'aria-checked': String(n === x.rating), 'aria-label': `${n} star${n === 1 ? '' : 's'}`, icon: SF_ICON.star })));
+    const showRate = x.status === 'done';
+    $('sfe-rate').hidden = !showRate;
+    $('sfe-rate-label').hidden = !showRate;
+  }
+  function openShelf(id, justFinished) {
+    const x = shelf.find((i) => i.id === id);
+    if (!x) return;
+    sfDraft = { ...x };
+    $('sfe-kicker').textContent = justFinished ? 'Finished · nice one' : sfKind(x.type).name;
+    $('sf-edit-title').textContent = x.title;
+    $('sfe-sub').textContent = sfSubOf(x);
+    $('sfe-cover').replaceWith(sfCover(x, 'sf-cover'));
+    sfEdit.querySelector('.sf-head .sf-cover').id = 'sfe-cover';
+    $('sfe-note').value = x.note;
+    $('sfe-from').value = x.from;
+    $('sfe-title').value = x.title;
+    $('sfe-type').replaceChildren(...SF_TYPES.map((t) => h('option', { value: t.id }, t.name)));
+    $('sfe-type').value = x.type;
+    sfEdit.querySelector('.sf-more').open = false;
+    sfPaintSheet();
+    sfPaintLinks();
+    if (typeof sfEdit.showModal === 'function') sfEdit.showModal();
+    else sfEdit.setAttribute('open', '');
+    sfFindImdb(id); // one that was added offline gets its IMDb number now
+  }
+  const sfCloseSheet = () => { sfDraft = null; if (typeof sfEdit.close === 'function') sfEdit.close(); else sfEdit.removeAttribute('open'); };
+  sfEdit.addEventListener('close', () => { sfDraft = null; });
+  $('sfe-status').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-status]');
+    if (!btn || !sfDraft) return;
+    sfDraft.status = btn.dataset.status;
+    sfPaintSheet();
+  });
+  $('sfe-rate').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-star]');
+    if (!btn || !sfDraft) return;
+    const n = Number(btn.dataset.star);
+    sfDraft.rating = sfDraft.rating === n ? 0 : n; // tap the same star again to clear it
+    sfPaintSheet();
+  });
+  sfEdit.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = sfDraft;
+    const x = d && shelf.find((i) => i.id === d.id);
+    sfCloseSheet();
+    if (!x) return;
+    const next = {
+      title: $('sfe-title').value.trim().replace(/\s+/g, ' ').slice(0, 140) || x.title,
+      type: sfKind($('sfe-type').value).id,
+      note: $('sfe-note').value.trim().slice(0, 500),
+      from: $('sfe-from').value.trim().slice(0, 60),
+      rating: d.status === 'done' ? d.rating : 0,
+    };
+    const changed = Object.keys(next).some((k) => next[k] !== x[k]) || d.status !== x.status;
+    if (!changed) return;
+    Object.assign(x, next);
+    if (d.status !== x.status) { sfSetStatus(x, d.status); sfTab = x.status; }
+    x.updatedAt = Date.now();
+    saveShelf();
+    renderShelf(x.id);
+  });
+  $('sfe-del').addEventListener('click', () => {
+    const x = sfDraft && shelf.find((i) => i.id === sfDraft.id);
+    sfCloseSheet();
+    if (!x) return;
+    sfRemove(x);
+    sfx.drop();
+    toast('Taken off the shelf', {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        shelfGone = shelfGone.filter((g) => g !== x.id);
+        shelf.push(x);
+        saveShelf();
+        renderShelf(x.id);
+      },
+    });
+  });
+
+  // ── App windows: Missions, Ezycal, Hood, Notes, Sahara, Wins, Shelf and Hours each open full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
   // (and, where the browser allows it, the whole screen), like raccoon mode. Close, Esc or the
   // phone's back gesture goes back to the home screen.
@@ -8697,7 +9400,7 @@ body.is-shake .wrap { animation: shake .4s; }
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
       if (!fromHistory && history.state && history.state.mpApp) history.go(nnWasOpen && history.state.mpNowNow ? -2 : -1);
-      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins, 'hours-panel': TAB_EL.hours }[panel.id];
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins, 'shelf-panel': TAB_EL.shelf, 'hours-panel': TAB_EL.hours }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){
