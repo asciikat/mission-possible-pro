@@ -122,6 +122,7 @@ Settings).
 | **Sahara → Fitness** | **Move** | Activities, rates, history, pay out | Its own tile. Points join the one points system |
 | **Wins** | inside **Progress** | Typing a win, quick wins | Fixed points. No random section, no slot machine |
 | **Shelf** | **Shelf** | Lookups, the three piles, ratings, who told you | Restyled. Finishing one shows in Progress |
+| **Screenshots** | **Sweep**, under Add anything | One at a time, reads the text, sends each to a job, note, Shelf or receipt | A "Go through my screenshots" link under the Add anything box, not a tile. Each sweep shows in Progress |
 | **Hours** | **Hours** | Everything | Real dollars get their own look so they never read as points |
 | Gear, sync, backup, install | **Settings** | Everything | One page instead of four places |
 

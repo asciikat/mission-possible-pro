@@ -2,7 +2,7 @@
 // Its saved copy is named mppro-*, so it never clashes with Mission Possible's or Plus's on the same site.
 // Pages are fetched fresh when online (so updates arrive) and fall back to the
 // last saved copy when offline. Sign-in and database traffic are never touched.
-const CACHE = 'mppro-v4';
+const CACHE = 'mppro-v5';
 const SHELL = ['./', 'index.html', 'firebase-config.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
   'icons/raccoon/calm.webp', 'icons/raccoon/sneaky.webp', 'icons/raccoon/feral.webp'];
@@ -43,9 +43,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Fonts and the versioned Firebase SDK never change: saved copy first.
+  // Fonts, the versioned Firebase SDK and the versioned text reader (Screenshots) never change:
+  // saved copy first.
   if (/^(fonts\.googleapis\.com|fonts\.gstatic\.com)$/.test(url.hostname)
-    || (url.hostname === 'www.gstatic.com' && url.pathname.startsWith('/firebasejs/'))) {
+    || (url.hostname === 'www.gstatic.com' && url.pathname.startsWith('/firebasejs/'))
+    || (url.hostname === 'cdn.jsdelivr.net' && /^\/npm\/tesseract\.js(-core)?@\d/.test(url.pathname))) {
     event.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((res) => putInCache(req, res))));
   }
   // Everything else (Google sign-in, Firestore) goes straight to the network.

@@ -2,7 +2,7 @@
 
 Mission Possible as an all-in-one: the to-do board, the **Ezycal** calendar,
 **The Hood** (the GTA-style map of your homies from
-[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara**, **Wins**, **Shelf** and **Hours**,
+[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara**, **Wins**, **Shelf**, **Hours** and **Screenshots**,
 each one tab away. Built on Mission Possible Plus.
 
 Single page: `index.html`. The Ezycal tab shows the separate calendar at
@@ -11,8 +11,8 @@ loaded the first time you open the tab).
 
 ## Apps, each in its own window
 
-The home screen shows eight big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
-**Sahara**, **Wins**, **Shelf** and **Hours**. Tapping one opens that app in its own full-page window (in a browser tab it also
+The home screen shows nine big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
+**Sahara**, **Wins**, **Shelf**, **Hours** and **Screenshots**. Tapping one opens that app in its own full-page window (in a browser tab it also
 goes full screen; the installed app already fills the screen, so it skips that and
 Android's "to exit full screen" message), so you only see that app, never the others. **✕
 Close**, Esc, or the phone's back gesture takes you back to the home screen. The
@@ -206,6 +206,48 @@ sync), and aren't in the backup file: share the ones you need to keep. Photos ar
 
 Hours is self-contained: everything is in the `Hours` blocks of `index.html` and the `mp_hours*`,
 `mp_rcpts*` and `mp_clock` keys, so it can be switched off with the gear or removed later.
+
+## Screenshots
+
+**Screenshots** goes through your recent screenshots one at a time, so the things you saved "to
+deal with later" actually get dealt with. It's the wide cyan button at the bottom of the home
+screen; the number on it is how many are left in the sweep you're on.
+
+1. Pick how far back to go (**1 week**, **2 weeks**, **1 month** or **Any**), then tap **Pick
+   screenshots**. In your phone's picker, open **Albums → Screenshots** and select the last couple
+   of weeks (press and hold one, then drag to select lots).
+2. Each screenshot comes up on its own with the text read off it, a **Title** guessed from that
+   text, and a **Suggested** choice:
+   - **Job**: the title goes on Now.
+   - **Note**: the text is saved as a note, with the date of the screenshot.
+   - **Shelf**: pick Film, TV, Book, Game or Other and a match, the same lookup as Shelf.
+   - **Receipt**: the picture goes into Hours as a receipt, with the amount it found.
+   - **Nothing to keep**: done, nothing saved.
+   - **Leave it for next time**: skipped for now; it comes back the next time you pick it.
+3. Every choice has **Undo**. Tap the picture to see it bigger; edit the title, or open **All the
+   text it read**, before choosing.
+4. At the end you get a count of what went where. **Go through more** picks again.
+
+Ones you've gone through are remembered (by file name and size), so you can stop at any time with
+**Stop for now** and pick the same screenshots again later: it carries on with the ones you haven't
+done. Screenshots older than the range you chose are left out, with a button to go through them
+too. A sweep takes up to 100 at a time.
+
+**Good to know**
+
+- A web page can't look through your photos by itself, so you always choose the screenshots in the
+  picker. It also can't delete them: when a sweep is done, delete them in your gallery.
+- The text is read on your phone with [Tesseract](https://tesseract.projectnaptha.com/), so your
+  screenshots are never uploaded anywhere. The reader (about 7 MB) downloads the first time you use
+  it and is kept for next time. Without a connection the first time, you can still type a title
+  yourself.
+- The date comes from the screenshot's file name where the phone puts it there (Android does; the
+  photo picker on some phones doesn't). Ones with no date always count as recent.
+- The guesses are simple keyword checks (a total and a card payment means a receipt, Netflix or
+  "season" means TV, Goodreads or "novel" means a book). They only highlight a button; every choice
+  is always there.
+- What's been gone through stays on this device; nothing in Screenshots syncs. What you send to
+  Missions, Notes, Shelf or Hours syncs as usual.
 
 ## Raccoon mode
 

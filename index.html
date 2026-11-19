@@ -2112,6 +2112,133 @@ body.is-shake .wrap { animation: shake .4s; }
 .sf-links .btn { min-height: 38px; padding: 0 11px; font-size: 12px; text-decoration: none; }
 .sf-links .btn svg { width: 14px; height: 14px; }
 
+/* ───────────────────────── screenshots ───────────────────────── */
+/* Screenshots: go through recent screenshots one at a time and file each one. Cyan. */
+:root { --sw: #4fd8ff; }
+#top-tabs #tab-shots { border-left-color: var(--sw); }
+#top-tabs #tab-shots .tab-label svg { color: var(--sw); }
+#top-tabs #tab-shots .count { background: var(--sw); }
+@media (max-width: 719px) { #top-tabs #tab-shots { grid-column: 1 / -1; } }
+.sw-h { margin: 0 0 8px; font: 900 clamp(34px, 9vw, 48px)/.9 var(--font-display); text-transform: uppercase; }
+.sw-lead { margin: 0 0 16px; color: var(--smog); font-size: 17px; }
+.sw-range { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-bottom: 12px; }
+.sw-range .sf-tab { min-height: 40px; font-size: 13px; }
+.sw-range .sf-tab[aria-checked="true"] { border-color: var(--sw); background: rgba(79, 216, 255, .14); }
+.sw-pick {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 96px;
+  padding: 14px 16px;
+  border: 0;
+  background: var(--sw);
+  color: var(--shade);
+  text-align: left;
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+}
+.sw-pick svg { flex: none; width: 40px; height: 40px; }
+.sw-pick b { display: block; font: 900 30px/.95 var(--font-display); text-transform: uppercase; }
+.sw-pick small { display: block; margin-top: 4px; font: 700 13px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.sw-pick:active { transform: translateY(1px) scale(.99); }
+.sw-pick:focus-visible { outline: none; box-shadow: inset 0 0 0 3px var(--ink); }
+.sw-how { margin: 14px 0 0; padding-left: 22px; color: var(--smog); font-size: 15px; }
+.sw-how li { margin: 4px 0; }
+.sw-how b { color: var(--ink); }
+.sw-msg { margin: 14px 0 0; padding: 12px 14px; border: 1px solid rgba(79, 216, 255, .4); background: rgba(79, 216, 255, .07); font-size: 15px; }
+.sw-msg .btn { margin-top: 10px; }
+.sw-total { margin: 14px 0 0; font: 700 13px/1.3 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.sw-total b { color: var(--sw); }
+.sw-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sw-pos { font: 900 26px/1 var(--font-display); text-transform: uppercase; }
+.sw-pos small { margin-left: 6px; font: 700 13px/1 var(--font-hud); letter-spacing: .1em; color: var(--smog); }
+.sw-bar { height: 6px; margin: 6px 0 8px; background: rgba(255, 255, 255, .08); }
+.sw-bar i { display: block; height: 100%; width: 0; background: var(--sw); transition: width .3s var(--glide); }
+.sw-shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); background: var(--shade); cursor: zoom-in; }
+.sw-shot img { display: block; width: 100%; max-height: 30dvh; object-fit: contain; }
+.sw-shot.is-zoom { cursor: zoom-out; }
+.sw-shot.is-zoom img { max-height: none; }
+.sw-date { margin: 4px 0 0; font: 600 13px/1.3 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.sw-hint { min-height: 20px; margin: 2px 0 6px; color: var(--sw); font: 700 15px/1.3 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; }
+.sw-hint.is-quiet { color: var(--smog); }
+.sw-run .hr-field input, .sw-run textarea { background: var(--asphalt-hi); }
+.sw-all { margin-top: 2px; }
+.sw-all summary { min-height: 34px; font: 700 12px/34px var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); cursor: pointer; }
+.sw-all textarea {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--ink);
+  font: 500 15px/1.4 var(--font-body);
+  resize: vertical;
+}
+.sw-all textarea:focus { outline: none; border-color: var(--sw); }
+.sw-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.sw-act {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--c, var(--sw));
+  background: rgba(255, 255, 255, .03);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.sw-act svg { flex: none; width: 24px; height: 24px; color: var(--c, var(--sw)); }
+.sw-act b { display: block; font: 900 22px/1 var(--font-display); text-transform: uppercase; }
+.sw-act small { display: block; margin-top: 3px; font: 700 11px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.sw-act.is-suggested { background: color-mix(in srgb, var(--c) 16%, transparent); border-color: var(--c); }
+.sw-act.is-suggested::after {
+  content: "Suggested";
+  position: absolute;
+  top: -8px;
+  right: 8px;
+  padding: 2px 6px;
+  background: var(--c);
+  color: var(--shade);
+  font: 800 10px/1.2 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+@media (hover: hover) { .sw-act:hover { background: rgba(255, 255, 255, .07); } }
+.sw-act:disabled, .sw-clear:disabled { opacity: .5; cursor: progress; }
+.sw-row2 { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.sw-clear {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  border: 2px solid var(--palm);
+  background: rgba(46, 230, 200, .08);
+  color: var(--palm);
+  font: 800 16px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sw-clear svg { width: 20px; height: 20px; }
+.sw-shelf { margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-top: 3px solid var(--sf); background: var(--asphalt-hi); }
+.sw-shelf .eyebrow { color: var(--sf); }
+.sw-shelf .sf-type { flex: 1 0 auto; }
+.sw-big { display: block; font: 900 clamp(44px, 12vw, 68px)/.88 var(--font-display); text-transform: uppercase; color: var(--sw); }
+.sw-sum { list-style: none; margin: 16px 0; padding: 0; border: 1px solid var(--line); background: var(--asphalt-hi); }
+.sw-sum li { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; border-top: 1px solid var(--line); font-weight: 600; }
+.sw-sum li:first-child { border-top: 0; }
+.sw-sum b { font: 900 22px/1 var(--font-display); color: var(--sw); }
+.sw-done p { color: var(--smog); }
+.sw-done .add-btn { margin-top: 14px; background: var(--sw); }
+.sw-done .btn { margin-top: 10px; }
+
 /* ───────────────────────── sahara ───────────────────────── */
 /* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
    dressed like the Sahara app: night purple, dotted ground, chunky borders, pixel hearts. */
@@ -3277,6 +3404,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <button class="tab" id="tab-wins" type="button" aria-controls="wins-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>Wins</span> <span class="count" id="count-wins">0</span></button>
           <button class="tab" id="tab-shelf" type="button" aria-controls="shelf-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M9 4v16M5 4h4M5 20h4M12.5 6.5l3-1 4.5 13.5-3 1zM3 20h18"/></svg>Shelf</span> <span class="count" id="count-shelf">0</span></button>
           <button class="tab" id="tab-hours" type="button" aria-controls="hours-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 8.5V13l3 2M9.5 2.5h5"/></svg>Hours</span> <span class="count" id="count-hours">0h</span></button>
+          <button class="tab" id="tab-shots" type="button" aria-controls="shots-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M3 7V4.5a1.5 1.5 0 011.5-1.5H6M21 7V4.5A1.5 1.5 0 0019.5 3H18M3 17v2.5A1.5 1.5 0 004.5 21H6M21 17v2.5a1.5 1.5 0 01-1.5 1.5H18M10 18h4"/></svg>Screenshots</span> <span class="count" id="count-shots">0</span></button>
         </nav>
       </div>
 
@@ -3658,6 +3786,88 @@ body.is-shake .wrap { animation: shake .4s; }
         <div class="hr-rcpts" id="hr-rcpts"></div>
         <p class="hr-none" id="hr-rcpts-empty" hidden>No receipts yet. Tap Snap receipt and take a photo; you can add the amount after.</p>
         <p class="hr-keep">Hours and receipt details sync with the rest of the board. Receipt photos are kept on this device only: use Share on a receipt to send the photo somewhere safe.</p>
+        </div>
+      </div>
+
+      <!-- Screenshots: pick recent screenshots and go through them one at a time, turning each
+           into a job, a note, a receipt or something for the Shelf, or letting it go. The text
+           is read on the device; screenshots never leave it. -->
+      <div class="shots-panel frame-panel" id="shots-panel" role="region" aria-label="Screenshots" data-name="Screenshots" hidden>
+        <div class="frame-bar"><span>Screenshots</span><button class="frame-btn" type="button" data-full="shots-panel" aria-label="Close Screenshots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <section class="sw-start" id="sw-start">
+          <p class="eyebrow">Screenshot sweep</p>
+          <h2 class="sw-h">Go through your screenshots</h2>
+          <p class="sw-lead">One at a time. Make each one a job, a note, a receipt or something for the Shelf, or let it go.</p>
+          <p class="eyebrow">How far back</p>
+          <div class="sw-range" id="sw-range" role="radiogroup" aria-label="How far back"></div>
+          <button class="sw-pick" id="sw-pick" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M3 7V4.5a1.5 1.5 0 011.5-1.5H6M21 7V4.5A1.5 1.5 0 0019.5 3H18M3 17v2.5A1.5 1.5 0 004.5 21H6M21 17v2.5a1.5 1.5 0 01-1.5 1.5H18M10 18h4"/></svg>
+            <span><b>Pick screenshots</b><small>Opens your photos</small></span>
+          </button>
+          <ol class="sw-how">
+            <li>In the picker, open <b>Albums</b>, then <b>Screenshots</b>.</li>
+            <li>Select the last couple of weeks. Press and hold one, then drag to select lots at once.</li>
+            <li>Tap <b>Done</b> or <b>Add</b>.</li>
+          </ol>
+          <div class="sw-msg" id="sw-msg" role="status" hidden></div>
+          <p class="sw-total" id="sw-total" hidden></p>
+          <p class="hr-keep">Your screenshots stay on your phone: the text is read on the phone itself. Ones you've gone through are skipped next time, so you can stop whenever you like and pick the same ones again to carry on.</p>
+        </section>
+
+        <section class="sw-run" id="sw-run" hidden>
+          <div class="sw-top">
+            <span class="sw-pos" id="sw-pos"></span>
+            <button class="hr-link" id="sw-stop" type="button">Stop for now</button>
+          </div>
+          <div class="sw-bar" aria-hidden="true"><i id="sw-fill"></i></div>
+          <button class="sw-shot" id="sw-shot" type="button" aria-label="Show the screenshot bigger"><img id="sw-img" alt="The screenshot"></button>
+          <p class="sw-date" id="sw-date"></p>
+          <p class="sw-hint" id="sw-hint" aria-live="polite"></p>
+          <label class="hr-field"><span>Title</span><input type="text" id="sw-title" maxlength="140" enterkeyhint="done" placeholder="What's this one about?"></label>
+          <details class="sw-all" id="sw-all">
+            <summary id="sw-all-label">All the text it read</summary>
+            <label class="sr-only" for="sw-text">All the text it read</label>
+            <textarea id="sw-text" rows="6"></textarea>
+          </details>
+          <div id="sw-choose">
+            <div class="sw-acts" id="sw-acts">
+              <button class="sw-act" type="button" data-act="job" style="--c: var(--neon)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.5l2.8 2.8L16.5 9"/></svg><span><b>Job</b><small>Goes on Now</small></span></button>
+              <button class="sw-act" type="button" data-act="note" style="--c: var(--dusk-ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3.5h9l3.5 3.5v13.5H6z"/><path d="M9 11h6M9 15h6"/></svg><span><b>Note</b><small>Keeps the text</small></span></button>
+              <button class="sw-act" type="button" data-act="shelf" style="--c: var(--sf)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M9 4v16M5 4h4M5 20h4M12.5 6.5l3-1 4.5 13.5-3 1zM3 20h18"/></svg><span><b>Shelf</b><small>Film, TV, book…</small></span></button>
+              <button class="sw-act" type="button" data-act="receipt" style="--c: var(--hr)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span><b>Receipt</b><small>Saved in Hours</small></span></button>
+            </div>
+            <div class="sw-row2">
+              <button class="sw-clear" type="button" data-act="clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nothing to keep</button>
+            </div>
+            <div class="sw-row2">
+              <button class="hr-link" type="button" data-act="later">Leave it for next time</button>
+            </div>
+          </div>
+          <div class="sw-shelf" id="sw-shelf" hidden>
+            <p class="eyebrow">Put it on the Shelf</p>
+            <div class="sf-types" id="sw-kinds" role="radiogroup" aria-label="What is it?"></div>
+            <form class="composer composer--shelf" id="sw-sf-form" autocomplete="off">
+              <label class="sr-only" for="sw-sf-input">Title to look up</label>
+              <div class="dock-row">
+                <input type="text" id="sw-sf-input" maxlength="140" enterkeyhint="done" autocapitalize="words">
+                <button type="submit" class="add-btn">Add</button>
+              </div>
+            </form>
+            <div class="sf-sugs" id="sw-sf-sugs" aria-live="polite"></div>
+            <div class="sw-row2"><button class="hr-link" id="sw-sf-back" type="button">Back to the choices</button></div>
+          </div>
+        </section>
+
+        <section class="sw-done" id="sw-done" hidden>
+          <p class="eyebrow">Sweep done</p>
+          <strong class="sw-big" id="sw-done-n"></strong>
+          <ul class="sw-sum" id="sw-sum"></ul>
+          <p id="sw-done-tip"></p>
+          <button class="add-btn" id="sw-again" type="button">Go through more</button>
+          <button class="btn" id="sw-older" type="button" hidden></button>
+        </section>
+        <input type="file" id="sw-file" accept="image/*" multiple hidden>
         </div>
       </div>
 
@@ -4111,7 +4321,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins | shelf | hours
+  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins | shelf | hours | shots
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -4140,18 +4350,18 @@ body.is-shake .wrap { animation: shake .4s; }
   const tomorrowEmptyEl = $('tomorrow-empty-state');
   const nowNowListEl = $('nownow-list');
   const nowNowEmptyEl = $('nownow-empty-state');
-  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins', 'shelf', 'hours'];
+  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins', 'shelf', 'hours', 'shots'];
   const TAB_EL = {
     active: tabActive, nownow: $('tab-nownow'), tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
-    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'), shelf: $('tab-shelf'), hours: $('tab-hours'),
+    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'), shelf: $('tab-shelf'), hours: $('tab-hours'), shots: $('tab-shots'),
     quick: $('quick-open'), // not a home-screen tab: the quiet link at the top of Notes opens it
   };
   const TAB_NAME = {
     active: 'Now', nownow: 'Now now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
-    notes: 'Notes', sahara: 'Sahara', wins: 'Wins', shelf: 'Shelf', hours: 'Hours',
+    notes: 'Notes', sahara: 'Sahara', wins: 'Wins', shelf: 'Shelf', hours: 'Hours', shots: 'Screenshots',
   };
   // Tabs that show their own panel instead of a job list.
-  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), shelf: $('shelf-panel'), hours: $('hours-panel'), quick: $('quick-panel') };
+  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), shelf: $('shelf-panel'), hours: $('hours-panel'), shots: $('shots-panel'), quick: $('quick-panel') };
   // Now, Now now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
   const MISSION_TABS = ['active', 'nownow', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
@@ -4830,6 +5040,8 @@ body.is-shake .wrap { animation: shake .4s; }
     else $('count-shelf').textContent = String(shelf.filter((x) => x.status === 'want').length);
     if (currentTab === 'hours') renderHours();
     else hrCount();
+    if (currentTab === 'shots') renderShots();
+    else $('count-shots').textContent = String(swLeft());
     if (currentTab === 'sahara') renderSahara();
     $('count-wins').textContent = String(wins.length);
     $('count-sahara').textContent = String(sahara.filter((x) => !x.done).length);
@@ -9372,7 +9584,517 @@ body.is-shake .wrap { animation: shake .4s; }
     });
   });
 
-  // ── App windows: Missions, Ezycal, Hood, Notes, Sahara, Wins, Shelf and Hours each open full page ──
+  // ── Screenshots: go through recent screenshots one at a time ──
+  // A web page can't look through the photo gallery by itself, so the screenshots are picked in
+  // the phone's own picker. Each one is shown with the text read off it (Tesseract, running on
+  // the device; the engine is downloaded once, about 7 MB) and a guess at what it is. Every choice
+  // has Undo. What's been gone through is remembered here (name and size only), so picking the
+  // same screenshots again carries on where you stopped. Nothing here syncs.
+  const SW_RANGES = [{ days: 7, name: '1 week' }, { days: 14, name: '2 weeks' }, { days: 31, name: '1 month' }, { days: 0, name: 'Any' }];
+  const SW_MAX = 100; // the most one sweep takes (the phone's picker allows about this many)
+  const SW_CDN = 'https://cdn.jsdelivr.net/npm/';
+  const SW_KIND_NAME = { film: 'a film', tv: 'a TV show', book: 'a book', game: 'a game' };
+  let swDays = SW_RANGES.some((r) => r.days === store.get('mp_sweep_days', 14)) ? store.get('mp_sweep_days', 14) : 14;
+  let swSeen = (Array.isArray(store.get('mp_sweep_seen', [])) ? store.get('mp_sweep_seen', []) : []).filter((s) => typeof s === 'string');
+  let swTotal = toInt(store.get('mp_sweep_total', 0));
+  let swQueue = [];  // { file, fp, date, text, title, guess, read }
+  let swPos = 0;
+  let swStats = {};
+  let swLast = null; // the last choice, for Undo
+  let swOlder = [];  // picked, but older than the range
+  let swBusy = false;
+  let swUrl = '';
+  const swFp = (f) => `${f.name}|${f.size}`;
+  const swPanel = $('shots-panel');
+  const swFile = $('sw-file');
+  const swTitleIn = $('sw-title');
+  const swTextIn = $('sw-text');
+
+  // When a screenshot was taken: from its name where the phone or computer put the date there
+  // (Screenshot_20261112-142233, Screenshot 2026-11-12 at 14.22.33...), otherwise from the file,
+  // unless the browser stamped it with the moment it was picked. 0 = can't tell.
+  function swDateOf(file, pickedAt) {
+    const n = file.name || '';
+    const m = n.match(/(?:^|\D)(20\d\d)([-_.]?)(0[1-9]|1[0-2])\2(0[1-9]|[12]\d|3[01])(?:\D{1,4}([01]\d|2[0-3])\D?([0-5]\d)(?:\D?([0-5]\d))?)?/);
+    if (m && (m[2] || /[a-z]/i.test(n.slice(0, m.index + 1)))) {
+      const t = new Date(+m[1], +m[3] - 1, +m[4], m[5] ? +m[5] : 12, m[6] ? +m[6] : 0, m[7] ? +m[7] : 0).getTime();
+      if (t <= pickedAt + DAY_MS) return t;
+    }
+    if (file.lastModified && pickedAt - file.lastModified > 5 * 60 * 1000) return file.lastModified;
+    return 0;
+  }
+
+  // Reading the text: the engine loads the first time it's needed.
+  let swEngineP = null;
+  function swEngine() {
+    if (swEngineP) return swEngineP;
+    swEngineP = (async () => {
+      if (!window.Tesseract) {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = `${SW_CDN}tesseract.js@5.1.1/dist/tesseract.min.js`;
+          s.crossOrigin = 'anonymous';
+          s.onload = resolve;
+          s.onerror = () => reject(new Error('engine'));
+          document.head.append(s);
+        });
+      }
+      return window.Tesseract.createWorker('eng', 1, {
+        workerPath: `${SW_CDN}tesseract.js@5.1.1/dist/worker.min.js`,
+        corePath: `${SW_CDN}tesseract.js-core@5.1.1`,
+        langPath: `${SW_CDN}@tesseract.js-data/eng@1.0.0/4.0.0_best_int`,
+      });
+    })().catch((err) => { swEngineP = null; throw err; });
+    return swEngineP;
+  }
+  // Text reads best dark on light at a decent size, so dark-mode screenshots are flipped first.
+  async function swPrep(file) {
+    let src;
+    try { src = await createImageBitmap(file); }
+    catch {
+      src = await new Promise((resolve, reject) => {
+        const img = new Image();
+        const u = URL.createObjectURL(file);
+        img.onload = () => { URL.revokeObjectURL(u); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(u); reject(new Error('bad image')); };
+        img.src = u;
+      });
+    }
+    const w = src.naturalWidth || src.width;
+    const tall = src.naturalHeight || src.height;
+    let k = Math.min(1, 2400 / Math.max(w, tall));
+    if (w * k < 900) k = Math.min(2, 900 / w);
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(w * k));
+    c.height = Math.max(1, Math.round(tall * k));
+    const ctx = c.getContext('2d', { willReadFrequently: true });
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(src, 0, 0, c.width, c.height);
+    if (src.close) src.close();
+    const px = ctx.getImageData(0, 0, c.width, c.height);
+    const d = px.data;
+    let sum = 0;
+    let n = 0;
+    for (let i = 0; i < d.length; i += 64) { sum += d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114; n++; }
+    if (sum / n < 110) {
+      for (let i = 0; i < d.length; i += 4) { d[i] = 255 - d[i]; d[i + 1] = 255 - d[i + 1]; d[i + 2] = 255 - d[i + 2]; }
+      ctx.putImageData(px, 0, 0);
+    }
+    return c;
+  }
+  // Tidy what was read: drop the phone's status bar (time, signal, battery) and join a sentence
+  // that ran onto the next line back together.
+  function swTidy(raw) {
+    const lines = String(raw || '').split('\n').map((s) => s.replace(/\s+/g, ' ').trim())
+      .filter((s) => (s.match(/[\p{L}\p{N}]/gu) || []).length >= 2);
+    while (lines.length && /^\d{1,2}[:.]\d{2}\b/.test(lines[0]) && lines[0].length < 40) lines.shift();
+    const out = [];
+    lines.forEach((s) => {
+      const prev = out[out.length - 1];
+      if (prev && !/[.!?:;]$/.test(prev) && /^\p{Ll}/u.test(s)) out[out.length - 1] = `${prev} ${s}`;
+      else out.push(s);
+    });
+    return out.join('\n').slice(0, 3000);
+  }
+
+  // A guess at what a screenshot is, from its text. It only ever suggests; every choice is offered.
+  function swGuess(text) {
+    const t = text || '';
+    const lines = t.split('\n').filter(Boolean);
+    const isChrome = (s) => /^\d{1,2}[:.]\d{2}\b/.test(s) || /\d\s?%/.test(s) || /https?:\/\/|www\./i.test(s)
+      || /^(search|back|share|reply|like|follow|following|menu|home|more|cancel|done|edit|send|message|today|yesterday)$/i.test(s);
+    const wordy = (s) => s.length >= 3 && s.length <= 90 && !isChrome(s) && (s.match(/\p{L}/gu) || []).length / s.length > 0.6;
+    const good = lines.filter(wordy);
+    const title = (good.find((s) => s.split(' ').length >= 2) || good[0] || '').slice(0, 140);
+    const num = (s) => Number(String(s).replace(/,/g, ''));
+    const moneyIn = (s) => [...s.matchAll(/[$£€]\s?(\d{1,6}(?:,\d{3})*(?:\.\d{2})?)|(\d{1,6}(?:,\d{3})*\.\d{2})/g)].map((m) => num(m[1] || m[2])).filter((v) => v > 0 && v < 100000);
+    let amount = null;
+    const totalAt = lines.findIndex((s) => /\b(grand total|total|amount due|amount paid|balance due|to pay|you paid|charged)\b/i.test(s) && !/\bsub\s?total\b/i.test(s));
+    if (totalAt >= 0) {
+      const here = moneyIn(lines[totalAt]);
+      const next = moneyIn(lines[totalAt + 1] || '');
+      amount = here.length ? here[here.length - 1] : next.length ? next[0] : null;
+    }
+    if (amount == null) { const all = [...t.matchAll(/[$£€]\s?(\d{1,6}(?:,\d{3})*(?:\.\d{2})?)/g)].map((m) => num(m[1])); if (all.length) amount = Math.max(...all); }
+    let kind = 'note';
+    let shelfKind = 'film';
+    if (amount != null && /\b(total|subtotal|tax|gst|vat|receipt|invoice|order|paid|payment|eftpos|visa|mastercard|amex|card ending|transaction|tip)\b/i.test(t)) kind = 'receipt';
+    else if (/\b(netflix|prime video|disney\+?|hbo|hulu|apple tv\+?|paramount\+?|stan|binge|crunchyroll|imdb|rotten tomatoes|letterboxd|trailer|season \d+|episodes?|s\d{1,2}\s?e\d{1,2}|series|movie|film|cinema|directed by|watchlist)\b/i.test(t)) {
+      kind = 'shelf';
+      shelfKind = /\b(season|episodes?|series|s\d{1,2}\s?e\d{1,2})\b/i.test(t) ? 'tv' : 'film';
+    } else if (/\b(novel|author|goodreads|kindle|audible|audiobook|paperback|hardcover|isbn|bestsell(er|ing)|memoir|book club)\b/i.test(t)) { kind = 'shelf'; shelfKind = 'book'; }
+    else if (/\b(steam|playstation|ps5|ps4|xbox|nintendo|switch|game pass|gameplay|early access|metacritic)\b/i.test(t)) { kind = 'shelf'; shelfKind = 'game'; }
+    return { title, amount, kind, shelfKind, link: /https?:\/\/|www\./i.test(t) };
+  }
+
+  // One at a time, in the order asked for; the next two are read ahead while you decide.
+  let swChain = Promise.resolve();
+  function swRead(it) {
+    if (!it || it.read) return it ? it.read : Promise.resolve();
+    it.read = swChain = swChain.then(async () => {
+      if (!swQueue.includes(it)) return; // the sweep moved on
+      try {
+        const worker = await swEngine();
+        const canvas = await swPrep(it.file);
+        const { data } = await worker.recognize(canvas);
+        it.text = swTidy(data && data.text);
+        it.failed = false;
+      } catch { it.text = ''; it.failed = true; }
+      it.guess = swGuess(it.text);
+      if (it.title == null) it.title = it.guess.title;
+    });
+    return it.read;
+  }
+
+  const swShown = (id) => ['sw-start', 'sw-run', 'sw-done'].forEach((s) => { $(s).hidden = s !== id; });
+  const swLeft = () => Math.max(0, swQueue.length - swPos);
+  function renderShots() {
+    $('count-shots').textContent = String(swLeft());
+    if (!swQueue.length) swShown('sw-start');
+    $('sw-range').replaceChildren(...SW_RANGES.map((r) => h('button', { class: 'sf-tab', type: 'button', role: 'radio', 'data-days': String(r.days), 'aria-checked': String(r.days === swDays) }, r.name)));
+    const tot = $('sw-total');
+    tot.hidden = swTotal === 0;
+    tot.replaceChildren('Gone through so far: ', h('b', null, plainNum(swTotal)));
+  }
+  $('sw-range').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-days]');
+    if (!btn) return;
+    swDays = Number(btn.dataset.days);
+    store.set('mp_sweep_days', swDays);
+    renderShots();
+  });
+  const swRangeName = () => (SW_RANGES.find((r) => r.days === swDays) || SW_RANGES[1]).name;
+  function swNote(text, olderBtn) {
+    const box = $('sw-msg');
+    box.hidden = !text;
+    box.replaceChildren(text || '');
+    if (text && olderBtn && swOlder.length) {
+      const b = h('button', { class: 'btn', type: 'button' }, `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'}`);
+      b.addEventListener('click', () => swBegin(swOlder.splice(0)));
+      box.append(h('br'), b);
+    }
+  }
+
+  $('sw-pick').addEventListener('click', () => swFile.click());
+  $('sw-again').addEventListener('click', () => { swQueue = []; swPos = 0; renderShots(); swFile.click(); });
+  swFile.addEventListener('change', () => {
+    const files = Array.from(swFile.files || []).filter((f) => /^image\//.test(f.type) || /\.(png|jpe?g|webp|heic|heif|gif)$/i.test(f.name));
+    swFile.value = '';
+    if (files.length) swLoad(files);
+  });
+  function swLoad(files) {
+    const at = Date.now();
+    const seen = new Set(swSeen);
+    const cutoff = swDays ? at - swDays * DAY_MS : 0;
+    const fresh = [];
+    let before = 0;
+    swOlder = [];
+    files.forEach((file) => {
+      const it = { file, fp: swFp(file), date: swDateOf(file, at), text: null, title: null, guess: null, read: null };
+      if (seen.has(it.fp)) before++;
+      else if (cutoff && it.date && it.date < cutoff) swOlder.push(it);
+      else fresh.push(it);
+    });
+    const bits = [];
+    if (before) bits.push(`${before} you've already gone through`);
+    if (swOlder.length) bits.push(`${swOlder.length} older than ${swRangeName()}`);
+    if (!fresh.length) {
+      swQueue = [];
+      renderShots();
+      swNote(`Nothing new to go through${bits.length ? `: ${bits.join(', ')}` : ''}.`, true);
+      return;
+    }
+    swNote('');
+    swBegin(fresh, bits);
+  }
+  function swBegin(list, bits) {
+    // newest first; ones with no date keep the picker's order, after the dated ones
+    list = list.map((it, i) => [it, i]).sort((a, b) => (b[0].date || 0) - (a[0].date || 0) || a[1] - b[1]).map(([it]) => it);
+    const more = list.length - SW_MAX;
+    swQueue = list.slice(0, SW_MAX);
+    swPos = 0;
+    swStats = {};
+    swLast = null;
+    swNote('');
+    swShow();
+    const extra = (bits || []).concat(more > 0 ? [`${more} more after these`] : []);
+    toast(`${swQueue.length} to go through${extra.length ? ` · ${extra.join(' · ')}` : ''}`, { duration: 3600 });
+    swRead(swQueue[0]);
+  }
+
+  function swPaintGuess(it) {
+    const g = it.guess;
+    const hint = $('sw-hint');
+    $('sw-acts').querySelectorAll('.sw-act').forEach((b) => b.classList.toggle('is-suggested', !!g && g.kind === b.dataset.act));
+    hint.classList.toggle('is-quiet', !g || it.failed || g.kind === 'note');
+    if (!it.read || !g) { hint.textContent = 'Reading the text…'; return; }
+    if (it.failed) { hint.textContent = "Couldn't read the text (offline?). Type a title to keep it."; return; }
+    if (!it.text) { hint.textContent = 'No text on this one.'; return; }
+    hint.textContent = g.kind === 'receipt' ? `Looks like a receipt${g.amount != null ? ` · ${hrCents(g.amount)}` : ''}`
+      : g.kind === 'shelf' ? `Looks like ${SW_KIND_NAME[g.shelfKind]}`
+      : g.link ? 'Has a link in it' : 'Read the text';
+  }
+  function swFill(it) {
+    if (document.activeElement !== swTitleIn) swTitleIn.value = it.title || '';
+    if (document.activeElement !== swTextIn) swTextIn.value = it.text || '';
+    const lines = it.text ? it.text.split('\n').length : 0;
+    $('sw-all-label').textContent = lines ? `All the text it read (${lines} line${lines === 1 ? '' : 's'})` : 'All the text it read';
+    swPaintGuess(it);
+  }
+  function swShow() {
+    const it = swQueue[swPos];
+    if (!it) { swFinish(); return; }
+    swShown('sw-run');
+    $('sw-pos').replaceChildren(`${swPos + 1} of ${swQueue.length}`);
+    $('sw-fill').style.width = `${(swPos / swQueue.length) * 100}%`;
+    if (swUrl) URL.revokeObjectURL(swUrl);
+    swUrl = URL.createObjectURL(it.file);
+    $('sw-img').src = swUrl;
+    $('sw-shot').classList.remove('is-zoom');
+    const when = it.date ? new Date(it.date) : null;
+    $('sw-date').textContent = when ? `${shortDate(it.date)} · ${when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : 'Date unknown';
+    $('sw-all').open = false;
+    $('sw-choose').hidden = false;
+    $('sw-shelf').hidden = true;
+    swBusy = false;
+    swPanel.querySelectorAll('.sw-act, .sw-clear').forEach((b) => { b.disabled = false; });
+    swFill(it);
+    $('count-shots').textContent = String(swLeft());
+    const body = swPanel.querySelector('.frame-body');
+    if (body) body.scrollTop = 0;
+    swRead(it).then(() => {
+      if (swQueue[swPos] === it && !$('sw-run').hidden) swFill(it);
+      swRead(swQueue[swPos + 1]);
+      swRead(swQueue[swPos + 2]);
+    });
+  }
+  $('sw-shot').addEventListener('click', () => $('sw-shot').classList.toggle('is-zoom'));
+  swTitleIn.addEventListener('input', () => { const it = swQueue[swPos]; if (it) it.title = swTitleIn.value; });
+  swTextIn.addEventListener('input', () => { const it = swQueue[swPos]; if (it) it.text = swTextIn.value; });
+  swTitleIn.addEventListener('keydown', (e) => { if (e.key === 'Enter') swTitleIn.blur(); });
+  $('sw-stop').addEventListener('click', () => {
+    swPanel.querySelector('[data-full]').click();
+    toast(`${swLeft()} left · open Screenshots to carry on`);
+  });
+
+  function swFinish() {
+    if (swUrl) { URL.revokeObjectURL(swUrl); swUrl = ''; }
+    swShown('sw-done');
+    const n = swQueue.length - (swStats.later || 0);
+    $('sw-done-n').textContent = `${n} gone through`;
+    const rows = [['job', 'Jobs on Now'], ['note', 'Notes'], ['shelf', 'On the Shelf'], ['receipt', 'Receipts'], ['clear', 'Nothing to keep'], ['later', 'Left for next time']];
+    $('sw-sum').replaceChildren(...rows.filter(([k]) => swStats[k]).map(([k, name]) => h('li', null, h('span', null, name), h('b', null, String(swStats[k])))));
+    $('sw-done-tip').textContent = n
+      ? "Everything you kept is saved, so the screenshots you've gone through can be deleted from your phone's gallery. This app can't delete them for you."
+      : 'Nothing gone through this time. Leave-for-next-time ones come back when you pick them again.';
+    const older = $('sw-older');
+    older.hidden = !swOlder.length;
+    older.textContent = `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'} too`;
+    $('count-shots').textContent = '0';
+    if (n) { sfx.jingle ? sfx.jingle() : sfx.add(); confetti.burst(30); }
+  }
+  $('sw-older').addEventListener('click', () => swBegin(swOlder.splice(0)));
+
+  // Every choice moves on and can be undone.
+  function swDone(it, act, undo, msg) {
+    if (act !== 'later') {
+      swSeen = swSeen.filter((f) => f !== it.fp).concat(it.fp).slice(-3000);
+      swTotal++;
+      store.set('mp_sweep_seen', swSeen);
+      store.set('mp_sweep_total', swTotal);
+    }
+    swStats[act] = (swStats[act] || 0) + 1;
+    swLast = { it, act, undo, pos: swPos };
+    swPos++;
+    if (act === 'clear' || act === 'later') sfx.tick(); else sfx.add();
+    haptic(12);
+    swShow();
+    toast(msg, { action: 'Undo', duration: 6000, onAction: swUndo });
+  }
+  function swUndo() {
+    const l = swLast;
+    if (!l) return;
+    swLast = null;
+    if (l.undo) l.undo();
+    if (l.act !== 'later') {
+      swSeen = swSeen.filter((f) => f !== l.it.fp);
+      swTotal = Math.max(0, swTotal - 1);
+      store.set('mp_sweep_seen', swSeen);
+      store.set('mp_sweep_total', swTotal);
+    }
+    swStats[l.act] = Math.max(0, (swStats[l.act] || 0) - 1);
+    swPos = l.pos;
+    swShow();
+  }
+  function swNeed() {
+    toast('Type a title first');
+    swTitleIn.focus();
+  }
+  const swWhen = (it) => (it.date ? `From a screenshot · ${shortDate(it.date)}` : 'From a screenshot');
+
+  // A receipt from a screenshot: the picture goes into Hours with the amount it found.
+  async function hrSaveReceipt(file, fields) {
+    let blob;
+    try { blob = await hrShrink(file); } catch { blob = file; }
+    const id = hrNewId(rcpts);
+    await hrPhotos.put(id, blob);
+    hrDropUrl(id);
+    hrPhotoIds.add(id);
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+    const r = cleanRcpt({ id, date: fields.date || hrYmd(new Date()), amount: fields.amount, note: fields.note || '', updatedAt: Date.now() });
+    rcpts.push(r);
+    holdSync();
+    saveHours();
+    hrCount();
+    return r;
+  }
+  function hrDropReceipt(id) {
+    rcpts = rcpts.filter((x) => x.id !== id);
+    if (!rcptsGone.includes(id)) rcptsGone = rcptsGone.concat(id).slice(-500);
+    saveHours();
+    hrDropUrl(id);
+    hrPhotoIds.delete(id);
+    hrPhotos.del(id).catch(() => {});
+  }
+
+  $('sw-choose').addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-act]');
+    const it = swQueue[swPos];
+    if (!btn || !it || swBusy) return;
+    const act = btn.dataset.act;
+    const title = swTitleIn.value.trim().replace(/\s+/g, ' ');
+    const text = swTextIn.value.trim();
+    if (act === 'job') {
+      const jt = (title || text.split('\n')[0] || '').slice(0, 140);
+      if (!jt) { swNeed(); return; }
+      let id = Date.now();
+      while (missions.some((m) => m.id === id)) id++;
+      missions.push({ id, text: jt, createdAt: now() });
+      holdSync();
+      saveData();
+      renderUI();
+      swDone(it, act, () => { missions = missions.filter((m) => m.id !== id); markGone(id); saveData(); renderUI(); }, 'Job on Now');
+    } else if (act === 'note') {
+      const body = text && title && !text.includes(title) ? `${title}\n\n${text}` : (text || title);
+      if (!body) { swNeed(); return; }
+      let id = Date.now();
+      while (notes.some((n) => n.id === id)) id++;
+      notes.push({ id, text: `${body}\n\n${swWhen(it)}`.slice(0, 5000), updatedAt: Date.now() });
+      holdSync();
+      saveNotes();
+      swDone(it, act, () => { notes = notes.filter((n) => n.id !== id); if (!notesGone.includes(id)) notesGone = notesGone.concat(id).slice(-500); saveNotes(); }, 'Saved as a note');
+    } else if (act === 'receipt') {
+      swBusy = true;
+      swPanel.querySelectorAll('.sw-act, .sw-clear').forEach((b) => { b.disabled = true; });
+      try {
+        const g = it.guess || {};
+        const r = await hrSaveReceipt(it.file, { amount: g.kind === 'receipt' || g.amount != null ? g.amount : null, date: it.date ? hrYmd(new Date(it.date)) : '', note: title.slice(0, 140) });
+        swDone(it, act, () => hrDropReceipt(r.id), `Receipt saved in Hours${r.amount != null ? ` · ${hrCents(r.amount)}` : ' · add the amount there'}`);
+      } catch {
+        swBusy = false;
+        swPanel.querySelectorAll('.sw-act, .sw-clear').forEach((b) => { b.disabled = false; });
+        toast("Couldn't save the picture on this device");
+      }
+    } else if (act === 'shelf') {
+      swShelfOpen(it);
+    } else if (act === 'clear') {
+      swDone(it, act, null, 'Nothing kept');
+    } else if (act === 'later') {
+      swDone(it, act, null, 'Left for next time');
+    }
+  });
+
+  // The Shelf step: pick what it is, then a match (looked up the same way as in Shelf).
+  let swKind = 'film';
+  let swFound = [];
+  let swSeq = 0;
+  let swTimer = 0;
+  let swAbort = null;
+  const swSfInput = $('sw-sf-input');
+  const swSugs = $('sw-sf-sugs');
+  function swPaintKinds() {
+    $('sw-kinds').replaceChildren(...SF_TYPES.map((t) => {
+      const b = h('button', { class: 'sf-type', type: 'button', role: 'radio', 'data-type': t.id, 'aria-checked': String(t.id === swKind), icon: SF_ICON[t.id] });
+      b.append(t.name);
+      return b;
+    }));
+    swSfInput.placeholder = sfKind(swKind).ask;
+  }
+  function swShelfOpen(it) {
+    swKind = (it.guess && it.guess.kind === 'shelf' && it.guess.shelfKind) || sfType;
+    $('sw-choose').hidden = true;
+    $('sw-shelf').hidden = false;
+    swPaintKinds();
+    swSfInput.value = swTitleIn.value.trim();
+    swLook(true);
+    swSfInput.focus({ preventScroll: true });
+  }
+  $('sw-sf-back').addEventListener('click', () => { swStopLook(); $('sw-shelf').hidden = true; $('sw-choose').hidden = false; });
+  $('sw-kinds').addEventListener('click', (e) => {
+    const b = e.target.closest('.sf-type');
+    if (!b) return;
+    swKind = b.dataset.type;
+    swPaintKinds();
+    swLook(true);
+  });
+  function swStopLook() {
+    clearTimeout(swTimer);
+    if (swAbort) swAbort.abort();
+    swSeq++;
+    swFound = [];
+    swSugs.replaceChildren();
+  }
+  function swLook(now) {
+    const q = swSfInput.value.trim().replace(/\s+/g, ' ');
+    const kind = sfKind(swKind);
+    if (q.length < 2 || !kind.src) { swStopLook(); return; }
+    clearTimeout(swTimer);
+    if (swAbort) swAbort.abort();
+    const seq = ++swSeq;
+    swTimer = setTimeout(async () => {
+      if (!swFound.length) swSugs.replaceChildren(h('p', { class: 'sf-sug-note' }, 'Looking it up…'));
+      const ctl = new AbortController();
+      swAbort = ctl;
+      const kill = setTimeout(() => ctl.abort(), 9000);
+      let found = null;
+      try { found = await SF_LOOKUP[kind.src](q, ctl.signal, kind); } catch { found = null; }
+      clearTimeout(kill);
+      if (seq !== swSeq) return;
+      swFound = (found || []).slice(0, 6);
+      if (!swFound.length) {
+        swSugs.replaceChildren(h('p', { class: 'sf-sug-note' }, found ? 'No match. Tap Add to save it as typed.' : "Couldn't look that up just now. Tap Add to save it as typed."));
+        return;
+      }
+      swSugs.replaceChildren(...swFound.map((r, i) => h('button', { class: 'sf-sug', type: 'button', 'data-i': String(i) },
+        sfCover({ type: kind.id, img: sfSafeUrl(r.img, SF_IMG_HOSTS) }),
+        h('span', { class: 'sf-sug-text' }, h('span', { class: 'sf-sug-title' }, r.title), r.sub ? h('span', { class: 'sf-sug-sub' }, r.sub) : null),
+        h('span', { class: 'sf-sug-add', 'aria-hidden': 'true' }, 'Add'))));
+    }, now ? 0 : 400);
+  }
+  swSfInput.addEventListener('input', () => swLook(false));
+  function swToShelf(fields) {
+    const it = swQueue[swPos];
+    if (!it) return;
+    const before = shelf.length;
+    const x = addShelf({ ...fields, type: swKind });
+    swStopLook();
+    const added = x && shelf.length > before ? x : null;
+    swDone(it, 'shelf', added ? () => sfRemove(added) : null, added ? `On the Shelf · ${added.title}` : 'Already on your Shelf');
+  }
+  swSugs.addEventListener('click', (e) => {
+    const b = e.target.closest('.sf-sug');
+    const r = b && swFound[Number(b.dataset.i)];
+    if (r) swToShelf({ title: r.title, year: r.year, by: r.by, img: r.img, ref: r.ref, imdb: r.imdb, wd: r.wd });
+  });
+  $('sw-sf-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const t = swSfInput.value.trim();
+    if (!t) { swSfInput.focus(); return; }
+    swToShelf({ title: t });
+  });
+
+  // ── App windows: every app on the home screen opens full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
   // (and, where the browser allows it, the whole screen), like raccoon mode. Close, Esc or the
   // phone's back gesture goes back to the home screen.
@@ -9400,7 +10122,7 @@ body.is-shake .wrap { animation: shake .4s; }
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
       if (!fromHistory && history.state && history.state.mpApp) history.go(nnWasOpen && history.state.mpNowNow ? -2 : -1);
-      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins, 'shelf-panel': TAB_EL.shelf, 'hours-panel': TAB_EL.hours }[panel.id];
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins, 'shelf-panel': TAB_EL.shelf, 'hours-panel': TAB_EL.hours, 'shots-panel': TAB_EL.shots }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){
@@ -9425,7 +10147,19 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     document.querySelectorAll('[data-full]').forEach((btn) => btn.addEventListener('click', () => exit()));
     // the system's own back gesture or Esc leaves real full screen or the window: follow it
-    document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && open) exit(); });
+    // ...except the one time opening a file or photo picker knocks the page out of full screen,
+    // which would otherwise close the window just as Hours or Screenshots asks for a picture
+    let pickerExit = false;
+    document.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t && t.tagName === 'INPUT' && t.type === 'file' && document.fullscreenElement) pickerExit = true;
+    }, true);
+    window.addEventListener('focus', () => { if (pickerExit) setTimeout(() => { pickerExit = false; }, 1500); });
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement || !open) return;
+      if (pickerExit) { pickerExit = false; return; }
+      exit();
+    });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !nnOpen && !document.querySelector('dialog[open]')) exit(); });
     // Back out of Now now mode lands on the Missions window's own entry: stay in Missions then
     window.addEventListener('popstate', () => { if (open && !(history.state && history.state.mpApp)) exit(true); });
