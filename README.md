@@ -2,7 +2,7 @@
 
 Mission Possible as an all-in-one: the to-do board, the **Ezycal** calendar,
 **The Hood** (the GTA-style map of your homies from
-[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara**, **Wins** and **Hours**,
+[asciikat/homies](https://github.com/asciikat/homies)), **Notes**, **Sahara**, **Wins**, **Shelf**, **Hours** and **Screenshots**,
 each one tab away. Built on Mission Possible Plus.
 
 Single page: `index.html`. The Ezycal tab shows the separate calendar at
@@ -11,8 +11,8 @@ loaded the first time you open the tab).
 
 ## Apps, each in its own window
 
-The home screen shows seven big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
-**Sahara**, **Wins** and **Hours**. Tapping one opens that app in its own full-page window (in a browser tab it also
+The home screen shows nine big buttons: **Missions**, **Ezycal**, **Hood**, **Notes**,
+**Sahara**, **Wins**, **Shelf**, **Hours** and **Screenshots**. Tapping one opens that app in its own full-page window (in a browser tab it also
 goes full screen; the installed app already fills the screen, so it skips that and
 Android's "to exit full screen" message), so you only see that app, never the others. **✕
 Close**, Esc, or the phone's back gesture takes you back to the home screen. The
@@ -139,9 +139,48 @@ The sections, hype lines and quick wins are the `WIN_SECTIONS`, `WIN_HYPE` and `
 in `index.html`; edit them freely (keep a section's `id` the same so old wins stay in it). Wins
 sync between devices like notes and are included in Save/Merge backup (a deleted win stays deleted).
 
+## Shelf
+
+**Shelf** remembers the films, TV, books and games you want to get to, so a good recommendation
+doesn't get lost. It's the orange button on the home screen; the number on it is how many are
+lined up.
+
+- Pick a kind (**Film**, **TV**, **Video**, **Book**, **Game**, **Other**) and start typing the title. Matches
+  appear underneath with their cover, year and who made them: tap one to save it. **Add** saves
+  exactly what you typed instead, which also works offline. **Other** is for anything else (an
+  album, a podcast, a place) and is never looked up.
+- **Who told you?** is optional and sticks to the next thing you add, so you remember who to thank.
+- Everything sits in one of three piles: **Lined up**, **On now** and **Finished**. **Start** moves
+  one to On now; the **circle** finishes it and opens it so you can give it stars and a note.
+- **Pick one for me** (shown when a kind has two or more lined up) chooses at random.
+- Tap anything to open it: change its pile, rate it, add a note, follow a link out, or delete it
+  (with Undo). **Change the title or kind** is tucked at the bottom.
+
+**Where the matches come from.** All three are free and need no account or key:
+
+| Kind | Looked up on | Link out |
+| --- | --- | --- |
+| Film | Wikipedia (posters and year) | **IMDb**, Wikipedia |
+| TV | TVmaze | **IMDb**, TVmaze |
+| Video | not looked up | **Watch on YouTube** (the video, or a search for its title) |
+| Book | Open Library | Open Library, Goodreads |
+| Game | Wikipedia | Wikipedia |
+
+IMDb itself has no free lookup service (it's sold to businesses through Amazon), so Shelf finds
+each title's IMDb number another way: TVmaze supplies it for TV, and Wikidata for films. With the
+number the **IMDb** button opens the exact page; without it, it opens an IMDb search for the title.
+Every item also has **Search the web**.
+
+What you type in the title box is sent to the lookup site for that kind, and nothing else is. Covers
+are loaded from those sites, so they need a connection; offline, each item shows its kind's icon.
+
+Shelf syncs between devices and is in Save/Merge backup, like notes (newest change wins; a deleted
+item stays deleted). The kinds are the `SF_TYPES` list in `index.html` (keep a kind's `id` the same
+when renaming it). Nuke data doesn't touch Shelf.
+
 ## Hours
 
-**Hours** is a timesheet: log the hours you work and keep photos of receipts. It's the wide blue
+**Hours** is a timesheet: log the hours you work and keep photos of receipts. It's the blue
 button at the bottom of the home screen; the number on it is this week's hours (or **ON** while
 the clock is running).
 
@@ -168,6 +207,96 @@ sync), and aren't in the backup file: share the ones you need to keep. Photos ar
 
 Hours is self-contained: everything is in the `Hours` blocks of `index.html` and the `mp_hours*`,
 `mp_rcpts*` and `mp_clock` keys, so it can be switched off with the gear or removed later.
+
+## Screenshots
+
+**Screenshots** goes through your recent screenshots one at a time, so the things you saved "to
+deal with later" actually get dealt with. It's the wide cyan button at the bottom of the home
+screen; the number on it is how many are left in the sweep you're on.
+
+1. Pick how far back to go (**1 week**, **2 weeks**, **1 month** or **Any**), then tap **Pick
+   screenshots**. In your phone's picker, open **Albums → Screenshots** and select the last couple
+   of weeks (press and hold one, then drag to select lots).
+2. Each screenshot comes up on its own with the text read off it, a **Title** guessed from that
+   text, and a **Suggested** choice:
+   - **Job**: the title goes on Now.
+   - **Note**: the text is saved as a note, with the date of the screenshot.
+   - **Shelf**: pick Film, TV, Book, Game or Other and a match, the same lookup as Shelf.
+   - **Receipt**: the picture goes into Hours as a receipt, with the amount it found.
+   - **Just keep it**: into the library (below), picture and text, nothing else.
+   - **Nothing to keep**: done, nothing saved.
+   - **Leave it for next time**: skipped for now; it comes back the next time you pick it.
+   Under the hint, the screenshot's **links** show as buttons you can tap:
+   - Any web address in it (a site's home page, and the exact page if one is visible).
+   - **YouTube**: **Watch on YouTube**, straight to the video when its address is in the picture, otherwise
+     a YouTube search for its title. The Shelf choice opens on the new **Video** kind, so it lands
+     on your watch-later list.
+   - **A product** (a plugin, an app, gear: words like plug-in, VST, AAX, free trial, buy now) or **a
+     website**: the app looks the brand up and says **What it is** (from Wikipedia) and adds its
+     official site (from Wikidata). If it can't find one, **Find its website** searches for it, and
+     a sentence from the screenshot says what it's about. A website's title becomes the site's name.
+   Products and websites are suggested for **Just keep it**, and file under **Products** and
+   **Websites**. Notes made from a screenshot keep its links.
+3. Every choice has **Undo**. Tap the picture to see it bigger; edit the title, or open **All the
+   text it read**, before choosing.
+4. At the end you get a plain count of what went where (no confetti or fanfare), and the dates of
+   the ones you can now delete from your gallery. **Go through more** picks again.
+
+**Share it to the app (quickest).** On Android, once the app is installed, **Possible Pro** shows
+in the share menu. Right after you take a screenshot, tap **Share** in its preview and pick it: the
+app opens straight on that screenshot so you can say what it's for before you forget. It works for
+links too, so sharing a video from the YouTube app puts it in front of you with **Watch on YouTube**
+ready for the Shelf. Shared things that aren't dealt with (or are left for next time) wait in the
+app: the Screenshots button counts them and the top of Screenshots has **Go through**. iPhones don't
+let web apps into the share menu. After this update, Android may take a day to add Possible Pro to
+the share menu; removing the app from the home screen and installing it again does it straight away.
+
+**Remind me.** Under the choices, **Or remind me: Tomorrow, Weekend, Next week** makes a job that
+lands on Now that morning (Weekend is Saturday, Next week is Monday). A kept screenshot has **Remind
+me: Today, Tomorrow, Weekend, Next week** too. The job's menu has **See the screenshot**, and
+finishing the job ticks the screenshot done in the library.
+
+**The library.** Every screenshot you keep (Job, Note, Shelf, Receipt or Just keep it) is saved
+under the sweep with its picture and the text read off it, so you can delete the original from your
+gallery and still find it. It's sorted into categories: **To do**, **Money**, **Watch & read**,
+**Food**, **Products**, **Places**, **Websites**, **Info** and **Other**. The category is guessed from the text and
+shown as **Files under** while you sweep; change it there or later. **Search the words in them**
+finds a screenshot by anything written in it, or by what it is or its links. Every screenshot has a
+**tick** and an **×** on it: the tick marks it done ✅, which crosses it out and moves it after the
+ones still to deal with (it stays until you delete it; tap the tick again to undo), and the × deletes
+it. **Delete the N done** clears the crossed-out ones in one go. Every delete has Undo. Tap one to see it
+full size with its links and what it is, change its title or
+category, **Copy text**, **Share picture** (to save it somewhere else), or **Delete** it (with
+Undo). The categories are the `SW_CATS` list in `index.html` (keep a category's `id` the same when
+renaming it).
+
+The library keeps a smaller copy (1400 px, around 50 to 250 KB each), shown with the total at the
+top, on this phone only: it doesn't sync and isn't in the backup file.
+
+Ones you've gone through are remembered (by file name and size), so you can stop at any time with
+**Stop for now** and pick the same screenshots again later: it carries on with the ones you haven't
+done. Screenshots older than the range you chose are left out, with a button to go through them
+too. A sweep takes up to 100 at a time.
+
+**Good to know**
+
+- A web page can't look through your photos by itself, so you always choose the screenshots in the
+  picker. It also can't delete them from the phone: when a sweep is done, it tells you which dates
+  to delete in your gallery.
+- The text is read on your phone with [Tesseract](https://tesseract.projectnaptha.com/), so your
+  screenshots are never uploaded anywhere. The reader (about 7 MB) downloads the first time you use
+  it and is kept for next time. Without a connection the first time, you can still type a title
+  yourself.
+- The date comes from the screenshot's file name where the phone puts it there (Android does; the
+  photo picker on some phones doesn't). Ones with no date always count as recent.
+- The guesses are simple keyword checks (a total and a card payment means a receipt, Netflix or
+  "season" means TV, Goodreads or "novel" means a book). They only highlight a button; every choice
+  is always there.
+- Looking up what something is sends only the brand (for a website, the part of its address
+  before .com; for a product, its title) to Wikipedia and Wikidata, and only for screenshots that
+  look like a product or a website. Messages, receipts and the rest are never looked up.
+- What's been gone through, and the library, stay on this device; nothing in Screenshots syncs. What you send to
+  Missions, Notes, Shelf or Hours syncs as usual.
 
 ## Raccoon mode
 

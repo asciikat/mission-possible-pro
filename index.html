@@ -1820,7 +1820,7 @@ body.is-shake .wrap { animation: shake .4s; }
 
 /* ───────────────────────── hours ───────────────────────── */
 /* Hours: clock in and out, add hours by hand, and keep photos of receipts. Blue, like a timecard. */
-#top-tabs #tab-hours { grid-column: 1 / -1; border-left-color: var(--hr); }
+#top-tabs #tab-hours { border-left-color: var(--hr); }
 #top-tabs #tab-hours .tab-label svg { color: var(--hr); }
 #top-tabs #tab-hours .count { background: var(--hr); }
 #top-tabs #tab-hours.is-running .count { background: var(--cash); animation: hrPulse 1.6s ease-in-out infinite; }
@@ -1982,6 +1982,390 @@ body.is-shake .wrap { animation: shake .4s; }
 .hr-pic-tools .btn svg { width: 16px; height: 16px; }
 .hr-pic-tools .btn:disabled { opacity: .4; cursor: default; }
 @media (max-width: 380px) { .hr-go b { font-size: 24px; } .hr-side { gap: 10px; } }
+
+/* ───────────────────────── shelf ───────────────────────── */
+/* Shelf: films, TV, books and games to get to, on the go, and finished. Orange. */
+:root { --sf: #ff9b3d; }
+#top-tabs #tab-shelf { border-left-color: var(--sf); }
+#top-tabs #tab-shelf .tab-label svg { color: var(--sf); }
+#top-tabs #tab-shelf .count { background: var(--sf); }
+.sf-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 4px 0 14px; }
+.sf-total { display: block; font: 900 clamp(40px, 11vw, 64px)/.85 var(--font-display); text-transform: uppercase; color: var(--ink); }
+.sf-side { display: flex; gap: 16px; text-align: right; }
+.sf-stat { font: 700 13px/1.2 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.sf-stat b { display: block; font: 900 26px/1 var(--font-display); letter-spacing: .02em; color: var(--sf); }
+.sf-types { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
+.sf-types::-webkit-scrollbar { display: none; }
+.sf-type {
+  flex: 1 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 9px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--smog);
+  font: 800 14px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sf-type svg { width: 18px; height: 18px; }
+.sf-type[aria-checked="true"] { border-color: var(--sf); background: rgba(255, 155, 61, .16); color: var(--ink); }
+.sf-type[aria-checked="true"] svg { color: var(--sf); }
+.composer--shelf { padding: 0; }
+.composer--shelf .dock-row:focus-within {
+  border-color: rgba(255, 155, 61, .75);
+  box-shadow: 0 0 0 4px rgba(255, 155, 61, .14), 0 14px 40px -14px rgba(255, 155, 61, .55);
+}
+.composer--shelf .add-btn, .sf-modal .add-btn { background: var(--sf); }
+.sf-sugs { border: 1px solid var(--line); border-top: 0; background: var(--asphalt-hi); }
+.sf-sugs:empty { display: none; }
+.sf-sug {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.sf-sugs > .sf-sug:first-child { border-top: 0; }
+@media (hover: hover) { .sf-sug:hover { background: rgba(255, 255, 255, .05); } }
+.sf-sug-text { flex: 1; min-width: 0; }
+.sf-sug-title { display: block; font-weight: 700; overflow-wrap: anywhere; }
+.sf-sug-sub { display: block; margin-top: 2px; font: 600 13px/1.25 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); overflow-wrap: anywhere; }
+.sf-sug-add { flex: none; font: 800 12px/1 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--sf); }
+.sf-sug-note { margin: 0; padding: 12px; color: var(--smog); font-size: 15px; }
+.sf-credit { margin: 0; padding: 6px 10px 8px; border-top: 1px solid var(--line); font-size: 12px; color: var(--dim); }
+.sf-credit a { color: var(--smog); }
+.sf-cover { position: relative; flex: none; display: grid; place-items: center; width: 40px; height: 58px; background: var(--shade); color: var(--dim); overflow: hidden; }
+.sf-cover img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.sf-cover svg { width: 20px; height: 20px; }
+.sf-from { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.sf-from span { flex: none; font: 700 12px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.sf-from input { flex: 1; min-width: 0; min-height: 40px; padding: 0 2px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; color: var(--ink); font: 600 16px/1.2 var(--font-body); outline: 0; }
+.sf-from input:focus { border-bottom-color: var(--sf); }
+.sf-from input::placeholder { color: var(--dim); }
+.sf-tabs, .sf-status { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.sf-tabs { margin: 20px 0 4px; }
+.sf-tab {
+  min-height: 46px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--smog);
+  font: 800 14px/1.1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sf-tab b { margin-left: 5px; color: var(--dim); font-weight: 800; }
+.sf-tab[aria-selected="true"], .sf-tab[aria-checked="true"] { border-color: var(--sf); background: rgba(255, 155, 61, .16); color: var(--ink); }
+.sf-tab[aria-selected="true"] b { color: var(--sf); }
+.sf-group { margin-top: 10px; border: 1px solid var(--line); background: var(--asphalt-hi); }
+.sf-group-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 0 6px 0 12px; border-bottom: 1px solid var(--line); }
+.sf-group-name { display: inline-flex; align-items: center; gap: 8px; font: 800 13px/1 var(--font-hud); letter-spacing: .14em; text-transform: uppercase; color: var(--smog); }
+.sf-group-name svg { width: 18px; height: 18px; color: var(--sf); }
+.sf-pick { min-height: 36px; padding: 0 8px; border: 0; background: none; color: var(--sf); font: 800 12px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.sf-items { list-style: none; margin: 0; padding: 0; }
+.sf-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-top: 1px solid var(--line); }
+.sf-items .sf-item:first-child { border-top: 0; }
+.sf-check { flex: none; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 2px solid var(--palm); border-radius: 50%; background: none; color: var(--palm); cursor: pointer; }
+.sf-check svg { width: 20px; height: 20px; opacity: .55; }
+.sf-check:active { background: var(--palm); color: var(--shade); }
+.sf-open { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.sf-item-text { flex: 1; min-width: 0; }
+.sf-item-title { display: block; font-weight: 700; overflow-wrap: anywhere; }
+.sf-item-sub { display: block; margin-top: 2px; font: 600 13px/1.25 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); overflow-wrap: anywhere; }
+.sf-item-from { display: block; margin-top: 2px; font-size: 14px; color: var(--sf); overflow-wrap: anywhere; }
+.sf-start { flex: none; min-height: 38px; padding: 0 10px; border: 1px solid var(--line); background: none; color: var(--smog); font: 800 12px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.sf-stars-s { flex: none; color: var(--gold); font-size: 14px; letter-spacing: 1px; white-space: nowrap; }
+.sf-stars-s.is-blank { color: var(--dim); font: 800 12px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; }
+.sf-item.is-new { animation: sfIn 1.6s var(--glide); }
+@keyframes sfIn { from { background: rgba(255, 155, 61, .34); } }
+/* the sheet: where it's at, how it was, who told you, and links out */
+.sf-modal { border-color: rgba(255, 155, 61, .5); }
+.sf-modal .eyebrow { margin-bottom: 10px; color: var(--sf); }
+.sf-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.sf-head .sf-cover { width: 72px; height: 104px; }
+.sf-head .sf-cover svg { width: 30px; height: 30px; }
+.sf-head h2 { margin: 0 0 6px; font-size: 30px; line-height: .95; overflow-wrap: anywhere; }
+.sf-head p { font-size: 15px; }
+.sf-label { display: block; margin: 14px 0 6px; font: 700 12px/1 var(--font-hud); letter-spacing: .12em; text-transform: uppercase; color: var(--smog); }
+.sf-rate { display: flex; gap: 2px; }
+.sf-star { display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; }
+.sf-star svg { width: 32px; height: 32px; }
+.sf-star.is-on { color: var(--gold); }
+.sf-modal .hr-fields { margin-top: 14px; }
+.sf-more { margin-top: 12px; }
+.sf-more summary { min-height: 36px; font: 700 12px/36px var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); cursor: pointer; }
+.sf-more .hr-fields { margin-top: 4px; }
+.sf-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.sf-links .btn { min-height: 38px; padding: 0 11px; font-size: 12px; text-decoration: none; }
+.sf-links .btn svg { width: 14px; height: 14px; }
+
+/* ───────────────────────── screenshots ───────────────────────── */
+/* Screenshots: go through recent screenshots one at a time and file each one. Cyan. */
+:root { --sw: #4fd8ff; }
+#top-tabs #tab-shots { border-left-color: var(--sw); }
+#top-tabs #tab-shots .tab-label svg { color: var(--sw); }
+#top-tabs #tab-shots .count { background: var(--sw); }
+@media (max-width: 719px) { #top-tabs #tab-shots { grid-column: 1 / -1; } }
+.sw-h { margin: 0 0 8px; font: 900 clamp(34px, 9vw, 48px)/.9 var(--font-display); text-transform: uppercase; }
+.sw-lead { margin: 0 0 16px; color: var(--smog); font-size: 17px; }
+.sw-range { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-bottom: 12px; }
+.sw-range .sf-tab { min-height: 40px; font-size: 13px; }
+.sw-range .sf-tab[aria-checked="true"] { border-color: var(--sw); background: rgba(79, 216, 255, .14); }
+.sw-pick {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 96px;
+  padding: 14px 16px;
+  border: 0;
+  background: var(--sw);
+  color: var(--shade);
+  text-align: left;
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+}
+.sw-pick svg { flex: none; width: 40px; height: 40px; }
+.sw-pick b { display: block; font: 900 30px/.95 var(--font-display); text-transform: uppercase; }
+.sw-pick small { display: block; margin-top: 4px; font: 700 13px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.sw-pick:active { transform: translateY(1px) scale(.99); }
+.sw-pick:focus-visible { outline: none; box-shadow: inset 0 0 0 3px var(--ink); }
+.sw-how { margin: 14px 0 0; padding-left: 22px; color: var(--smog); font-size: 15px; }
+.sw-how li { margin: 4px 0; }
+.sw-how b { color: var(--ink); }
+.sw-msg { margin: 14px 0 0; padding: 12px 14px; border: 1px solid rgba(79, 216, 255, .4); background: rgba(79, 216, 255, .07); font-size: 15px; }
+.sw-msg .btn { margin-top: 10px; }
+.sw-total { margin: 14px 0 0; font: 700 13px/1.3 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.sw-total b { color: var(--sw); }
+.sw-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sw-pos { font: 900 26px/1 var(--font-display); text-transform: uppercase; }
+.sw-pos small { margin-left: 6px; font: 700 13px/1 var(--font-hud); letter-spacing: .1em; color: var(--smog); }
+.sw-bar { height: 6px; margin: 6px 0 8px; background: rgba(255, 255, 255, .08); }
+.sw-bar i { display: block; height: 100%; width: 0; background: var(--sw); transition: width .3s var(--glide); }
+.sw-shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); background: var(--shade); cursor: zoom-in; }
+.sw-shot img { display: block; width: 100%; max-height: 24dvh; object-fit: contain; }
+.sw-shot.is-zoom { cursor: zoom-out; }
+.sw-shot.is-zoom img { max-height: none; }
+.sw-date { margin: 4px 0 0; font: 600 13px/1.3 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.sw-hint { min-height: 20px; margin: 2px 0 6px; color: var(--sw); font: 700 15px/1.3 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; }
+.sw-hint.is-quiet { color: var(--smog); }
+.sw-run .hr-field input, .sw-run textarea { background: var(--asphalt-hi); }
+.sw-all { margin-top: 2px; }
+.sw-all summary { min-height: 34px; font: 700 12px/34px var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); cursor: pointer; }
+.sw-all textarea {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--ink);
+  font: 500 15px/1.4 var(--font-body);
+  resize: vertical;
+}
+.sw-all textarea:focus { outline: none; border-color: var(--sw); }
+.sw-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.sw-act {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--c, var(--sw));
+  background: rgba(255, 255, 255, .03);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.sw-act svg { flex: none; width: 24px; height: 24px; color: var(--c, var(--sw)); }
+.sw-act b { display: block; font: 900 22px/1 var(--font-display); text-transform: uppercase; }
+.sw-act small { display: block; margin-top: 3px; font: 700 11px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.sw-act.is-suggested { background: color-mix(in srgb, var(--c) 16%, transparent); border-color: var(--c); }
+.sw-act.is-suggested::after {
+  content: "Suggested";
+  position: absolute;
+  top: -8px;
+  right: 8px;
+  padding: 2px 6px;
+  background: var(--c);
+  color: var(--shade);
+  font: 800 10px/1.2 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+@media (hover: hover) { .sw-act:hover { background: rgba(255, 255, 255, .07); } }
+.sw-act:disabled, .sw-clear:disabled { opacity: .5; cursor: progress; }
+.sw-row2 { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.sw-clear {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  border: 2px solid var(--palm);
+  background: rgba(46, 230, 200, .08);
+  color: var(--palm);
+  font: 800 16px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sw-clear svg { width: 20px; height: 20px; }
+.sw-shelf { margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-top: 3px solid var(--sf); background: var(--asphalt-hi); }
+.sw-shelf .eyebrow { color: var(--sf); }
+.sw-shelf .sf-type { flex: 1 0 auto; }
+.sw-big { display: block; font: 900 clamp(44px, 12vw, 68px)/.88 var(--font-display); text-transform: uppercase; color: var(--sw); }
+.sw-sum { list-style: none; margin: 16px 0; padding: 0; border: 1px solid var(--line); background: var(--asphalt-hi); }
+.sw-sum li { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; border-top: 1px solid var(--line); font-weight: 600; }
+.sw-sum li:first-child { border-top: 0; }
+.sw-sum b { font: 900 22px/1 var(--font-display); color: var(--sw); }
+.sw-done p { color: var(--smog); }
+.sw-done .add-btn { margin-top: 14px; background: var(--sw); }
+.sw-done .btn { margin-top: 10px; }
+
+/* the library: every screenshot you keep, with its text, in categories */
+.sw-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; }
+.sw-meta .sw-date { margin: 0; }
+.sw-catsel { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.sw-catsel span { font: 700 11px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+.sw-catsel select, .sw-modal select {
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--asphalt-hi);
+  color: var(--ink);
+  font: 700 15px/1.2 var(--font-body);
+}
+.sw-catsel select:focus { outline: none; border-color: var(--sw); }
+.sw-act--wide { grid-column: 1 / -1; min-height: 52px; }
+.sw-howto { margin-top: 12px; }
+.sw-howto summary { min-height: 34px; font: 700 12px/34px var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); cursor: pointer; }
+.sw-howto .sw-how { margin-top: 2px; }
+.sw-lib { margin-top: 22px; padding-top: 4px; border-top: 1px solid var(--line); }
+.sw-lib .hr-bar { margin-top: 14px; }
+.sw-lib-n { font: 700 13px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.sw-lib-lead { margin: 0 0 10px; color: var(--smog); font-size: 15px; }
+.sw-search { display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 4px 0 10px; border: 1px solid var(--line); background: var(--asphalt-hi); }
+.sw-search:focus-within { border-color: var(--sw); }
+.sw-search svg { flex: none; width: 18px; height: 18px; color: var(--smog); }
+.sw-search input { flex: 1; min-width: 0; min-height: 44px; border: 0; background: none; color: var(--ink); font: 600 16px/1.2 var(--font-body); outline: 0; }
+.sw-search input::placeholder { color: var(--dim); }
+.sw-search input::-webkit-search-cancel-button { display: none; }
+.sw-q-x { flex: none; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; background: none; color: var(--smog); cursor: pointer; }
+.sw-q-x svg { width: 16px; height: 16px; }
+.sw-cats { display: flex; gap: 6px; margin: 10px 0; overflow-x: auto; scrollbar-width: none; }
+.sw-cats::-webkit-scrollbar { display: none; }
+.sw-cat-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--smog);
+  font: 800 12px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sw-cat-chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.sw-cat-chip b { color: var(--dim); font-weight: 800; }
+.sw-cat-chip[aria-selected="true"] { border-color: var(--sw); background: rgba(79, 216, 255, .12); color: var(--ink); }
+.sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; }
+.sw-tile { position: relative; min-width: 0; border: 1px solid var(--line); border-top: 3px solid var(--c); background: var(--asphalt-hi); color: var(--ink); }
+.sw-tile-open { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.sw-tile-done, .sw-tile-del { position: absolute; top: 6px; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; background: rgba(5, 4, 10, .78); cursor: pointer; }
+.sw-tile-done { left: 6px; border: 2px solid var(--palm); color: var(--palm); }
+.sw-tile-done svg { width: 20px; height: 20px; opacity: .45; }
+.sw-tile.is-done .sw-tile-done svg { opacity: 1; }
+.sw-tile-del { right: 6px; color: var(--ink); }
+.sw-tile-del svg { width: 15px; height: 15px; }
+.sw-tile.is-done .sw-tile-done { background: var(--palm); color: var(--shade); }
+.sw-tile.is-done .sw-tile-pic img { opacity: .4; filter: grayscale(1); }
+.sw-tile.is-done .sw-tile-t { color: var(--smog); text-decoration: line-through; text-decoration-thickness: 2px; }
+.sw-lib-bulk { display: flex; justify-content: flex-end; margin: 0 0 8px; }
+.sw-lib-bulk .btn { min-height: 36px; padding: 0 11px; font-size: 12px; }
+.sw-modal .swv-done { border-color: var(--palm); color: var(--palm); }
+.sw-modal .swv-done.is-on { background: var(--palm); color: var(--shade); }
+.sw-tile-pic { display: block; aspect-ratio: 3 / 4; background: var(--shade); overflow: hidden; }
+.sw-tile-pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.sw-tile-t { display: -webkit-box; padding: 6px 7px 0; overflow: hidden; font-size: 13px; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.sw-tile-d { display: block; padding: 2px 7px 7px; font: 600 11px/1.2 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); }
+.sw-modal { border-color: rgba(79, 216, 255, .5); }
+.sw-modal .eyebrow { color: var(--sw); }
+.sw-modal .hr-pic img { max-height: 48dvh; }
+.sw-modal .sw-all textarea { background: var(--asphalt-hi); }
+.swv-meta { margin: 0 0 4px; font: 600 13px/1.4 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); }
+.sw-modal .add-btn { background: var(--sw); }
+.sw-done-lib { margin-left: 8px; }
+
+/* links found in a screenshot, and what the thing is */
+.sw-links { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.sw-links:empty { display: none; }
+.sw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  max-width: 100%;
+  padding: 0 10px;
+  border: 1px solid rgba(79, 216, 255, .45);
+  background: rgba(79, 216, 255, .08);
+  color: var(--ink);
+  font: 700 13px/1.1 var(--font-hud);
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+.sw-link span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sw-link svg { flex: none; width: 15px; height: 15px; color: var(--sw); }
+.sw-link--yt { border-color: rgba(255, 78, 69, .55); background: rgba(255, 78, 69, .1); }
+.sw-link--yt svg { width: 18px; height: 18px; color: #ff4e45; }
+.sw-about { flex-basis: 100%; margin: 2px 0 0; font-size: 14px; line-height: 1.35; color: var(--smog); }
+.sw-about b { color: var(--ink); }
+.sw-modal .sw-links { margin: 0 0 12px; }
+.sw-tile-d svg { width: 11px; height: 11px; margin-left: 4px; vertical-align: -1px; color: var(--sw); }
+
+/* Remind me, shared ones waiting, and things shared without a picture */
+.sw-remind { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.sw-remind > span { margin-right: 2px; font: 700 12px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.sw-remind button {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 61, 127, .5);
+  background: rgba(255, 61, 127, .07);
+  color: var(--ink);
+  font: 800 13px/1 var(--font-hud);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sw-modal .sw-remind { margin: 0 0 12px; }
+.sw-inbox { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 14px; padding: 12px 14px; border: 2px solid var(--sw); background: rgba(79, 216, 255, .1); }
+.sw-inbox p { margin: 0; font-weight: 700; }
+.sw-inbox .add-btn { flex: none; background: var(--sw); }
+.sw-share-tip { margin: 12px 0 0; padding: 10px 12px; border-left: 3px solid var(--sw); background: rgba(79, 216, 255, .06); font-size: 15px; color: var(--smog); }
+.sw-share-tip b { color: var(--ink); }
+.sw-tile-pic > svg { display: block; width: 34%; height: 100%; margin: 0 auto; color: var(--sw); }
 
 /* ───────────────────────── sahara ───────────────────────── */
 /* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
@@ -3146,7 +3530,9 @@ body.is-shake .wrap { animation: shake .4s; }
           <button class="tab" id="tab-notes" type="button" aria-controls="notes-panel">Notes</button>
           <button class="tab" id="tab-sahara" type="button" aria-controls="sahara-panel"><span class="tab-label"><svg class="px" viewBox="0 0 9 8" aria-hidden="true"><path fill="currentColor" d="M1 0h2v1h-2zM6 0h2v1h-2zM0 1h4v1h-4zM5 1h4v1h-4zM0 2h9v2h-9zM1 4h7v1h-7zM2 5h5v1h-5zM3 6h3v1h-3zM4 7h1v1h-1z"/></svg>Sahara</span> <span class="count" id="count-sahara">0</span></button>
           <button class="tab" id="tab-wins" type="button" aria-controls="wins-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>Wins</span> <span class="count" id="count-wins">0</span></button>
+          <button class="tab" id="tab-shelf" type="button" aria-controls="shelf-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M9 4v16M5 4h4M5 20h4M12.5 6.5l3-1 4.5 13.5-3 1zM3 20h18"/></svg>Shelf</span> <span class="count" id="count-shelf">0</span></button>
           <button class="tab" id="tab-hours" type="button" aria-controls="hours-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 8.5V13l3 2M9.5 2.5h5"/></svg>Hours</span> <span class="count" id="count-hours">0h</span></button>
+          <button class="tab" id="tab-shots" type="button" aria-controls="shots-panel"><span class="tab-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M3 7V4.5a1.5 1.5 0 011.5-1.5H6M21 7V4.5A1.5 1.5 0 0019.5 3H18M3 17v2.5A1.5 1.5 0 004.5 21H6M21 17v2.5a1.5 1.5 0 01-1.5 1.5H18M10 18h4"/></svg>Screenshots</span> <span class="count" id="count-shots">0</span></button>
         </nav>
       </div>
 
@@ -3415,6 +3801,42 @@ body.is-shake .wrap { animation: shake .4s; }
         </div>
         </div>
       </div>
+      <!-- Shelf: films, TV, books and games you want to get to. Typing a title looks it up
+           (Wikipedia for films and games, TVmaze for TV, Open Library for books) so it's saved
+           with its cover and year. Synced like notes. -->
+      <div class="shelf-panel frame-panel" id="shelf-panel" role="region" aria-label="Shelf" data-name="Shelf" hidden>
+        <div class="frame-bar"><span>Shelf</span><button class="frame-btn" type="button" data-full="shelf-panel" aria-label="Close Shelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <div class="sf-hero">
+          <div>
+            <p class="eyebrow">To get to</p>
+            <strong class="sf-total" id="sf-want">0 lined up</strong>
+          </div>
+          <div class="sf-side">
+            <span class="sf-stat"><b id="sf-now">0</b>on now</span>
+            <span class="sf-stat"><b id="sf-done">0</b>finished</span>
+          </div>
+        </div>
+        <div class="sf-types" id="sf-types" role="radiogroup" aria-label="What are you adding?"></div>
+        <form class="composer composer--shelf" id="sf-form" autocomplete="off">
+          <label class="sr-only" for="sf-input">Title</label>
+          <div class="dock-row">
+            <input type="text" id="sf-input" maxlength="140" enterkeyhint="done" autocapitalize="words" placeholder="Add a film…">
+            <button type="submit" class="add-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
+        </form>
+        <div class="sf-sugs" id="sf-sugs" aria-live="polite"></div>
+        <label class="sf-from"><span>Who told you?</span><input type="text" id="sf-from" maxlength="60" autocapitalize="words" placeholder="optional"></label>
+
+        <div class="sf-tabs" id="sf-tabs" role="tablist" aria-label="Where things are at"></div>
+        <div id="sf-list"></div>
+        <p class="hr-none" id="sf-empty" hidden></p>
+        </div>
+      </div>
+
 
       <!-- Hours: clock in and out or add hours by hand (date, start, finish, break), and keep
            photos of receipts. Entries sync like notes; the photos stay on this device. -->
@@ -3492,6 +3914,123 @@ body.is-shake .wrap { animation: shake .4s; }
         <div class="hr-rcpts" id="hr-rcpts"></div>
         <p class="hr-none" id="hr-rcpts-empty" hidden>No receipts yet. Tap Snap receipt and take a photo; you can add the amount after.</p>
         <p class="hr-keep">Hours and receipt details sync with the rest of the board. Receipt photos are kept on this device only: use Share on a receipt to send the photo somewhere safe.</p>
+        </div>
+      </div>
+
+      <!-- Screenshots: pick recent screenshots and go through them one at a time, turning each
+           into a job, a note, a receipt or something for the Shelf, or letting it go. The text
+           is read on the device; screenshots never leave it. -->
+      <div class="shots-panel frame-panel" id="shots-panel" role="region" aria-label="Screenshots" data-name="Screenshots" hidden>
+        <div class="frame-bar"><span>Screenshots</span><button class="frame-btn" type="button" data-full="shots-panel" aria-label="Close Screenshots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
+        <div class="frame-body tab-panel">
+        <section class="sw-start" id="sw-start">
+          <div class="sw-inbox" id="sw-inbox" hidden>
+            <p id="sw-inbox-n"></p>
+            <button class="add-btn" id="sw-inbox-go" type="button">Go through</button>
+          </div>
+          <p class="eyebrow">Screenshot sweep</p>
+          <h2 class="sw-h">Go through your screenshots</h2>
+          <p class="sw-lead">One at a time. Make each one a job, a note, a receipt or something for the Shelf, or let it go.</p>
+          <p class="eyebrow">How far back</p>
+          <div class="sw-range" id="sw-range" role="radiogroup" aria-label="How far back"></div>
+          <button class="sw-pick" id="sw-pick" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M3 7V4.5a1.5 1.5 0 011.5-1.5H6M21 7V4.5A1.5 1.5 0 0019.5 3H18M3 17v2.5A1.5 1.5 0 004.5 21H6M21 17v2.5a1.5 1.5 0 01-1.5 1.5H18M10 18h4"/></svg>
+            <span><b>Pick screenshots</b><small>Opens your photos</small></span>
+          </button>
+          <details class="sw-howto" id="sw-howto" open>
+          <summary>How to pick them</summary>
+          <ol class="sw-how">
+            <li>In the picker, open <b>Albums</b>, then <b>Screenshots</b>.</li>
+            <li>Select the last couple of weeks. Press and hold one, then drag to select lots at once.</li>
+            <li>Tap <b>Done</b> or <b>Add</b>.</li>
+          </ol>
+          </details>
+          <div class="sw-msg" id="sw-msg" role="status" hidden></div>
+          <p class="sw-share-tip"><b>Quicker:</b> right after you take a screenshot, tap <b>Share</b> and pick <b>Possible Pro</b>. It opens here so you can say what it's for straight away. (Android, with the app installed.)</p>
+          <p class="sw-total" id="sw-total" hidden></p>
+          <p class="hr-keep">Your screenshots stay on your phone: the text is read on the phone itself. Ones you've gone through are skipped next time, so you can stop whenever you like and pick the same ones again to carry on.</p>
+          <div class="sw-lib" id="sw-lib">
+            <div class="hr-bar"><h3>Library</h3><span class="sw-lib-n" id="sw-lib-n"></span></div>
+            <div id="sw-lib-tools" hidden>
+              <label class="sw-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>
+                <span class="sr-only">Search your screenshots</span>
+                <input type="search" id="sw-q" enterkeyhint="search" autocomplete="off" placeholder="Search the words in them">
+                <button class="sw-q-x" id="sw-q-x" type="button" aria-label="Clear the search" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+              </label>
+              <div class="sw-cats" id="sw-cats" role="tablist" aria-label="Categories"></div>
+            </div>
+            <div class="sw-lib-bulk" id="sw-lib-bulk" hidden><button class="btn btn--danger" id="sw-clear-done" type="button"></button></div>
+            <div class="sw-grid" id="sw-grid"></div>
+            <p class="hr-none" id="sw-lib-empty" hidden></p>
+          </div>
+        </section>
+
+        <section class="sw-run" id="sw-run" hidden>
+          <div class="sw-top">
+            <span class="sw-pos" id="sw-pos"></span>
+            <button class="hr-link" id="sw-stop" type="button">Stop for now</button>
+          </div>
+          <div class="sw-bar" aria-hidden="true"><i id="sw-fill"></i></div>
+          <button class="sw-shot" id="sw-shot" type="button" aria-label="Show the screenshot bigger"><img id="sw-img" alt="The screenshot"></button>
+          <div class="sw-meta">
+            <p class="sw-date" id="sw-date"></p>
+            <label class="sw-catsel"><span>Files under</span><select id="sw-cat"></select></label>
+          </div>
+          <p class="sw-hint" id="sw-hint" aria-live="polite"></p>
+          <div class="sw-links" id="sw-links"></div>
+          <label class="hr-field"><span>Title</span><input type="text" id="sw-title" maxlength="140" enterkeyhint="done" placeholder="What's this one about?"></label>
+          <details class="sw-all" id="sw-all">
+            <summary id="sw-all-label">All the text it read</summary>
+            <label class="sr-only" for="sw-text">All the text it read</label>
+            <textarea id="sw-text" rows="6"></textarea>
+          </details>
+          <div id="sw-choose">
+            <div class="sw-acts" id="sw-acts">
+              <button class="sw-act" type="button" data-act="job" style="--c: var(--neon)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.5l2.8 2.8L16.5 9"/></svg><span><b>Job</b><small>Goes on Now</small></span></button>
+              <button class="sw-act" type="button" data-act="note" style="--c: var(--dusk-ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3.5h9l3.5 3.5v13.5H6z"/><path d="M9 11h6M9 15h6"/></svg><span><b>Note</b><small>Keeps the text</small></span></button>
+              <button class="sw-act" type="button" data-act="shelf" style="--c: var(--sf)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M9 4v16M5 4h4M5 20h4M12.5 6.5l3-1 4.5 13.5-3 1zM3 20h18"/></svg><span><b>Shelf</b><small>Film, TV, book…</small></span></button>
+              <button class="sw-act" type="button" data-act="receipt" style="--c: var(--hr)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span><b>Receipt</b><small>Saved in Hours</small></span></button>
+              <button class="sw-act sw-act--wide" type="button" data-act="keep" style="--c: var(--sw)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3.5 7.5h17v12h-17zM2.5 4h19v3.5h-19zM10 11.5h4"/></svg><span><b>Just keep it</b><small>In the library, with its text</small></span></button>
+            </div>
+            <div class="sw-remind" aria-label="Remind me">
+              <span>Or remind me</span>
+              <button type="button" data-act="remind" data-when="tomorrow">Tomorrow</button>
+              <button type="button" data-act="remind" data-when="weekend">Weekend</button>
+              <button type="button" data-act="remind" data-when="week">Next week</button>
+            </div>
+            <div class="sw-row2">
+              <button class="sw-clear" type="button" data-act="clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nothing to keep</button>
+            </div>
+            <div class="sw-row2">
+              <button class="hr-link" type="button" data-act="later">Leave it for next time</button>
+            </div>
+          </div>
+          <div class="sw-shelf" id="sw-shelf" hidden>
+            <p class="eyebrow">Put it on the Shelf</p>
+            <div class="sf-types" id="sw-kinds" role="radiogroup" aria-label="What is it?"></div>
+            <form class="composer composer--shelf" id="sw-sf-form" autocomplete="off">
+              <label class="sr-only" for="sw-sf-input">Title to look up</label>
+              <div class="dock-row">
+                <input type="text" id="sw-sf-input" maxlength="140" enterkeyhint="done" autocapitalize="words">
+                <button type="submit" class="add-btn">Add</button>
+              </div>
+            </form>
+            <div class="sf-sugs" id="sw-sf-sugs" aria-live="polite"></div>
+            <div class="sw-row2"><button class="hr-link" id="sw-sf-back" type="button">Back to the choices</button></div>
+          </div>
+        </section>
+
+        <section class="sw-done" id="sw-done" hidden>
+          <p class="eyebrow">Sweep done</p>
+          <strong class="sw-big" id="sw-done-n"></strong>
+          <ul class="sw-sum" id="sw-sum"></ul>
+          <p id="sw-done-tip"></p>
+          <button class="add-btn" id="sw-again" type="button">Go through more</button>
+          <button class="btn sw-done-lib" id="sw-to-lib" type="button" hidden>See the library</button>
+          <button class="btn" id="sw-older" type="button" hidden></button>
+        </section>
+        <input type="file" id="sw-file" accept="image/*" multiple hidden>
         </div>
       </div>
 
@@ -3731,6 +4270,76 @@ body.is-shake .wrap { animation: shake .4s; }
   </form>
 </dialog>
 
+<dialog class="modal hr-modal sw-modal" id="sw-view" aria-label="Kept screenshot">
+  <form method="dialog" novalidate>
+    <p class="eyebrow">Library</p>
+    <div class="hr-pic" id="swv-pic"></div>
+    <p class="swv-meta" id="swv-meta"></p>
+    <div class="sw-links" id="swv-links"></div>
+    <div class="sw-remind" id="swv-remind" aria-label="Remind me">
+      <span>Remind me</span>
+      <button type="button" data-when="today">Today</button>
+      <button type="button" data-when="tomorrow">Tomorrow</button>
+      <button type="button" data-when="weekend">Weekend</button>
+      <button type="button" data-when="week">Next week</button>
+    </div>
+    <div class="hr-pic-tools">
+      <button class="btn" id="swv-share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5M5 12v7a1 1 0 001 1h12a1 1 0 001-1v-7"/></svg>Share picture</button>
+      <button class="btn" id="swv-copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy text</button>
+    </div>
+    <div class="hr-fields">
+      <label class="hr-field hr-field--wide"><span>Title</span><input type="text" id="swv-title" maxlength="140" enterkeyhint="done"></label>
+      <label class="hr-field hr-field--wide"><span>Category</span><select id="swv-cat"></select></label>
+    </div>
+    <details class="sw-all" id="swv-all">
+      <summary>The text it read</summary>
+      <label class="sr-only" for="swv-text">The text it read</label>
+      <textarea id="swv-text" rows="7"></textarea>
+    </details>
+    <div class="modal-actions">
+      <button class="btn btn--danger" id="swv-del" type="button">Delete</button>
+      <span>
+        <button class="btn swv-done" id="swv-done" type="button" aria-pressed="false"></button>
+        <button class="add-btn" type="submit">Save</button>
+      </span>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="modal hr-modal sf-modal" id="sf-edit" aria-labelledby="sf-edit-title">
+  <form method="dialog" novalidate>
+    <p class="eyebrow" id="sfe-kicker">Shelf</p>
+    <div class="sf-head">
+      <span class="sf-cover" id="sfe-cover"></span>
+      <div>
+        <h2 id="sf-edit-title"></h2>
+        <p id="sfe-sub"></p>
+      </div>
+    </div>
+    <div class="sf-status" id="sfe-status" role="radiogroup" aria-label="Where it's at"></div>
+    <span class="sf-label" id="sfe-rate-label">How was it?</span>
+    <div class="sf-rate" id="sfe-rate" role="radiogroup" aria-labelledby="sfe-rate-label"></div>
+    <div class="hr-fields">
+      <label class="hr-field hr-field--wide"><span>Note</span><input type="text" id="sfe-note" maxlength="500" enterkeyhint="done" placeholder="e.g. up to chapter 12"></label>
+      <label class="hr-field hr-field--wide"><span>Who told you</span><input type="text" id="sfe-from" maxlength="60" enterkeyhint="done" autocapitalize="words"></label>
+    </div>
+    <div class="sf-links" id="sfe-links"></div>
+    <details class="sf-more">
+      <summary>Change the title or kind</summary>
+      <div class="hr-fields">
+        <label class="hr-field hr-field--wide"><span>Title</span><input type="text" id="sfe-title" maxlength="140" enterkeyhint="done"></label>
+        <label class="hr-field hr-field--wide"><span>Kind</span><select id="sfe-type"></select></label>
+      </div>
+    </details>
+    <div class="modal-actions">
+      <button class="btn btn--danger" id="sfe-del" type="button">Delete</button>
+      <span>
+        <button class="add-btn" type="submit">Done</button>
+      </span>
+    </div>
+  </form>
+</dialog>
+
 <dialog class="modal hr-modal" id="hr-edit" aria-labelledby="hr-edit-title">
   <form method="dialog" novalidate>
     <p class="eyebrow">Hours</p>
@@ -3911,7 +4520,7 @@ body.is-shake .wrap { animation: shake .4s; }
   // A heist that finished while the page was closed has already been paid out.
   if (visibleCompletedMissions.length >= HEIST_SIZE) visibleCompletedMissions = [];
 
-  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins | hours
+  let currentTab = 'active'; // active (Now) | nownow (Now now) | tomorrow (Not now) | jail (Lock up) | calendar | hood | notes | sahara | wins | shelf | hours | shots
   let openTray = null;       // which job's action tray is open, e.g. "job-123"
   let ideaIndex = 0;
   const landedIds = new Set();
@@ -3940,18 +4549,18 @@ body.is-shake .wrap { animation: shake .4s; }
   const tomorrowEmptyEl = $('tomorrow-empty-state');
   const nowNowListEl = $('nownow-list');
   const nowNowEmptyEl = $('nownow-empty-state');
-  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins', 'hours'];
+  const TAB_ORDER = ['active', 'nownow', 'tomorrow', 'jail', 'calendar', 'hood', 'notes', 'sahara', 'wins', 'shelf', 'hours', 'shots'];
   const TAB_EL = {
     active: tabActive, nownow: $('tab-nownow'), tomorrow: tabTomorrow, jail: tabJail, calendar: $('tab-calendar'), hood: $('tab-hood'),
-    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'), hours: $('tab-hours'),
+    notes: $('tab-notes'), sahara: $('tab-sahara'), wins: $('tab-wins'), shelf: $('tab-shelf'), hours: $('tab-hours'), shots: $('tab-shots'),
     quick: $('quick-open'), // not a home-screen tab: the quiet link at the top of Notes opens it
   };
   const TAB_NAME = {
     active: 'Now', nownow: 'Now now', tomorrow: 'Not now', jail: 'Lock up', calendar: 'Ezycal', hood: 'Hood',
-    notes: 'Notes', sahara: 'Sahara', wins: 'Wins', hours: 'Hours',
+    notes: 'Notes', sahara: 'Sahara', wins: 'Wins', shelf: 'Shelf', hours: 'Hours', shots: 'Screenshots',
   };
   // Tabs that show their own panel instead of a job list.
-  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), hours: $('hours-panel'), quick: $('quick-panel') };
+  const PANEL_TABS = { calendar: $('calendar-panel'), hood: $('hood-panel'), notes: $('notes-panel'), sahara: $('sahara-panel'), wins: $('wins-panel'), shelf: $('shelf-panel'), hours: $('hours-panel'), shots: $('shots-panel'), quick: $('quick-panel') };
   // Now, Now now, Not now and Lock up live inside the Missions tab; the top row is Missions, Ezycal, Hood, Notes, Sahara, Wins.
   const MISSION_TABS = ['active', 'nownow', 'tomorrow', 'jail'];
   const isMissionTab = (tab) => MISSION_TABS.includes(tab);
@@ -3993,6 +4602,7 @@ body.is-shake .wrap { animation: shake .4s; }
     soundOn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg>',
     moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>',
     sunrise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6M6.5 11.5L12 6l5.5 5.5"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M10 18h4"/></svg>',
     note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg>',
     crown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5L3 8z"/></svg>',
     trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v3M8 20h8M9.5 17h5"/></svg>',
@@ -4531,6 +5141,7 @@ body.is-shake .wrap { animation: shake .4s; }
           : h('button', { class: 'tray-btn tray-btn--flare', type: 'button', 'data-act': 'nownow' }, iconEl(ICON.bolt), 'Push to Now now'),
         jail && !nowNow ? null : h('button', { class: 'tray-btn tray-btn--dusk', type: 'button', 'data-act': 'tomorrow' }, iconEl(ICON.moon), 'Push to Not now'),
         isTabOn('notes') ? h('button', { class: 'tray-btn tray-btn--note', type: 'button', 'data-act': 'note' }, iconEl(ICON.note), 'Move to notes') : null,
+        swShotFor(m.text) ? h('button', { class: 'tray-btn', type: 'button', 'data-act': 'shot' }, iconEl(ICON.phone), 'See the screenshot') : null,
         h('button', { class: 'tray-btn tray-btn--danger', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Drop job'),
       ),
     );
@@ -4552,6 +5163,7 @@ body.is-shake .wrap { animation: shake .4s; }
         h('button', { class: 'tray-btn', type: 'button', 'data-act': 'today' }, iconEl(ICON.sunrise), 'Do it now'),
         h('button', { class: 'tray-btn tray-btn--flare', type: 'button', 'data-act': 'nownow' }, iconEl(ICON.bolt), 'Do it now now'),
         isTabOn('notes') ? h('button', { class: 'tray-btn tray-btn--note', type: 'button', 'data-act': 'note' }, iconEl(ICON.note), 'Move to notes') : null,
+        swShotFor(m.text) ? h('button', { class: 'tray-btn', type: 'button', 'data-act': 'shot' }, iconEl(ICON.phone), 'See the screenshot') : null,
         h('button', { class: 'tray-btn tray-btn--danger', type: 'button', 'data-act': 'drop' }, iconEl(ICON.x), 'Drop job'),
       ),
     );
@@ -4626,8 +5238,12 @@ body.is-shake .wrap { animation: shake .4s; }
     if (currentTab === 'quick') renderQuick();
     updateQuickBtn();
     if (currentTab === 'wins') renderWins();
+    if (currentTab === 'shelf') renderShelf();
+    else $('count-shelf').textContent = String(shelf.filter((x) => x.status === 'want').length);
     if (currentTab === 'hours') renderHours();
     else hrCount();
+    if (currentTab === 'shots') renderShots();
+    else $('count-shots').textContent = String(swLeft() || swInboxN);
     if (currentTab === 'sahara') renderSahara();
     $('count-wins').textContent = String(wins.length);
     $('count-sahara').textContent = String(sahara.filter((x) => !x.done).length);
@@ -4996,6 +5612,7 @@ body.is-shake .wrap { animation: shake .4s; }
     totalWinsCount++;
     visibleCompletedMissions.push(m.text);
     jobsIn(kind).splice(index, 1);
+    swJobFinished(m.text);
     markGone(id);
     if (pickedId === id) pickedId = null;
     const heistDone = visibleCompletedMissions.length >= HEIST_SIZE;
@@ -5939,6 +6556,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const id = Number(card.dataset.id);
     const act = btn.dataset.act;
     if (act === 'toggle') { toggleTray(card); return; }
+    if (act === 'shot') { const m = swAllJobs().find((x) => x.id === id); if (m) swOpenFromJob(m.text); return; }
     if (card.classList.contains('job--tomorrow')) {
       if (act === 'today') moveToToday(id);
       else if (act === 'nownow') tomorrowToNowNow(id);
@@ -6039,7 +6657,8 @@ body.is-shake .wrap { animation: shake .4s; }
   const BACKUP_KEYS = ['gta_missions', 'gta_visible_completed', 'gta_wins', 'gta_cash', 'gta_time_offset',
     'gta_heists', 'gta_big_score', 'gta_big_trophies', 'gta_tomorrow', 'gta_nownow', 'gta_gone', 'gta_muted', 'gta_seeded',
     'mp_notes', 'mp_notes_gone', 'mp_wins', 'mp_wins_gone', 'mp_sahara', 'mp_sahara_gone', 'mp_fit', 'mp_fit_gone', 'mp_fit_cfg',
-    'mp_hours', 'mp_hours_gone', 'mp_rcpts', 'mp_rcpts_gone', 'mp_hours_cfg'];
+    'mp_hours', 'mp_hours_gone', 'mp_rcpts', 'mp_rcpts_gone', 'mp_hours_cfg',
+    'mp_shelf', 'mp_shelf_gone'];
 
   // Notes: combined by id; a deleted note stays deleted; the newest edit of a note wins.
   function mergeNotes(d, sum) {
@@ -6066,6 +6685,22 @@ body.is-shake .wrap { animation: shake .4s; }
       sum.wins = (sum.wins || 0) + 1;
     });
     winsGone = Array.from(goneIds).slice(-500);
+  }
+
+  // Shelf: combined by id; a deleted item stays deleted; the newest change to an item wins.
+  function mergeShelf(d, sum) {
+    const list = (v) => (Array.isArray(v) ? v : []);
+    const goneIds = new Set([...shelfGone, ...list(d.mp_shelf_gone).filter(Number.isFinite)]);
+    shelf = shelf.filter((x) => !goneIds.has(x.id));
+    list(d.mp_shelf).map(cleanShelf).forEach((x) => {
+      if (!x || goneIds.has(x.id)) return;
+      const mine = shelf.find((y) => y.id === x.id);
+      if (!mine) shelf.push(x);
+      else if (x.updatedAt > mine.updatedAt) Object.assign(mine, x);
+      else return;
+      sum.shelf = (sum.shelf || 0) + 1;
+    });
+    shelfGone = Array.from(goneIds).slice(-500);
   }
 
   // Hours and receipts: combined by id; a deleted one stays deleted; the newest change wins.
@@ -6201,6 +6836,7 @@ body.is-shake .wrap { animation: shake .4s; }
     mergeSahara(d, sum);
     mergeFit(d, sum);
     mergeHours(d, sum);
+    mergeShelf(d, sum);
 
     gone = Array.from(goneSet).slice(-500);
     landNowNowJobs(); // anything that timed out while the other device was away goes back to Now
@@ -6211,6 +6847,7 @@ body.is-shake .wrap { animation: shake .4s; }
     saveSahara();
     saveFit();
     saveHours();
+    saveShelf();
     renderUI();
     return sum;
   }
@@ -6246,6 +6883,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
         if (sum.hours) bits.push(`${sum.hours} hours or receipt change${sum.hours === 1 ? '' : 's'}`);
+        if (sum.shelf) bits.push(`${sum.shelf} on the shelf`);
         toast(bits.length ? `Merged · ${bits.join(' · ')}` : 'Merged · already up to date', { duration: 4500 });
       } catch { toast("That isn't a Mission Board backup"); }
     };
@@ -6359,6 +6997,7 @@ body.is-shake .wrap { animation: shake .4s; }
       mp_sahara: sahara, mp_sahara_gone: saharaGone,
       mp_fit: fitLog, mp_fit_gone: fitGone, mp_fit_cfg: fitCfg,
       mp_hours: hours, mp_hours_gone: hoursGone, mp_rcpts: rcpts, mp_rcpts_gone: rcptsGone, mp_hours_cfg: hrCfg,
+      mp_shelf: shelf, mp_shelf_gone: shelfGone,
     }));
     const load = (src) => new Promise((resolve, reject) => {
       const s = document.createElement('script');
@@ -6402,6 +7041,10 @@ body.is-shake .wrap { animation: shake .4s; }
       const theirHoursGone = new Set([...list(d.mp_hours_gone), ...list(d.mp_rcpts_gone)]);
       if (hoursGone.concat(rcptsGone).some((g) => !theirHoursGone.has(g))) return true;
       if (hrCfg.updatedAt > ((d.mp_hours_cfg && d.mp_hours_cfg.updatedAt) || 0)) return true;
+      const theirShelf = new Map(list(d.mp_shelf).map((x) => [x && x.id, x]));
+      if (shelf.some((x) => !theirShelf.has(x.id) || x.updatedAt > (theirShelf.get(x.id).updatedAt || 0))) return true;
+      const theirShelfGone = new Set(list(d.mp_shelf_gone));
+      if (shelfGone.some((g) => !theirShelfGone.has(g))) return true;
       const tb = d.gta_big_score;
       if (bigScore && !tb) return true;
       if (bigScore && tb && tb.id === bigScore.id) {
@@ -6426,6 +7069,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (sum.sahara) bits.push(`${sum.sahara} Sahara item${sum.sahara === 1 ? '' : 's'}`);
         if (sum.fit) bits.push(`${sum.fit} fitness log${sum.fit === 1 ? '' : 's'}`);
         if (sum.hours) bits.push(`${sum.hours} hours or receipt change${sum.hours === 1 ? '' : 's'}`);
+        if (sum.shelf) bits.push(`${sum.shelf} on the shelf`);
         if (bits.length) toast(`Synced · ${bits.join(' · ')}`);
       }
       if (cloudIsBehind(d || {})) schedule(1500);
@@ -8202,7 +8846,7 @@ body.is-shake .wrap { animation: shake .4s; }
     } catch { return null; }
   }
   // Phone photos are huge: shrink to 1600px on the long side, as a JPEG.
-  async function hrShrink(file) {
+  async function hrShrink(file, max = 1600, quality = 0.75) {
     let src;
     try { src = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
     catch {
@@ -8216,13 +8860,13 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     const w = src.naturalWidth || src.width;
     const tall = src.naturalHeight || src.height;
-    const k = Math.min(1, 1600 / Math.max(w, tall));
+    const k = Math.min(1, max / Math.max(w, tall));
     const c = document.createElement('canvas');
     c.width = Math.max(1, Math.round(w * k));
     c.height = Math.max(1, Math.round(tall * k));
     c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
     if (src.close) src.close();
-    const blob = await new Promise((resolve) => c.toBlob(resolve, 'image/jpeg', 0.75));
+    const blob = await new Promise((resolve) => c.toBlob(resolve, 'image/jpeg', quality));
     if (!blob) throw new Error('no blob');
     return blob;
   }
@@ -8669,7 +9313,1638 @@ body.is-shake .wrap { animation: shake .4s; }
     if (hrPhotoIds.size && currentTab === 'hours') renderHours();
   }).catch(() => {});
 
-  // ── App windows: Missions, Ezycal, Hood, Notes, Sahara and Wins each open full page ──
+  // ── Shelf: films, TV, books and games to get to, on the go, and finished ──
+  // Typing a title looks it up so it's saved with its cover and year: Wikipedia for films and
+  // games, TVmaze for TV, Open Library for books. All three are free and need no key. Nothing is
+  // looked up for Other, and Add always saves what was typed, so it works offline too.
+  // A kind's id is what's saved with each item, so rename a kind by changing its name, not its id.
+  const SF_ICON = {
+    film: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M8 4.5v15M16 4.5v15M3.5 9.5H8M3.5 14.5H8M16 9.5h4.5M16 14.5h4.5"/></svg>',
+    tv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="3" y="7" width="18" height="12.5" rx="1.5"/><path d="M8 3l4 4 4-4"/></svg>',
+    book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 6.5c-2-1.6-4.8-2-8-2v13c3.2 0 6 .4 8 2 2-1.600 4.800-2 8-2v-13c-3.200 0-6 .4-8 2zM12 6.500v13"/></svg>',
+    game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 8h10a4.500 4.500 0 014.400 5.500l-.6 2.700a2.300 2.300 0 01-4 1L15 15H9l-1.800 2.200a2.300 2.300 0 01-4-1l-.6-2.700A4.500 4.500 0 017 8z"/><path d="M7.500 10.500v3M6 12h3M16 11.500h.01M17.500 13h.01"/></svg>',
+    video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3.5"/><path d="M10 9.200v5.600l4.800-2.800z" fill="currentColor"/></svg>',
+    other: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.500L7 20z"/></svg>',
+    link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M11 6H6a1 1 0 00-1 1v11a1 1 0 001 1h11a1 1 0 001-1v-5"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.800l2.750 5.900 6.450.750-4.780 4.400 1.280 6.350L12 17l-5.700 3.200 1.280-6.350L2.800 9.450l6.450-.75z"/></svg>',
+  };
+  const SF_TYPES = [
+    { id: 'film', name: 'Film', plural: 'Films', ask: 'Add a film…', src: 'wiki', tpl: 'Infobox film' },
+    { id: 'tv', name: 'TV', plural: 'TV', ask: 'Add a TV show…', src: 'tvmaze', long: true },
+    { id: 'video', name: 'Video', plural: 'Videos', ask: 'Add a video to watch…', src: '' },
+    { id: 'book', name: 'Book', plural: 'Books', ask: 'Add a book…', src: 'ol', long: true },
+    { id: 'game', name: 'Game', plural: 'Games', ask: 'Add a game…', src: 'wiki', tpl: 'Infobox video game', long: true },
+    { id: 'other', name: 'Other', plural: 'Other', ask: 'Add anything: album, podcast, place…', src: '', long: true },
+  ];
+  const SF_STATUS = [
+    { id: 'want', name: 'Lined up', empty: "Nothing lined up yet. Type a title above and it's saved for later." },
+    { id: 'now', name: 'On now', empty: 'Nothing on the go. Tap Start on something you’ve lined up.' },
+    { id: 'done', name: 'Finished', empty: 'Nothing finished yet. Tap the circle next to one when you’re done with it.' },
+  ];
+  const SF_SOURCE = {
+    wiki: ['Wikipedia', 'https://en.wikipedia.org/'],
+    tvmaze: ['TVmaze', 'https://www.tvmaze.com/'],
+    ol: ['Open Library', 'https://openlibrary.org/'],
+  };
+  const SF_IMG_HOSTS = ['covers.openlibrary.org', 'static.tvmaze.com', 'wikimedia.org', 'i.ytimg.com'];
+  const SF_REF_HOSTS = ['openlibrary.org', 'tvmaze.com', 'wikipedia.org', 'youtube.com', 'youtu.be'];
+  const sfKind = (id) => SF_TYPES.find((t) => t.id === id) || SF_TYPES[SF_TYPES.length - 1];
+  // Covers and links only ever point at the lookup sites, over https.
+  const sfSafeUrl = (u, hosts) => {
+    try {
+      const p = new URL(u);
+      return p.protocol === 'https:' && hosts.some((host) => p.hostname === host || p.hostname.endsWith(`.${host}`)) ? p.href.slice(0, 500) : '';
+    } catch { return ''; }
+  };
+  function cleanShelf(x) {
+    if (!x || !Number.isFinite(x.id) || typeof x.title !== 'string' || !x.title.trim()) return null;
+    const str = (v, n) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
+    const status = SF_STATUS.some((s) => s.id === x.status) ? x.status : 'want';
+    return {
+      id: x.id,
+      type: sfKind(x.type).id,
+      title: str(x.title, 140),
+      year: Number.isFinite(x.year) && x.year > 0 && x.year < 3000 ? Math.round(x.year) : 0,
+      by: str(x.by, 80),
+      img: sfSafeUrl(x.img, SF_IMG_HOSTS),
+      ref: sfSafeUrl(x.ref, SF_REF_HOSTS),
+      imdb: /^tt\d{5,10}$/.test(x.imdb) ? x.imdb : '',
+      wd: /^Q\d{1,12}$/.test(x.wd) ? x.wd : '',
+      status,
+      rating: Math.min(5, Math.max(0, toInt(x.rating))),
+      note: str(x.note, 500),
+      from: str(x.from, 60),
+      doneAt: status === 'done' && Number.isFinite(x.doneAt) ? x.doneAt : 0,
+      updatedAt: Number.isFinite(x.updatedAt) ? x.updatedAt : x.id,
+    };
+  }
+  let shelf = (Array.isArray(store.get('mp_shelf', [])) ? store.get('mp_shelf', []) : []).map(cleanShelf).filter(Boolean);
+  // Ids deleted on this device, so a sync or merge doesn't bring them back.
+  let shelfGone = (Array.isArray(store.get('mp_shelf_gone', [])) ? store.get('mp_shelf_gone', []) : []).filter(Number.isFinite);
+  const saveShelf = () => {
+    store.set('mp_shelf', shelf);
+    store.set('mp_shelf_gone', shelfGone);
+    if (onSaved) onSaved();
+  };
+  // The kind you added last, and the pile you're looking at. Both stay on this device.
+  let sfType = sfKind(store.get('mp_shelf_type', 'film')).id;
+  let sfTab = 'want';
+
+  // Lookups. Each returns up to 8 matches: { title, year, by, sub, img, ref, imdb, wd }.
+  const sfJson = async (url, signal) => {
+    const res = await fetch(url, { signal });
+    if (!res.ok) throw new Error(String(res.status));
+    return res.json();
+  };
+  const SF_LOOKUP = {
+    async ol(q, signal) {
+      const d = await sfJson(`https://openlibrary.org/search.json?limit=8&fields=key,title,author_name,first_publish_year,cover_i&q=${encodeURIComponent(q)}`, signal);
+      return (Array.isArray(d.docs) ? d.docs : []).filter((b) => b && typeof b.title === 'string').map((b) => {
+        const by = (Array.isArray(b.author_name) ? b.author_name : []).slice(0, 2).join(', ');
+        return {
+          title: b.title, year: toInt(b.first_publish_year), by,
+          sub: [toInt(b.first_publish_year) || '', by].filter(Boolean).join(' · '),
+          img: Number.isFinite(b.cover_i) ? `https://covers.openlibrary.org/b/id/${b.cover_i}-M.jpg` : '',
+          ref: typeof b.key === 'string' && /^\/works\/\w+$/.test(b.key) ? `https://openlibrary.org${b.key}` : '',
+        };
+      });
+    },
+    async tvmaze(q, signal) {
+      const d = await sfJson(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(q)}`, signal);
+      return (Array.isArray(d) ? d : []).map((r) => r && r.show).filter((s) => s && typeof s.name === 'string').slice(0, 8).map((s) => {
+        const year = toInt(String(s.premiered || '').slice(0, 4));
+        const by = ((s.network || s.webChannel || {}).name) || '';
+        return {
+          title: s.name, year, by,
+          sub: [year || '', by].filter(Boolean).join(' · '),
+          img: (s.image && s.image.medium) || '',
+          ref: s.url || '',
+          imdb: (s.externals && s.externals.imdb) || '',
+        };
+      });
+    },
+    // Wikipedia articles of one kind (the ones carrying that infobox), with their poster or box art.
+    async wiki(q, signal, kind) {
+      const words = q.replace(/["*:()\\]/g, ' ').replace(/(^|\s)-+/g, ' ').trim().split(/\s+/).filter(Boolean);
+      if (!words.length) return [];
+      // the last word may still be half typed
+      if (/^[\p{L}\p{N}]{2,}$/u.test(words[words.length - 1])) words[words.length - 1] += '*';
+      const search = `${words.join(' ')} hastemplate:"${kind.tpl}"`;
+      const d = await sfJson('https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&generator=search&gsrnamespace=0&gsrlimit=8'
+        + '&prop=pageimages%7Cdescription%7Cpageprops&pilicense=any&pithumbsize=160&pilimit=8&ppprop=wikibase_item'
+        + `&gsrsearch=${encodeURIComponent(search)}`, signal);
+      const pages = (d.query && Array.isArray(d.query.pages)) ? d.query.pages : [];
+      return pages.filter((p) => p && typeof p.title === 'string').sort((a, b) => (a.index || 0) - (b.index || 0)).map((p) => {
+        const desc = typeof p.description === 'string' ? p.description : '';
+        const tail = (p.title.match(/\s\(([^)]*)\)$/) || [])[1] || '';
+        const year = toInt((tail.match(/\b(1[89]|20)\d\d\b/) || desc.match(/\b(1[89]|20)\d\d\b/) || [])[0]);
+        return {
+          title: p.title.replace(/\s\([^)]*\)$/, ''), year,
+          by: ((desc.match(/\bby (.+)$/) || [])[1] || '').slice(0, 80),
+          sub: [year && !desc.includes(String(year)) ? year : '', desc].filter(Boolean).join(' · '),
+          img: (p.thumbnail && p.thumbnail.source) || '',
+          ref: `https://en.wikipedia.org/wiki/${encodeURIComponent(p.title.replace(/ /g, '_'))}`,
+          wd: (p.pageprops && p.pageprops.wikibase_item) || '',
+        };
+      });
+    },
+  };
+  // A film's IMDb number comes from Wikidata, quietly, after it's saved. Without it the IMDb
+  // link searches IMDb for the title instead.
+  async function sfFindImdb(id) {
+    const x = shelf.find((i) => i.id === id);
+    if (!x || !x.wd || x.imdb || x.type !== 'film') return;
+    try {
+      const d = await sfJson(`https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&origin=*&property=P345&entity=${x.wd}`);
+      const claim = d && d.claims && d.claims.P345 && d.claims.P345[0];
+      const v = claim && claim.mainsnak && claim.mainsnak.datavalue && claim.mainsnak.datavalue.value;
+      if (typeof v !== 'string' || !/^tt\d{5,10}$/.test(v) || !shelf.includes(x) || x.imdb) return;
+      x.imdb = v;
+      x.updatedAt = Date.now();
+      saveShelf();
+      if (sfDraft && sfDraft.id === id) { sfDraft.imdb = v; sfPaintLinks(); }
+    } catch { /* offline, or Wikidata is busy: the search link still works */ }
+  }
+
+  const sfForm = $('sf-form');
+  const sfInput = $('sf-input');
+  const sfFromIn = $('sf-from');
+  const sfSugsEl = $('sf-sugs');
+  const sfListEl = $('sf-list');
+  const sfTabsEl = $('sf-tabs');
+  const sfTypesEl = $('sf-types');
+  const sfEdit = $('sf-edit');
+
+  function sfCover(x, cls) {
+    const box = h('span', { class: cls || 'sf-cover', icon: SF_ICON[x.type] || SF_ICON.other });
+    if (x.img) {
+      // the picture sits over the kind's icon; offline, or if it has moved, the icon shows instead
+      const img = h('img', { src: x.img, alt: '', loading: 'lazy', referrerpolicy: 'no-referrer' });
+      img.addEventListener('error', () => img.remove(), { once: true });
+      box.append(img);
+    }
+    return box;
+  }
+  const sfSubOf = (x) => [x.year || '', x.by].filter(Boolean).join(' · ');
+
+  function sfPaintTypes() {
+    sfTypesEl.replaceChildren(...SF_TYPES.map((t) => {
+      const btn = h('button', { class: 'sf-type', type: 'button', role: 'radio', 'data-type': t.id, 'aria-checked': String(t.id === sfType), icon: SF_ICON[t.id] });
+      btn.append(t.name);
+      return btn;
+    }));
+    sfInput.placeholder = sfKind(sfType).ask;
+  }
+  sfTypesEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sf-type');
+    if (!btn || btn.dataset.type === sfType) return;
+    sfType = btn.dataset.type;
+    store.set('mp_shelf_type', sfType);
+    sfPaintTypes();
+    sfSuggest(true);
+    sfInput.focus({ preventScroll: true });
+  });
+
+  function renderShelf(flashId) {
+    const count = (s) => shelf.filter((x) => x.status === s).length;
+    $('sf-want').textContent = `${count('want')} lined up`;
+    $('sf-now').textContent = String(count('now'));
+    $('sf-done').textContent = String(count('done'));
+    $('count-shelf').textContent = String(count('want'));
+    if (!sfTypesEl.childElementCount) sfPaintTypes();
+    sfTabsEl.replaceChildren(...SF_STATUS.map((s) => h('button', { class: 'sf-tab', type: 'button', role: 'tab', 'data-tab': s.id, 'aria-selected': String(s.id === sfTab) },
+      s.name, h('b', null, String(count(s.id))))));
+    const mine = shelf.filter((x) => x.status === sfTab)
+      .sort((a, b) => (sfTab === 'done' ? b.doneAt - a.doneAt : sfTab === 'now' ? b.updatedAt - a.updatedAt : b.id - a.id));
+    sfListEl.replaceChildren(...SF_TYPES.map((t) => {
+      const list = mine.filter((x) => x.type === t.id);
+      if (!list.length) return null;
+      return h('section', { class: 'sf-group', 'aria-label': t.plural },
+        h('div', { class: 'sf-group-head' },
+          h('span', { class: 'sf-group-name', icon: SF_ICON[t.id] }),
+          sfTab === 'want' && list.length > 1 ? h('button', { class: 'sf-pick', type: 'button', 'data-act': 'pick', 'data-type': t.id }, 'Pick one for me') : null),
+        h('ul', { class: 'sf-items' }, ...list.map((x) => {
+          const sub = [sfSubOf(x), x.status === 'done' && x.doneAt ? `Finished ${shortDate(x.doneAt)}` : ''].filter(Boolean).join(' · ');
+          return h('li', { class: x.id === flashId ? 'sf-item is-new' : 'sf-item', 'data-id': String(x.id) },
+            x.status === 'done' ? null : h('button', { class: 'sf-check', type: 'button', 'data-act': 'done', 'aria-label': `Finished "${x.title}"`, icon: ICON.check }),
+            h('button', { class: 'sf-open', type: 'button', 'data-act': 'open', 'aria-label': `Open "${x.title}"` },
+              sfCover(x),
+              h('span', { class: 'sf-item-text' },
+                h('span', { class: 'sf-item-title' }, x.title),
+                sub ? h('span', { class: 'sf-item-sub' }, sub) : null,
+                x.from ? h('span', { class: 'sf-item-from' }, `From ${x.from}`) : null,
+                x.note ? h('span', { class: 'sf-item-sub' }, x.note) : null)),
+            x.status === 'want' && t.long ? h('button', { class: 'sf-start', type: 'button', 'data-act': 'start' }, 'Start') : null,
+            x.status === 'done' ? h('span', { class: x.rating ? 'sf-stars-s' : 'sf-stars-s is-blank', 'aria-label': x.rating ? `${x.rating} out of 5` : 'Not rated' },
+              x.rating ? '★'.repeat(x.rating) + '☆'.repeat(5 - x.rating) : 'Rate') : null);
+        })));
+    }).filter(Boolean));
+    sfListEl.querySelectorAll('.sf-group-name').forEach((el) => el.append(el.closest('.sf-group').getAttribute('aria-label')));
+    const empty = $('sf-empty');
+    empty.hidden = mine.length > 0;
+    empty.textContent = SF_STATUS.find((s) => s.id === sfTab).empty;
+    if (flashId != null) {
+      const row = sfListEl.querySelector(`.sf-item[data-id="${flashId}"]`);
+      if (row && row.scrollIntoView) row.scrollIntoView({ block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+    }
+  }
+  sfTabsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sf-tab');
+    if (!btn) return;
+    sfTab = btn.dataset.tab;
+    renderShelf();
+  });
+
+  // Suggestions as you type. Old ones stay on screen until the new ones are in.
+  let sfFound = [];
+  let sfSeq = 0;
+  let sfTimer = 0;
+  let sfAbort = null;
+  const sfSugNote = (text) => sfSugsEl.replaceChildren(h('p', { class: 'sf-sug-note' }, text));
+  function sfClearSugs() {
+    clearTimeout(sfTimer);
+    if (sfAbort) sfAbort.abort();
+    sfSeq++;
+    sfFound = [];
+    sfSugsEl.replaceChildren();
+  }
+  function sfSuggest(now) {
+    const q = sfInput.value.trim().replace(/\s+/g, ' ');
+    const kind = sfKind(sfType);
+    if (q.length < 2 || !kind.src) { sfClearSugs(); return; }
+    clearTimeout(sfTimer);
+    if (sfAbort) sfAbort.abort();
+    const seq = ++sfSeq;
+    sfTimer = setTimeout(async () => {
+      if (!sfFound.length) sfSugNote('Looking it up…');
+      const ctl = new AbortController();
+      sfAbort = ctl;
+      const kill = setTimeout(() => ctl.abort(), 9000);
+      let found = null;
+      try { found = await SF_LOOKUP[kind.src](q, ctl.signal, kind); } catch { found = null; }
+      clearTimeout(kill);
+      if (seq !== sfSeq) return; // they've typed more since
+      sfFound = (found || []).slice(0, 6); // a short list is easier to pick from
+      if (!found) { sfSugNote("Couldn't look that up just now. Tap Add to save it as typed."); return; }
+      if (!found.length) { sfSugNote('No match. Tap Add to save it as typed.'); return; }
+      const [srcName, srcUrl] = SF_SOURCE[kind.src];
+      sfSugsEl.replaceChildren(
+        ...sfFound.map((r, i) => h('button', { class: 'sf-sug', type: 'button', 'data-i': String(i) },
+          sfCover({ type: kind.id, img: sfSafeUrl(r.img, SF_IMG_HOSTS) }),
+          h('span', { class: 'sf-sug-text' },
+            h('span', { class: 'sf-sug-title' }, r.title),
+            r.sub ? h('span', { class: 'sf-sug-sub' }, r.sub) : null),
+          h('span', { class: 'sf-sug-add', 'aria-hidden': 'true' }, 'Add'))),
+        h('p', { class: 'sf-credit' }, 'Matches from ', h('a', { href: srcUrl, target: '_blank', rel: 'noopener' }, srcName)));
+    }, now ? 0 : 400);
+  }
+  sfInput.addEventListener('input', () => sfSuggest(false));
+  sfSugsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sf-sug');
+    const r = btn && sfFound[Number(btn.dataset.i)];
+    if (r) addShelf({ type: sfType, title: r.title, year: r.year, by: r.by, img: r.img, ref: r.ref, imdb: r.imdb, wd: r.wd });
+  });
+
+  function sfRemove(x) {
+    shelf = shelf.filter((i) => i !== x);
+    if (!shelfGone.includes(x.id)) shelfGone = shelfGone.concat(x.id).slice(-500);
+    holdSync();
+    saveShelf();
+    renderShelf();
+  }
+  function addShelf(fields) {
+    const title = String(fields.title || '').trim().replace(/\s+/g, ' ');
+    if (!title) return null;
+    const same = (x) => x.type === fields.type && x.title.toLowerCase() === title.toLowerCase();
+    const dupe = shelf.find((x) => (fields.ref && x.ref === sfSafeUrl(fields.ref, SF_REF_HOSTS)) || (same(x) && (!fields.year || !x.year || x.year === fields.year)));
+    sfInput.value = '';
+    sfClearSugs();
+    if (dupe) {
+      sfTab = dupe.status;
+      renderShelf(dupe.id);
+      toast(`Already on your shelf · ${SF_STATUS.find((s) => s.id === dupe.status).name}`);
+      return null;
+    }
+    let id = Date.now();
+    while (shelf.some((x) => x.id === id)) id++;
+    const x = cleanShelf({ ...fields, id, title, status: 'want', from: sfFromIn.value, updatedAt: Date.now() });
+    sfFromIn.value = '';
+    shelf.push(x);
+    holdSync();
+    saveShelf();
+    sfTab = 'want';
+    renderShelf(x.id);
+    sfx.add();
+    toast(`On the shelf · ${x.title}`, { action: 'Undo', duration: 6000, onAction: () => sfRemove(x) });
+    sfFindImdb(x.id);
+    return x;
+  }
+  sfForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!sfInput.value.trim()) {
+      sfForm.classList.remove('is-shake');
+      void sfForm.offsetWidth;
+      sfForm.classList.add('is-shake');
+      sfInput.focus();
+      return;
+    }
+    addShelf({ type: sfType, title: sfInput.value });
+  });
+
+  function sfSetStatus(x, status) {
+    if (x.status === status) return;
+    x.status = status;
+    x.doneAt = status === 'done' ? Date.now() : 0;
+    x.updatedAt = Date.now();
+  }
+  sfListEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    if (btn.dataset.act === 'pick') {
+      const list = shelf.filter((x) => x.status === 'want' && x.type === btn.dataset.type);
+      if (!list.length) return;
+      const x = pick(list);
+      renderShelf(x.id);
+      sfx.tick();
+      toast(`How about · ${x.title}`);
+      return;
+    }
+    const x = shelf.find((i) => i.id === Number(btn.closest('.sf-item').dataset.id));
+    if (!x) return;
+    if (btn.dataset.act === 'open') { openShelf(x.id); return; }
+    if (btn.dataset.act === 'start') {
+      sfSetStatus(x, 'now');
+      saveShelf();
+      renderShelf();
+      sfx.add();
+      toast(`On now · ${x.title}`, { action: 'Undo', duration: 5000, onAction: () => { sfSetStatus(x, 'want'); saveShelf(); renderShelf(x.id); } });
+      return;
+    }
+    // Finished: it moves to Finished and the sheet opens so it can be rated (or put back).
+    sfSetStatus(x, 'done');
+    saveShelf();
+    renderShelf();
+    sfx.coin();
+    haptic(25);
+    openShelf(x.id, true);
+  });
+
+  // The sheet works on a copy; Done saves it, Esc leaves things as they were.
+  let sfDraft = null;
+  function sfPaintLinks() {
+    const x = sfDraft;
+    const q = `${x.title}${x.year ? ` ${x.year}` : ''}`;
+    const links = [];
+    if (x.type === 'film' || x.type === 'tv') links.push(['IMDb', x.imdb ? `https://www.imdb.com/title/${x.imdb}/` : `https://www.imdb.com/find/?s=tt&q=${encodeURIComponent(q)}`]);
+    if (x.type === 'video') links.push(['Watch on YouTube', x.ref || `https://www.youtube.com/results?search_query=${encodeURIComponent(x.title)}`]);
+    else if (x.type === 'book') {
+      links.push(['Open Library', x.ref || `https://openlibrary.org/search?q=${encodeURIComponent(x.title)}`]);
+      links.push(['Goodreads', `https://www.goodreads.com/search?q=${encodeURIComponent(`${x.title} ${x.by}`.trim())}`]);
+    } else if (x.ref) links.push([x.ref.includes('tvmaze.com') ? 'TVmaze' : 'Wikipedia', x.ref]);
+    links.push(['Search the web', `https://www.google.com/search?q=${encodeURIComponent(`${q} ${x.type === 'other' || x.type === 'video' ? '' : sfKind(x.type).name.toLowerCase()}`.trim())}`]);
+    $('sfe-links').replaceChildren(...links.map(([name, href]) => {
+      const a = h('a', { class: 'btn', href, target: '_blank', rel: 'noopener' }, name);
+      a.append(iconEl(SF_ICON.link));
+      return a;
+    }));
+  }
+  function sfPaintSheet() {
+    const x = sfDraft;
+    $('sfe-status').replaceChildren(...SF_STATUS.map((s) => h('button', { class: 'sf-tab', type: 'button', role: 'radio', 'data-status': s.id, 'aria-checked': String(s.id === x.status) }, s.name)));
+    $('sfe-rate').replaceChildren(...[1, 2, 3, 4, 5].map((n) => h('button', { class: n <= x.rating ? 'sf-star is-on' : 'sf-star', type: 'button', role: 'radio', 'data-star': String(n), 'aria-checked': String(n === x.rating), 'aria-label': `${n} star${n === 1 ? '' : 's'}`, icon: SF_ICON.star })));
+    const showRate = x.status === 'done';
+    $('sfe-rate').hidden = !showRate;
+    $('sfe-rate-label').hidden = !showRate;
+  }
+  function openShelf(id, justFinished) {
+    const x = shelf.find((i) => i.id === id);
+    if (!x) return;
+    sfDraft = { ...x };
+    $('sfe-kicker').textContent = justFinished ? 'Finished · nice one' : sfKind(x.type).name;
+    $('sf-edit-title').textContent = x.title;
+    $('sfe-sub').textContent = sfSubOf(x);
+    $('sfe-cover').replaceWith(sfCover(x, 'sf-cover'));
+    sfEdit.querySelector('.sf-head .sf-cover').id = 'sfe-cover';
+    $('sfe-note').value = x.note;
+    $('sfe-from').value = x.from;
+    $('sfe-title').value = x.title;
+    $('sfe-type').replaceChildren(...SF_TYPES.map((t) => h('option', { value: t.id }, t.name)));
+    $('sfe-type').value = x.type;
+    sfEdit.querySelector('.sf-more').open = false;
+    sfPaintSheet();
+    sfPaintLinks();
+    if (typeof sfEdit.showModal === 'function') sfEdit.showModal();
+    else sfEdit.setAttribute('open', '');
+    sfFindImdb(id); // one that was added offline gets its IMDb number now
+  }
+  const sfCloseSheet = () => { sfDraft = null; if (typeof sfEdit.close === 'function') sfEdit.close(); else sfEdit.removeAttribute('open'); };
+  sfEdit.addEventListener('close', () => { sfDraft = null; });
+  $('sfe-status').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-status]');
+    if (!btn || !sfDraft) return;
+    sfDraft.status = btn.dataset.status;
+    sfPaintSheet();
+  });
+  $('sfe-rate').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-star]');
+    if (!btn || !sfDraft) return;
+    const n = Number(btn.dataset.star);
+    sfDraft.rating = sfDraft.rating === n ? 0 : n; // tap the same star again to clear it
+    sfPaintSheet();
+  });
+  sfEdit.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = sfDraft;
+    const x = d && shelf.find((i) => i.id === d.id);
+    sfCloseSheet();
+    if (!x) return;
+    const next = {
+      title: $('sfe-title').value.trim().replace(/\s+/g, ' ').slice(0, 140) || x.title,
+      type: sfKind($('sfe-type').value).id,
+      note: $('sfe-note').value.trim().slice(0, 500),
+      from: $('sfe-from').value.trim().slice(0, 60),
+      rating: d.status === 'done' ? d.rating : 0,
+    };
+    const changed = Object.keys(next).some((k) => next[k] !== x[k]) || d.status !== x.status;
+    if (!changed) return;
+    Object.assign(x, next);
+    if (d.status !== x.status) { sfSetStatus(x, d.status); sfTab = x.status; }
+    x.updatedAt = Date.now();
+    saveShelf();
+    renderShelf(x.id);
+  });
+  $('sfe-del').addEventListener('click', () => {
+    const x = sfDraft && shelf.find((i) => i.id === sfDraft.id);
+    sfCloseSheet();
+    if (!x) return;
+    sfRemove(x);
+    sfx.drop();
+    toast('Taken off the shelf', {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        shelfGone = shelfGone.filter((g) => g !== x.id);
+        shelf.push(x);
+        saveShelf();
+        renderShelf(x.id);
+      },
+    });
+  });
+
+  // ── Screenshots: go through recent screenshots one at a time ──
+  // A web page can't look through the photo gallery by itself, so the screenshots are picked in
+  // the phone's own picker. Each one is shown with the text read off it (Tesseract, running on
+  // the device; the engine is downloaded once, about 7 MB) and a guess at what it is. Every choice
+  // has Undo. What's been gone through is remembered here (name and size only), so picking the
+  // same screenshots again carries on where you stopped. Nothing here syncs.
+  const SW_RANGES = [{ days: 7, name: '1 week' }, { days: 14, name: '2 weeks' }, { days: 31, name: '1 month' }, { days: 0, name: 'Any' }];
+  const SW_MAX = 100; // the most one sweep takes (the phone's picker allows about this many)
+  const SW_CDN = 'https://cdn.jsdelivr.net/npm/';
+  const SW_KIND_NAME = { film: 'a film', tv: 'a TV show', video: 'a YouTube video', book: 'a book', game: 'a game' };
+  let swDays = SW_RANGES.some((r) => r.days === store.get('mp_sweep_days', 14)) ? store.get('mp_sweep_days', 14) : 14;
+  let swSeen = (Array.isArray(store.get('mp_sweep_seen', [])) ? store.get('mp_sweep_seen', []) : []).filter((s) => typeof s === 'string');
+  let swTotal = toInt(store.get('mp_sweep_total', 0));
+  let swQueue = [];  // { file, fp, date, text, title, guess, read }
+  let swPos = 0;
+  let swStats = {};
+  let swLast = null; // the last choice, for Undo
+  let swOlder = [];  // picked, but older than the range
+  let swBusy = false;
+  let swUrl = '';
+  const swFp = (f) => `${f.name}|${f.size}`;
+  const swPanel = $('shots-panel');
+  const swFile = $('sw-file');
+  const swTitleIn = $('sw-title');
+  const swTextIn = $('sw-text');
+
+  // When a screenshot was taken: from its name where the phone or computer put the date there
+  // (Screenshot_20261112-142233, Screenshot 2026-11-12 at 14.22.33...), otherwise from the file,
+  // unless the browser stamped it with the moment it was picked. 0 = can't tell.
+  function swDateOf(file, pickedAt) {
+    const n = file.name || '';
+    const m = n.match(/(?:^|\D)(20\d\d)([-_.]?)(0[1-9]|1[0-2])\2(0[1-9]|[12]\d|3[01])(?:\D{1,4}([01]\d|2[0-3])\D?([0-5]\d)(?:\D?([0-5]\d))?)?/);
+    if (m && (m[2] || /[a-z]/i.test(n.slice(0, m.index + 1)))) {
+      const t = new Date(+m[1], +m[3] - 1, +m[4], m[5] ? +m[5] : 12, m[6] ? +m[6] : 0, m[7] ? +m[7] : 0).getTime();
+      if (t <= pickedAt + DAY_MS) return t;
+    }
+    if (file.lastModified && pickedAt - file.lastModified > 5 * 60 * 1000) return file.lastModified;
+    return 0;
+  }
+
+  // Reading the text: the engine loads the first time it's needed.
+  let swEngineP = null;
+  function swEngine() {
+    if (swEngineP) return swEngineP;
+    swEngineP = (async () => {
+      if (!window.Tesseract) {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = `${SW_CDN}tesseract.js@5.1.1/dist/tesseract.min.js`;
+          s.crossOrigin = 'anonymous';
+          s.onload = resolve;
+          s.onerror = () => reject(new Error('engine'));
+          document.head.append(s);
+        });
+      }
+      return window.Tesseract.createWorker('eng', 1, {
+        workerPath: `${SW_CDN}tesseract.js@5.1.1/dist/worker.min.js`,
+        corePath: `${SW_CDN}tesseract.js-core@5.1.1`,
+        langPath: `${SW_CDN}@tesseract.js-data/eng@1.0.0/4.0.0_best_int`,
+      });
+    })().catch((err) => { swEngineP = null; throw err; });
+    return swEngineP;
+  }
+  // Text reads best dark on light at a decent size, so dark-mode screenshots are flipped first.
+  async function swPrep(file) {
+    let src;
+    try { src = await createImageBitmap(file); }
+    catch {
+      src = await new Promise((resolve, reject) => {
+        const img = new Image();
+        const u = URL.createObjectURL(file);
+        img.onload = () => { URL.revokeObjectURL(u); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(u); reject(new Error('bad image')); };
+        img.src = u;
+      });
+    }
+    const w = src.naturalWidth || src.width;
+    const tall = src.naturalHeight || src.height;
+    let k = Math.min(1, 2400 / Math.max(w, tall));
+    if (w * k < 900) k = Math.min(2, 900 / w);
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(w * k));
+    c.height = Math.max(1, Math.round(tall * k));
+    const ctx = c.getContext('2d', { willReadFrequently: true });
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(src, 0, 0, c.width, c.height);
+    if (src.close) src.close();
+    const px = ctx.getImageData(0, 0, c.width, c.height);
+    const d = px.data;
+    let sum = 0;
+    let n = 0;
+    for (let i = 0; i < d.length; i += 64) { sum += d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114; n++; }
+    if (sum / n < 110) {
+      for (let i = 0; i < d.length; i += 4) { d[i] = 255 - d[i]; d[i + 1] = 255 - d[i + 1]; d[i + 2] = 255 - d[i + 2]; }
+      ctx.putImageData(px, 0, 0);
+    }
+    return c;
+  }
+  // Tidy what was read: drop the phone's status bar (time, signal, battery) and join a sentence
+  // that ran onto the next line back together.
+  function swTidy(raw) {
+    const lines = String(raw || '').split('\n').map((s) => s.replace(/\s+/g, ' ').trim())
+      .filter((s) => (s.match(/[\p{L}\p{N}]/gu) || []).length >= 2);
+    while (lines.length && /^\d{1,2}[:.]\d{2}\b/.test(lines[0]) && lines[0].length < 40) lines.shift();
+    const out = [];
+    lines.forEach((raw) => {
+      const s = raw.replace(/(^|\s)\|(?=\s)/g, '$1I'); // a lone | is almost always the word I
+      const prev = out[out.length - 1];
+      if (prev && /\p{L}-$/u.test(prev) && /^\p{L}/u.test(s)) out[out.length - 1] = `${prev}${s}`;
+      else if (prev && !/[.!?:;]$/.test(prev) && /^\p{Ll}/u.test(s) && !/^(https?:\/\/|www\.)/i.test(s) && !/https?:\/\/\S*$/.test(prev)) out[out.length - 1] = `${prev} ${s}`;
+      else out.push(s);
+    });
+    return out.join('\n').slice(0, 3000);
+  }
+
+  // A guess at what a screenshot is, from its text. It only ever suggests; every choice is offered.
+  function swGuess(text) {
+    const t = text || '';
+    const lines = t.split('\n').filter(Boolean);
+    const isChrome = (s) => /^\d{1,2}[:.]\d{2}\b/.test(s) || /\d\s?%/.test(s) || /https?:\/\/|www\./i.test(s) || new RegExp(`\\b[a-z0-9-]+\\.(${SW_TLD})\\b`, 'i').test(s)
+      || /^(search|back|share|reply|like|follow|following|menu|home|more|cancel|done|edit|send|message|today|yesterday)$/i.test(s);
+    const wordy = (s) => s.length >= 3 && s.length <= 90 && !isChrome(s) && (s.match(/\p{L}/gu) || []).length / s.length > 0.6;
+    // a line's words without any web address in it ("Try this place https://…" → "Try this place")
+    const bare = (s) => s.replace(/https?:\/\/\S+|www\.\S+/gi, ' ').replace(new RegExp(`\\b[a-z0-9-]+(\\.[a-z0-9-]+)*\\.(${SW_TLD})\\b(\\/\\S*)?`, 'gi'), ' ').replace(/\s+/g, ' ').trim();
+    const good = lines.map(bare).filter(wordy);
+    let title = (good.find((s) => s.split(' ').length >= 2) || good[0] || '').slice(0, 140);
+    const viewsAt = lines.findIndex((s) => /\b\d[\d.,]*\s?[KkMm]?\s+views?\b/.test(s));
+    if (viewsAt > 0 && /\byoutube\b|\bsubscribe/i.test(t)) {
+      const above = lines.slice(Math.max(0, viewsAt - 2), viewsAt).filter(wordy);
+      if (above.length) title = above.join(' ').slice(0, 140);
+    }
+    const num = (s) => Number(String(s).replace(/,/g, ''));
+    const moneyIn = (s) => [...s.matchAll(/[$£€]\s?(\d{1,6}(?:,\d{3})*(?:\.\d{2})?)|(\d{1,6}(?:,\d{3})*\.\d{2})/g)].map((m) => num(m[1] || m[2])).filter((v) => v > 0 && v < 100000);
+    let amount = null;
+    const totalAt = lines.findIndex((s) => /\b(grand total|total|amount due|amount paid|balance due|to pay|you paid|charged)\b/i.test(s) && !/\bsub\s?total\b/i.test(s));
+    if (totalAt >= 0) {
+      const here = moneyIn(lines[totalAt]);
+      const next = moneyIn(lines[totalAt + 1] || '');
+      amount = here.length ? here[here.length - 1] : next.length ? next[0] : null;
+    }
+    if (amount == null) { const all = [...t.matchAll(/[$£€]\s?(\d{1,6}(?:,\d{3})*(?:\.\d{2})?)/g)].map((m) => num(m[1])); if (all.length) amount = Math.max(...all); }
+    const links = swLinksIn(t);
+    const yt = swYouTube(t, links);
+    const site = links.find((l) => !swIsYt(l.host)) || null;
+    // a sentence from the screenshot that says what it's about
+    const blurb = (good.find((s) => s !== title && s.split(' ').length >= 6) || lines.find((s) => s !== title && s.split(' ').length >= 6 && !/https?:\/\/|www\./i.test(s)) || '').slice(0, 160);
+    let kind = 'note';
+    let shelfKind = 'film';
+    if (amount != null && /\b(total|subtotal|receipt|tax invoice|invoice|amount paid|you paid|paid by|card ending|transaction|eftpos)\b/i.test(t)) kind = 'receipt';
+    else if (yt) { kind = 'shelf'; shelfKind = 'video'; }
+    else if (/\b(netflix|prime video|disney\+?|hbo|hulu|apple tv\+?|paramount\+?|stan|binge|crunchyroll|imdb|rotten tomatoes|letterboxd|trailer|season \d+|episodes?|s\d{1,2}\s?e\d{1,2}|series|movie|film|cinema|directed by|watchlist)\b/i.test(t)) {
+      kind = 'shelf';
+      shelfKind = /\b(season|episodes?|series|s\d{1,2}\s?e\d{1,2})\b/i.test(t) ? 'tv' : 'film';
+    } else if (/\b(novel|author|goodreads|kindle|audible|audiobook|paperback|hardcover|isbn|bestsell(er|ing)|memoir|book club)\b/i.test(t)) { kind = 'shelf'; shelfKind = 'book'; }
+    else if (/\b(steam|playstation|ps5|ps4|xbox|nintendo|game pass|gameplay|early access|metacritic)\b/i.test(t)) { kind = 'shelf'; shelfKind = 'game'; }
+    else if (swProductScore(t) >= 3) kind = 'product';
+    else if (site) kind = 'web';
+    return { title, amount, kind, shelfKind, links, yt, site, blurb };
+  }
+
+  // One at a time, in the order asked for; the next two are read ahead while you decide.
+  let swChain = Promise.resolve();
+  function swRead(it) {
+    if (!it || it.read) return it ? it.read : Promise.resolve();
+    it.read = swChain = swChain.then(async () => {
+      if (!swQueue.includes(it)) return; // the sweep moved on
+      if (!it.file) { it.text = swTidy(it.extra); it.failed = false; }
+      else {
+        try {
+          const worker = await swEngine();
+          const canvas = await swPrep(it.file);
+          const { data } = await worker.recognize(canvas);
+          it.text = [swTidy(data && data.text), swTidy(it.extra)].filter(Boolean).join('\n');
+          it.failed = false;
+        } catch { it.text = swTidy(it.extra); it.failed = !it.text; }
+      }
+      it.guess = swGuess(it.text);
+      if (it.title == null) it.title = it.guess.title;
+      if (!it.catSet) it.cat = swCatGuess(it.text, it.guess);
+      swSite(it);
+    });
+    return it.read;
+  }
+
+  const swShown = (id) => ['sw-start', 'sw-run', 'sw-done'].forEach((s) => { $(s).hidden = s !== id; });
+  const swLeft = () => Math.max(0, swQueue.length - swPos);
+  function renderShots() {
+    $('count-shots').textContent = String(swLeft() || swInboxN);
+    const waiting = swInboxN - swQueue.filter((it, i) => it.inboxId && i >= swPos).length;
+    $('sw-inbox').hidden = waiting <= 0;
+    $('sw-inbox-n').textContent = `${waiting} shared to the app, waiting`;
+    $('sw-howto').open = swTotal === 0 && !swItems.length;
+    renderLib();
+    if (!swQueue.length) swShown('sw-start');
+    $('sw-range').replaceChildren(...SW_RANGES.map((r) => h('button', { class: 'sf-tab', type: 'button', role: 'radio', 'data-days': String(r.days), 'aria-checked': String(r.days === swDays) }, r.name)));
+    const tot = $('sw-total');
+    tot.hidden = swTotal === 0;
+    tot.replaceChildren('Gone through so far: ', h('b', null, plainNum(swTotal)));
+  }
+  $('sw-range').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-days]');
+    if (!btn) return;
+    swDays = Number(btn.dataset.days);
+    store.set('mp_sweep_days', swDays);
+    renderShots();
+  });
+  const swRangeName = () => (SW_RANGES.find((r) => r.days === swDays) || SW_RANGES[1]).name;
+  function swNote(text, olderBtn) {
+    const box = $('sw-msg');
+    box.hidden = !text;
+    box.replaceChildren(text || '');
+    if (text && olderBtn && swOlder.length) {
+      const b = h('button', { class: 'btn', type: 'button' }, `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'}`);
+      b.addEventListener('click', () => swBegin(swOlder.splice(0)));
+      box.append(h('br'), b);
+    }
+  }
+
+  $('sw-pick').addEventListener('click', () => swFile.click());
+  $('sw-again').addEventListener('click', () => { swQueue = []; swPos = 0; renderShots(); swFile.click(); });
+  swFile.addEventListener('change', () => {
+    const files = Array.from(swFile.files || []).filter((f) => /^image\//.test(f.type) || /\.(png|jpe?g|webp|heic|heif|gif)$/i.test(f.name));
+    swFile.value = '';
+    if (files.length) swLoad(files);
+  });
+  function swLoad(files) {
+    const at = Date.now();
+    const seen = new Set(swSeen);
+    const cutoff = swDays ? at - swDays * DAY_MS : 0;
+    const fresh = [];
+    let before = 0;
+    swOlder = [];
+    files.forEach((file) => {
+      const it = { file, fp: swFp(file), date: swDateOf(file, at), text: null, title: null, guess: null, read: null, cat: 'info', catSet: false };
+      if (seen.has(it.fp)) before++;
+      else if (cutoff && it.date && it.date < cutoff) swOlder.push(it);
+      else fresh.push(it);
+    });
+    const bits = [];
+    if (before) bits.push(`${before} you've already gone through`);
+    if (swOlder.length) bits.push(`${swOlder.length} older than ${swRangeName()}`);
+    if (!fresh.length) {
+      swQueue = [];
+      renderShots();
+      swNote(`Nothing new to go through${bits.length ? `: ${bits.join(', ')}` : ''}.`, true);
+      return;
+    }
+    swNote('');
+    swBegin(fresh, bits);
+  }
+  function swBegin(list, bits) {
+    // newest first; ones with no date keep the picker's order, after the dated ones
+    list = list.map((it, i) => [it, i]).sort((a, b) => (b[0].date || 0) - (a[0].date || 0) || a[1] - b[1]).map(([it]) => it);
+    const more = list.length - SW_MAX;
+    swQueue = list.slice(0, SW_MAX);
+    swPos = 0;
+    swStats = {};
+    swLast = null;
+    swNote('');
+    swShow();
+    const extra = (bits || []).concat(more > 0 ? [`${more} more after these`] : []);
+    toast(`${swQueue.length} to go through${extra.length ? ` · ${extra.join(' · ')}` : ''}`, { duration: 3600 });
+    swRead(swQueue[0]);
+  }
+
+  function swPaintGuess(it) {
+    const g = it.guess;
+    const hint = $('sw-hint');
+    // a recipe, a product or an address is worth keeping as a picture rather than a note
+    const pick = g && (g.kind === 'product' || g.kind === 'web' || (g.kind === 'note' && ['food', 'shop', 'places'].includes(it.cat)) ? 'keep' : g.kind);
+    $('sw-acts').querySelectorAll('.sw-act').forEach((b) => b.classList.toggle('is-suggested', !!pick && pick === b.dataset.act));
+    hint.classList.toggle('is-quiet', !g || it.failed || g.kind === 'note');
+    if (!it.read || !g) { hint.textContent = 'Reading the text…'; return; }
+    if (it.failed) { hint.textContent = "Couldn't read the text (offline?). Type a title to keep it."; return; }
+    if (!it.text) { hint.textContent = 'No text on this one.'; return; }
+    hint.textContent = g.kind === 'receipt' ? `Looks like a receipt${g.amount != null ? ` · ${hrCents(g.amount)}` : ''}`
+      : g.kind === 'shelf' ? `Looks like ${SW_KIND_NAME[g.shelfKind]}`
+      : g.kind === 'product' ? `Looks like a product${g.site ? ` · ${g.site.host}` : ''}`
+      : g.kind === 'web' ? `A website · ${g.site.host}`
+      : g.links.length ? 'Has a link in it' : 'Read the text';
+  }
+  $('sw-cat').addEventListener('change', () => {
+    const it = swQueue[swPos];
+    if (!it) return;
+    it.cat = $('sw-cat').value;
+    it.catSet = true;
+    swPaintGuess(it);
+  });
+  function swFill(it) {
+    $('sw-cat').value = swCat(it.cat).id;
+    if (document.activeElement !== swTitleIn) swTitleIn.value = it.title || '';
+    if (document.activeElement !== swTextIn) swTextIn.value = it.text || '';
+    const lines = it.text ? it.text.split('\n').length : 0;
+    $('sw-all-label').textContent = lines ? `All the text it read (${lines} line${lines === 1 ? '' : 's'})` : 'All the text it read';
+    swPaintGuess(it);
+    swPaintLinks(it);
+  }
+  function swShow() {
+    const it = swQueue[swPos];
+    if (!it) { swFinish(); return; }
+    swShown('sw-run');
+    $('sw-pos').replaceChildren(`${swPos + 1} of ${swQueue.length}`);
+    $('sw-fill').style.width = `${(swPos / swQueue.length) * 100}%`;
+    if (swUrl) { URL.revokeObjectURL(swUrl); swUrl = ''; }
+    if (it.file) { swUrl = URL.createObjectURL(it.file); $('sw-img').src = swUrl; } else $('sw-img').removeAttribute('src');
+    $('sw-shot').hidden = !it.file; // a link or text shared to the app has no picture
+    $('sw-shot').classList.remove('is-zoom');
+    const when = it.date ? new Date(it.date) : null;
+    $('sw-date').textContent = when ? `${it.shared ? 'Shared ' : ''}${when.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })} · ${when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : 'Date unknown';
+    $('sw-all').open = false;
+    $('sw-choose').hidden = false;
+    $('sw-shelf').hidden = true;
+    swBusy = false;
+    swPanel.querySelectorAll('.sw-act, .sw-clear').forEach((b) => { b.disabled = false; });
+    swPanel.querySelector('.sw-act[data-act="receipt"]').disabled = !it.file;
+    swFill(it);
+    $('count-shots').textContent = String(swLeft());
+    const body = swPanel.querySelector('.frame-body');
+    if (body) body.scrollTop = 0;
+    swRead(it).then(() => {
+      if (swQueue[swPos] === it && !$('sw-run').hidden) swFill(it);
+      swRead(swQueue[swPos + 1]);
+      swRead(swQueue[swPos + 2]);
+    });
+  }
+  $('sw-shot').addEventListener('click', () => $('sw-shot').classList.toggle('is-zoom'));
+  swTitleIn.addEventListener('input', () => { const it = swQueue[swPos]; if (it) { it.title = swTitleIn.value; it.titleTyped = true; swPaintLinks(it); } });
+  swTextIn.addEventListener('input', () => { const it = swQueue[swPos]; if (it) it.text = swTextIn.value; });
+  swTitleIn.addEventListener('keydown', (e) => { if (e.key === 'Enter') swTitleIn.blur(); });
+  $('sw-stop').addEventListener('click', () => {
+    swPanel.querySelector('[data-full]').click();
+    toast(`${swLeft()} left · open Screenshots to carry on`);
+  });
+
+  function swFinish() {
+    if (swUrl) { URL.revokeObjectURL(swUrl); swUrl = ''; }
+    swShown('sw-done');
+    const n = swQueue.length - (swStats.later || 0);
+    $('sw-done-n').textContent = `${n} gone through`;
+    const rows = [['job', 'Jobs on Now'], ['remind', 'Reminders'], ['note', 'Notes'], ['shelf', 'On the Shelf'], ['receipt', 'Receipts'], ['keep', 'Kept in the library'], ['clear', 'Nothing to keep'], ['later', 'Left for next time']];
+    $('sw-sum').replaceChildren(...rows.filter(([k]) => swStats[k]).map(([k, name]) => h('li', null, h('span', null, name), h('b', null, String(swStats[k])))));
+    // Which ones can go from the gallery: the dates of the ones gone through, so they're easy to find
+    const gone = swQueue.filter((i) => i.act && i.act !== 'later');
+    const dated = gone.filter((i) => i.date).map((i) => i.date);
+    let range = '';
+    if (dated.length) {
+      const from = Math.min(...dated);
+      const to = Math.max(...dated);
+      const kept = swQueue.filter((i) => i.act === 'later' && i.date >= from && i.date <= to).length;
+      const undated = gone.length - dated.length;
+      range = ` In your gallery that's the ones from ${shortDate(from)}${shortDate(to) !== shortDate(from) ? ` to ${shortDate(to)}` : ''}${undated ? `, plus ${undated} with no date` : ''}${kept ? `, apart from the ${kept} you left for next time` : ''}.`;
+    }
+    $('sw-done-tip').textContent = n
+      ? `Everything you kept is saved (pictures in the library below), so the screenshots you've gone through can be deleted from your phone's gallery.${range} This app can't delete them for you.`
+      : 'Nothing gone through this time. Leave-for-next-time ones come back when you pick them again.';
+    $('sw-to-lib').hidden = !gone.some((i) => SW_FILED.includes(i.act));
+    const older = $('sw-older');
+    older.hidden = !swOlder.length;
+    older.textContent = `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'} too`;
+    $('count-shots').textContent = String(swInboxN);
+  }
+  $('sw-older').addEventListener('click', () => swBegin(swOlder.splice(0)));
+  $('sw-to-lib').addEventListener('click', () => {
+    swQueue = [];
+    swPos = 0;
+    renderShots();
+    $('sw-lib').scrollIntoView({ block: 'start' });
+  });
+
+  // Every choice moves on and can be undone.
+  const SW_FILED = ['job', 'remind', 'note', 'shelf', 'receipt', 'keep'];
+  const SW_ACT_CAT = { job: 'todo', remind: 'todo', receipt: 'money', shelf: 'watch' };
+  function swDone(it, act, undo, msg) {
+    // a shared one leaves the inbox once it's dealt with (Undo puts it back)
+    if (it.inboxId && act !== 'later') {
+      swInbox.del(it.inboxId).catch(() => {});
+      swInboxN = Math.max(0, swInboxN - 1);
+      const was = undo;
+      undo = () => {
+        if (was) was();
+        swInboxN++;
+        swInbox.put({ id: it.inboxId, at: it.date, name: it.file ? it.file.name : '', type: it.file ? it.file.type : '', blob: it.file || null, text: it.extra || '' }).catch(() => {});
+      };
+    }
+    if (SW_FILED.includes(act)) {
+      const rec = swKeep(it, act, it.catSet ? it.cat : (SW_ACT_CAT[act] || it.cat || 'info'));
+      const was = undo;
+      undo = () => { if (was) was(); swUnkeep(rec.id); };
+    }
+    it.act = act;
+    if (act !== 'later') {
+      swSeen = swSeen.filter((f) => f !== it.fp).concat(it.fp).slice(-3000);
+      swTotal++;
+      store.set('mp_sweep_seen', swSeen);
+      store.set('mp_sweep_total', swTotal);
+    }
+    swStats[act] = (swStats[act] || 0) + 1;
+    swLast = { it, act, undo, pos: swPos };
+    swPos++;
+    if (act === 'clear' || act === 'later') sfx.tick(); else sfx.add();
+    haptic(12);
+    swShow();
+    toast(msg, { action: 'Undo', duration: 6000, onAction: swUndo });
+  }
+  function swUndo() {
+    const l = swLast;
+    if (!l) return;
+    swLast = null;
+    if (l.undo) l.undo();
+    delete l.it.act;
+    if (l.act !== 'later') {
+      swSeen = swSeen.filter((f) => f !== l.it.fp);
+      swTotal = Math.max(0, swTotal - 1);
+      store.set('mp_sweep_seen', swSeen);
+      store.set('mp_sweep_total', swTotal);
+    }
+    swStats[l.act] = Math.max(0, (swStats[l.act] || 0) - 1);
+    swPos = l.pos;
+    swShow();
+  }
+  function swNeed() {
+    toast('Type a title first');
+    swTitleIn.focus();
+  }
+  const swWhen = (it) => (it.date ? `From a screenshot · ${shortDate(it.date)}` : 'From a screenshot');
+
+  // A receipt from a screenshot: the picture goes into Hours with the amount it found.
+  async function hrSaveReceipt(file, fields) {
+    let blob;
+    try { blob = await hrShrink(file); } catch { blob = file; }
+    const id = hrNewId(rcpts);
+    await hrPhotos.put(id, blob);
+    hrDropUrl(id);
+    hrPhotoIds.add(id);
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+    const r = cleanRcpt({ id, date: fields.date || hrYmd(new Date()), amount: fields.amount, note: fields.note || '', updatedAt: Date.now() });
+    rcpts.push(r);
+    holdSync();
+    saveHours();
+    hrCount();
+    return r;
+  }
+  function hrDropReceipt(id) {
+    rcpts = rcpts.filter((x) => x.id !== id);
+    if (!rcptsGone.includes(id)) rcptsGone = rcptsGone.concat(id).slice(-500);
+    saveHours();
+    hrDropUrl(id);
+    hrPhotoIds.delete(id);
+    hrPhotos.del(id).catch(() => {});
+  }
+
+  $('sw-choose').addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-act]');
+    const it = swQueue[swPos];
+    if (!btn || !it || swBusy) return;
+    const act = btn.dataset.act;
+    const title = swTitleIn.value.trim().replace(/\s+/g, ' ');
+    const text = swTextIn.value.trim();
+    if (act === 'job' || act === 'remind') {
+      const jt = (title || text.split('\n')[0] || '').slice(0, 140);
+      if (!jt) { swNeed(); return; }
+      const job = swMakeJob(jt, act === 'job' ? 'today' : btn.dataset.when);
+      it.jobText = jt;
+      swDone(it, act, job.undo, job.label);
+    } else if (act === 'note') {
+      const body = text && title && !text.includes(title) ? `${title}\n\n${text}` : (text || title);
+      if (!body) { swNeed(); return; }
+      let id = Date.now();
+      while (notes.some((n) => n.id === id)) id++;
+      const hrefs = swLinkList(it.guess, it.about, title).map(([, href]) => href).filter((href) => !body.includes(href));
+      notes.push({ id, text: `${body}${hrefs.length ? `\n\n${hrefs.join('\n')}` : ''}\n\n${swWhen(it)}`.slice(0, 5000), updatedAt: Date.now() });
+      holdSync();
+      saveNotes();
+      swDone(it, act, () => { notes = notes.filter((n) => n.id !== id); if (!notesGone.includes(id)) notesGone = notesGone.concat(id).slice(-500); saveNotes(); }, 'Saved as a note');
+    } else if (act === 'receipt') {
+      swBusy = true;
+      swPanel.querySelectorAll('.sw-act, .sw-clear').forEach((b) => { b.disabled = true; });
+      try {
+        const g = it.guess || {};
+        const r = await hrSaveReceipt(it.file, { amount: g.kind === 'receipt' || g.amount != null ? g.amount : null, date: it.date ? hrYmd(new Date(it.date)) : '', note: title.slice(0, 140) });
+        swDone(it, act, () => hrDropReceipt(r.id), `Receipt saved in Hours${r.amount != null ? ` · ${hrCents(r.amount)}` : ' · add the amount there'}`);
+      } catch {
+        swBusy = false;
+        swPanel.querySelectorAll('.sw-act, .sw-clear').forEach((b) => { b.disabled = false; });
+        toast("Couldn't save the picture on this device");
+      }
+    } else if (act === 'shelf') {
+      swShelfOpen(it);
+    } else if (act === 'keep') {
+      swDone(it, act, null, `Kept in the library · ${swCat(it.catSet ? it.cat : it.cat || 'info').name}`);
+    } else if (act === 'clear') {
+      swDone(it, act, null, 'Nothing kept');
+    } else if (act === 'later') {
+      swDone(it, act, null, 'Left for next time');
+    }
+  });
+
+  // The Shelf step: pick what it is, then a match (looked up the same way as in Shelf).
+  let swKind = 'film';
+  let swFound = [];
+  let swSeq = 0;
+  let swTimer = 0;
+  let swAbort = null;
+  const swSfInput = $('sw-sf-input');
+  const swSugs = $('sw-sf-sugs');
+  function swPaintKinds() {
+    $('sw-kinds').replaceChildren(...SF_TYPES.map((t) => {
+      const b = h('button', { class: 'sf-type', type: 'button', role: 'radio', 'data-type': t.id, 'aria-checked': String(t.id === swKind), icon: SF_ICON[t.id] });
+      b.append(t.name);
+      return b;
+    }));
+    swSfInput.placeholder = sfKind(swKind).ask;
+  }
+  function swShelfOpen(it) {
+    swKind = (it.guess && it.guess.kind === 'shelf' && it.guess.shelfKind) || (sfType === 'video' ? 'film' : sfType);
+    $('sw-choose').hidden = true;
+    $('sw-shelf').hidden = false;
+    swPaintKinds();
+    swSfInput.value = swTitleIn.value.trim();
+    swLook(true);
+    swSfInput.focus({ preventScroll: true });
+  }
+  $('sw-sf-back').addEventListener('click', () => { swStopLook(); $('sw-shelf').hidden = true; $('sw-choose').hidden = false; });
+  $('sw-kinds').addEventListener('click', (e) => {
+    const b = e.target.closest('.sf-type');
+    if (!b) return;
+    swKind = b.dataset.type;
+    swPaintKinds();
+    swLook(true);
+  });
+  function swStopLook() {
+    clearTimeout(swTimer);
+    if (swAbort) swAbort.abort();
+    swSeq++;
+    swFound = [];
+    swSugs.replaceChildren();
+  }
+  function swLook(now) {
+    const q = swSfInput.value.trim().replace(/\s+/g, ' ');
+    const kind = sfKind(swKind);
+    if (q.length < 2 || !kind.src) { swStopLook(); return; }
+    clearTimeout(swTimer);
+    if (swAbort) swAbort.abort();
+    const seq = ++swSeq;
+    swTimer = setTimeout(async () => {
+      if (!swFound.length) swSugs.replaceChildren(h('p', { class: 'sf-sug-note' }, 'Looking it up…'));
+      const ctl = new AbortController();
+      swAbort = ctl;
+      const kill = setTimeout(() => ctl.abort(), 9000);
+      let found = null;
+      try { found = await SF_LOOKUP[kind.src](q, ctl.signal, kind); } catch { found = null; }
+      clearTimeout(kill);
+      if (seq !== swSeq) return;
+      swFound = (found || []).slice(0, 6);
+      if (!swFound.length) {
+        swSugs.replaceChildren(h('p', { class: 'sf-sug-note' }, found ? 'No match. Tap Add to save it as typed.' : "Couldn't look that up just now. Tap Add to save it as typed."));
+        return;
+      }
+      swSugs.replaceChildren(...swFound.map((r, i) => h('button', { class: 'sf-sug', type: 'button', 'data-i': String(i) },
+        sfCover({ type: kind.id, img: sfSafeUrl(r.img, SF_IMG_HOSTS) }),
+        h('span', { class: 'sf-sug-text' }, h('span', { class: 'sf-sug-title' }, r.title), r.sub ? h('span', { class: 'sf-sug-sub' }, r.sub) : null),
+        h('span', { class: 'sf-sug-add', 'aria-hidden': 'true' }, 'Add'))));
+    }, now ? 0 : 400);
+  }
+  swSfInput.addEventListener('input', () => swLook(false));
+  function swToShelf(fields) {
+    const it = swQueue[swPos];
+    if (!it) return;
+    const before = shelf.length;
+    const yt = it.guess && it.guess.yt;
+    if (swKind === 'video' && yt && yt.id) Object.assign(fields, { ref: yt.url, img: `https://i.ytimg.com/vi/${yt.id}/mqdefault.jpg` });
+    const x = addShelf({ ...fields, type: swKind });
+    swStopLook();
+    const added = x && shelf.length > before ? x : null;
+    swDone(it, 'shelf', added ? () => sfRemove(added) : null, added ? `On the Shelf · ${added.title}` : 'Already on your Shelf');
+  }
+  swSugs.addEventListener('click', (e) => {
+    const b = e.target.closest('.sf-sug');
+    const r = b && swFound[Number(b.dataset.i)];
+    if (r) swToShelf({ title: r.title, year: r.year, by: r.by, img: r.img, ref: r.ref, imdb: r.imdb, wd: r.wd });
+  });
+  $('sw-sf-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const t = swSfInput.value.trim();
+    if (!t) { swSfInput.focus(); return; }
+    swToShelf({ title: t });
+  });
+
+  // ── Screenshot library: every screenshot you keep, with its text, sorted into categories ──
+  // A smaller copy of the picture (and a thumbnail) is kept on this device in IndexedDB, like
+  // receipt photos, so the original can be deleted from the gallery. It doesn't sync and isn't in
+  // the backup file. A category's id is what's saved, so rename one by changing its name.
+  const SW_CATS = [
+    { id: 'todo', name: 'To do', color: '#ff3d7f' },
+    { id: 'money', name: 'Money', color: '#7cf29a' },
+    { id: 'watch', name: 'Watch & read', color: '#ff9b3d' },
+    { id: 'food', name: 'Food', color: '#ffd166' },
+    { id: 'shop', name: 'Products', color: '#c2a8ff' },
+    { id: 'places', name: 'Places', color: '#2ee6c8' },
+    { id: 'web', name: 'Websites', color: '#6fa0ff' },
+    { id: 'info', name: 'Info', color: '#4fd8ff' },
+    { id: 'other', name: 'Other', color: '#a69cbc' },
+  ];
+  const swCat = (id) => SW_CATS.find((c) => c.id === id) || SW_CATS[SW_CATS.length - 1];
+  const SW_WENT = { job: 'Made into a job on Now', remind: 'A reminder was set', note: 'Saved as a note too', shelf: 'Put on the Shelf too', receipt: 'Saved as a receipt in Hours too', keep: 'Kept here' };
+  // Which category a screenshot's text suggests. Only a starting point: it can always be changed.
+  function swCatGuess(text, g) {
+    const t = text || '';
+    if (!t.trim()) return 'other';
+    if ((g && g.kind === 'receipt') || /\b(bank|balance|transfer|invoice|bill|payment due|account number|bsb|iban|direct debit)\b/i.test(t)) return 'money';
+    if (g && g.kind === 'shelf') return 'watch';
+    if (g && g.kind === 'product') return 'shop';
+    if (/\b(recipe|ingredients|tbsp|tsp|tablespoons?|teaspoons?|cups? of|preheat|oven|bake|simmer|serves \d|menu|restaurant|takeaway|takeout)\b/i.test(t)) return 'food';
+    if (/\b(add to (cart|bag|basket|trolley)|buy now|in stock|out of stock|free (shipping|delivery)|size guide|wishlist|\d+% off|on sale|checkout|amazon|ebay|etsy)\b/i.test(t)) return 'shop';
+    if (/\b\d+[a-z]?\s+(?:[A-Z][a-z]+\s){1,3}(street|st|road|rd|avenue|ave|drive|dr|lane|ln|court|ct|place|pl|parade|pde|highway|hwy|crescent|cres|boulevard|blvd|way)\b/.test(t)
+      || /\b(directions|google maps|flight|boarding|gate \w?\d|hotel|airbnb|check-?in|booking (ref|reference|number)|parking|platform \d)\b/i.test(t)) return 'places';
+    if (g && g.site) return 'web';
+    return 'info';
+  }
+
+  const swLib = (() => {
+    let dbp = null;
+    const open = () => dbp || (dbp = new Promise((resolve, reject) => {
+      const rq = indexedDB.open('mppro-shots', 1);
+      rq.onupgradeneeded = () => rq.result.createObjectStore('items', { keyPath: 'id' });
+      rq.onsuccess = () => resolve(rq.result);
+      rq.onerror = () => reject(rq.error);
+    }).catch((err) => { dbp = null; throw err; }));
+    const run = (mode, fn) => open().then((db) => new Promise((resolve, reject) => {
+      const tx = db.transaction('items', mode);
+      const rq = fn(tx.objectStore('items'));
+      tx.oncomplete = () => resolve(rq.result);
+      tx.onerror = tx.onabort = () => reject(tx.error);
+    }));
+    return {
+      put: (rec) => run('readwrite', (s) => s.put(rec)),
+      del: (id) => run('readwrite', (s) => s.delete(id)),
+      all: () => run('readonly', (s) => s.getAll()),
+    };
+  })();
+  let swItems = [];
+  let swLibCat = 'all';
+  let swQuery = '';
+  const swThumbs = new Map(); // id → object URL of its thumbnail
+  const swDelLater = new Map();
+  const swDropThumb = (id) => { if (swThumbs.has(id)) { URL.revokeObjectURL(swThumbs.get(id)); swThumbs.delete(id); } };
+  const swThumbUrl = (rec) => {
+    if (!swThumbs.has(rec.id)) {
+      const blob = rec.thumb || rec.pic;
+      if (!blob) return '';
+      swThumbs.set(rec.id, URL.createObjectURL(blob));
+    }
+    return swThumbs.get(rec.id);
+  };
+  swLib.all().then((list) => {
+    swItems = (Array.isArray(list) ? list : []).filter((r) => r && Number.isFinite(r.id) && ((r.pic instanceof Blob) || (typeof r.text === 'string' && r.text.trim())));
+    if (currentTab !== 'shots') renderUI(); // jobs from screenshots can show their link now
+    if (currentTab === 'shots') renderLib();
+  }).catch(() => {});
+
+  // Keep a screenshot: shown straight away from the picked file, saved once it's been shrunk.
+  function swKeep(it, act, cat) {
+    let id = Date.now();
+    while (swItems.some((r) => r.id === id)) id++;
+    const rec = {
+      id, cat, sent: act,
+      title: String(it.title || '').trim().replace(/\s+/g, ' ').slice(0, 140),
+      text: String(it.text || '').slice(0, 3000),
+      date: it.date || 0, at: Date.now(), name: it.file ? it.file.name || '' : '', pic: it.file || null, thumb: null, jobText: it.jobText || '',
+      links: swLinkList(it.guess, it.about, it.title), about: swAboutText(it.guess, it.about), aboutFrom: it.about ? 'wiki' : 'shot',
+    };
+    swItems.push(rec);
+    // what it is may still be on its way: add it when it arrives
+    if (it.siteP && it.about === undefined) {
+      it.siteP.then(() => {
+        if (rec.gone || !it.about) return;
+        rec.links = swLinkList(it.guess, it.about, rec.title);
+        rec.about = swAboutText(it.guess, it.about);
+        rec.aboutFrom = 'wiki';
+        if (rec.saved) swLib.put(rec).catch(() => {});
+      });
+    }
+    (async () => {
+      if (!it.file) { await swLib.put(rec); rec.saved = true; return; } // shared without a picture
+      let pic = it.file;
+      let thumb = null;
+      try { pic = await hrShrink(it.file, 1400, 0.72); } catch { /* a format this browser can't redraw: keep it as it is */ }
+      try { thumb = await hrShrink(it.file, 360, 0.7); } catch { thumb = null; }
+      if (rec.gone) return;
+      rec.pic = pic;
+      rec.thumb = thumb;
+      swDropThumb(rec.id);
+      await swLib.put(rec);
+      rec.saved = true;
+      if (rec.gone) swLib.del(rec.id).catch(() => {});
+      if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+    })().catch(() => { toast("Couldn't keep that screenshot on this device"); });
+    return rec;
+  }
+  function swUnkeep(id) {
+    const rec = swItems.find((r) => r.id === id);
+    if (rec) rec.gone = true;
+    swItems = swItems.filter((r) => r.id !== id);
+    swDropThumb(id);
+    swLib.del(id).catch(() => {});
+  }
+
+  const swSize = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(n >= 10485760 ? 0 : 1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+  const swWhenOf = (rec) => (rec.date ? shortDate(rec.date) : `Kept ${shortDate(rec.at)}`);
+  function swMatches(rec) {
+    if (!swQuery) return true;
+    const hay = `${rec.title}\n${rec.text}\n${swCat(rec.cat).name}\n${rec.about || ''}\n${(rec.links || []).map((l) => l[0]).join(' ')}`.toLowerCase();
+    return swQuery.toLowerCase().split(/\s+/).filter(Boolean).every((w) => hay.includes(w));
+  }
+  function renderLib() {
+    const n = swItems.length;
+    const bytes = swItems.reduce((sum, r) => sum + (r.pic ? r.pic.size : 0) + (r.thumb ? r.thumb.size : 0), 0);
+    const nDone = swItems.filter((r) => r.done).length;
+    $('sw-lib-n').textContent = n ? `${n} kept${nDone ? ` · ${nDone} done` : ''} · ${swSize(bytes)} on this phone` : '';
+    $('sw-lib-tools').hidden = n === 0;
+    const counts = {};
+    swItems.forEach((r) => { counts[r.cat] = (counts[r.cat] || 0) + 1; });
+    if (swLibCat !== 'all' && !counts[swLibCat]) swLibCat = 'all';
+    $('sw-cats').replaceChildren(
+      h('button', { class: 'sw-cat-chip', type: 'button', role: 'tab', 'data-cat': 'all', 'aria-selected': String(swLibCat === 'all'), style: '--c: var(--ink)' }, 'All', h('b', null, String(n))),
+      ...SW_CATS.filter((c) => counts[c.id]).map((c) => h('button', { class: 'sw-cat-chip', type: 'button', role: 'tab', 'data-cat': c.id, 'aria-selected': String(swLibCat === c.id), style: `--c: ${c.color}` },
+        h('i', { 'aria-hidden': 'true' }), c.name, h('b', null, String(counts[c.id])))));
+    // still to deal with first, then the done ones, crossed out
+    const shown = swItems.filter((r) => (swLibCat === 'all' || r.cat === swLibCat) && swMatches(r))
+      .sort((a, b) => (a.done ? 1 : 0) - (b.done ? 1 : 0) || (b.date || b.at) - (a.date || a.at) || b.id - a.id);
+    $('sw-grid').replaceChildren(...shown.map((r) => {
+      const name = r.title || 'Screenshot';
+      return h('div', { class: r.done ? 'sw-tile is-done' : 'sw-tile', 'data-id': String(r.id), style: `--c: ${swCat(r.cat).color}` },
+        h('button', { class: 'sw-tile-open', type: 'button', 'aria-label': `${name}, ${swCat(r.cat).name}, ${swWhenOf(r)}${r.done ? ', done' : ''}` },
+          h('span', { class: 'sw-tile-pic' }, r.pic ? h('img', { src: swThumbUrl(r), alt: '', loading: 'lazy' }) : iconEl(SF_ICON.link)),
+          h('span', { class: 'sw-tile-t' }, name),
+          h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`, r.links && r.links.length ? iconEl(SF_ICON.link) : null)),
+        h('button', { class: 'sw-tile-done', type: 'button', 'aria-pressed': String(!!r.done), 'aria-label': r.done ? `Not done: ${name}` : `Done: ${name}`, icon: ICON.check }),
+        h('button', { class: 'sw-tile-del', type: 'button', 'aria-label': `Delete ${name}`, icon: ICON.x }));
+    }));
+    const doneHere = shown.filter((r) => r.done);
+    $('sw-lib-bulk').hidden = !doneHere.length;
+    $('sw-clear-done').textContent = `Delete the ${doneHere.length} done`;
+    const empty = $('sw-lib-empty');
+    empty.hidden = shown.length > 0;
+    empty.textContent = !n ? 'Nothing kept yet. Screenshots you keep during a sweep land here, with their text, sorted into categories.'
+      : swQuery ? `Nothing matches "${swQuery}".` : 'Nothing in this category.';
+  }
+  $('sw-cats').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-cat]');
+    if (!b) return;
+    swLibCat = b.dataset.cat;
+    renderLib();
+  });
+  $('sw-q').addEventListener('input', () => {
+    swQuery = $('sw-q').value.trim();
+    $('sw-q-x').hidden = !swQuery;
+    renderLib();
+  });
+  $('sw-q').addEventListener('keydown', (e) => { if (e.key === 'Escape' && swQuery) { e.stopPropagation(); $('sw-q-x').click(); } });
+  $('sw-q-x').addEventListener('click', () => { $('sw-q').value = ''; swQuery = ''; $('sw-q-x').hidden = true; renderLib(); $('sw-q').focus(); });
+
+  // Tap a kept screenshot to see it, change its title or category, copy its text, share or delete it.
+  const swView = $('sw-view');
+  let swViewId = null;
+  let swViewUrl = '';
+  const swCatOptions = (sel, value) => {
+    sel.replaceChildren(...SW_CATS.map((c) => h('option', { value: c.id }, c.name)));
+    sel.value = swCat(value).id;
+  };
+  swCatOptions($('sw-cat'), 'info'); // the category picker on the sweep screen
+  function swOpen(id) {
+    const rec = swItems.find((r) => r.id === id);
+    if (!rec) return;
+    swViewId = id;
+    if (swViewUrl) URL.revokeObjectURL(swViewUrl);
+    swViewUrl = rec.pic ? URL.createObjectURL(rec.pic) : '';
+    $('swv-pic').hidden = !rec.pic;
+    $('swv-pic').replaceChildren(rec.pic ? h('img', { src: swViewUrl, alt: rec.title ? `Screenshot: ${rec.title}` : 'Screenshot' }) : '');
+    $('swv-share').disabled = !rec.pic;
+    $('swv-meta').textContent = `${rec.date ? `Screenshot from ${shortDate(rec.date)}` : 'Screenshot'} · ${SW_WENT[rec.sent] || SW_WENT.keep}`;
+    $('swv-title').value = rec.title;
+    swCatOptions($('swv-cat'), rec.cat);
+    $('swv-text').value = rec.text;
+    $('swv-all').open = false;
+    $('swv-copy').disabled = !rec.text;
+    swPaintDoneBtn(!!rec.done);
+    $('swv-links').replaceChildren(...swLinkEls(Array.isArray(rec.links) ? rec.links : [], rec.about || '', rec.aboutFrom));
+    if (typeof swView.showModal === 'function') swView.showModal();
+    else swView.setAttribute('open', '');
+  }
+  const swCloseView = () => { if (typeof swView.close === 'function') swView.close(); else swView.removeAttribute('open'); };
+  swView.addEventListener('close', () => { if (swViewUrl) { URL.revokeObjectURL(swViewUrl); swViewUrl = ''; } });
+  function swSetDone(rec, done) {
+    rec.done = done;
+    rec.doneAt = done ? Date.now() : 0;
+    swLib.put(rec).catch(() => {});
+    renderLib();
+  }
+  // Delete some kept screenshots, with Undo: the copies go once Undo has run out.
+  function swDelete(list, msg) {
+    if (!list.length) return;
+    const ids = new Set(list.map((r) => r.id));
+    swItems = swItems.filter((r) => !ids.has(r.id));
+    renderLib();
+    sfx.drop();
+    haptic(10);
+    list.forEach((rec) => {
+      swDelLater.set(rec.id, setTimeout(() => { swDelLater.delete(rec.id); swDropThumb(rec.id); swLib.del(rec.id).catch(() => {}); }, 7000));
+    });
+    toast(msg, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        list.forEach((rec) => { clearTimeout(swDelLater.get(rec.id)); swDelLater.delete(rec.id); });
+        swItems = swItems.concat(list.filter((rec) => !swItems.includes(rec)));
+        renderLib();
+      },
+    });
+  }
+  $('sw-grid').addEventListener('click', (e) => {
+    const tile = e.target.closest('.sw-tile');
+    const rec = tile && swItems.find((r) => r.id === Number(tile.dataset.id));
+    if (!rec) return;
+    if (e.target.closest('.sw-tile-done')) { swSetDone(rec, !rec.done); sfx.tick(); haptic(12); return; }
+    if (e.target.closest('.sw-tile-del')) { swDelete([rec], 'Deleted'); return; }
+    if (e.target.closest('.sw-tile-open')) swOpen(rec.id);
+  });
+  $('sw-clear-done').addEventListener('click', () => {
+    const list = swItems.filter((r) => r.done && (swLibCat === 'all' || r.cat === swLibCat) && swMatches(r));
+    swDelete(list, `Deleted ${list.length} done`);
+  });
+  swView.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const rec = swItems.find((r) => r.id === swViewId);
+    swCloseView();
+    if (!rec) return;
+    const next = { title: $('swv-title').value.trim().replace(/\s+/g, ' ').slice(0, 140), cat: swCat($('swv-cat').value).id, text: $('swv-text').value.slice(0, 3000) };
+    if (next.title === rec.title && next.cat === rec.cat && next.text === rec.text) return;
+    Object.assign(rec, next);
+    swLib.put(rec).catch(() => {});
+    renderLib();
+  });
+  $('swv-copy').addEventListener('click', async () => {
+    toast((await copyText($('swv-text').value)) ? 'Text copied' : "Couldn't copy on this browser");
+  });
+  $('swv-share').addEventListener('click', async () => {
+    const rec = swItems.find((r) => r.id === swViewId);
+    if (!rec || !rec.pic) return;
+    const ext = /png/.test(rec.pic.type) ? 'png' : 'jpg';
+    const name = `screenshot-${hrYmd(new Date(rec.date || rec.at))}.${ext}`;
+    const file = new File([rec.pic], name, { type: rec.pic.type || 'image/jpeg' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: rec.title || 'Screenshot' }); } catch { /* closed the share menu */ }
+      return;
+    }
+    hrDownload(rec.pic, name);
+  });
+  $('swv-del').addEventListener('click', () => {
+    const rec = swItems.find((r) => r.id === swViewId);
+    swCloseView();
+    if (rec) swDelete([rec], 'Deleted');
+  });
+  const swPaintDoneBtn = (done) => {
+    const b = $('swv-done');
+    b.classList.toggle('is-on', done);
+    b.setAttribute('aria-pressed', String(done));
+    b.textContent = done ? '✓ Done' : 'Mark done';
+  };
+  $('swv-done').addEventListener('click', () => {
+    const rec = swItems.find((r) => r.id === swViewId);
+    if (!rec) return;
+    swSetDone(rec, !rec.done);
+    swPaintDoneBtn(rec.done);
+    sfx.tick();
+  });
+
+  // ── Links in screenshots: hot links, YouTube, and what a product or website is ──
+  // Web addresses in a screenshot's text become links. A YouTube screenshot gets a Watch on YouTube
+  // link (straight to the video when its address is in the picture, otherwise a search for its
+  // title). For a product or a website, the brand is looked up on Wikipedia, which says what it is,
+  // and Wikidata, which has its official website; failing that, the screenshot's own words say
+  // what it's for, and a search finds the website. Only product and website screenshots are
+  // looked up, and only the brand (or, for a product, its title) is sent.
+  const SW_TLD = 'com|net|org|io|co|app|dev|ai|me|tv|fm|gg|so|ly|be|to|uk|au|nz|ca|de|fr|nl|es|it|us|eu|info|biz|shop|store|audio|music|studio|xyz|site|online|tech|art|design|page|link|live|news|blog|club';
+  const SW_GENERIC = /^(google|youtube|youtu|facebook|instagram|twitter|tiktok|reddit|amazon|ebay|etsy|apple|linktr|bit|wa|whatsapp|gmail|outlook|bing)$/;
+  const SW_ICON = {
+    play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.6 2.6 0 00-1.8-1.8C18.200 5 12 5 12 5s-6.2 0-7.8.4a2.6 2.6 0 00-1.8 1.8C2 8.800 2 12 2 12s0 3.2.4 4.8a2.6 2.6 0 001.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.6 2.6 0 001.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15.2V8.8l5.200 3.2z"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>',
+  };
+  function swLinksIn(text) {
+    const re = new RegExp(`(^|[^@\\w.-])((?:https?:\\/\\/)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+(?:${SW_TLD})(?:\\.[a-z]{2})?(?:\\/[^\\s"'<>()]*)?)(?![\\w-])`, 'gi');
+    const out = [];
+    const seen = new Set();
+    for (const m of String(text || '').matchAll(re)) {
+      const raw = m[2].replace(/[.,;:!?'"»)\]]+$/, '');
+      try {
+        const u = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+        if (!/^https?:$/.test(u.protocol)) continue;
+        const host = u.hostname.toLowerCase().replace(/^www\./, '');
+        u.pathname = u.pathname.replace(/[-_]+$/, '');
+        const key = host + u.pathname.replace(/\/$/, '');
+        if (!host.includes('.') || seen.has(key)) continue;
+        seen.add(key);
+        if (u.pathname !== '/' && !swIsYt(host) && !seen.has(host)) { seen.add(host); out.push({ url: `https://${host}/`, host, label: host }); }
+        const full = `${host}${u.pathname}`;
+        out.push({ url: u.href, host, label: u.pathname === '/' ? host : (full.length > 30 ? `${full.slice(0, 29)}…` : full) });
+      } catch { /* not a real address */ }
+      if (out.length >= 4) break;
+    }
+    return out;
+  }
+  const swIsYt = (host) => /(^|\.)youtube\.com$|^youtu\.be$/.test(host);
+  function swYouTube(text, links) {
+    const yt = links.find((l) => swIsYt(l.host));
+    let id = '';
+    if (yt) {
+      const u = new URL(yt.url);
+      id = u.hostname.endsWith('youtu.be') ? u.pathname.slice(1, 12) : (u.searchParams.get('v') || (u.pathname.match(/\/(?:shorts|live|embed)\/([\w-]{11})/) || [])[1] || '');
+      if (!/^[\w-]{11}$/.test(id)) id = '';
+    }
+    const looks = !!yt || /\byoutube\b/i.test(text) || (/\bsubscribe(d|rs)?\b/i.test(text) && /\b\d[\d.,]*\s?[KkMm]?\s+views?\b/.test(text));
+    return looks ? { id, url: id ? `https://www.youtube.com/watch?v=${id}` : '' } : null;
+  }
+  // Software, plugins, apps and gear: a couple of strong signs, or several weaker ones.
+  function swProductScore(t) {
+    const strong = (t.match(/\b(plug-?ins?|vst3?|vsti|aax|sample packs?|app store|google play|add to (cart|bag|basket)|buy now|free trial|in-app purchases|download (now|for free|free)|licen[cs]e)\b/gi) || []).length;
+    const weak = (t.match(/\b(synth(esizer)?s?|compressor|equali[sz]er|reverb|delay|limiter|presets?|daw|macos|mac|windows|ios|android|pricing|price|buy|download|features)\b/gi) || []).length;
+    return strong * 2 + weak;
+  }
+  // The brand part of an address: fabfilter.com → fabfilter, shop.example.co.uk → example.
+  function swBrand(host) {
+    const parts = host.split('.');
+    let i = parts.length - 2;
+    if (i > 0 && /^(co|com|org|net|ac|gov)$/.test(parts[i]) && parts[parts.length - 1].length === 2) i--;
+    return parts[i] || '';
+  }
+
+  const swAboutCache = new Map();
+  function swWhatIs(q) {
+    const key = q.toLowerCase().trim();
+    if (swAboutCache.has(key)) return swAboutCache.get(key);
+    const p = (async () => {
+      const d = await sfJson('https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&generator=search&gsrnamespace=0&gsrlimit=3'
+        + '&prop=description%7Cpageprops%7Cextracts&exintro=1&explaintext=1&exsentences=1&exlimit=3&ppprop=wikibase_item%7Cdisambiguation'
+        + `&gsrsearch=${encodeURIComponent(key)}`);
+      const pages = (d.query && Array.isArray(d.query.pages) ? d.query.pages : []).slice().sort((a, b) => (a.index || 0) - (b.index || 0));
+      const squash = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+      const words = key.split(/[^a-z0-9]+/).filter((w) => w.length >= 4);
+      // only an article that's plainly about the thing asked for
+      const hit = pages.find((pg) => pg && typeof pg.title === 'string' && !(pg.pageprops && 'disambiguation' in pg.pageprops)
+        && words.some((w) => squash(pg.title).includes(w) || (squash(pg.title).length >= 4 && w.includes(squash(pg.title)))));
+      if (!hit) return null;
+      let site = '';
+      const qid = hit.pageprops && hit.pageprops.wikibase_item;
+      if (/^Q\d{1,12}$/.test(qid || '')) {
+        try {
+          const c = await sfJson(`https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&origin=*&property=P856&entity=${qid}`);
+          const snak = c && c.claims && c.claims.P856 && c.claims.P856[0] && c.claims.P856[0].mainsnak;
+          const v = snak && snak.datavalue && snak.datavalue.value;
+          if (typeof v === 'string' && /^https?:\/\//.test(v)) site = new URL(v).href;
+        } catch { /* the article still says what it is */ }
+      }
+      return {
+        name: hit.title,
+        about: (typeof hit.description === 'string' && hit.description) || String(hit.extract || '').slice(0, 160),
+        site,
+        page: `https://en.wikipedia.org/wiki/${encodeURIComponent(hit.title.replace(/ /g, '_'))}`,
+      };
+    })().catch(() => { swAboutCache.delete(key); return null; });
+    swAboutCache.set(key, p);
+    return p;
+  }
+  // Look up what a product or website screenshot is about (once per screenshot).
+  function swSite(it) {
+    const g = it.guess;
+    if (!g || it.siteP || !(g.kind === 'product' || g.kind === 'web')) return;
+    const queries = [];
+    const brand = g.site ? swBrand(g.site.host) : '';
+    if (brand.length >= 3 && !SW_GENERIC.test(brand)) queries.push(brand);
+    if (g.kind === 'product' && g.title) queries.push(g.title.split(/\s+/).slice(0, 5).join(' '));
+    it.siteP = (async () => {
+      for (const q of queries) {
+        const r = await swWhatIs(q);
+        if (r) { it.about = r; return; }
+      }
+      it.about = null;
+    })();
+    it.siteP.then(() => {
+      if (g.kind === 'web' && it.about && !it.titleTyped) it.title = it.about.name;
+      if (swQueue[swPos] === it && !$('sw-run').hidden) {
+        if (g.kind === 'web' && it.about && !it.titleTyped && document.activeElement !== swTitleIn) swTitleIn.value = it.title;
+        swPaintLinks(it);
+      }
+    });
+  }
+  const swHostOf = (url) => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; } };
+  // The links to show for a screenshot: [label, address, icon].
+  function swLinkList(g, about, title) {
+    if (!g) return [];
+    const out = [];
+    const q = String(title || g.title || '').trim();
+    if (g.yt) out.push(['Watch on YouTube', g.yt.url || `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, 'play']);
+    g.links.filter((l) => !(g.yt && swIsYt(l.host))).forEach((l) => out.push([l.label, l.url, 'link']));
+    const official = about && about.site;
+    if (official && !g.links.some((l) => l.host === swHostOf(official))) out.push([`${swHostOf(official)} · official site`, official, 'link']);
+    if (g.kind === 'product' && !official && !g.site && q) out.push(['Find its website', `https://www.google.com/search?q=${encodeURIComponent(`${q} official site`)}`, 'search']);
+    return out.slice(0, 5);
+  }
+  const swAboutText = (g, about) => (about ? `${about.name}: ${about.about}` : (g && (g.kind === 'product' || g.kind === 'web') && g.blurb ? g.blurb : ''));
+  function swLinkEls(list, aboutText, aboutFrom) {
+    const els = list.map(([label, href, icon]) => h('a', { class: icon === 'play' ? 'sw-link sw-link--yt' : 'sw-link', href, target: '_blank', rel: 'noopener noreferrer' },
+      iconEl(icon === 'play' ? SW_ICON.play : icon === 'search' ? SW_ICON.search : SF_ICON.link), h('span', null, label)));
+    if (aboutText) els.push(h('p', { class: 'sw-about' }, h('b', null, aboutFrom === 'wiki' ? 'What it is: ' : 'What it says: '), aboutText));
+    return els;
+  }
+  function swPaintLinks(it) {
+    const g = it.guess;
+    const box = $('sw-links');
+    if (!g) { box.replaceChildren(); return; }
+    const looking = it.siteP && it.about === undefined;
+    const els = swLinkEls(swLinkList(g, it.about, swTitleIn.value), swAboutText(g, it.about), it.about ? 'wiki' : 'shot');
+    if (looking) els.push(h('p', { class: 'sw-about' }, 'Finding out what it is…'));
+    box.replaceChildren(...els);
+  }
+
+  // ── Share to the app, and Remind me ──
+  // Share: on Android, once the app is installed, it shows in the share menu. A screenshot (or a
+  // link, say from YouTube) shared to it is kept by the service worker in IndexedDB
+  // ('mppro-inbox'), and the app opens straight on it, so you say what it's for before you forget.
+  // What's left for next time stays in the inbox until it's dealt with.
+  const swInbox = (() => {
+    let dbp = null;
+    const open = () => dbp || (dbp = new Promise((resolve, reject) => {
+      const rq = indexedDB.open('mppro-inbox', 1);
+      rq.onupgradeneeded = () => rq.result.createObjectStore('shares', { keyPath: 'id' });
+      rq.onsuccess = () => resolve(rq.result);
+      rq.onerror = () => reject(rq.error);
+    }).catch((err) => { dbp = null; throw err; }));
+    const run = (mode, fn) => open().then((db) => new Promise((resolve, reject) => {
+      const tx = db.transaction('shares', mode);
+      const rq = fn(tx.objectStore('shares'));
+      tx.oncomplete = () => resolve(rq.result);
+      tx.onerror = tx.onabort = () => reject(tx.error);
+    }));
+    return {
+      all: () => run('readonly', (s) => s.getAll()),
+      put: (x) => run('readwrite', (s) => s.put(x)),
+      del: (id) => run('readwrite', (s) => s.delete(id)),
+    };
+  })();
+  let swInboxN = 0;
+  async function swCheckInbox(open) {
+    let list = [];
+    try { list = await swInbox.all(); } catch { return; }
+    list = (Array.isArray(list) ? list : []).filter((x) => x && Number.isFinite(x.id) && ((x.blob instanceof Blob) || (typeof x.text === 'string' && x.text.trim())));
+    swInboxN = list.length;
+    if (currentTab === 'shots') renderShots(); else $('count-shots').textContent = String(swLeft() || swInboxN);
+    if (!open || !list.length) return;
+    const have = new Set(swQueue.map((it) => it.inboxId));
+    const items = list.filter((x) => !have.has(x.id)).sort((a, b) => b.id - a.id).map((x) => ({
+      file: x.blob ? new File([x.blob], x.name || 'shared.png', { type: x.type || x.blob.type || 'image/png', lastModified: x.at || x.id }) : null,
+      fp: `share|${x.id}`, date: x.at || x.id, extra: typeof x.text === 'string' ? x.text : '', inboxId: x.id, shared: true,
+      text: null, title: null, guess: null, read: null, cat: 'info', catSet: false,
+    }));
+    if (!items.length) return;
+    openApp('shots');
+    if (swLeft() > 0 && !$('sw-run').hidden) {
+      // in the middle of a sweep: the shared ones come next
+      swQueue.splice(swPos, 0, ...items);
+      swShow();
+      toast(`${items.length} shared · up next`);
+    } else {
+      swBegin(items, ['shared to the app']);
+    }
+  }
+  $('sw-inbox-go').addEventListener('click', () => swCheckInbox(true));
+
+  // Remind me: a job that lands on the day you pick, linked back to the screenshot.
+  function swRemindAt(when) {
+    const t = now();
+    const d = new Date(t);
+    d.setHours(MORNING_HOUR, 0, 0, 0);
+    if (when === 'tomorrow') return nextMorning(t);
+    if (when === 'weekend') {
+      const day = d.getDay(); // 0 Sunday … 6 Saturday
+      let add = (6 - day + 7) % 7;
+      if (day === 6) add = t < d.getTime() ? 0 : 1;   // Saturday: this morning, or else Sunday
+      if (day === 0) add = t < d.getTime() ? 0 : 6;   // Sunday: this morning, or else next Saturday
+      d.setDate(d.getDate() + add);
+      return d.getTime();
+    }
+    // next week: Monday morning
+    d.setDate(d.getDate() + ((8 - d.getDay()) % 7 || 7));
+    return d.getTime();
+  }
+  const swAllJobs = () => [...missions, ...tomorrowMissions, ...nowNowMissions];
+  // Makes the job and returns how to undo it.
+  function swMakeJob(text, when) {
+    let id = Date.now();
+    while (swAllJobs().some((m) => m.id === id)) id++;
+    let label;
+    if (when === 'today') {
+      missions.push({ id, text, createdAt: now() });
+      label = 'Job on Now';
+    } else {
+      const startsAt = swRemindAt(when);
+      tomorrowMissions.push({ id, text, startsAt });
+      label = `Reminder · lands ${landLabel(startsAt)}`;
+    }
+    holdSync();
+    saveData();
+    renderUI();
+    return {
+      label,
+      undo: () => {
+        missions = missions.filter((m) => m.id !== id);
+        tomorrowMissions = tomorrowMissions.filter((m) => m.id !== id);
+        markGone(id);
+        saveData();
+        renderUI();
+      },
+    };
+  }
+  // The kept screenshot a job came from (matched by its text), if it's on this phone.
+  function swShotFor(text) {
+    try { return swItems.filter((r) => r.jobText && r.jobText === text).sort((a, b) => b.at - a.at)[0] || null; } catch { return null; }
+  }
+  // Finishing that job ticks the screenshot done, so it's crossed out in the library.
+  function swJobFinished(text) {
+    const rec = swShotFor(text);
+    if (rec && !rec.done) swSetDone(rec, true);
+  }
+  function swOpenFromJob(text) {
+    const rec = swShotFor(text);
+    if (!rec) { toast("That screenshot isn't on this phone"); return; }
+    openApp('shots');
+    swOpen(rec.id);
+  }
+  $('swv-remind').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-when]');
+    const rec = b && swItems.find((r) => r.id === swViewId);
+    if (!rec) return;
+    const text = ($('swv-title').value.trim().replace(/\s+/g, ' ') || `Look at a screenshot from ${swWhenOf(rec)}`).slice(0, 140);
+    const job = swMakeJob(text, b.dataset.when);
+    const before = rec.jobText;
+    rec.jobText = text;
+    swLib.put(rec).catch(() => {});
+    sfx.add();
+    toast(job.label, { action: 'Undo', duration: 6000, onAction: () => { job.undo(); rec.jobText = before; swLib.put(rec).catch(() => {}); } });
+  });
+
+  // ── App windows: every app on the home screen opens full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
   // (and, where the browser allows it, the whole screen), like raccoon mode. Close, Esc or the
   // phone's back gesture goes back to the home screen.
@@ -8697,7 +10972,7 @@ body.is-shake .wrap { animation: shake .4s; }
       fitFrames();
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
       if (!fromHistory && history.state && history.state.mpApp) history.go(nnWasOpen && history.state.mpNowNow ? -2 : -1);
-      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins, 'hours-panel': TAB_EL.hours }[panel.id];
+      const tile = { 'missions-panel': tabMissions, 'calendar-panel': TAB_EL.calendar, 'hood-panel': TAB_EL.hood, 'notes-panel': TAB_EL.notes, 'quick-panel': TAB_EL.notes, 'sahara-panel': TAB_EL.sahara, 'wins-panel': TAB_EL.wins, 'shelf-panel': TAB_EL.shelf, 'hours-panel': TAB_EL.hours, 'shots-panel': TAB_EL.shots }[panel.id];
       if (tile && !tile.hidden) tile.focus({ preventScroll: true });
     }
     function enter(panel){
@@ -8722,7 +10997,19 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     document.querySelectorAll('[data-full]').forEach((btn) => btn.addEventListener('click', () => exit()));
     // the system's own back gesture or Esc leaves real full screen or the window: follow it
-    document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && open) exit(); });
+    // ...except the one time opening a file or photo picker knocks the page out of full screen,
+    // which would otherwise close the window just as Hours or Screenshots asks for a picture
+    let pickerExit = false;
+    document.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t && t.tagName === 'INPUT' && t.type === 'file' && document.fullscreenElement) pickerExit = true;
+    }, true);
+    window.addEventListener('focus', () => { if (pickerExit) setTimeout(() => { pickerExit = false; }, 1500); });
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement || !open) return;
+      if (pickerExit) { pickerExit = false; return; }
+      exit();
+    });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open && !nnOpen && !document.querySelector('dialog[open]')) exit(); });
     // Back out of Now now mode lands on the Missions window's own entry: stay in Missions then
     window.addEventListener('popstate', () => { if (open && !(history.state && history.state.mpApp)) exit(true); });
@@ -9417,6 +11704,10 @@ body.is-shake .wrap { animation: shake .4s; }
   }
 
   // ── Boot ───────────────────────────────────────────────────────────────
+  // Arrived from the share menu (the service worker adds ?shared=1): go straight to it.
+  const sharedAtBoot = /[?&]shared=1/.test(location.search);
+  if (sharedAtBoot) history.replaceState(history.state, '', location.pathname);
+  setTimeout(() => swCheckInbox(sharedAtBoot), 0);
   const landedAtBoot = landTomorrowJobs();
   const sweptAtBoot = sweepQuick();
   const timedOutAtBoot = landNowNowJobs();
