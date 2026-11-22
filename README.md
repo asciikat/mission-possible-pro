@@ -242,6 +242,20 @@ screen; the number on it is how many are left in the sweep you're on.
 4. At the end you get a plain count of what went where (no confetti or fanfare), and the dates of
    the ones you can now delete from your gallery. **Go through more** picks again.
 
+**Share it to the app (quickest).** On Android, once the app is installed, **Possible Pro** shows
+in the share menu. Right after you take a screenshot, tap **Share** in its preview and pick it: the
+app opens straight on that screenshot so you can say what it's for before you forget. It works for
+links too, so sharing a video from the YouTube app puts it in front of you with **Watch on YouTube**
+ready for the Shelf. Shared things that aren't dealt with (or are left for next time) wait in the
+app: the Screenshots button counts them and the top of Screenshots has **Go through**. iPhones don't
+let web apps into the share menu. After this update, Android may take a day to add Possible Pro to
+the share menu; removing the app from the home screen and installing it again does it straight away.
+
+**Remind me.** Under the choices, **Or remind me: Tomorrow, Weekend, Next week** makes a job that
+lands on Now that morning (Weekend is Saturday, Next week is Monday). A kept screenshot has **Remind
+me: Today, Tomorrow, Weekend, Next week** too. The job's menu has **See the screenshot**, and
+finishing the job ticks the screenshot done in the library.
+
 **The library.** Every screenshot you keep (Job, Note, Shelf, Receipt or Just keep it) is saved
 under the sweep with its picture and the text read off it, so you can delete the original from your
 gallery and still find it. It's sorted into categories: **To do**, **Money**, **Watch & read**,
