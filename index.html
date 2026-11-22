@@ -2259,6 +2259,7 @@ body.is-shake .wrap { animation: shake .4s; }
 .sw-howto { margin-top: 12px; }
 .sw-howto summary { min-height: 34px; font: 700 12px/34px var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); cursor: pointer; }
 .sw-howto .sw-how { margin-top: 2px; }
+.sw-how-note { margin: 8px 0 0; font-size: 14px; color: var(--dim); }
 .sw-lib { margin-top: 22px; padding-top: 4px; border-top: 1px solid var(--line); }
 .sw-lib .hr-bar { margin-top: 14px; }
 .sw-lib-n { font: 700 13px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
@@ -3938,12 +3939,12 @@ body.is-shake .wrap { animation: shake .4s; }
             <span><b>Pick screenshots</b><small>Opens your photos</small></span>
           </button>
           <details class="sw-howto" id="sw-howto" open>
-          <summary>How to pick them</summary>
+          <summary>The easy ways to pick them up</summary>
           <ol class="sw-how">
-            <li>In the picker, open <b>Albums</b>, then <b>Screenshots</b>.</li>
-            <li>Select the last couple of weeks. Press and hold one, then drag to select lots at once.</li>
-            <li>Tap <b>Done</b> or <b>Add</b>.</li>
+            <li><b>From your Gallery or Photos app:</b> open the <b>Screenshots</b> album and select them (Samsung Gallery: tap <b>All</b>; Google Photos: press and hold one, then drag). Tap <b>Share</b> and pick <b>Possible Pro</b>.</li>
+            <li><b>Or from here:</b> tap <b>Pick screenshots</b> and select the last couple of weeks of photos (press and hold one, then drag). No need to find the Screenshots album: photos that aren't screenshots are left out for you.</li>
           </ol>
+          <p class="sw-how-note">Either way, ones you've already gone through are skipped, and ones older than the range you picked are left out, with a button to include them.</p>
           </details>
           <div class="sw-msg" id="sw-msg" role="status" hidden></div>
           <p class="sw-share-tip"><b>Quicker:</b> right after you take a screenshot, tap <b>Share</b> and pick <b>Possible Pro</b>. It opens here so you can say what it's for straight away. (Android, with the app installed.)</p>
@@ -4029,6 +4030,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <button class="add-btn" id="sw-again" type="button">Go through more</button>
           <button class="btn sw-done-lib" id="sw-to-lib" type="button" hidden>See the library</button>
           <button class="btn" id="sw-older" type="button" hidden></button>
+          <button class="btn" id="sw-photos" type="button" hidden></button>
         </section>
         <input type="file" id="sw-file" accept="image/*" multiple hidden>
         </div>
@@ -9809,6 +9811,7 @@ body.is-shake .wrap { animation: shake .4s; }
   let swStats = {};
   let swLast = null; // the last choice, for Undo
   let swOlder = [];  // picked, but older than the range
+  let swPhotos = []; // picked, but photos rather than screenshots
   let swBusy = false;
   let swUrl = '';
   const swFp = (f) => `${f.name}|${f.size}`;
@@ -9829,6 +9832,39 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     if (file.lastModified && pickedAt - file.lastModified > 5 * 60 * 1000) return file.lastModified;
     return 0;
+  }
+
+  // Screenshot or photo? Phones save screenshots as PNG (or, on Samsung, a JPEG the size of the
+  // screen, named Screenshot_…); cameras never save PNG. Only the start of each file is read.
+  // Can't tell = keep it.
+  async function swIsShot(file) {
+    if (/screen|capture|bildschirm|captura|schermata/i.test(file.name || '')) return true;
+    let b;
+    try { b = new Uint8Array(await file.slice(0, 131072).arrayBuffer()); } catch { return true; }
+    if (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return true; // PNG
+    let w = 0;
+    let ht = 0;
+    if (b[0] === 0xff && b[1] === 0xd8) {
+      // JPEG: walk the segments to the frame header, which holds the size
+      let i = 2;
+      while (i + 9 < b.length) {
+        if (b[i] !== 0xff) { i++; continue; }
+        const m = b[i + 1];
+        if (m === 0xff) { i++; continue; }
+        if (m === 0xd8 || m === 0x01 || (m >= 0xd0 && m <= 0xd7)) { i += 2; continue; }
+        if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc) { ht = (b[i + 5] << 8) | b[i + 6]; w = (b[i + 7] << 8) | b[i + 8]; break; }
+        i += 2 + ((b[i + 2] << 8) | b[i + 3]);
+      }
+    } else if (/webp/i.test(file.type || '')) {
+      try { const bm = await createImageBitmap(file); w = bm.width; ht = bm.height; if (bm.close) bm.close(); } catch { return true; }
+    } else {
+      return false; // HEIC, GIF and the rest: camera photos and saved pictures
+    }
+    if (!w || !ht) return true;
+    const sw = Math.round(screen.width * (window.devicePixelRatio || 1));
+    const sh = Math.round(screen.height * (window.devicePixelRatio || 1));
+    const near = (a, x) => x > 0 && Math.abs(a - x) / x < 0.04;
+    return (near(w, sw) && near(ht, sh)) || (near(w, sh) && near(ht, sw));
   }
 
   // Reading the text: the engine loads the first time it's needed.
@@ -9999,13 +10035,21 @@ body.is-shake .wrap { animation: shake .4s; }
     renderShots();
   });
   const swRangeName = () => (SW_RANGES.find((r) => r.days === swDays) || SW_RANGES[1]).name;
-  function swNote(text, olderBtn) {
+  const swOlderLabel = () => `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'}`;
+  const swPhotosLabel = () => `Include the ${swPhotos.length} photo${swPhotos.length === 1 ? '' : 's'} that ${swPhotos.length === 1 ? "isn't a screenshot" : "aren't screenshots"}`;
+  function swNote(text, withButtons) {
     const box = $('sw-msg');
     box.hidden = !text;
     box.replaceChildren(text || '');
-    if (text && olderBtn && swOlder.length) {
-      const b = h('button', { class: 'btn', type: 'button' }, `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'}`);
+    if (!text || !withButtons) return;
+    if (swOlder.length) {
+      const b = h('button', { class: 'btn', type: 'button' }, swOlderLabel());
       b.addEventListener('click', () => swBegin(swOlder.splice(0)));
+      box.append(h('br'), b);
+    }
+    if (swPhotos.length) {
+      const b = h('button', { class: 'btn', type: 'button' }, swPhotosLabel());
+      b.addEventListener('click', () => swBegin(swPhotos.splice(0)));
       box.append(h('br'), b);
     }
   }
@@ -10017,30 +10061,40 @@ body.is-shake .wrap { animation: shake .4s; }
     swFile.value = '';
     if (files.length) swLoad(files);
   });
-  function swLoad(files) {
-    const at = Date.now();
+  const swItem = (file, at) => ({ file, fp: swFp(file), date: swDateOf(file, at), text: null, title: null, guess: null, read: null, cat: 'info', catSet: false });
+  // Sorts picked (or shared) items into: already gone through, photos rather than screenshots,
+  // older than the range, and the ones to go through. With sift off, only the first applies.
+  async function swSift(items, sift) {
     const seen = new Set(swSeen);
-    const cutoff = swDays ? at - swDays * DAY_MS : 0;
-    const fresh = [];
-    let before = 0;
-    swOlder = [];
-    files.forEach((file) => {
-      const it = { file, fp: swFp(file), date: swDateOf(file, at), text: null, title: null, guess: null, read: null, cat: 'info', catSet: false };
-      if (seen.has(it.fp)) before++;
-      else if (cutoff && it.date && it.date < cutoff) swOlder.push(it);
-      else fresh.push(it);
+    const cutoff = swDays ? Date.now() - swDays * DAY_MS : 0;
+    if (sift && items.length > 8) swNote(`Checking ${items.length}…`);
+    const shot = sift ? await Promise.all(items.map((it) => (it.file ? swIsShot(it.file) : true))) : [];
+    const out = { fresh: [], before: [], older: [], photos: [] };
+    items.forEach((it, i) => {
+      if (seen.has(it.fp)) out.before.push(it);
+      else if (sift && !shot[i]) out.photos.push(it);
+      else if (sift && cutoff && it.date && it.date < cutoff) out.older.push(it);
+      else out.fresh.push(it);
     });
-    const bits = [];
-    if (before) bits.push(`${before} you've already gone through`);
-    if (swOlder.length) bits.push(`${swOlder.length} older than ${swRangeName()}`);
-    if (!fresh.length) {
+    swOlder = out.older;
+    swPhotos = out.photos;
+    out.bits = [];
+    if (out.before.length) out.bits.push(`${out.before.length} you've already gone through`);
+    if (out.photos.length) out.bits.push(`${out.photos.length} photo${out.photos.length === 1 ? '' : 's'} that ${out.photos.length === 1 ? "isn't a screenshot" : "aren't screenshots"}`);
+    if (out.older.length) out.bits.push(`${out.older.length} older than ${swRangeName()}`);
+    return out;
+  }
+  async function swLoad(files) {
+    const at = Date.now();
+    const out = await swSift(files.map((file) => swItem(file, at)), true);
+    if (!out.fresh.length) {
       swQueue = [];
       renderShots();
-      swNote(`Nothing new to go through${bits.length ? `: ${bits.join(', ')}` : ''}.`, true);
+      swNote(`Nothing new to go through${out.bits.length ? `: ${out.bits.join(', ')}` : ''}.`, true);
       return;
     }
     swNote('');
-    swBegin(fresh, bits);
+    swBegin(out.fresh, out.bits);
   }
   function swBegin(list, bits) {
     // newest first; ones with no date keep the picker's order, after the dated ones
@@ -10150,10 +10204,13 @@ body.is-shake .wrap { animation: shake .4s; }
     $('sw-to-lib').hidden = !gone.some((i) => SW_FILED.includes(i.act));
     const older = $('sw-older');
     older.hidden = !swOlder.length;
-    older.textContent = `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'} too`;
+    older.textContent = `${swOlderLabel()} too`;
+    $('sw-photos').hidden = !swPhotos.length;
+    $('sw-photos').textContent = swPhotosLabel();
     $('count-shots').textContent = String(swInboxN);
   }
   $('sw-older').addEventListener('click', () => swBegin(swOlder.splice(0)));
+  $('sw-photos').addEventListener('click', () => swBegin(swPhotos.splice(0)));
   $('sw-to-lib').addEventListener('click', () => {
     swQueue = [];
     swPos = 0;
@@ -10852,20 +10909,35 @@ body.is-shake .wrap { animation: shake .4s; }
     if (currentTab === 'shots') renderShots(); else $('count-shots').textContent = String(swLeft() || swInboxN);
     if (!open || !list.length) return;
     const have = new Set(swQueue.map((it) => it.inboxId));
-    const items = list.filter((x) => !have.has(x.id)).sort((a, b) => b.id - a.id).map((x) => ({
-      file: x.blob ? new File([x.blob], x.name || 'shared.png', { type: x.type || x.blob.type || 'image/png', lastModified: x.at || x.id }) : null,
-      fp: `share|${x.id}`, date: x.at || x.id, extra: typeof x.text === 'string' ? x.text : '', inboxId: x.id, shared: true,
-      text: null, title: null, guess: null, read: null, cat: 'info', catSet: false,
-    }));
-    if (!items.length) return;
+    const at = Date.now();
+    const all = list.filter((x) => !have.has(x.id)).sort((a, b) => b.id - a.id).map((x) => {
+      const file = x.blob ? new File([x.blob], x.name || 'shared.png', { type: x.type || x.blob.type || 'image/png', lastModified: x.at || x.id }) : null;
+      return {
+        file, fp: file ? swFp(file) : `share|${x.id}`, date: (file && swDateOf(file, at)) || x.at || x.id,
+        extra: typeof x.text === 'string' ? x.text : '', inboxId: x.id, shared: true,
+        text: null, title: null, guess: null, read: null, cat: 'info', catSet: false,
+      };
+    });
+    if (!all.length) return;
+    const out = await swSift(all, all.length > 3);
+    // what's left out leaves the inbox (it's still in the gallery; the buttons bring it back)
+    [...out.before, ...out.older, ...out.photos].forEach((it) => { swInbox.del(it.inboxId).catch(() => {}); });
+    swInboxN = Math.max(0, swInboxN - out.before.length - out.older.length - out.photos.length);
+    const items = out.fresh;
     openApp('shots');
+    if (!items.length) {
+      swQueue = [];
+      renderShots();
+      swNote(`Nothing new in what you shared${out.bits.length ? `: ${out.bits.join(', ')}` : ''}.`, true);
+      return;
+    }
     if (swLeft() > 0 && !$('sw-run').hidden) {
       // in the middle of a sweep: the shared ones come next
       swQueue.splice(swPos, 0, ...items);
       swShow();
       toast(`${items.length} shared · up next`);
     } else {
-      swBegin(items, ['shared to the app']);
+      swBegin(items, ['shared to the app', ...out.bits]);
     }
   }
   $('sw-inbox-go').addEventListener('click', () => swCheckInbox(true));
