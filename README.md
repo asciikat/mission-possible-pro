@@ -145,7 +145,7 @@ sync between devices like notes and are included in Save/Merge backup (a deleted
 doesn't get lost. It's the orange button on the home screen; the number on it is how many are
 lined up.
 
-- Pick a kind (**Film**, **TV**, **Book**, **Game**, **Other**) and start typing the title. Matches
+- Pick a kind (**Film**, **TV**, **Video**, **Book**, **Game**, **Other**) and start typing the title. Matches
   appear underneath with their cover, year and who made them: tap one to save it. **Add** saves
   exactly what you typed instead, which also works offline. **Other** is for anything else (an
   album, a podcast, a place) and is never looked up.
@@ -162,6 +162,7 @@ lined up.
 | --- | --- | --- |
 | Film | Wikipedia (posters and year) | **IMDb**, Wikipedia |
 | TV | TVmaze | **IMDb**, TVmaze |
+| Video | not looked up | **Watch on YouTube** (the video, or a search for its title) |
 | Book | Open Library | Open Library, Goodreads |
 | Game | Wikipedia | Wikipedia |
 
@@ -225,6 +226,17 @@ screen; the number on it is how many are left in the sweep you're on.
    - **Just keep it**: into the library (below), picture and text, nothing else.
    - **Nothing to keep**: done, nothing saved.
    - **Leave it for next time**: skipped for now; it comes back the next time you pick it.
+   Under the hint, the screenshot's **links** show as buttons you can tap:
+   - Any web address in it (a site's home page, and the exact page if one is visible).
+   - **YouTube**: **Watch on YouTube**, straight to the video when its address is in the picture, otherwise
+     a YouTube search for its title. The Shelf choice opens on the new **Video** kind, so it lands
+     on your watch-later list.
+   - **A product** (a plugin, an app, gear: words like plug-in, VST, AAX, free trial, buy now) or **a
+     website**: the app looks the brand up and says **What it is** (from Wikipedia) and adds its
+     official site (from Wikidata). If it can't find one, **Find its website** searches for it, and
+     a sentence from the screenshot says what it's about. A website's title becomes the site's name.
+   Products and websites are suggested for **Just keep it**, and file under **Products** and
+   **Websites**. Notes made from a screenshot keep its links.
 3. Every choice has **Undo**. Tap the picture to see it bigger; edit the title, or open **All the
    text it read**, before choosing.
 4. At the end you get a count of what went where, and the dates of the ones you can now delete from
@@ -233,9 +245,10 @@ screen; the number on it is how many are left in the sweep you're on.
 **The library.** Every screenshot you keep (Job, Note, Shelf, Receipt or Just keep it) is saved
 under the sweep with its picture and the text read off it, so you can delete the original from your
 gallery and still find it. It's sorted into categories: **To do**, **Money**, **Watch & read**,
-**Food**, **Shopping**, **Places**, **Info** and **Other**. The category is guessed from the text and
+**Food**, **Products**, **Places**, **Websites**, **Info** and **Other**. The category is guessed from the text and
 shown as **Files under** while you sweep; change it there or later. **Search the words in them**
-finds a screenshot by anything written in it. Tap one to see it full size, change its title or
+finds a screenshot by anything written in it, or by what it is or its links. Tap one to see it
+full size with its links and what it is, change its title or
 category, **Copy text**, **Share picture** (to save it somewhere else), or **Delete** it (with
 Undo). The categories are the `SW_CATS` list in `index.html` (keep a category's `id` the same when
 renaming it).
@@ -262,6 +275,9 @@ too. A sweep takes up to 100 at a time.
 - The guesses are simple keyword checks (a total and a card payment means a receipt, Netflix or
   "season" means TV, Goodreads or "novel" means a book). They only highlight a button; every choice
   is always there.
+- Looking up what something is sends only the brand (for a website, the part of its address
+  before .com; for a product, its title) to Wikipedia and Wikidata, and only for screenshots that
+  look like a product or a website. Messages, receipts and the rest are never looked up.
 - What's been gone through, and the library, stay on this device; nothing in Screenshots syncs. What you send to
   Missions, Notes, Shelf or Hours syncs as usual.
 

@@ -2305,6 +2305,32 @@ body.is-shake .wrap { animation: shake .4s; }
 .sw-modal .add-btn { background: var(--sw); }
 .sw-done-lib { margin-left: 8px; }
 
+/* links found in a screenshot, and what the thing is */
+.sw-links { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.sw-links:empty { display: none; }
+.sw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  max-width: 100%;
+  padding: 0 10px;
+  border: 1px solid rgba(79, 216, 255, .45);
+  background: rgba(79, 216, 255, .08);
+  color: var(--ink);
+  font: 700 13px/1.1 var(--font-hud);
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+.sw-link span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sw-link svg { flex: none; width: 15px; height: 15px; color: var(--sw); }
+.sw-link--yt { border-color: rgba(255, 78, 69, .55); background: rgba(255, 78, 69, .1); }
+.sw-link--yt svg { width: 18px; height: 18px; color: #ff4e45; }
+.sw-about { flex-basis: 100%; margin: 2px 0 0; font-size: 14px; line-height: 1.35; color: var(--smog); }
+.sw-about b { color: var(--ink); }
+.sw-modal .sw-links { margin: 0 0 12px; }
+.sw-tile-d svg { width: 11px; height: 11px; margin-left: 4px; vertical-align: -1px; color: var(--sw); }
+
 /* ───────────────────────── sahara ───────────────────────── */
 /* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
    dressed like the Sahara app: night purple, dotted ground, chunky borders, pixel hearts. */
@@ -3910,6 +3936,7 @@ body.is-shake .wrap { animation: shake .4s; }
             <label class="sw-catsel"><span>Files under</span><select id="sw-cat"></select></label>
           </div>
           <p class="sw-hint" id="sw-hint" aria-live="polite"></p>
+          <div class="sw-links" id="sw-links"></div>
           <label class="hr-field"><span>Title</span><input type="text" id="sw-title" maxlength="140" enterkeyhint="done" placeholder="What's this one about?"></label>
           <details class="sw-all" id="sw-all">
             <summary id="sw-all-label">All the text it read</summary>
@@ -4200,6 +4227,7 @@ body.is-shake .wrap { animation: shake .4s; }
     <p class="eyebrow">Library</p>
     <div class="hr-pic" id="swv-pic"></div>
     <p class="swv-meta" id="swv-meta"></p>
+    <div class="sw-links" id="swv-links"></div>
     <div class="hr-pic-tools">
       <button class="btn" id="swv-share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5M5 12v7a1 1 0 001 1h12a1 1 0 001-1v-7"/></svg>Share picture</button>
       <button class="btn" id="swv-copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy text</button>
@@ -9234,6 +9262,7 @@ body.is-shake .wrap { animation: shake .4s; }
     tv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="3" y="7" width="18" height="12.5" rx="1.5"/><path d="M8 3l4 4 4-4"/></svg>',
     book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 6.5c-2-1.6-4.8-2-8-2v13c3.2 0 6 .4 8 2 2-1.600 4.800-2 8-2v-13c-3.200 0-6 .4-8 2zM12 6.500v13"/></svg>',
     game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 8h10a4.500 4.500 0 014.400 5.500l-.6 2.700a2.300 2.300 0 01-4 1L15 15H9l-1.800 2.200a2.300 2.300 0 01-4-1l-.6-2.700A4.500 4.500 0 017 8z"/><path d="M7.500 10.500v3M6 12h3M16 11.500h.01M17.500 13h.01"/></svg>',
+    video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3.5"/><path d="M10 9.200v5.600l4.800-2.800z" fill="currentColor"/></svg>',
     other: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.500L7 20z"/></svg>',
     link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M11 6H6a1 1 0 00-1 1v11a1 1 0 001 1h11a1 1 0 001-1v-5"/></svg>',
     star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.800l2.750 5.900 6.450.750-4.780 4.400 1.280 6.350L12 17l-5.700 3.200 1.280-6.350L2.800 9.450l6.450-.75z"/></svg>',
@@ -9241,6 +9270,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const SF_TYPES = [
     { id: 'film', name: 'Film', plural: 'Films', ask: 'Add a film…', src: 'wiki', tpl: 'Infobox film' },
     { id: 'tv', name: 'TV', plural: 'TV', ask: 'Add a TV show…', src: 'tvmaze', long: true },
+    { id: 'video', name: 'Video', plural: 'Videos', ask: 'Add a video to watch…', src: '' },
     { id: 'book', name: 'Book', plural: 'Books', ask: 'Add a book…', src: 'ol', long: true },
     { id: 'game', name: 'Game', plural: 'Games', ask: 'Add a game…', src: 'wiki', tpl: 'Infobox video game', long: true },
     { id: 'other', name: 'Other', plural: 'Other', ask: 'Add anything: album, podcast, place…', src: '', long: true },
@@ -9255,8 +9285,8 @@ body.is-shake .wrap { animation: shake .4s; }
     tvmaze: ['TVmaze', 'https://www.tvmaze.com/'],
     ol: ['Open Library', 'https://openlibrary.org/'],
   };
-  const SF_IMG_HOSTS = ['covers.openlibrary.org', 'static.tvmaze.com', 'wikimedia.org'];
-  const SF_REF_HOSTS = ['openlibrary.org', 'tvmaze.com', 'wikipedia.org'];
+  const SF_IMG_HOSTS = ['covers.openlibrary.org', 'static.tvmaze.com', 'wikimedia.org', 'i.ytimg.com'];
+  const SF_REF_HOSTS = ['openlibrary.org', 'tvmaze.com', 'wikipedia.org', 'youtube.com', 'youtu.be'];
   const sfKind = (id) => SF_TYPES.find((t) => t.id === id) || SF_TYPES[SF_TYPES.length - 1];
   // Covers and links only ever point at the lookup sites, over https.
   const sfSafeUrl = (u, hosts) => {
@@ -9605,11 +9635,12 @@ body.is-shake .wrap { animation: shake .4s; }
     const q = `${x.title}${x.year ? ` ${x.year}` : ''}`;
     const links = [];
     if (x.type === 'film' || x.type === 'tv') links.push(['IMDb', x.imdb ? `https://www.imdb.com/title/${x.imdb}/` : `https://www.imdb.com/find/?s=tt&q=${encodeURIComponent(q)}`]);
-    if (x.type === 'book') {
+    if (x.type === 'video') links.push(['Watch on YouTube', x.ref || `https://www.youtube.com/results?search_query=${encodeURIComponent(x.title)}`]);
+    else if (x.type === 'book') {
       links.push(['Open Library', x.ref || `https://openlibrary.org/search?q=${encodeURIComponent(x.title)}`]);
       links.push(['Goodreads', `https://www.goodreads.com/search?q=${encodeURIComponent(`${x.title} ${x.by}`.trim())}`]);
     } else if (x.ref) links.push([x.ref.includes('tvmaze.com') ? 'TVmaze' : 'Wikipedia', x.ref]);
-    links.push(['Search the web', `https://www.google.com/search?q=${encodeURIComponent(`${q} ${x.type === 'other' ? '' : sfKind(x.type).name.toLowerCase()}`.trim())}`]);
+    links.push(['Search the web', `https://www.google.com/search?q=${encodeURIComponent(`${q} ${x.type === 'other' || x.type === 'video' ? '' : sfKind(x.type).name.toLowerCase()}`.trim())}`]);
     $('sfe-links').replaceChildren(...links.map(([name, href]) => {
       const a = h('a', { class: 'btn', href, target: '_blank', rel: 'noopener' }, name);
       a.append(iconEl(SF_ICON.link));
@@ -9708,7 +9739,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const SW_RANGES = [{ days: 7, name: '1 week' }, { days: 14, name: '2 weeks' }, { days: 31, name: '1 month' }, { days: 0, name: 'Any' }];
   const SW_MAX = 100; // the most one sweep takes (the phone's picker allows about this many)
   const SW_CDN = 'https://cdn.jsdelivr.net/npm/';
-  const SW_KIND_NAME = { film: 'a film', tv: 'a TV show', book: 'a book', game: 'a game' };
+  const SW_KIND_NAME = { film: 'a film', tv: 'a TV show', video: 'a YouTube video', book: 'a book', game: 'a game' };
   let swDays = SW_RANGES.some((r) => r.days === store.get('mp_sweep_days', 14)) ? store.get('mp_sweep_days', 14) : 14;
   let swSeen = (Array.isArray(store.get('mp_sweep_seen', [])) ? store.get('mp_sweep_seen', []) : []).filter((s) => typeof s === 'string');
   let swTotal = toInt(store.get('mp_sweep_total', 0));
@@ -9805,9 +9836,11 @@ body.is-shake .wrap { animation: shake .4s; }
       .filter((s) => (s.match(/[\p{L}\p{N}]/gu) || []).length >= 2);
     while (lines.length && /^\d{1,2}[:.]\d{2}\b/.test(lines[0]) && lines[0].length < 40) lines.shift();
     const out = [];
-    lines.forEach((s) => {
+    lines.forEach((raw) => {
+      const s = raw.replace(/(^|\s)\|(?=\s)/g, '$1I'); // a lone | is almost always the word I
       const prev = out[out.length - 1];
-      if (prev && !/[.!?:;]$/.test(prev) && /^\p{Ll}/u.test(s)) out[out.length - 1] = `${prev} ${s}`;
+      if (prev && /\p{L}-$/u.test(prev) && /^\p{L}/u.test(s)) out[out.length - 1] = `${prev}${s}`;
+      else if (prev && !/[.!?:;]$/.test(prev) && /^\p{Ll}/u.test(s)) out[out.length - 1] = `${prev} ${s}`;
       else out.push(s);
     });
     return out.join('\n').slice(0, 3000);
@@ -9817,11 +9850,16 @@ body.is-shake .wrap { animation: shake .4s; }
   function swGuess(text) {
     const t = text || '';
     const lines = t.split('\n').filter(Boolean);
-    const isChrome = (s) => /^\d{1,2}[:.]\d{2}\b/.test(s) || /\d\s?%/.test(s) || /https?:\/\/|www\./i.test(s)
+    const isChrome = (s) => /^\d{1,2}[:.]\d{2}\b/.test(s) || /\d\s?%/.test(s) || /https?:\/\/|www\./i.test(s) || new RegExp(`\\b[a-z0-9-]+\\.(${SW_TLD})\\b`, 'i').test(s)
       || /^(search|back|share|reply|like|follow|following|menu|home|more|cancel|done|edit|send|message|today|yesterday)$/i.test(s);
     const wordy = (s) => s.length >= 3 && s.length <= 90 && !isChrome(s) && (s.match(/\p{L}/gu) || []).length / s.length > 0.6;
     const good = lines.filter(wordy);
-    const title = (good.find((s) => s.split(' ').length >= 2) || good[0] || '').slice(0, 140);
+    let title = (good.find((s) => s.split(' ').length >= 2) || good[0] || '').slice(0, 140);
+    const viewsAt = lines.findIndex((s) => /\b\d[\d.,]*\s?[KkMm]?\s+views?\b/.test(s));
+    if (viewsAt > 0 && /\byoutube\b|\bsubscribe/i.test(t)) {
+      const above = lines.slice(Math.max(0, viewsAt - 2), viewsAt).filter(wordy);
+      if (above.length) title = above.join(' ').slice(0, 140);
+    }
     const num = (s) => Number(String(s).replace(/,/g, ''));
     const moneyIn = (s) => [...s.matchAll(/[$£€]\s?(\d{1,6}(?:,\d{3})*(?:\.\d{2})?)|(\d{1,6}(?:,\d{3})*\.\d{2})/g)].map((m) => num(m[1] || m[2])).filter((v) => v > 0 && v < 100000);
     let amount = null;
@@ -9832,15 +9870,23 @@ body.is-shake .wrap { animation: shake .4s; }
       amount = here.length ? here[here.length - 1] : next.length ? next[0] : null;
     }
     if (amount == null) { const all = [...t.matchAll(/[$£€]\s?(\d{1,6}(?:,\d{3})*(?:\.\d{2})?)/g)].map((m) => num(m[1])); if (all.length) amount = Math.max(...all); }
+    const links = swLinksIn(t);
+    const yt = swYouTube(t, links);
+    const site = links.find((l) => !swIsYt(l.host)) || null;
+    // a sentence from the screenshot that says what it's about
+    const blurb = (good.find((s) => s !== title && s.split(' ').length >= 6) || lines.find((s) => s !== title && s.split(' ').length >= 6 && !/https?:\/\/|www\./i.test(s)) || '').slice(0, 160);
     let kind = 'note';
     let shelfKind = 'film';
-    if (amount != null && /\b(total|subtotal|tax|gst|vat|receipt|invoice|order|paid|payment|eftpos|visa|mastercard|amex|card ending|transaction|tip)\b/i.test(t)) kind = 'receipt';
+    if (amount != null && /\b(total|subtotal|receipt|tax invoice|invoice|amount paid|you paid|paid by|card ending|transaction|eftpos)\b/i.test(t)) kind = 'receipt';
+    else if (yt) { kind = 'shelf'; shelfKind = 'video'; }
     else if (/\b(netflix|prime video|disney\+?|hbo|hulu|apple tv\+?|paramount\+?|stan|binge|crunchyroll|imdb|rotten tomatoes|letterboxd|trailer|season \d+|episodes?|s\d{1,2}\s?e\d{1,2}|series|movie|film|cinema|directed by|watchlist)\b/i.test(t)) {
       kind = 'shelf';
       shelfKind = /\b(season|episodes?|series|s\d{1,2}\s?e\d{1,2})\b/i.test(t) ? 'tv' : 'film';
     } else if (/\b(novel|author|goodreads|kindle|audible|audiobook|paperback|hardcover|isbn|bestsell(er|ing)|memoir|book club)\b/i.test(t)) { kind = 'shelf'; shelfKind = 'book'; }
-    else if (/\b(steam|playstation|ps5|ps4|xbox|nintendo|switch|game pass|gameplay|early access|metacritic)\b/i.test(t)) { kind = 'shelf'; shelfKind = 'game'; }
-    return { title, amount, kind, shelfKind, link: /https?:\/\/|www\./i.test(t) };
+    else if (/\b(steam|playstation|ps5|ps4|xbox|nintendo|game pass|gameplay|early access|metacritic)\b/i.test(t)) { kind = 'shelf'; shelfKind = 'game'; }
+    else if (swProductScore(t) >= 3) kind = 'product';
+    else if (site) kind = 'web';
+    return { title, amount, kind, shelfKind, links, yt, site, blurb };
   }
 
   // One at a time, in the order asked for; the next two are read ahead while you decide.
@@ -9859,6 +9905,7 @@ body.is-shake .wrap { animation: shake .4s; }
       it.guess = swGuess(it.text);
       if (it.title == null) it.title = it.guess.title;
       if (!it.catSet) it.cat = swCatGuess(it.text, it.guess);
+      swSite(it);
     });
     return it.read;
   }
@@ -9945,7 +9992,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const g = it.guess;
     const hint = $('sw-hint');
     // a recipe, a product or an address is worth keeping as a picture rather than a note
-    const pick = g && (g.kind === 'note' && ['food', 'shop', 'places'].includes(it.cat) ? 'keep' : g.kind);
+    const pick = g && (g.kind === 'product' || g.kind === 'web' || (g.kind === 'note' && ['food', 'shop', 'places'].includes(it.cat)) ? 'keep' : g.kind);
     $('sw-acts').querySelectorAll('.sw-act').forEach((b) => b.classList.toggle('is-suggested', !!pick && pick === b.dataset.act));
     hint.classList.toggle('is-quiet', !g || it.failed || g.kind === 'note');
     if (!it.read || !g) { hint.textContent = 'Reading the text…'; return; }
@@ -9953,7 +10000,9 @@ body.is-shake .wrap { animation: shake .4s; }
     if (!it.text) { hint.textContent = 'No text on this one.'; return; }
     hint.textContent = g.kind === 'receipt' ? `Looks like a receipt${g.amount != null ? ` · ${hrCents(g.amount)}` : ''}`
       : g.kind === 'shelf' ? `Looks like ${SW_KIND_NAME[g.shelfKind]}`
-      : g.link ? 'Has a link in it' : 'Read the text';
+      : g.kind === 'product' ? `Looks like a product${g.site ? ` · ${g.site.host}` : ''}`
+      : g.kind === 'web' ? `A website · ${g.site.host}`
+      : g.links.length ? 'Has a link in it' : 'Read the text';
   }
   $('sw-cat').addEventListener('change', () => {
     const it = swQueue[swPos];
@@ -9969,6 +10018,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const lines = it.text ? it.text.split('\n').length : 0;
     $('sw-all-label').textContent = lines ? `All the text it read (${lines} line${lines === 1 ? '' : 's'})` : 'All the text it read';
     swPaintGuess(it);
+    swPaintLinks(it);
   }
   function swShow() {
     const it = swQueue[swPos];
@@ -9998,7 +10048,7 @@ body.is-shake .wrap { animation: shake .4s; }
     });
   }
   $('sw-shot').addEventListener('click', () => $('sw-shot').classList.toggle('is-zoom'));
-  swTitleIn.addEventListener('input', () => { const it = swQueue[swPos]; if (it) it.title = swTitleIn.value; });
+  swTitleIn.addEventListener('input', () => { const it = swQueue[swPos]; if (it) { it.title = swTitleIn.value; it.titleTyped = true; swPaintLinks(it); } });
   swTextIn.addEventListener('input', () => { const it = swQueue[swPos]; if (it) it.text = swTextIn.value; });
   swTitleIn.addEventListener('keydown', (e) => { if (e.key === 'Enter') swTitleIn.blur(); });
   $('sw-stop').addEventListener('click', () => {
@@ -10135,7 +10185,8 @@ body.is-shake .wrap { animation: shake .4s; }
       if (!body) { swNeed(); return; }
       let id = Date.now();
       while (notes.some((n) => n.id === id)) id++;
-      notes.push({ id, text: `${body}\n\n${swWhen(it)}`.slice(0, 5000), updatedAt: Date.now() });
+      const hrefs = swLinkList(it.guess, it.about, title).map(([, href]) => href).filter((href) => !body.includes(href));
+      notes.push({ id, text: `${body}${hrefs.length ? `\n\n${hrefs.join('\n')}` : ''}\n\n${swWhen(it)}`.slice(0, 5000), updatedAt: Date.now() });
       holdSync();
       saveNotes();
       swDone(it, act, () => { notes = notes.filter((n) => n.id !== id); if (!notesGone.includes(id)) notesGone = notesGone.concat(id).slice(-500); saveNotes(); }, 'Saved as a note');
@@ -10179,7 +10230,7 @@ body.is-shake .wrap { animation: shake .4s; }
     swSfInput.placeholder = sfKind(swKind).ask;
   }
   function swShelfOpen(it) {
-    swKind = (it.guess && it.guess.kind === 'shelf' && it.guess.shelfKind) || sfType;
+    swKind = (it.guess && it.guess.kind === 'shelf' && it.guess.shelfKind) || (sfType === 'video' ? 'film' : sfType);
     $('sw-choose').hidden = true;
     $('sw-shelf').hidden = false;
     swPaintKinds();
@@ -10234,6 +10285,8 @@ body.is-shake .wrap { animation: shake .4s; }
     const it = swQueue[swPos];
     if (!it) return;
     const before = shelf.length;
+    const yt = it.guess && it.guess.yt;
+    if (swKind === 'video' && yt && yt.id) Object.assign(fields, { ref: yt.url, img: `https://i.ytimg.com/vi/${yt.id}/mqdefault.jpg` });
     const x = addShelf({ ...fields, type: swKind });
     swStopLook();
     const added = x && shelf.length > before ? x : null;
@@ -10260,8 +10313,9 @@ body.is-shake .wrap { animation: shake .4s; }
     { id: 'money', name: 'Money', color: '#7cf29a' },
     { id: 'watch', name: 'Watch & read', color: '#ff9b3d' },
     { id: 'food', name: 'Food', color: '#ffd166' },
-    { id: 'shop', name: 'Shopping', color: '#c2a8ff' },
+    { id: 'shop', name: 'Products', color: '#c2a8ff' },
     { id: 'places', name: 'Places', color: '#2ee6c8' },
+    { id: 'web', name: 'Websites', color: '#6fa0ff' },
     { id: 'info', name: 'Info', color: '#4fd8ff' },
     { id: 'other', name: 'Other', color: '#a69cbc' },
   ];
@@ -10273,10 +10327,12 @@ body.is-shake .wrap { animation: shake .4s; }
     if (!t.trim()) return 'other';
     if ((g && g.kind === 'receipt') || /\b(bank|balance|transfer|invoice|bill|payment due|account number|bsb|iban|direct debit)\b/i.test(t)) return 'money';
     if (g && g.kind === 'shelf') return 'watch';
+    if (g && g.kind === 'product') return 'shop';
     if (/\b(recipe|ingredients|tbsp|tsp|tablespoons?|teaspoons?|cups? of|preheat|oven|bake|simmer|serves \d|menu|restaurant|takeaway|takeout)\b/i.test(t)) return 'food';
     if (/\b(add to (cart|bag|basket|trolley)|buy now|in stock|out of stock|free (shipping|delivery)|size guide|wishlist|\d+% off|on sale|checkout|amazon|ebay|etsy)\b/i.test(t)) return 'shop';
     if (/\b\d+[a-z]?\s+(?:[A-Z][a-z]+\s){1,3}(street|st|road|rd|avenue|ave|drive|dr|lane|ln|court|ct|place|pl|parade|pde|highway|hwy|crescent|cres|boulevard|blvd|way)\b/.test(t)
       || /\b(directions|google maps|flight|boarding|gate \w?\d|hotel|airbnb|check-?in|booking (ref|reference|number)|parking|platform \d)\b/i.test(t)) return 'places';
+    if (g && g.site) return 'web';
     return 'info';
   }
 
@@ -10328,8 +10384,19 @@ body.is-shake .wrap { animation: shake .4s; }
       title: String(it.title || '').trim().replace(/\s+/g, ' ').slice(0, 140),
       text: String(it.text || '').slice(0, 3000),
       date: it.date || 0, at: Date.now(), name: it.file.name || '', pic: it.file, thumb: null,
+      links: swLinkList(it.guess, it.about, it.title), about: swAboutText(it.guess, it.about), aboutFrom: it.about ? 'wiki' : 'shot',
     };
     swItems.push(rec);
+    // what it is may still be on its way: add it when it arrives
+    if (it.siteP && it.about === undefined) {
+      it.siteP.then(() => {
+        if (rec.gone || !it.about) return;
+        rec.links = swLinkList(it.guess, it.about, rec.title);
+        rec.about = swAboutText(it.guess, it.about);
+        rec.aboutFrom = 'wiki';
+        if (rec.saved) swLib.put(rec).catch(() => {});
+      });
+    }
     (async () => {
       let pic = it.file;
       let thumb = null;
@@ -10340,6 +10407,7 @@ body.is-shake .wrap { animation: shake .4s; }
       rec.thumb = thumb;
       swDropThumb(rec.id);
       await swLib.put(rec);
+      rec.saved = true;
       if (rec.gone) swLib.del(rec.id).catch(() => {});
       if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
     })().catch(() => { toast("Couldn't keep that screenshot on this device"); });
@@ -10357,7 +10425,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const swWhenOf = (rec) => (rec.date ? shortDate(rec.date) : `Kept ${shortDate(rec.at)}`);
   function swMatches(rec) {
     if (!swQuery) return true;
-    const hay = `${rec.title}\n${rec.text}\n${swCat(rec.cat).name}`.toLowerCase();
+    const hay = `${rec.title}\n${rec.text}\n${swCat(rec.cat).name}\n${rec.about || ''}\n${(rec.links || []).map((l) => l[0]).join(' ')}`.toLowerCase();
     return swQuery.toLowerCase().split(/\s+/).filter(Boolean).every((w) => hay.includes(w));
   }
   function renderLib() {
@@ -10377,7 +10445,7 @@ body.is-shake .wrap { animation: shake .4s; }
     $('sw-grid').replaceChildren(...shown.map((r) => h('button', { class: 'sw-tile', type: 'button', 'data-id': String(r.id), style: `--c: ${swCat(r.cat).color}`, 'aria-label': `${r.title || 'Screenshot'}, ${swCat(r.cat).name}, ${swWhenOf(r)}` },
       h('span', { class: 'sw-tile-pic' }, h('img', { src: swThumbUrl(r), alt: '', loading: 'lazy' })),
       h('span', { class: 'sw-tile-t' }, r.title || 'Screenshot'),
-      h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`))));
+      h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`, r.links && r.links.length ? iconEl(SF_ICON.link) : null))));
     const empty = $('sw-lib-empty');
     empty.hidden = shown.length > 0;
     empty.textContent = !n ? 'Nothing kept yet. Screenshots you keep during a sweep land here, with their text, sorted into categories.'
@@ -10419,6 +10487,7 @@ body.is-shake .wrap { animation: shake .4s; }
     $('swv-text').value = rec.text;
     $('swv-all').open = false;
     $('swv-copy').disabled = !rec.text;
+    $('swv-links').replaceChildren(...swLinkEls(Array.isArray(rec.links) ? rec.links : [], rec.about || '', rec.aboutFrom));
     if (typeof swView.showModal === 'function') swView.showModal();
     else swView.setAttribute('open', '');
   }
@@ -10474,6 +10543,155 @@ body.is-shake .wrap { animation: shake .4s; }
       },
     });
   });
+
+  // ── Links in screenshots: hot links, YouTube, and what a product or website is ──
+  // Web addresses in a screenshot's text become links. A YouTube screenshot gets a Watch on YouTube
+  // link (straight to the video when its address is in the picture, otherwise a search for its
+  // title). For a product or a website, the brand is looked up on Wikipedia, which says what it is,
+  // and Wikidata, which has its official website; failing that, the screenshot's own words say
+  // what it's for, and a search finds the website. Only product and website screenshots are
+  // looked up, and only the brand (or, for a product, its title) is sent.
+  const SW_TLD = 'com|net|org|io|co|app|dev|ai|me|tv|fm|gg|so|ly|be|to|uk|au|nz|ca|de|fr|nl|es|it|us|eu|info|biz|shop|store|audio|music|studio|xyz|site|online|tech|art|design|page|link|live|news|blog|club';
+  const SW_GENERIC = /^(google|youtube|youtu|facebook|instagram|twitter|tiktok|reddit|amazon|ebay|etsy|apple|linktr|bit|wa|whatsapp|gmail|outlook|bing)$/;
+  const SW_ICON = {
+    play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.6 2.6 0 00-1.8-1.8C18.200 5 12 5 12 5s-6.2 0-7.8.4a2.6 2.6 0 00-1.8 1.8C2 8.800 2 12 2 12s0 3.2.4 4.8a2.6 2.6 0 001.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.6 2.6 0 001.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15.2V8.8l5.200 3.2z"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>',
+  };
+  function swLinksIn(text) {
+    const re = new RegExp(`(^|[^@\\w.-])((?:https?:\\/\\/)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+(?:${SW_TLD})(?:\\.[a-z]{2})?(?:\\/[^\\s"'<>()]*)?)(?![\\w-])`, 'gi');
+    const out = [];
+    const seen = new Set();
+    for (const m of String(text || '').matchAll(re)) {
+      const raw = m[2].replace(/[.,;:!?'"»)\]]+$/, '');
+      try {
+        const u = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+        if (!/^https?:$/.test(u.protocol)) continue;
+        const host = u.hostname.toLowerCase().replace(/^www\./, '');
+        u.pathname = u.pathname.replace(/[-_]+$/, '');
+        const key = host + u.pathname.replace(/\/$/, '');
+        if (!host.includes('.') || seen.has(key)) continue;
+        seen.add(key);
+        if (u.pathname !== '/' && !swIsYt(host) && !seen.has(host)) { seen.add(host); out.push({ url: `https://${host}/`, host, label: host }); }
+        const full = `${host}${u.pathname}`;
+        out.push({ url: u.href, host, label: u.pathname === '/' ? host : (full.length > 30 ? `${full.slice(0, 29)}…` : full) });
+      } catch { /* not a real address */ }
+      if (out.length >= 4) break;
+    }
+    return out;
+  }
+  const swIsYt = (host) => /(^|\.)youtube\.com$|^youtu\.be$/.test(host);
+  function swYouTube(text, links) {
+    const yt = links.find((l) => swIsYt(l.host));
+    let id = '';
+    if (yt) {
+      const u = new URL(yt.url);
+      id = u.hostname.endsWith('youtu.be') ? u.pathname.slice(1, 12) : (u.searchParams.get('v') || (u.pathname.match(/\/(?:shorts|live|embed)\/([\w-]{11})/) || [])[1] || '');
+      if (!/^[\w-]{11}$/.test(id)) id = '';
+    }
+    const looks = !!yt || /\byoutube\b/i.test(text) || (/\bsubscribe(d|rs)?\b/i.test(text) && /\b\d[\d.,]*\s?[KkMm]?\s+views?\b/.test(text));
+    return looks ? { id, url: id ? `https://www.youtube.com/watch?v=${id}` : '' } : null;
+  }
+  // Software, plugins, apps and gear: a couple of strong signs, or several weaker ones.
+  function swProductScore(t) {
+    const strong = (t.match(/\b(plug-?ins?|vst3?|vsti|aax|sample packs?|app store|google play|add to (cart|bag|basket)|buy now|free trial|in-app purchases|download (now|for free|free)|licen[cs]e)\b/gi) || []).length;
+    const weak = (t.match(/\b(synth(esizer)?s?|compressor|equali[sz]er|reverb|delay|limiter|presets?|daw|macos|mac|windows|ios|android|pricing|price|buy|download|features)\b/gi) || []).length;
+    return strong * 2 + weak;
+  }
+  // The brand part of an address: fabfilter.com → fabfilter, shop.example.co.uk → example.
+  function swBrand(host) {
+    const parts = host.split('.');
+    let i = parts.length - 2;
+    if (i > 0 && /^(co|com|org|net|ac|gov)$/.test(parts[i]) && parts[parts.length - 1].length === 2) i--;
+    return parts[i] || '';
+  }
+
+  const swAboutCache = new Map();
+  function swWhatIs(q) {
+    const key = q.toLowerCase().trim();
+    if (swAboutCache.has(key)) return swAboutCache.get(key);
+    const p = (async () => {
+      const d = await sfJson('https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&generator=search&gsrnamespace=0&gsrlimit=3'
+        + '&prop=description%7Cpageprops%7Cextracts&exintro=1&explaintext=1&exsentences=1&exlimit=3&ppprop=wikibase_item%7Cdisambiguation'
+        + `&gsrsearch=${encodeURIComponent(key)}`);
+      const pages = (d.query && Array.isArray(d.query.pages) ? d.query.pages : []).slice().sort((a, b) => (a.index || 0) - (b.index || 0));
+      const squash = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+      const words = key.split(/[^a-z0-9]+/).filter((w) => w.length >= 4);
+      // only an article that's plainly about the thing asked for
+      const hit = pages.find((pg) => pg && typeof pg.title === 'string' && !(pg.pageprops && 'disambiguation' in pg.pageprops)
+        && words.some((w) => squash(pg.title).includes(w) || (squash(pg.title).length >= 4 && w.includes(squash(pg.title)))));
+      if (!hit) return null;
+      let site = '';
+      const qid = hit.pageprops && hit.pageprops.wikibase_item;
+      if (/^Q\d{1,12}$/.test(qid || '')) {
+        try {
+          const c = await sfJson(`https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&origin=*&property=P856&entity=${qid}`);
+          const snak = c && c.claims && c.claims.P856 && c.claims.P856[0] && c.claims.P856[0].mainsnak;
+          const v = snak && snak.datavalue && snak.datavalue.value;
+          if (typeof v === 'string' && /^https?:\/\//.test(v)) site = new URL(v).href;
+        } catch { /* the article still says what it is */ }
+      }
+      return {
+        name: hit.title,
+        about: (typeof hit.description === 'string' && hit.description) || String(hit.extract || '').slice(0, 160),
+        site,
+        page: `https://en.wikipedia.org/wiki/${encodeURIComponent(hit.title.replace(/ /g, '_'))}`,
+      };
+    })().catch(() => { swAboutCache.delete(key); return null; });
+    swAboutCache.set(key, p);
+    return p;
+  }
+  // Look up what a product or website screenshot is about (once per screenshot).
+  function swSite(it) {
+    const g = it.guess;
+    if (!g || it.siteP || !(g.kind === 'product' || g.kind === 'web')) return;
+    const queries = [];
+    const brand = g.site ? swBrand(g.site.host) : '';
+    if (brand.length >= 3 && !SW_GENERIC.test(brand)) queries.push(brand);
+    if (g.kind === 'product' && g.title) queries.push(g.title.split(/\s+/).slice(0, 5).join(' '));
+    it.siteP = (async () => {
+      for (const q of queries) {
+        const r = await swWhatIs(q);
+        if (r) { it.about = r; return; }
+      }
+      it.about = null;
+    })();
+    it.siteP.then(() => {
+      if (g.kind === 'web' && it.about && !it.titleTyped) it.title = it.about.name;
+      if (swQueue[swPos] === it && !$('sw-run').hidden) {
+        if (g.kind === 'web' && it.about && !it.titleTyped && document.activeElement !== swTitleIn) swTitleIn.value = it.title;
+        swPaintLinks(it);
+      }
+    });
+  }
+  const swHostOf = (url) => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; } };
+  // The links to show for a screenshot: [label, address, icon].
+  function swLinkList(g, about, title) {
+    if (!g) return [];
+    const out = [];
+    const q = String(title || g.title || '').trim();
+    if (g.yt) out.push(['Watch on YouTube', g.yt.url || `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, 'play']);
+    g.links.filter((l) => !(g.yt && swIsYt(l.host))).forEach((l) => out.push([l.label, l.url, 'link']));
+    const official = about && about.site;
+    if (official && !g.links.some((l) => l.host === swHostOf(official))) out.push([`${swHostOf(official)} · official site`, official, 'link']);
+    if (g.kind === 'product' && !official && !g.site && q) out.push(['Find its website', `https://www.google.com/search?q=${encodeURIComponent(`${q} official site`)}`, 'search']);
+    return out.slice(0, 5);
+  }
+  const swAboutText = (g, about) => (about ? `${about.name}: ${about.about}` : (g && (g.kind === 'product' || g.kind === 'web') && g.blurb ? g.blurb : ''));
+  function swLinkEls(list, aboutText, aboutFrom) {
+    const els = list.map(([label, href, icon]) => h('a', { class: icon === 'play' ? 'sw-link sw-link--yt' : 'sw-link', href, target: '_blank', rel: 'noopener noreferrer' },
+      iconEl(icon === 'play' ? SW_ICON.play : icon === 'search' ? SW_ICON.search : SF_ICON.link), h('span', null, label)));
+    if (aboutText) els.push(h('p', { class: 'sw-about' }, h('b', null, aboutFrom === 'wiki' ? 'What it is: ' : 'What it says: '), aboutText));
+    return els;
+  }
+  function swPaintLinks(it) {
+    const g = it.guess;
+    const box = $('sw-links');
+    if (!g) { box.replaceChildren(); return; }
+    const looking = it.siteP && it.about === undefined;
+    const els = swLinkEls(swLinkList(g, it.about, swTitleIn.value), swAboutText(g, it.about), it.about ? 'wiki' : 'shot');
+    if (looking) els.push(h('p', { class: 'sw-about' }, 'Finding out what it is…'));
+    box.replaceChildren(...els);
+  }
 
   // ── App windows: every app on the home screen opens full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
