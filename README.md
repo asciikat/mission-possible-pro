@@ -239,15 +239,18 @@ screen; the number on it is how many are left in the sweep you're on.
    **Websites**. Notes made from a screenshot keep its links.
 3. Every choice has **Undo**. Tap the picture to see it bigger; edit the title, or open **All the
    text it read**, before choosing.
-4. At the end you get a count of what went where, and the dates of the ones you can now delete from
-   your gallery. **Go through more** picks again.
+4. At the end you get a plain count of what went where (no confetti or fanfare), and the dates of
+   the ones you can now delete from your gallery. **Go through more** picks again.
 
 **The library.** Every screenshot you keep (Job, Note, Shelf, Receipt or Just keep it) is saved
 under the sweep with its picture and the text read off it, so you can delete the original from your
 gallery and still find it. It's sorted into categories: **To do**, **Money**, **Watch & read**,
 **Food**, **Products**, **Places**, **Websites**, **Info** and **Other**. The category is guessed from the text and
 shown as **Files under** while you sweep; change it there or later. **Search the words in them**
-finds a screenshot by anything written in it, or by what it is or its links. Tap one to see it
+finds a screenshot by anything written in it, or by what it is or its links. Every screenshot has a
+**tick** and an **×** on it: the tick marks it done ✅, which crosses it out and moves it after the
+ones still to deal with (it stays until you delete it; tap the tick again to undo), and the × deletes
+it. **Delete the N done** clears the crossed-out ones in one go. Every delete has Undo. Tap one to see it
 full size with its links and what it is, change its title or
 category, **Copy text**, **Share picture** (to save it somewhere else), or **Delete** it (with
 Undo). The categories are the `SW_CATS` list in `index.html` (keep a category's `id` the same when

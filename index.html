@@ -2292,7 +2292,21 @@ body.is-shake .wrap { animation: shake .4s; }
 .sw-cat-chip b { color: var(--dim); font-weight: 800; }
 .sw-cat-chip[aria-selected="true"] { border-color: var(--sw); background: rgba(79, 216, 255, .12); color: var(--ink); }
 .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; }
-.sw-tile { display: block; width: 100%; min-width: 0; padding: 0; border: 1px solid var(--line); border-top: 3px solid var(--c); background: var(--asphalt-hi); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.sw-tile { position: relative; min-width: 0; border: 1px solid var(--line); border-top: 3px solid var(--c); background: var(--asphalt-hi); color: var(--ink); }
+.sw-tile-open { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.sw-tile-done, .sw-tile-del { position: absolute; top: 6px; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; background: rgba(5, 4, 10, .78); cursor: pointer; }
+.sw-tile-done { left: 6px; border: 2px solid var(--palm); color: var(--palm); }
+.sw-tile-done svg { width: 20px; height: 20px; opacity: .45; }
+.sw-tile.is-done .sw-tile-done svg { opacity: 1; }
+.sw-tile-del { right: 6px; color: var(--ink); }
+.sw-tile-del svg { width: 15px; height: 15px; }
+.sw-tile.is-done .sw-tile-done { background: var(--palm); color: var(--shade); }
+.sw-tile.is-done .sw-tile-pic img { opacity: .4; filter: grayscale(1); }
+.sw-tile.is-done .sw-tile-t { color: var(--smog); text-decoration: line-through; text-decoration-thickness: 2px; }
+.sw-lib-bulk { display: flex; justify-content: flex-end; margin: 0 0 8px; }
+.sw-lib-bulk .btn { min-height: 36px; padding: 0 11px; font-size: 12px; }
+.sw-modal .swv-done { border-color: var(--palm); color: var(--palm); }
+.sw-modal .swv-done.is-on { background: var(--palm); color: var(--shade); }
 .sw-tile-pic { display: block; aspect-ratio: 3 / 4; background: var(--shade); overflow: hidden; }
 .sw-tile-pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .sw-tile-t { display: -webkit-box; padding: 6px 7px 0; overflow: hidden; font-size: 13px; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
@@ -3919,6 +3933,7 @@ body.is-shake .wrap { animation: shake .4s; }
               </label>
               <div class="sw-cats" id="sw-cats" role="tablist" aria-label="Categories"></div>
             </div>
+            <div class="sw-lib-bulk" id="sw-lib-bulk" hidden><button class="btn btn--danger" id="sw-clear-done" type="button"></button></div>
             <div class="sw-grid" id="sw-grid"></div>
             <p class="hr-none" id="sw-lib-empty" hidden></p>
           </div>
@@ -4244,7 +4259,8 @@ body.is-shake .wrap { animation: shake .4s; }
     <div class="modal-actions">
       <button class="btn btn--danger" id="swv-del" type="button">Delete</button>
       <span>
-        <button class="add-btn" type="submit">Done</button>
+        <button class="btn swv-done" id="swv-done" type="button" aria-pressed="false"></button>
+        <button class="add-btn" type="submit">Save</button>
       </span>
     </div>
   </form>
@@ -10082,7 +10098,6 @@ body.is-shake .wrap { animation: shake .4s; }
     older.hidden = !swOlder.length;
     older.textContent = `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'} too`;
     $('count-shots').textContent = '0';
-    if (n) { sfx.jingle ? sfx.jingle() : sfx.add(); confetti.burst(30); }
   }
   $('sw-older').addEventListener('click', () => swBegin(swOlder.splice(0)));
   $('sw-to-lib').addEventListener('click', () => {
@@ -10431,7 +10446,8 @@ body.is-shake .wrap { animation: shake .4s; }
   function renderLib() {
     const n = swItems.length;
     const bytes = swItems.reduce((sum, r) => sum + (r.pic ? r.pic.size : 0) + (r.thumb ? r.thumb.size : 0), 0);
-    $('sw-lib-n').textContent = n ? `${n} kept · ${swSize(bytes)} on this phone` : '';
+    const nDone = swItems.filter((r) => r.done).length;
+    $('sw-lib-n').textContent = n ? `${n} kept${nDone ? ` · ${nDone} done` : ''} · ${swSize(bytes)} on this phone` : '';
     $('sw-lib-tools').hidden = n === 0;
     const counts = {};
     swItems.forEach((r) => { counts[r.cat] = (counts[r.cat] || 0) + 1; });
@@ -10440,12 +10456,22 @@ body.is-shake .wrap { animation: shake .4s; }
       h('button', { class: 'sw-cat-chip', type: 'button', role: 'tab', 'data-cat': 'all', 'aria-selected': String(swLibCat === 'all'), style: '--c: var(--ink)' }, 'All', h('b', null, String(n))),
       ...SW_CATS.filter((c) => counts[c.id]).map((c) => h('button', { class: 'sw-cat-chip', type: 'button', role: 'tab', 'data-cat': c.id, 'aria-selected': String(swLibCat === c.id), style: `--c: ${c.color}` },
         h('i', { 'aria-hidden': 'true' }), c.name, h('b', null, String(counts[c.id])))));
+    // still to deal with first, then the done ones, crossed out
     const shown = swItems.filter((r) => (swLibCat === 'all' || r.cat === swLibCat) && swMatches(r))
-      .sort((a, b) => (b.date || b.at) - (a.date || a.at) || b.id - a.id);
-    $('sw-grid').replaceChildren(...shown.map((r) => h('button', { class: 'sw-tile', type: 'button', 'data-id': String(r.id), style: `--c: ${swCat(r.cat).color}`, 'aria-label': `${r.title || 'Screenshot'}, ${swCat(r.cat).name}, ${swWhenOf(r)}` },
-      h('span', { class: 'sw-tile-pic' }, h('img', { src: swThumbUrl(r), alt: '', loading: 'lazy' })),
-      h('span', { class: 'sw-tile-t' }, r.title || 'Screenshot'),
-      h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`, r.links && r.links.length ? iconEl(SF_ICON.link) : null))));
+      .sort((a, b) => (a.done ? 1 : 0) - (b.done ? 1 : 0) || (b.date || b.at) - (a.date || a.at) || b.id - a.id);
+    $('sw-grid').replaceChildren(...shown.map((r) => {
+      const name = r.title || 'Screenshot';
+      return h('div', { class: r.done ? 'sw-tile is-done' : 'sw-tile', 'data-id': String(r.id), style: `--c: ${swCat(r.cat).color}` },
+        h('button', { class: 'sw-tile-open', type: 'button', 'aria-label': `${name}, ${swCat(r.cat).name}, ${swWhenOf(r)}${r.done ? ', done' : ''}` },
+          h('span', { class: 'sw-tile-pic' }, h('img', { src: swThumbUrl(r), alt: '', loading: 'lazy' })),
+          h('span', { class: 'sw-tile-t' }, name),
+          h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`, r.links && r.links.length ? iconEl(SF_ICON.link) : null)),
+        h('button', { class: 'sw-tile-done', type: 'button', 'aria-pressed': String(!!r.done), 'aria-label': r.done ? `Not done: ${name}` : `Done: ${name}`, icon: ICON.check }),
+        h('button', { class: 'sw-tile-del', type: 'button', 'aria-label': `Delete ${name}`, icon: ICON.x }));
+    }));
+    const doneHere = shown.filter((r) => r.done);
+    $('sw-lib-bulk').hidden = !doneHere.length;
+    $('sw-clear-done').textContent = `Delete the ${doneHere.length} done`;
     const empty = $('sw-lib-empty');
     empty.hidden = shown.length > 0;
     empty.textContent = !n ? 'Nothing kept yet. Screenshots you keep during a sweep land here, with their text, sorted into categories.'
@@ -10487,15 +10513,51 @@ body.is-shake .wrap { animation: shake .4s; }
     $('swv-text').value = rec.text;
     $('swv-all').open = false;
     $('swv-copy').disabled = !rec.text;
+    swPaintDoneBtn(!!rec.done);
     $('swv-links').replaceChildren(...swLinkEls(Array.isArray(rec.links) ? rec.links : [], rec.about || '', rec.aboutFrom));
     if (typeof swView.showModal === 'function') swView.showModal();
     else swView.setAttribute('open', '');
   }
   const swCloseView = () => { if (typeof swView.close === 'function') swView.close(); else swView.removeAttribute('open'); };
   swView.addEventListener('close', () => { if (swViewUrl) { URL.revokeObjectURL(swViewUrl); swViewUrl = ''; } });
+  function swSetDone(rec, done) {
+    rec.done = done;
+    rec.doneAt = done ? Date.now() : 0;
+    swLib.put(rec).catch(() => {});
+    renderLib();
+  }
+  // Delete some kept screenshots, with Undo: the copies go once Undo has run out.
+  function swDelete(list, msg) {
+    if (!list.length) return;
+    const ids = new Set(list.map((r) => r.id));
+    swItems = swItems.filter((r) => !ids.has(r.id));
+    renderLib();
+    sfx.drop();
+    haptic(10);
+    list.forEach((rec) => {
+      swDelLater.set(rec.id, setTimeout(() => { swDelLater.delete(rec.id); swDropThumb(rec.id); swLib.del(rec.id).catch(() => {}); }, 7000));
+    });
+    toast(msg, {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        list.forEach((rec) => { clearTimeout(swDelLater.get(rec.id)); swDelLater.delete(rec.id); });
+        swItems = swItems.concat(list.filter((rec) => !swItems.includes(rec)));
+        renderLib();
+      },
+    });
+  }
   $('sw-grid').addEventListener('click', (e) => {
-    const b = e.target.closest('.sw-tile');
-    if (b) swOpen(Number(b.dataset.id));
+    const tile = e.target.closest('.sw-tile');
+    const rec = tile && swItems.find((r) => r.id === Number(tile.dataset.id));
+    if (!rec) return;
+    if (e.target.closest('.sw-tile-done')) { swSetDone(rec, !rec.done); sfx.tick(); haptic(12); return; }
+    if (e.target.closest('.sw-tile-del')) { swDelete([rec], 'Deleted'); return; }
+    if (e.target.closest('.sw-tile-open')) swOpen(rec.id);
+  });
+  $('sw-clear-done').addEventListener('click', () => {
+    const list = swItems.filter((r) => r.done && (swLibCat === 'all' || r.cat === swLibCat) && swMatches(r));
+    swDelete(list, `Deleted ${list.length} done`);
   });
   swView.querySelector('form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -10526,22 +10588,20 @@ body.is-shake .wrap { animation: shake .4s; }
   $('swv-del').addEventListener('click', () => {
     const rec = swItems.find((r) => r.id === swViewId);
     swCloseView();
+    if (rec) swDelete([rec], 'Deleted');
+  });
+  const swPaintDoneBtn = (done) => {
+    const b = $('swv-done');
+    b.classList.toggle('is-on', done);
+    b.setAttribute('aria-pressed', String(done));
+    b.textContent = done ? '✓ Done' : 'Mark done';
+  };
+  $('swv-done').addEventListener('click', () => {
+    const rec = swItems.find((r) => r.id === swViewId);
     if (!rec) return;
-    swItems = swItems.filter((r) => r !== rec);
-    renderLib();
-    sfx.drop();
-    // the copy goes once Undo has run out
-    swDelLater.set(rec.id, setTimeout(() => { swDelLater.delete(rec.id); swDropThumb(rec.id); swLib.del(rec.id).catch(() => {}); }, 7000));
-    toast('Deleted from the library', {
-      action: 'Undo',
-      duration: 6000,
-      onAction: () => {
-        clearTimeout(swDelLater.get(rec.id));
-        swDelLater.delete(rec.id);
-        swItems.push(rec);
-        renderLib();
-      },
-    });
+    swSetDone(rec, !rec.done);
+    swPaintDoneBtn(rec.done);
+    sfx.tick();
   });
 
   // ── Links in screenshots: hot links, YouTube, and what a product or website is ──
