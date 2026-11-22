@@ -2156,7 +2156,7 @@ body.is-shake .wrap { animation: shake .4s; }
 .sw-bar { height: 6px; margin: 6px 0 8px; background: rgba(255, 255, 255, .08); }
 .sw-bar i { display: block; height: 100%; width: 0; background: var(--sw); transition: width .3s var(--glide); }
 .sw-shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); background: var(--shade); cursor: zoom-in; }
-.sw-shot img { display: block; width: 100%; max-height: 30dvh; object-fit: contain; }
+.sw-shot img { display: block; width: 100%; max-height: 24dvh; object-fit: contain; }
 .sw-shot.is-zoom { cursor: zoom-out; }
 .sw-shot.is-zoom img { max-height: none; }
 .sw-date { margin: 4px 0 0; font: 600 13px/1.3 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
@@ -2238,6 +2238,72 @@ body.is-shake .wrap { animation: shake .4s; }
 .sw-done p { color: var(--smog); }
 .sw-done .add-btn { margin-top: 14px; background: var(--sw); }
 .sw-done .btn { margin-top: 10px; }
+
+/* the library: every screenshot you keep, with its text, in categories */
+.sw-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; }
+.sw-meta .sw-date { margin: 0; }
+.sw-catsel { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.sw-catsel span { font: 700 11px/1 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+.sw-catsel select, .sw-modal select {
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--asphalt-hi);
+  color: var(--ink);
+  font: 700 15px/1.2 var(--font-body);
+}
+.sw-catsel select:focus { outline: none; border-color: var(--sw); }
+.sw-act--wide { grid-column: 1 / -1; min-height: 52px; }
+.sw-howto { margin-top: 12px; }
+.sw-howto summary { min-height: 34px; font: 700 12px/34px var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); cursor: pointer; }
+.sw-howto .sw-how { margin-top: 2px; }
+.sw-lib { margin-top: 22px; padding-top: 4px; border-top: 1px solid var(--line); }
+.sw-lib .hr-bar { margin-top: 14px; }
+.sw-lib-n { font: 700 13px/1.2 var(--font-hud); letter-spacing: .1em; text-transform: uppercase; color: var(--smog); }
+.sw-lib-lead { margin: 0 0 10px; color: var(--smog); font-size: 15px; }
+.sw-search { display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 4px 0 10px; border: 1px solid var(--line); background: var(--asphalt-hi); }
+.sw-search:focus-within { border-color: var(--sw); }
+.sw-search svg { flex: none; width: 18px; height: 18px; color: var(--smog); }
+.sw-search input { flex: 1; min-width: 0; min-height: 44px; border: 0; background: none; color: var(--ink); font: 600 16px/1.2 var(--font-body); outline: 0; }
+.sw-search input::placeholder { color: var(--dim); }
+.sw-search input::-webkit-search-cancel-button { display: none; }
+.sw-q-x { flex: none; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; background: none; color: var(--smog); cursor: pointer; }
+.sw-q-x svg { width: 16px; height: 16px; }
+.sw-cats { display: flex; gap: 6px; margin: 10px 0; overflow-x: auto; scrollbar-width: none; }
+.sw-cats::-webkit-scrollbar { display: none; }
+.sw-cat-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--smog);
+  font: 800 12px/1 var(--font-hud);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sw-cat-chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.sw-cat-chip b { color: var(--dim); font-weight: 800; }
+.sw-cat-chip[aria-selected="true"] { border-color: var(--sw); background: rgba(79, 216, 255, .12); color: var(--ink); }
+.sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; }
+.sw-tile { display: block; width: 100%; min-width: 0; padding: 0; border: 1px solid var(--line); border-top: 3px solid var(--c); background: var(--asphalt-hi); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.sw-tile-pic { display: block; aspect-ratio: 3 / 4; background: var(--shade); overflow: hidden; }
+.sw-tile-pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.sw-tile-t { display: -webkit-box; padding: 6px 7px 0; overflow: hidden; font-size: 13px; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.sw-tile-d { display: block; padding: 2px 7px 7px; font: 600 11px/1.2 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); }
+.sw-modal { border-color: rgba(79, 216, 255, .5); }
+.sw-modal .eyebrow { color: var(--sw); }
+.sw-modal .hr-pic img { max-height: 48dvh; }
+.sw-modal .sw-all textarea { background: var(--asphalt-hi); }
+.swv-meta { margin: 0 0 4px; font: 600 13px/1.4 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); }
+.sw-modal .add-btn { background: var(--sw); }
+.sw-done-lib { margin-left: 8px; }
 
 /* ───────────────────────── sahara ───────────────────────── */
 /* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
@@ -3805,14 +3871,31 @@ body.is-shake .wrap { animation: shake .4s; }
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M3 7V4.5a1.5 1.5 0 011.5-1.5H6M21 7V4.5A1.5 1.5 0 0019.5 3H18M3 17v2.5A1.5 1.5 0 004.5 21H6M21 17v2.5a1.5 1.5 0 01-1.5 1.5H18M10 18h4"/></svg>
             <span><b>Pick screenshots</b><small>Opens your photos</small></span>
           </button>
+          <details class="sw-howto" id="sw-howto" open>
+          <summary>How to pick them</summary>
           <ol class="sw-how">
             <li>In the picker, open <b>Albums</b>, then <b>Screenshots</b>.</li>
             <li>Select the last couple of weeks. Press and hold one, then drag to select lots at once.</li>
             <li>Tap <b>Done</b> or <b>Add</b>.</li>
           </ol>
+          </details>
           <div class="sw-msg" id="sw-msg" role="status" hidden></div>
           <p class="sw-total" id="sw-total" hidden></p>
           <p class="hr-keep">Your screenshots stay on your phone: the text is read on the phone itself. Ones you've gone through are skipped next time, so you can stop whenever you like and pick the same ones again to carry on.</p>
+          <div class="sw-lib" id="sw-lib">
+            <div class="hr-bar"><h3>Library</h3><span class="sw-lib-n" id="sw-lib-n"></span></div>
+            <div id="sw-lib-tools" hidden>
+              <label class="sw-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>
+                <span class="sr-only">Search your screenshots</span>
+                <input type="search" id="sw-q" enterkeyhint="search" autocomplete="off" placeholder="Search the words in them">
+                <button class="sw-q-x" id="sw-q-x" type="button" aria-label="Clear the search" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+              </label>
+              <div class="sw-cats" id="sw-cats" role="tablist" aria-label="Categories"></div>
+            </div>
+            <div class="sw-grid" id="sw-grid"></div>
+            <p class="hr-none" id="sw-lib-empty" hidden></p>
+          </div>
         </section>
 
         <section class="sw-run" id="sw-run" hidden>
@@ -3822,7 +3905,10 @@ body.is-shake .wrap { animation: shake .4s; }
           </div>
           <div class="sw-bar" aria-hidden="true"><i id="sw-fill"></i></div>
           <button class="sw-shot" id="sw-shot" type="button" aria-label="Show the screenshot bigger"><img id="sw-img" alt="The screenshot"></button>
-          <p class="sw-date" id="sw-date"></p>
+          <div class="sw-meta">
+            <p class="sw-date" id="sw-date"></p>
+            <label class="sw-catsel"><span>Files under</span><select id="sw-cat"></select></label>
+          </div>
           <p class="sw-hint" id="sw-hint" aria-live="polite"></p>
           <label class="hr-field"><span>Title</span><input type="text" id="sw-title" maxlength="140" enterkeyhint="done" placeholder="What's this one about?"></label>
           <details class="sw-all" id="sw-all">
@@ -3836,6 +3922,7 @@ body.is-shake .wrap { animation: shake .4s; }
               <button class="sw-act" type="button" data-act="note" style="--c: var(--dusk-ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3.5h9l3.5 3.5v13.5H6z"/><path d="M9 11h6M9 15h6"/></svg><span><b>Note</b><small>Keeps the text</small></span></button>
               <button class="sw-act" type="button" data-act="shelf" style="--c: var(--sf)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M9 4v16M5 4h4M5 20h4M12.5 6.5l3-1 4.5 13.5-3 1zM3 20h18"/></svg><span><b>Shelf</b><small>Film, TV, book…</small></span></button>
               <button class="sw-act" type="button" data-act="receipt" style="--c: var(--hr)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span><b>Receipt</b><small>Saved in Hours</small></span></button>
+              <button class="sw-act sw-act--wide" type="button" data-act="keep" style="--c: var(--sw)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3.5 7.5h17v12h-17zM2.5 4h19v3.5h-19zM10 11.5h4"/></svg><span><b>Just keep it</b><small>In the library, with its text</small></span></button>
             </div>
             <div class="sw-row2">
               <button class="sw-clear" type="button" data-act="clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nothing to keep</button>
@@ -3865,6 +3952,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <ul class="sw-sum" id="sw-sum"></ul>
           <p id="sw-done-tip"></p>
           <button class="add-btn" id="sw-again" type="button">Go through more</button>
+          <button class="btn sw-done-lib" id="sw-to-lib" type="button" hidden>See the library</button>
           <button class="btn" id="sw-older" type="button" hidden></button>
         </section>
         <input type="file" id="sw-file" accept="image/*" multiple hidden>
@@ -4103,6 +4191,33 @@ body.is-shake .wrap { animation: shake .4s; }
     <div class="modal-actions">
       <button class="btn" id="tabs-all" type="button">All on</button>
       <button class="btn" value="close" type="submit" autofocus>Done</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="modal hr-modal sw-modal" id="sw-view" aria-label="Kept screenshot">
+  <form method="dialog" novalidate>
+    <p class="eyebrow">Library</p>
+    <div class="hr-pic" id="swv-pic"></div>
+    <p class="swv-meta" id="swv-meta"></p>
+    <div class="hr-pic-tools">
+      <button class="btn" id="swv-share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5M5 12v7a1 1 0 001 1h12a1 1 0 001-1v-7"/></svg>Share picture</button>
+      <button class="btn" id="swv-copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy text</button>
+    </div>
+    <div class="hr-fields">
+      <label class="hr-field hr-field--wide"><span>Title</span><input type="text" id="swv-title" maxlength="140" enterkeyhint="done"></label>
+      <label class="hr-field hr-field--wide"><span>Category</span><select id="swv-cat"></select></label>
+    </div>
+    <details class="sw-all" id="swv-all">
+      <summary>The text it read</summary>
+      <label class="sr-only" for="swv-text">The text it read</label>
+      <textarea id="swv-text" rows="7"></textarea>
+    </details>
+    <div class="modal-actions">
+      <button class="btn btn--danger" id="swv-del" type="button">Delete</button>
+      <span>
+        <button class="add-btn" type="submit">Done</button>
+      </span>
     </div>
   </form>
 </dialog>
@@ -8642,7 +8757,7 @@ body.is-shake .wrap { animation: shake .4s; }
     } catch { return null; }
   }
   // Phone photos are huge: shrink to 1600px on the long side, as a JPEG.
-  async function hrShrink(file) {
+  async function hrShrink(file, max = 1600, quality = 0.75) {
     let src;
     try { src = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
     catch {
@@ -8656,13 +8771,13 @@ body.is-shake .wrap { animation: shake .4s; }
     }
     const w = src.naturalWidth || src.width;
     const tall = src.naturalHeight || src.height;
-    const k = Math.min(1, 1600 / Math.max(w, tall));
+    const k = Math.min(1, max / Math.max(w, tall));
     const c = document.createElement('canvas');
     c.width = Math.max(1, Math.round(w * k));
     c.height = Math.max(1, Math.round(tall * k));
     c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
     if (src.close) src.close();
-    const blob = await new Promise((resolve) => c.toBlob(resolve, 'image/jpeg', 0.75));
+    const blob = await new Promise((resolve) => c.toBlob(resolve, 'image/jpeg', quality));
     if (!blob) throw new Error('no blob');
     return blob;
   }
@@ -9743,6 +9858,7 @@ body.is-shake .wrap { animation: shake .4s; }
       } catch { it.text = ''; it.failed = true; }
       it.guess = swGuess(it.text);
       if (it.title == null) it.title = it.guess.title;
+      if (!it.catSet) it.cat = swCatGuess(it.text, it.guess);
     });
     return it.read;
   }
@@ -9751,6 +9867,8 @@ body.is-shake .wrap { animation: shake .4s; }
   const swLeft = () => Math.max(0, swQueue.length - swPos);
   function renderShots() {
     $('count-shots').textContent = String(swLeft());
+    $('sw-howto').open = swTotal === 0 && !swItems.length;
+    renderLib();
     if (!swQueue.length) swShown('sw-start');
     $('sw-range').replaceChildren(...SW_RANGES.map((r) => h('button', { class: 'sf-tab', type: 'button', role: 'radio', 'data-days': String(r.days), 'aria-checked': String(r.days === swDays) }, r.name)));
     const tot = $('sw-total');
@@ -9791,7 +9909,7 @@ body.is-shake .wrap { animation: shake .4s; }
     let before = 0;
     swOlder = [];
     files.forEach((file) => {
-      const it = { file, fp: swFp(file), date: swDateOf(file, at), text: null, title: null, guess: null, read: null };
+      const it = { file, fp: swFp(file), date: swDateOf(file, at), text: null, title: null, guess: null, read: null, cat: 'info', catSet: false };
       if (seen.has(it.fp)) before++;
       else if (cutoff && it.date && it.date < cutoff) swOlder.push(it);
       else fresh.push(it);
@@ -9826,7 +9944,9 @@ body.is-shake .wrap { animation: shake .4s; }
   function swPaintGuess(it) {
     const g = it.guess;
     const hint = $('sw-hint');
-    $('sw-acts').querySelectorAll('.sw-act').forEach((b) => b.classList.toggle('is-suggested', !!g && g.kind === b.dataset.act));
+    // a recipe, a product or an address is worth keeping as a picture rather than a note
+    const pick = g && (g.kind === 'note' && ['food', 'shop', 'places'].includes(it.cat) ? 'keep' : g.kind);
+    $('sw-acts').querySelectorAll('.sw-act').forEach((b) => b.classList.toggle('is-suggested', !!pick && pick === b.dataset.act));
     hint.classList.toggle('is-quiet', !g || it.failed || g.kind === 'note');
     if (!it.read || !g) { hint.textContent = 'Reading the text…'; return; }
     if (it.failed) { hint.textContent = "Couldn't read the text (offline?). Type a title to keep it."; return; }
@@ -9835,7 +9955,15 @@ body.is-shake .wrap { animation: shake .4s; }
       : g.kind === 'shelf' ? `Looks like ${SW_KIND_NAME[g.shelfKind]}`
       : g.link ? 'Has a link in it' : 'Read the text';
   }
+  $('sw-cat').addEventListener('change', () => {
+    const it = swQueue[swPos];
+    if (!it) return;
+    it.cat = $('sw-cat').value;
+    it.catSet = true;
+    swPaintGuess(it);
+  });
   function swFill(it) {
+    $('sw-cat').value = swCat(it.cat).id;
     if (document.activeElement !== swTitleIn) swTitleIn.value = it.title || '';
     if (document.activeElement !== swTextIn) swTextIn.value = it.text || '';
     const lines = it.text ? it.text.split('\n').length : 0;
@@ -9853,7 +9981,7 @@ body.is-shake .wrap { animation: shake .4s; }
     $('sw-img').src = swUrl;
     $('sw-shot').classList.remove('is-zoom');
     const when = it.date ? new Date(it.date) : null;
-    $('sw-date').textContent = when ? `${shortDate(it.date)} · ${when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : 'Date unknown';
+    $('sw-date').textContent = when ? `${when.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })} · ${when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : 'Date unknown';
     $('sw-all').open = false;
     $('sw-choose').hidden = false;
     $('sw-shelf').hidden = true;
@@ -9883,11 +10011,23 @@ body.is-shake .wrap { animation: shake .4s; }
     swShown('sw-done');
     const n = swQueue.length - (swStats.later || 0);
     $('sw-done-n').textContent = `${n} gone through`;
-    const rows = [['job', 'Jobs on Now'], ['note', 'Notes'], ['shelf', 'On the Shelf'], ['receipt', 'Receipts'], ['clear', 'Nothing to keep'], ['later', 'Left for next time']];
+    const rows = [['job', 'Jobs on Now'], ['note', 'Notes'], ['shelf', 'On the Shelf'], ['receipt', 'Receipts'], ['keep', 'Kept in the library'], ['clear', 'Nothing to keep'], ['later', 'Left for next time']];
     $('sw-sum').replaceChildren(...rows.filter(([k]) => swStats[k]).map(([k, name]) => h('li', null, h('span', null, name), h('b', null, String(swStats[k])))));
+    // Which ones can go from the gallery: the dates of the ones gone through, so they're easy to find
+    const gone = swQueue.filter((i) => i.act && i.act !== 'later');
+    const dated = gone.filter((i) => i.date).map((i) => i.date);
+    let range = '';
+    if (dated.length) {
+      const from = Math.min(...dated);
+      const to = Math.max(...dated);
+      const kept = swQueue.filter((i) => i.act === 'later' && i.date >= from && i.date <= to).length;
+      const undated = gone.length - dated.length;
+      range = ` In your gallery that's the ones from ${shortDate(from)}${shortDate(to) !== shortDate(from) ? ` to ${shortDate(to)}` : ''}${undated ? `, plus ${undated} with no date` : ''}${kept ? `, apart from the ${kept} you left for next time` : ''}.`;
+    }
     $('sw-done-tip').textContent = n
-      ? "Everything you kept is saved, so the screenshots you've gone through can be deleted from your phone's gallery. This app can't delete them for you."
+      ? `Everything you kept is saved (pictures in the library below), so the screenshots you've gone through can be deleted from your phone's gallery.${range} This app can't delete them for you.`
       : 'Nothing gone through this time. Leave-for-next-time ones come back when you pick them again.';
+    $('sw-to-lib').hidden = !gone.some((i) => SW_FILED.includes(i.act));
     const older = $('sw-older');
     older.hidden = !swOlder.length;
     older.textContent = `Go through the ${swOlder.length} older one${swOlder.length === 1 ? '' : 's'} too`;
@@ -9895,9 +10035,23 @@ body.is-shake .wrap { animation: shake .4s; }
     if (n) { sfx.jingle ? sfx.jingle() : sfx.add(); confetti.burst(30); }
   }
   $('sw-older').addEventListener('click', () => swBegin(swOlder.splice(0)));
+  $('sw-to-lib').addEventListener('click', () => {
+    swQueue = [];
+    swPos = 0;
+    renderShots();
+    $('sw-lib').scrollIntoView({ block: 'start' });
+  });
 
   // Every choice moves on and can be undone.
+  const SW_FILED = ['job', 'note', 'shelf', 'receipt', 'keep'];
+  const SW_ACT_CAT = { job: 'todo', receipt: 'money', shelf: 'watch' };
   function swDone(it, act, undo, msg) {
+    if (SW_FILED.includes(act)) {
+      const rec = swKeep(it, act, it.catSet ? it.cat : (SW_ACT_CAT[act] || it.cat || 'info'));
+      const was = undo;
+      undo = () => { if (was) was(); swUnkeep(rec.id); };
+    }
+    it.act = act;
     if (act !== 'later') {
       swSeen = swSeen.filter((f) => f !== it.fp).concat(it.fp).slice(-3000);
       swTotal++;
@@ -9917,6 +10071,7 @@ body.is-shake .wrap { animation: shake .4s; }
     if (!l) return;
     swLast = null;
     if (l.undo) l.undo();
+    delete l.it.act;
     if (l.act !== 'later') {
       swSeen = swSeen.filter((f) => f !== l.it.fp);
       swTotal = Math.max(0, swTotal - 1);
@@ -9998,6 +10153,8 @@ body.is-shake .wrap { animation: shake .4s; }
       }
     } else if (act === 'shelf') {
       swShelfOpen(it);
+    } else if (act === 'keep') {
+      swDone(it, act, null, `Kept in the library · ${swCat(it.catSet ? it.cat : it.cat || 'info').name}`);
     } else if (act === 'clear') {
       swDone(it, act, null, 'Nothing kept');
     } else if (act === 'later') {
@@ -10092,6 +10249,230 @@ body.is-shake .wrap { animation: shake .4s; }
     const t = swSfInput.value.trim();
     if (!t) { swSfInput.focus(); return; }
     swToShelf({ title: t });
+  });
+
+  // ── Screenshot library: every screenshot you keep, with its text, sorted into categories ──
+  // A smaller copy of the picture (and a thumbnail) is kept on this device in IndexedDB, like
+  // receipt photos, so the original can be deleted from the gallery. It doesn't sync and isn't in
+  // the backup file. A category's id is what's saved, so rename one by changing its name.
+  const SW_CATS = [
+    { id: 'todo', name: 'To do', color: '#ff3d7f' },
+    { id: 'money', name: 'Money', color: '#7cf29a' },
+    { id: 'watch', name: 'Watch & read', color: '#ff9b3d' },
+    { id: 'food', name: 'Food', color: '#ffd166' },
+    { id: 'shop', name: 'Shopping', color: '#c2a8ff' },
+    { id: 'places', name: 'Places', color: '#2ee6c8' },
+    { id: 'info', name: 'Info', color: '#4fd8ff' },
+    { id: 'other', name: 'Other', color: '#a69cbc' },
+  ];
+  const swCat = (id) => SW_CATS.find((c) => c.id === id) || SW_CATS[SW_CATS.length - 1];
+  const SW_WENT = { job: 'Made into a job on Now', note: 'Saved as a note too', shelf: 'Put on the Shelf too', receipt: 'Saved as a receipt in Hours too', keep: 'Kept here' };
+  // Which category a screenshot's text suggests. Only a starting point: it can always be changed.
+  function swCatGuess(text, g) {
+    const t = text || '';
+    if (!t.trim()) return 'other';
+    if ((g && g.kind === 'receipt') || /\b(bank|balance|transfer|invoice|bill|payment due|account number|bsb|iban|direct debit)\b/i.test(t)) return 'money';
+    if (g && g.kind === 'shelf') return 'watch';
+    if (/\b(recipe|ingredients|tbsp|tsp|tablespoons?|teaspoons?|cups? of|preheat|oven|bake|simmer|serves \d|menu|restaurant|takeaway|takeout)\b/i.test(t)) return 'food';
+    if (/\b(add to (cart|bag|basket|trolley)|buy now|in stock|out of stock|free (shipping|delivery)|size guide|wishlist|\d+% off|on sale|checkout|amazon|ebay|etsy)\b/i.test(t)) return 'shop';
+    if (/\b\d+[a-z]?\s+(?:[A-Z][a-z]+\s){1,3}(street|st|road|rd|avenue|ave|drive|dr|lane|ln|court|ct|place|pl|parade|pde|highway|hwy|crescent|cres|boulevard|blvd|way)\b/.test(t)
+      || /\b(directions|google maps|flight|boarding|gate \w?\d|hotel|airbnb|check-?in|booking (ref|reference|number)|parking|platform \d)\b/i.test(t)) return 'places';
+    return 'info';
+  }
+
+  const swLib = (() => {
+    let dbp = null;
+    const open = () => dbp || (dbp = new Promise((resolve, reject) => {
+      const rq = indexedDB.open('mppro-shots', 1);
+      rq.onupgradeneeded = () => rq.result.createObjectStore('items', { keyPath: 'id' });
+      rq.onsuccess = () => resolve(rq.result);
+      rq.onerror = () => reject(rq.error);
+    }).catch((err) => { dbp = null; throw err; }));
+    const run = (mode, fn) => open().then((db) => new Promise((resolve, reject) => {
+      const tx = db.transaction('items', mode);
+      const rq = fn(tx.objectStore('items'));
+      tx.oncomplete = () => resolve(rq.result);
+      tx.onerror = tx.onabort = () => reject(tx.error);
+    }));
+    return {
+      put: (rec) => run('readwrite', (s) => s.put(rec)),
+      del: (id) => run('readwrite', (s) => s.delete(id)),
+      all: () => run('readonly', (s) => s.getAll()),
+    };
+  })();
+  let swItems = [];
+  let swLibCat = 'all';
+  let swQuery = '';
+  const swThumbs = new Map(); // id → object URL of its thumbnail
+  const swDelLater = new Map();
+  const swDropThumb = (id) => { if (swThumbs.has(id)) { URL.revokeObjectURL(swThumbs.get(id)); swThumbs.delete(id); } };
+  const swThumbUrl = (rec) => {
+    if (!swThumbs.has(rec.id)) {
+      const blob = rec.thumb || rec.pic;
+      if (!blob) return '';
+      swThumbs.set(rec.id, URL.createObjectURL(blob));
+    }
+    return swThumbs.get(rec.id);
+  };
+  swLib.all().then((list) => {
+    swItems = (Array.isArray(list) ? list : []).filter((r) => r && Number.isFinite(r.id) && (r.pic instanceof Blob));
+    if (currentTab === 'shots') renderLib();
+  }).catch(() => {});
+
+  // Keep a screenshot: shown straight away from the picked file, saved once it's been shrunk.
+  function swKeep(it, act, cat) {
+    let id = Date.now();
+    while (swItems.some((r) => r.id === id)) id++;
+    const rec = {
+      id, cat, sent: act,
+      title: String(it.title || '').trim().replace(/\s+/g, ' ').slice(0, 140),
+      text: String(it.text || '').slice(0, 3000),
+      date: it.date || 0, at: Date.now(), name: it.file.name || '', pic: it.file, thumb: null,
+    };
+    swItems.push(rec);
+    (async () => {
+      let pic = it.file;
+      let thumb = null;
+      try { pic = await hrShrink(it.file, 1400, 0.72); } catch { /* a format this browser can't redraw: keep it as it is */ }
+      try { thumb = await hrShrink(it.file, 360, 0.7); } catch { thumb = null; }
+      if (rec.gone) return;
+      rec.pic = pic;
+      rec.thumb = thumb;
+      swDropThumb(rec.id);
+      await swLib.put(rec);
+      if (rec.gone) swLib.del(rec.id).catch(() => {});
+      if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+    })().catch(() => { toast("Couldn't keep that screenshot on this device"); });
+    return rec;
+  }
+  function swUnkeep(id) {
+    const rec = swItems.find((r) => r.id === id);
+    if (rec) rec.gone = true;
+    swItems = swItems.filter((r) => r.id !== id);
+    swDropThumb(id);
+    swLib.del(id).catch(() => {});
+  }
+
+  const swSize = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(n >= 10485760 ? 0 : 1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+  const swWhenOf = (rec) => (rec.date ? shortDate(rec.date) : `Kept ${shortDate(rec.at)}`);
+  function swMatches(rec) {
+    if (!swQuery) return true;
+    const hay = `${rec.title}\n${rec.text}\n${swCat(rec.cat).name}`.toLowerCase();
+    return swQuery.toLowerCase().split(/\s+/).filter(Boolean).every((w) => hay.includes(w));
+  }
+  function renderLib() {
+    const n = swItems.length;
+    const bytes = swItems.reduce((sum, r) => sum + (r.pic ? r.pic.size : 0) + (r.thumb ? r.thumb.size : 0), 0);
+    $('sw-lib-n').textContent = n ? `${n} kept · ${swSize(bytes)} on this phone` : '';
+    $('sw-lib-tools').hidden = n === 0;
+    const counts = {};
+    swItems.forEach((r) => { counts[r.cat] = (counts[r.cat] || 0) + 1; });
+    if (swLibCat !== 'all' && !counts[swLibCat]) swLibCat = 'all';
+    $('sw-cats').replaceChildren(
+      h('button', { class: 'sw-cat-chip', type: 'button', role: 'tab', 'data-cat': 'all', 'aria-selected': String(swLibCat === 'all'), style: '--c: var(--ink)' }, 'All', h('b', null, String(n))),
+      ...SW_CATS.filter((c) => counts[c.id]).map((c) => h('button', { class: 'sw-cat-chip', type: 'button', role: 'tab', 'data-cat': c.id, 'aria-selected': String(swLibCat === c.id), style: `--c: ${c.color}` },
+        h('i', { 'aria-hidden': 'true' }), c.name, h('b', null, String(counts[c.id])))));
+    const shown = swItems.filter((r) => (swLibCat === 'all' || r.cat === swLibCat) && swMatches(r))
+      .sort((a, b) => (b.date || b.at) - (a.date || a.at) || b.id - a.id);
+    $('sw-grid').replaceChildren(...shown.map((r) => h('button', { class: 'sw-tile', type: 'button', 'data-id': String(r.id), style: `--c: ${swCat(r.cat).color}`, 'aria-label': `${r.title || 'Screenshot'}, ${swCat(r.cat).name}, ${swWhenOf(r)}` },
+      h('span', { class: 'sw-tile-pic' }, h('img', { src: swThumbUrl(r), alt: '', loading: 'lazy' })),
+      h('span', { class: 'sw-tile-t' }, r.title || 'Screenshot'),
+      h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`))));
+    const empty = $('sw-lib-empty');
+    empty.hidden = shown.length > 0;
+    empty.textContent = !n ? 'Nothing kept yet. Screenshots you keep during a sweep land here, with their text, sorted into categories.'
+      : swQuery ? `Nothing matches "${swQuery}".` : 'Nothing in this category.';
+  }
+  $('sw-cats').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-cat]');
+    if (!b) return;
+    swLibCat = b.dataset.cat;
+    renderLib();
+  });
+  $('sw-q').addEventListener('input', () => {
+    swQuery = $('sw-q').value.trim();
+    $('sw-q-x').hidden = !swQuery;
+    renderLib();
+  });
+  $('sw-q').addEventListener('keydown', (e) => { if (e.key === 'Escape' && swQuery) { e.stopPropagation(); $('sw-q-x').click(); } });
+  $('sw-q-x').addEventListener('click', () => { $('sw-q').value = ''; swQuery = ''; $('sw-q-x').hidden = true; renderLib(); $('sw-q').focus(); });
+
+  // Tap a kept screenshot to see it, change its title or category, copy its text, share or delete it.
+  const swView = $('sw-view');
+  let swViewId = null;
+  let swViewUrl = '';
+  const swCatOptions = (sel, value) => {
+    sel.replaceChildren(...SW_CATS.map((c) => h('option', { value: c.id }, c.name)));
+    sel.value = swCat(value).id;
+  };
+  swCatOptions($('sw-cat'), 'info'); // the category picker on the sweep screen
+  function swOpen(id) {
+    const rec = swItems.find((r) => r.id === id);
+    if (!rec) return;
+    swViewId = id;
+    if (swViewUrl) URL.revokeObjectURL(swViewUrl);
+    swViewUrl = URL.createObjectURL(rec.pic);
+    $('swv-pic').replaceChildren(h('img', { src: swViewUrl, alt: rec.title ? `Screenshot: ${rec.title}` : 'Screenshot' }));
+    $('swv-meta').textContent = `${rec.date ? `Screenshot from ${shortDate(rec.date)}` : 'Screenshot'} · ${SW_WENT[rec.sent] || SW_WENT.keep}`;
+    $('swv-title').value = rec.title;
+    swCatOptions($('swv-cat'), rec.cat);
+    $('swv-text').value = rec.text;
+    $('swv-all').open = false;
+    $('swv-copy').disabled = !rec.text;
+    if (typeof swView.showModal === 'function') swView.showModal();
+    else swView.setAttribute('open', '');
+  }
+  const swCloseView = () => { if (typeof swView.close === 'function') swView.close(); else swView.removeAttribute('open'); };
+  swView.addEventListener('close', () => { if (swViewUrl) { URL.revokeObjectURL(swViewUrl); swViewUrl = ''; } });
+  $('sw-grid').addEventListener('click', (e) => {
+    const b = e.target.closest('.sw-tile');
+    if (b) swOpen(Number(b.dataset.id));
+  });
+  swView.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const rec = swItems.find((r) => r.id === swViewId);
+    swCloseView();
+    if (!rec) return;
+    const next = { title: $('swv-title').value.trim().replace(/\s+/g, ' ').slice(0, 140), cat: swCat($('swv-cat').value).id, text: $('swv-text').value.slice(0, 3000) };
+    if (next.title === rec.title && next.cat === rec.cat && next.text === rec.text) return;
+    Object.assign(rec, next);
+    swLib.put(rec).catch(() => {});
+    renderLib();
+  });
+  $('swv-copy').addEventListener('click', async () => {
+    toast((await copyText($('swv-text').value)) ? 'Text copied' : "Couldn't copy on this browser");
+  });
+  $('swv-share').addEventListener('click', async () => {
+    const rec = swItems.find((r) => r.id === swViewId);
+    if (!rec) return;
+    const ext = /png/.test(rec.pic.type) ? 'png' : 'jpg';
+    const name = `screenshot-${hrYmd(new Date(rec.date || rec.at))}.${ext}`;
+    const file = new File([rec.pic], name, { type: rec.pic.type || 'image/jpeg' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: rec.title || 'Screenshot' }); } catch { /* closed the share menu */ }
+      return;
+    }
+    hrDownload(rec.pic, name);
+  });
+  $('swv-del').addEventListener('click', () => {
+    const rec = swItems.find((r) => r.id === swViewId);
+    swCloseView();
+    if (!rec) return;
+    swItems = swItems.filter((r) => r !== rec);
+    renderLib();
+    sfx.drop();
+    // the copy goes once Undo has run out
+    swDelLater.set(rec.id, setTimeout(() => { swDelLater.delete(rec.id); swDropThumb(rec.id); swLib.del(rec.id).catch(() => {}); }, 7000));
+    toast('Deleted from the library', {
+      action: 'Undo',
+      duration: 6000,
+      onAction: () => {
+        clearTimeout(swDelLater.get(rec.id));
+        swDelLater.delete(rec.id);
+        swItems.push(rec);
+        renderLib();
+      },
+    });
   });
 
   // ── App windows: every app on the home screen opens full page ──

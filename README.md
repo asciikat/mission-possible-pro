@@ -222,11 +222,26 @@ screen; the number on it is how many are left in the sweep you're on.
    - **Note**: the text is saved as a note, with the date of the screenshot.
    - **Shelf**: pick Film, TV, Book, Game or Other and a match, the same lookup as Shelf.
    - **Receipt**: the picture goes into Hours as a receipt, with the amount it found.
+   - **Just keep it**: into the library (below), picture and text, nothing else.
    - **Nothing to keep**: done, nothing saved.
    - **Leave it for next time**: skipped for now; it comes back the next time you pick it.
 3. Every choice has **Undo**. Tap the picture to see it bigger; edit the title, or open **All the
    text it read**, before choosing.
-4. At the end you get a count of what went where. **Go through more** picks again.
+4. At the end you get a count of what went where, and the dates of the ones you can now delete from
+   your gallery. **Go through more** picks again.
+
+**The library.** Every screenshot you keep (Job, Note, Shelf, Receipt or Just keep it) is saved
+under the sweep with its picture and the text read off it, so you can delete the original from your
+gallery and still find it. It's sorted into categories: **To do**, **Money**, **Watch & read**,
+**Food**, **Shopping**, **Places**, **Info** and **Other**. The category is guessed from the text and
+shown as **Files under** while you sweep; change it there or later. **Search the words in them**
+finds a screenshot by anything written in it. Tap one to see it full size, change its title or
+category, **Copy text**, **Share picture** (to save it somewhere else), or **Delete** it (with
+Undo). The categories are the `SW_CATS` list in `index.html` (keep a category's `id` the same when
+renaming it).
+
+The library keeps a smaller copy (1400 px, around 50 to 250 KB each), shown with the total at the
+top, on this phone only: it doesn't sync and isn't in the backup file.
 
 Ones you've gone through are remembered (by file name and size), so you can stop at any time with
 **Stop for now** and pick the same screenshots again later: it carries on with the ones you haven't
@@ -236,7 +251,8 @@ too. A sweep takes up to 100 at a time.
 **Good to know**
 
 - A web page can't look through your photos by itself, so you always choose the screenshots in the
-  picker. It also can't delete them: when a sweep is done, delete them in your gallery.
+  picker. It also can't delete them from the phone: when a sweep is done, it tells you which dates
+  to delete in your gallery.
 - The text is read on your phone with [Tesseract](https://tesseract.projectnaptha.com/), so your
   screenshots are never uploaded anywhere. The reader (about 7 MB) downloads the first time you use
   it and is kept for next time. Without a connection the first time, you can still type a title
@@ -246,7 +262,7 @@ too. A sweep takes up to 100 at a time.
 - The guesses are simple keyword checks (a total and a card payment means a receipt, Netflix or
   "season" means TV, Goodreads or "novel" means a book). They only highlight a button; every choice
   is always there.
-- What's been gone through stays on this device; nothing in Screenshots syncs. What you send to
+- What's been gone through, and the library, stay on this device; nothing in Screenshots syncs. What you send to
   Missions, Notes, Shelf or Hours syncs as usual.
 
 ## Raccoon mode
