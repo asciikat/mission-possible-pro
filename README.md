@@ -243,8 +243,10 @@ work there, and deleting is then up to you in the gallery.
 
    Either way, ones you've already gone through are skipped, and ones older than the range are left
    out, each with a button to include them. How it tells a screenshot from a photo: phones save
-   screenshots as PNG (or, on Samsung, as a JPEG the exact size of the screen, named Screenshot_…),
-   and cameras never save PNG, so only the start of each file is read. A screenshot taken on
+   screenshots as PNG, or as a JPEG the size of the screen that records the date it was taken but no
+   camera (photos always name the camera), so only the start of each file is read. That stored date
+   also dates screenshots whose names don't (the photo picker gives names like `1000004349.jpg`), so
+   **How far back** works for them too. A screenshot taken on
    another phone and sent to you counts as a photo; **Include the photos** brings those in. A
    single picture shared on its own always comes through.
 2. Each screenshot comes up on its own with the text read off it, a **Title** guessed from that

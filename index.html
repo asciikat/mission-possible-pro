@@ -9857,6 +9857,50 @@ body.is-shake .wrap { animation: shake .4s; }
   // Screenshot or photo? Phones save screenshots as PNG (or, on Samsung, a JPEG the size of the
   // screen, named Screenshot_…); cameras never save PNG. Only the start of each file is read.
   // Can't tell = keep it.
+  // The date a picture was taken, and the camera that took it, from its EXIF (JPEG only; just the
+  // start of the file is read). Phone screenshots carry the date and no camera; photos carry both.
+  // This dates screenshots whose names don't (the photo picker gives names like 1000004349.jpg).
+  async function swExif(file) {
+    const out = { date: 0, make: '' };
+    let b;
+    try { b = new Uint8Array(await file.slice(0, 131072).arrayBuffer()); } catch { return out; }
+    if (b[0] !== 0xff || b[1] !== 0xd8) return out;
+    let i = 2;
+    let tiff = -1;
+    while (i + 10 < b.length) {
+      if (b[i] !== 0xff) { i++; continue; }
+      const m = b[i + 1];
+      if (m === 0xda || (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc)) break; // image data or frame: no EXIF before it
+      const len = (b[i + 2] << 8) | b[i + 3];
+      if (m === 0xe1 && b[i + 4] === 0x45 && b[i + 5] === 0x78 && b[i + 6] === 0x69 && b[i + 7] === 0x66) { tiff = i + 10; break; }
+      i += 2 + len;
+    }
+    if (tiff < 0 || tiff + 8 > b.length) return out;
+    const le = b[tiff] === 0x49;
+    const u16 = (o) => (le ? b[tiff + o] | (b[tiff + o + 1] << 8) : (b[tiff + o] << 8) | b[tiff + o + 1]);
+    const u32 = (o) => (le ? (b[tiff + o] | (b[tiff + o + 1] << 8) | (b[tiff + o + 2] << 16)) + b[tiff + o + 3] * 16777216
+      : b[tiff + o] * 16777216 + ((b[tiff + o + 1] << 16) | (b[tiff + o + 2] << 8) | b[tiff + o + 3]));
+    const str = (o, n) => { let x = ''; for (let k = 0; k < n && tiff + o + k < b.length; k++) { const c = b[tiff + o + k]; if (!c) break; x += String.fromCharCode(c); } return x; };
+    const tags = {};
+    const readIfd = (off, deep) => {
+      if (off <= 0 || tiff + off + 2 > b.length) return;
+      const n = u16(off);
+      for (let k = 0; k < n && k < 200; k++) {
+        const e = off + 2 + 12 * k;
+        if (tiff + e + 12 > b.length) return;
+        const tag = u16(e);
+        const type = u16(e + 2);
+        const count = u32(e + 4);
+        if (type === 2) tags[tag] = str(count <= 4 ? e + 8 : u32(e + 8), Math.min(count, 64));
+        if (tag === 0x8769 && deep) readIfd(u32(e + 8), false);
+      }
+    };
+    try { readIfd(u32(4), true); } catch { return out; }
+    out.make = (tags[0x010f] || '').trim();
+    const when = (tags[0x9003] || tags[0x0132] || '').match(/^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)/);
+    if (when) out.date = new Date(+when[1], +when[2] - 1, +when[3], +when[4], +when[5], +when[6]).getTime() || 0;
+    return out;
+  }
   async function swIsShot(file) {
     if (/screen|capture|bildschirm|captura|schermata/i.test(file.name || '')) return true;
     let b;
@@ -9881,10 +9925,20 @@ body.is-shake .wrap { animation: shake .4s; }
       return false; // HEIC, GIF and the rest: camera photos and saved pictures
     }
     if (!w || !ht) return true;
+    // no camera named, but dated: a screenshot (photos always say which camera; saved pictures say nothing)
+    if (b[0] === 0xff) { const ex = await swExif(file); if (ex.date && !ex.make) return true; }
     const sw = Math.round(screen.width * (window.devicePixelRatio || 1));
     const sh = Math.round(screen.height * (window.devicePixelRatio || 1));
     const near = (a, x) => x > 0 && Math.abs(a - x) / x < 0.04;
     return (near(w, sw) && near(ht, sh)) || (near(w, sh) && near(ht, sw));
+  }
+  // Fills in the date of ones whose name and file don't give it, from inside the picture.
+  async function swDateFromExif(items) {
+    await Promise.all(items.map(async (it) => {
+      if (it.date || !it.file || !/jpe?g/i.test(`${it.file.type} ${it.file.name}`)) return;
+      const ex = await swExif(it.file);
+      if (ex.date && ex.date <= Date.now() + DAY_MS) it.date = ex.date;
+    }));
   }
 
   // Reading the text: the engine loads the first time it's needed.
@@ -10089,6 +10143,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const seen = new Set(swSeen);
     const cutoff = swDays ? Date.now() - swDays * DAY_MS : 0;
     if (sift && items.length > 8) swNote(`Checking ${items.length}…`);
+    await swDateFromExif(items);
     const shot = sift ? await Promise.all(items.map((it) => (it.file ? swIsShot(it.file) : true))) : [];
     const out = { fresh: [], before: [], older: [], photos: [] };
     items.forEach((it, i) => {
