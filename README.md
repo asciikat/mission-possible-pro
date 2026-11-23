@@ -214,9 +214,21 @@ Hours is self-contained: everything is in the `Hours` blocks of `index.html` and
 deal with later" actually get dealt with. It's the wide cyan button at the bottom of the home
 screen; the number on it is how many are left in the sweep you're on.
 
-1. Pick how far back to go (**1 week**, **2 weeks**, **1 month** or **Any**), then tap **Pick
-   screenshots**. In your phone's picker, open **Albums → Screenshots** and select the last couple
-   of weeks (press and hold one, then drag to select lots).
+1. Pick how far back to go (**1 week**, **2 weeks**, **1 month** or **Any**), then pick them up
+   one of two easy ways:
+   - **From your Gallery or Photos app:** open the **Screenshots** album, select them (Samsung
+     Gallery: tap **All**; Google Photos: press and hold one, then drag), tap **Share** and pick
+     **Possible Pro**. The newest 100 come in.
+   - **Or from here:** tap **Pick screenshots** and select a run of recent photos (press and hold
+     one, then drag). There's no need to find the Screenshots album: photos that aren't
+     screenshots are left out for you.
+
+   Either way, ones you've already gone through are skipped, and ones older than the range are left
+   out, each with a button to include them. How it tells a screenshot from a photo: phones save
+   screenshots as PNG (or, on Samsung, as a JPEG the exact size of the screen, named Screenshot_…),
+   and cameras never save PNG, so only the start of each file is read. A screenshot taken on
+   another phone and sent to you counts as a photo; **Include the photos** brings those in. A
+   single picture shared on its own always comes through.
 2. Each screenshot comes up on its own with the text read off it, a **Title** guessed from that
    text, and a **Suggested** choice:
    - **Job**: the title goes on Now.

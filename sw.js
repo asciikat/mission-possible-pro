@@ -2,7 +2,7 @@
 // Its saved copy is named mppro-*, so it never clashes with Mission Possible's or Plus's on the same site.
 // Pages are fetched fresh when online (so updates arrive) and fall back to the
 // last saved copy when offline. Sign-in and database traffic are never touched.
-const CACHE = 'mppro-v6';
+const CACHE = 'mppro-v7';
 const SHELL = ['./', 'index.html', 'firebase-config.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
   'icons/raccoon/calm.webp', 'icons/raccoon/sneaky.webp', 'icons/raccoon/feral.webp'];
@@ -44,7 +44,10 @@ async function keepShared(req) {
   const files = form.getAll('shots').filter((f) => f && typeof f === 'object' && f.size > 0 && /^image\//.test(f.type || ''));
   const words = ['title', 'text', 'url'].map((k) => form.get(k)).filter((v) => typeof v === 'string' && v.trim()).map((v) => v.trim());
   const text = [...new Set(words)].join('\n').slice(0, 3000);
-  const items = files.slice(0, 50).map((f, i) => ({ id: at + i, at, name: f.name || `shared-${at + i}.png`, type: f.type, blob: f, text }));
+  // a whole album can be shared at once: keep the newest 100 (by the date in the name, where there is one)
+  const dated = (f) => { const m = String(f.name || '').match(/(20\d\d)[-_.]?([01]\d)[-_.]?([0-3]\d)\D{0,4}([0-2]\d)?\D?([0-5]\d)?\D?([0-5]\d)?/); return m ? m.slice(1).map((x) => x || '00').join('') : ''; };
+  const newest = files.map((f, i) => [f, i]).sort((a, b) => dated(b[0]).localeCompare(dated(a[0])) || a[1] - b[1]).slice(0, 100).map(([f]) => f);
+  const items = newest.map((f, i) => ({ id: at + i, at, name: f.name || `shared-${at + i}.png`, type: f.type, blob: f, text: files.length === 1 ? text : '' }));
   if (!items.length && text) items.push({ id: at, at, text });
   if (!items.length) return;
   const db = await inboxDb();
