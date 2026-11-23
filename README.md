@@ -214,6 +214,24 @@ Hours is self-contained: everything is in the `Hours` blocks of `index.html` and
 deal with later" actually get dealt with. It's the wide cyan button at the bottom of the home
 screen; the number on it is how many are left in the sweep you're on.
 
+**Easiest: connect your Screenshots folder (Android, Chrome 132 or newer).** At the top of
+Screenshots, tap **Connect Screenshots folder** once. In the folder picker go to **Pictures** (on
+Samsung, **DCIM**), then **Screenshots**, tap **Use this folder** and **Allow**. After that:
+
+- **Go through new screenshots** finds them by itself: the ones in that folder within the range
+  you chose that you haven't gone through yet. No selecting.
+- **Each screenshot is deleted from your phone once you've dealt with it**, a few seconds after you
+  choose (Job, Note, Shelf, Receipt, Save the info, Remind me or Nothing to keep), so **Undo** can
+  stop it. **Leave it for next time** never deletes. Turn this off with the tick box on the card.
+  Only files in that folder that you went through here are ever deleted. A screenshot shared to
+  the app from the Gallery is deleted too, if it's in that folder (matched by name and size).
+- If the app is closed before a deletion happens, or Android asks to allow the folder again, it
+  happens the next time you tap **Go through new screenshots**.
+- **Disconnect the folder** stops it; nothing in the folder is touched.
+
+This card doesn't show where the browser can't do it (iPhone, or older Chrome); the ways below still
+work there, and deleting is then up to you in the gallery.
+
 1. Pick how far back to go (**1 week**, **2 weeks**, **1 month** or **Any**), then pick them up
    one of two easy ways:
    - **From your Gallery or Photos app:** open the **Screenshots** album, select them (Samsung

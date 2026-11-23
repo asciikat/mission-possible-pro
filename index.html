@@ -2360,6 +2360,15 @@ body.is-shake .wrap { animation: shake .4s; }
   cursor: pointer;
 }
 .sw-modal .sw-remind { margin: 12px 0 0; }
+.sw-folder { margin: 0 0 16px; padding: 14px; border: 2px solid var(--palm); background: rgba(46, 230, 200, .07); }
+.sw-folder-lead { margin: 0 0 10px; font-size: 16px; }
+.sw-folder-lead b { color: var(--palm); }
+.sw-folder .add-btn, .sw-folder .sw-pick { background: var(--palm); }
+.sw-folder-help { margin: 8px 0 0; font-size: 14px; color: var(--smog); }
+.sw-folder-help b { color: var(--ink); }
+.sw-folder-n { margin: 0 0 10px; font: 800 18px/1.2 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--palm); }
+.sw-folder-del { display: flex; align-items: flex-start; gap: 10px; margin: 12px 0 4px; font-size: 15px; cursor: pointer; }
+.sw-folder-del input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--palm); }
 .sw-inbox { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 14px; padding: 12px 14px; border: 2px solid var(--sw); background: rgba(79, 216, 255, .1); }
 .sw-inbox p { margin: 0; font-weight: 700; }
 .sw-inbox .add-btn { flex: none; background: var(--sw); }
@@ -3923,6 +3932,19 @@ body.is-shake .wrap { animation: shake .4s; }
         <div class="frame-bar"><span>Screenshots</span><button class="frame-btn" type="button" data-full="shots-panel" aria-label="Close Screenshots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
         <div class="frame-body tab-panel">
         <section class="sw-start" id="sw-start">
+          <div class="sw-folder" id="sw-folder" hidden>
+            <div id="sw-folder-off">
+              <p class="sw-folder-lead"><b>Easiest:</b> connect your Screenshots folder once. New screenshots then show up here by themselves, and each one is deleted from your phone once you've dealt with it.</p>
+              <button class="add-btn" id="sw-folder-connect" type="button">Connect Screenshots folder</button>
+              <p class="sw-folder-help">In the folder picker: <b>Pictures</b> (on Samsung, <b>DCIM</b>), then <b>Screenshots</b>, <b>Use this folder</b> and <b>Allow</b>.</p>
+            </div>
+            <div id="sw-folder-on" hidden>
+              <p class="sw-folder-n" id="sw-folder-n"></p>
+              <button class="sw-pick" id="sw-folder-go" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3.5 7.5V5a1.5 1.5 0 011.5-1.5h4l2 2.5h8A1.5 1.5 0 0120.5 7.5v11A1.5 1.5 0 0119 20H5a1.5 1.5 0 01-1.5-1.5z"/><path d="M8.5 13l2.5 2.5 4.5-5"/></svg><span><b>Go through new screenshots</b><small>From your Screenshots folder</small></span></button>
+              <label class="sw-folder-del"><input type="checkbox" id="sw-folder-del"> Delete each screenshot from my phone once I've dealt with it (Leave it for next time never deletes)</label>
+              <button class="hr-link" id="sw-folder-disconnect" type="button">Disconnect the folder</button>
+            </div>
+          </div>
           <div class="sw-inbox" id="sw-inbox" hidden>
             <p id="sw-inbox-n"></p>
             <button class="add-btn" id="sw-inbox-go" type="button">Go through</button>
@@ -10014,6 +10036,7 @@ body.is-shake .wrap { animation: shake .4s; }
   const swLeft = () => Math.max(0, swQueue.length - swPos);
   function renderShots() {
     $('count-shots').textContent = String(swLeft() || swInboxN);
+    swFolderPaint();
     const waiting = swInboxN - swQueue.filter((it, i) => it.inboxId && i >= swPos).length;
     $('sw-inbox').hidden = waiting <= 0;
     $('sw-inbox-n').textContent = `${waiting} shared to the app, waiting`;
@@ -10196,9 +10219,12 @@ body.is-shake .wrap { animation: shake .4s; }
       const undated = gone.length - dated.length;
       range = ` In your gallery that's the ones from ${shortDate(from)}${shortDate(to) !== shortDate(from) ? ` to ${shortDate(to)}` : ''}${undated ? `, plus ${undated} with no date` : ''}${kept ? `, apart from the ${kept} you left for next time` : ''}.`;
     }
-    $('sw-done-tip').textContent = n
-      ? `Everything you kept is saved (the info is under Saved info below), so the screenshots you've gone through can be deleted from your phone's gallery.${range} This app can't delete them for you.`
-      : 'Nothing gone through this time. Leave-for-next-time ones come back when you pick them again.';
+    const deleted = swStats.del || 0;
+    const rest = gone.length - deleted;
+    const tip = deleted
+      ? `Everything you kept is saved (the info is under Saved info below). ${deleted} screenshot${deleted === 1 ? '' : 's'} deleted from your phone's ${swDir ? swDir.name : 'Screenshots'} folder.${rest > 0 ? ` The other ${rest} weren't from that folder, so they're still in your gallery.${range}` : ''}`
+      : `Everything you kept is saved (the info is under Saved info below), so the screenshots you've gone through can be deleted from your phone's gallery.${range} ${swFolderOk && !swDir ? 'Connect your Screenshots folder (at the top) and the app will delete them for you.' : swDir && !swDelOn ? 'Deleting is turned off for the folder.' : "This app can't delete them for you here."}`;
+    $('sw-done-tip').textContent = n ? tip : 'Nothing gone through this time. Leave-for-next-time ones come back when you pick them again.';
     $('sw-to-lib').hidden = !gone.some((i) => SW_FILED.includes(i.act));
     const older = $('sw-older');
     older.hidden = !swOlder.length;
@@ -10230,6 +10256,14 @@ body.is-shake .wrap { animation: shake .4s; }
         swInboxN++;
         swInbox.put({ id: it.inboxId, at: it.date, name: it.file ? it.file.name : '', type: it.file ? it.file.type : '', blob: it.file || null, text: it.extra || '' }).catch(() => {});
       };
+    }
+    if (act !== 'later') {
+      const stop = swQueueDelete(it);
+      if (stop) {
+        if (it.dirName) swStats.del = (swStats.del || 0) + 1;
+        const was = undo;
+        undo = () => { if (was) was(); stop(); if (it.dirName) swStats.del = Math.max(0, (swStats.del || 0) - 1); };
+      }
     }
     if (SW_FILED.includes(act)) {
       const rec = swKeep(it, act, it.catSet ? it.cat : (SW_ACT_CAT[act] || it.cat || 'info'));
@@ -11039,6 +11073,156 @@ body.is-shake .wrap { animation: shake .4s; }
     sfx.add();
     toast(job.label, { action: 'Undo', duration: 6000, onAction: () => { job.undo(); rec.jobText = before; swLib.put(rec).catch(() => {}); } });
   });
+
+  // ── The Screenshots folder: connect it once, new screenshots are found by themselves, and ones
+  // you've dealt with are deleted from the phone ──
+  // Uses the File System Access API (Chrome 132+ on Android, and desktop Chrome or Edge): you pick
+  // the folder in the phone's own folder picker and allow it. The folder's handle is kept in
+  // IndexedDB ('mppro-folder'). A screenshot is deleted 8 seconds after you deal with it (anything
+  // but Leave it for next time), so Undo can stop it; a deletion that couldn't happen yet (the app
+  // was closed, or the folder needs allowing again) waits in 'mp_sweep_pending' and runs next time.
+  // Only files in that folder, that you went through here, are ever deleted.
+  const swFolderOk = typeof window.showDirectoryPicker === 'function';
+  const SW_IMG = /\.(png|jpe?g|webp|heic|heif)$/i;
+  const swHandles = (() => {
+    let dbp = null;
+    const open = () => dbp || (dbp = new Promise((resolve, reject) => {
+      const rq = indexedDB.open('mppro-folder', 1);
+      rq.onupgradeneeded = () => rq.result.createObjectStore('handles');
+      rq.onsuccess = () => resolve(rq.result);
+      rq.onerror = () => reject(rq.error);
+    }).catch((err) => { dbp = null; throw err; }));
+    const run = (mode, fn) => open().then((db) => new Promise((resolve, reject) => {
+      const tx = db.transaction('handles', mode);
+      const rq = fn(tx.objectStore('handles'));
+      tx.oncomplete = () => resolve(rq.result);
+      tx.onerror = tx.onabort = () => reject(tx.error);
+    }));
+    return {
+      get: (k) => run('readonly', (s) => s.get(k)),
+      put: (k, v) => run('readwrite', (s) => s.put(v, k)),
+      del: (k) => run('readwrite', (s) => s.delete(k)),
+    };
+  })();
+  let swDir = null;
+  let swDelOn = store.get('mp_sweep_delete', true) !== false;
+  let swPending = (Array.isArray(store.get('mp_sweep_pending', [])) ? store.get('mp_sweep_pending', []) : [])
+    .filter((x) => x && typeof x.name === 'string');
+  const swSavePending = () => store.set('mp_sweep_pending', swPending);
+  const swDelTimers = new Map();
+  let swDeletedN = 0;
+
+  async function swDirAllowed(ask) {
+    if (!swDir) return false;
+    try {
+      const opts = { mode: 'readwrite' };
+      if ((await swDir.queryPermission(opts)) === 'granted') return true;
+      if (ask && (await swDir.requestPermission(opts)) === 'granted') return true;
+    } catch { /* the folder has gone, or it isn't allowed */ }
+    return false;
+  }
+  // The screenshots in the folder that are new: not gone through, not waiting to be deleted, and
+  // within the range. The date in a file's name lets old ones be skipped without opening them.
+  async function swFolderScan() {
+    const seen = new Set(swSeen);
+    const cutoff = swDays ? Date.now() - swDays * DAY_MS : 0;
+    const at = Date.now();
+    const out = { items: [], older: 0, before: 0 };
+    const pending = new Set(swPending.map((x) => x.name));
+    for await (const entry of swDir.values()) {
+      if (entry.kind !== 'file' || !SW_IMG.test(entry.name) || pending.has(entry.name)) continue;
+      const named = swDateOf({ name: entry.name, lastModified: 0 }, at);
+      if (cutoff && named && named < cutoff) { out.older++; continue; }
+      let file;
+      try { file = await entry.getFile(); } catch { continue; }
+      const it = swItem(file, at);
+      it.dirName = entry.name;
+      if (seen.has(it.fp)) out.before++;
+      else if (cutoff && it.date && it.date < cutoff) out.older++;
+      else out.items.push(it);
+    }
+    return out;
+  }
+  async function swFolderPaint() {
+    $('sw-folder').hidden = !swFolderOk;
+    if (!swFolderOk) return;
+    $('sw-folder-off').hidden = !!swDir;
+    $('sw-folder-on').hidden = !swDir;
+    $('sw-folder-del').checked = swDelOn;
+    if (!swDir) return;
+    const n = $('sw-folder-n');
+    n.textContent = `Connected: ${swDir.name} folder`;
+    if (!(await swDirAllowed(false))) { n.textContent = `${swDir.name} folder: tap below and allow it again`; return; }
+    try {
+      const scan = await swFolderScan();
+      n.textContent = scan.items.length ? `${scan.items.length} new in ${swDir.name}` : `Nothing new in ${swDir.name}`;
+    } catch { n.textContent = `Connected: ${swDir.name} folder`; }
+  }
+  swHandles.get('screens').then((h) => { if (h && swFolderOk) { swDir = h; if (currentTab === 'shots') swFolderPaint(); } }).catch(() => {});
+
+  $('sw-folder-connect').addEventListener('click', async () => {
+    try { swDir = await window.showDirectoryPicker({ id: 'mp-screenshots', mode: 'readwrite', startIn: 'pictures' }); } catch { return; } // closed the picker
+    try { await swHandles.put('screens', swDir); } catch { /* still works until the app is closed */ }
+    toast(`Connected · ${swDir.name}`);
+    swFolderPaint();
+  });
+  $('sw-folder-disconnect').addEventListener('click', () => {
+    swDir = null;
+    swHandles.del('screens').catch(() => {});
+    toast('Folder disconnected · nothing in it was touched');
+    swFolderPaint();
+  });
+  $('sw-folder-del').addEventListener('change', () => {
+    swDelOn = $('sw-folder-del').checked;
+    store.set('mp_sweep_delete', swDelOn);
+    toast(swDelOn ? "Screenshots you've dealt with will be deleted from your phone" : "Screenshots will stay on your phone");
+  });
+  $('sw-folder-go').addEventListener('click', async () => {
+    if (!(await swDirAllowed(true))) { toast(`Allow the ${swDir ? swDir.name : 'Screenshots'} folder to go through it`); swFolderPaint(); return; }
+    await swFlushDeletes();
+    let scan;
+    try { scan = await swFolderScan(); } catch { toast("Couldn't open the folder. Connect it again"); return; }
+    const bits = [];
+    if (scan.before) bits.push(`${scan.before} you've already gone through`);
+    if (scan.older) bits.push(`${scan.older} older than ${swRangeName()}`);
+    swOlder = [];
+    swPhotos = [];
+    if (!scan.items.length) { swNote(`No new screenshots in ${swDir.name}${bits.length ? `: ${bits.join(', ')}` : ''}.`); return; }
+    swNote('');
+    swBegin(scan.items, bits);
+  });
+
+  // Delete a screenshot once you've dealt with it. Returns how to stop it (for Undo), or null.
+  // A picked or shared one is matched in the folder by name and size.
+  function swQueueDelete(it) {
+    if (!swDir || !swDelOn || !it.file) return null;
+    const job = { name: it.dirName || it.file.name, size: it.file.size };
+    if (!job.name) return null;
+    swPending = swPending.filter((x) => x.name !== job.name).concat(job);
+    swSavePending();
+    swDelTimers.set(job.name, setTimeout(() => swDeleteNow(job), 8000));
+    return () => {
+      clearTimeout(swDelTimers.get(job.name));
+      swDelTimers.delete(job.name);
+      swPending = swPending.filter((x) => x.name !== job.name);
+      swSavePending();
+    };
+  }
+  async function swDeleteNow(job) {
+    swDelTimers.delete(job.name);
+    if (!(await swDirAllowed(false))) return; // stays waiting; done next time the folder's allowed
+    try {
+      const f = await (await swDir.getFileHandle(job.name)).getFile();
+      if (f.size === job.size) { await swDir.removeEntry(job.name); swDeletedN++; }
+    } catch (err) {
+      if (!err || err.name !== 'NotFoundError') return; // try again next time
+    }
+    swPending = swPending.filter((x) => x.name !== job.name);
+    swSavePending();
+  }
+  async function swFlushDeletes() {
+    for (const job of swPending.slice()) if (!swDelTimers.has(job.name)) await swDeleteNow(job); // eslint-disable-line no-await-in-loop
+  }
 
   // ── App windows: every app on the home screen opens full page ──
   // Tapping an app on the home screen opens it in its own window that covers the whole page
