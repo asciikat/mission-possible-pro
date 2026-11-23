@@ -2292,29 +2292,28 @@ body.is-shake .wrap { animation: shake .4s; }
 .sw-cat-chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
 .sw-cat-chip b { color: var(--dim); font-weight: 800; }
 .sw-cat-chip[aria-selected="true"] { border-color: var(--sw); background: rgba(79, 216, 255, .12); color: var(--ink); }
-.sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; }
-.sw-tile { position: relative; min-width: 0; border: 1px solid var(--line); border-top: 3px solid var(--c); background: var(--asphalt-hi); color: var(--ink); }
-.sw-tile-open { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
-.sw-tile-done, .sw-tile-del { position: absolute; top: 6px; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; background: rgba(5, 4, 10, .78); cursor: pointer; }
-.sw-tile-done { left: 6px; border: 2px solid var(--palm); color: var(--palm); }
-.sw-tile-done svg { width: 20px; height: 20px; opacity: .45; }
+.sw-grid { display: flex; flex-direction: column; gap: 8px; }
+.sw-tile { display: flex; align-items: flex-start; gap: 10px; min-width: 0; padding: 10px; border: 1px solid var(--line); border-left: 4px solid var(--c); background: var(--asphalt-hi); color: var(--ink); }
+.sw-tile-open { flex: 1; min-width: 0; display: block; padding: 2px 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.sw-tile-done, .sw-tile-del { flex: none; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
+.sw-tile-done { border: 2px solid var(--palm); color: var(--palm); }
+.sw-tile-done svg { width: 20px; height: 20px; opacity: .4; }
 .sw-tile.is-done .sw-tile-done svg { opacity: 1; }
-.sw-tile-del { right: 6px; color: var(--ink); }
-.sw-tile-del svg { width: 15px; height: 15px; }
+.sw-tile-del { color: var(--dim); }
+.sw-tile-del svg { width: 16px; height: 16px; }
 .sw-tile.is-done .sw-tile-done { background: var(--palm); color: var(--shade); }
-.sw-tile.is-done .sw-tile-pic img { opacity: .4; filter: grayscale(1); }
-.sw-tile.is-done .sw-tile-t { color: var(--smog); text-decoration: line-through; text-decoration-thickness: 2px; }
+.sw-tile.is-done .sw-tile-t, .sw-tile.is-done .sw-tile-s { color: var(--dim); text-decoration: line-through; text-decoration-thickness: 2px; }
 .sw-lib-bulk { display: flex; justify-content: flex-end; margin: 0 0 8px; }
 .sw-lib-bulk .btn { min-height: 36px; padding: 0 11px; font-size: 12px; }
 .sw-modal .swv-done { border-color: var(--palm); color: var(--palm); }
 .sw-modal .swv-done.is-on { background: var(--palm); color: var(--shade); }
-.sw-tile-pic { display: block; aspect-ratio: 3 / 4; background: var(--shade); overflow: hidden; }
-.sw-tile-pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.sw-tile-t { display: -webkit-box; padding: 6px 7px 0; overflow: hidden; font-size: 13px; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-.sw-tile-d { display: block; padding: 2px 7px 7px; font: 600 11px/1.2 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); }
+.sw-tile-t { display: block; font-size: 16px; font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+.sw-tile-s { display: -webkit-box; margin-top: 3px; overflow: hidden; color: var(--smog); font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.sw-tile-d { display: block; margin-top: 5px; font: 700 11px/1.2 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; color: var(--c); }
 .sw-modal { border-color: rgba(79, 216, 255, .5); }
 .sw-modal .eyebrow { color: var(--sw); }
 .sw-modal .hr-pic img { max-height: 48dvh; }
+.sw-modal #swv-pic { margin: 12px 0 0; }
 .sw-modal .sw-all textarea { background: var(--asphalt-hi); }
 .swv-meta { margin: 0 0 4px; font: 600 13px/1.4 var(--font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--smog); }
 .sw-modal .add-btn { background: var(--sw); }
@@ -2343,7 +2342,7 @@ body.is-shake .wrap { animation: shake .4s; }
 .sw-link--yt svg { width: 18px; height: 18px; color: #ff4e45; }
 .sw-about { flex-basis: 100%; margin: 2px 0 0; font-size: 14px; line-height: 1.35; color: var(--smog); }
 .sw-about b { color: var(--ink); }
-.sw-modal .sw-links { margin: 0 0 12px; }
+.sw-modal .sw-links { margin: 12px 0; }
 .sw-tile-d svg { width: 11px; height: 11px; margin-left: 4px; vertical-align: -1px; color: var(--sw); }
 
 /* Remind me, shared ones waiting, and things shared without a picture */
@@ -2360,13 +2359,12 @@ body.is-shake .wrap { animation: shake .4s; }
   text-transform: uppercase;
   cursor: pointer;
 }
-.sw-modal .sw-remind { margin: 0 0 12px; }
+.sw-modal .sw-remind { margin: 12px 0 0; }
 .sw-inbox { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 14px; padding: 12px 14px; border: 2px solid var(--sw); background: rgba(79, 216, 255, .1); }
 .sw-inbox p { margin: 0; font-weight: 700; }
 .sw-inbox .add-btn { flex: none; background: var(--sw); }
 .sw-share-tip { margin: 12px 0 0; padding: 10px 12px; border-left: 3px solid var(--sw); background: rgba(79, 216, 255, .06); font-size: 15px; color: var(--smog); }
 .sw-share-tip b { color: var(--ink); }
-.sw-tile-pic > svg { display: block; width: 34%; height: 100%; margin: 0 auto; color: var(--sw); }
 
 /* ───────────────────────── sahara ───────────────────────── */
 /* Sahara: the to-do split into sections (Plans, Fun, Friends, To-do, Lessons, Dreams, Self care),
@@ -3951,12 +3949,12 @@ body.is-shake .wrap { animation: shake .4s; }
           <p class="sw-total" id="sw-total" hidden></p>
           <p class="hr-keep">Your screenshots stay on your phone: the text is read on the phone itself. Ones you've gone through are skipped next time, so you can stop whenever you like and pick the same ones again to carry on.</p>
           <div class="sw-lib" id="sw-lib">
-            <div class="hr-bar"><h3>Library</h3><span class="sw-lib-n" id="sw-lib-n"></span></div>
+            <div class="hr-bar"><h3>Saved info</h3><span class="sw-lib-n" id="sw-lib-n"></span></div>
             <div id="sw-lib-tools" hidden>
               <label class="sw-search">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>
                 <span class="sr-only">Search your screenshots</span>
-                <input type="search" id="sw-q" enterkeyhint="search" autocomplete="off" placeholder="Search the words in them">
+                <input type="search" id="sw-q" enterkeyhint="search" autocomplete="off" placeholder="Search your saved info">
                 <button class="sw-q-x" id="sw-q-x" type="button" aria-label="Clear the search" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
               </label>
               <div class="sw-cats" id="sw-cats" role="tablist" aria-label="Categories"></div>
@@ -3992,7 +3990,7 @@ body.is-shake .wrap { animation: shake .4s; }
               <button class="sw-act" type="button" data-act="note" style="--c: var(--dusk-ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3.5h9l3.5 3.5v13.5H6z"/><path d="M9 11h6M9 15h6"/></svg><span><b>Note</b><small>Keeps the text</small></span></button>
               <button class="sw-act" type="button" data-act="shelf" style="--c: var(--sf)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M9 4v16M5 4h4M5 20h4M12.5 6.5l3-1 4.5 13.5-3 1zM3 20h18"/></svg><span><b>Shelf</b><small>Film, TV, book…</small></span></button>
               <button class="sw-act" type="button" data-act="receipt" style="--c: var(--hr)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span><b>Receipt</b><small>Saved in Hours</small></span></button>
-              <button class="sw-act sw-act--wide" type="button" data-act="keep" style="--c: var(--sw)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3.5 7.5h17v12h-17zM2.5 4h19v3.5h-19zM10 11.5h4"/></svg><span><b>Just keep it</b><small>In the library, with its text</small></span></button>
+              <button class="sw-act sw-act--wide" type="button" data-act="keep" aria-label="Save the info: text, links and what it is" style="--c: var(--sw)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3.5 7.5h17v12h-17zM2.5 4h19v3.5h-19zM10 11.5h4"/></svg><span><b>Save the info</b><small>Text, links and what it is</small></span></button>
             </div>
             <div class="sw-remind" aria-label="Remind me">
               <span>Or remind me</span>
@@ -4272,12 +4270,24 @@ body.is-shake .wrap { animation: shake .4s; }
   </form>
 </dialog>
 
-<dialog class="modal hr-modal sw-modal" id="sw-view" aria-label="Kept screenshot">
+<dialog class="modal hr-modal sw-modal" id="sw-view" aria-label="Saved info">
   <form method="dialog" novalidate>
-    <p class="eyebrow">Library</p>
-    <div class="hr-pic" id="swv-pic"></div>
+    <p class="eyebrow">Saved info</p>
     <p class="swv-meta" id="swv-meta"></p>
+    <div class="hr-fields">
+      <label class="hr-field hr-field--wide"><span>Title</span><input type="text" id="swv-title" maxlength="140" enterkeyhint="done"></label>
+      <label class="hr-field hr-field--wide"><span>Section</span><select id="swv-cat"></select></label>
+    </div>
+    <details class="sw-all" id="swv-all">
+      <summary>The info</summary>
+      <label class="sr-only" for="swv-text">The info</label>
+      <textarea id="swv-text" rows="7"></textarea>
+    </details>
     <div class="sw-links" id="swv-links"></div>
+    <div class="hr-pic-tools">
+      <button class="btn" id="swv-share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5M5 12v7a1 1 0 001 1h12a1 1 0 001-1v-7"/></svg>Share</button>
+      <button class="btn" id="swv-copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy text</button>
+    </div>
     <div class="sw-remind" id="swv-remind" aria-label="Remind me">
       <span>Remind me</span>
       <button type="button" data-when="today">Today</button>
@@ -4285,19 +4295,7 @@ body.is-shake .wrap { animation: shake .4s; }
       <button type="button" data-when="weekend">Weekend</button>
       <button type="button" data-when="week">Next week</button>
     </div>
-    <div class="hr-pic-tools">
-      <button class="btn" id="swv-share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5M5 12v7a1 1 0 001 1h12a1 1 0 001-1v-7"/></svg>Share picture</button>
-      <button class="btn" id="swv-copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy text</button>
-    </div>
-    <div class="hr-fields">
-      <label class="hr-field hr-field--wide"><span>Title</span><input type="text" id="swv-title" maxlength="140" enterkeyhint="done"></label>
-      <label class="hr-field hr-field--wide"><span>Category</span><select id="swv-cat"></select></label>
-    </div>
-    <details class="sw-all" id="swv-all">
-      <summary>The text it read</summary>
-      <label class="sr-only" for="swv-text">The text it read</label>
-      <textarea id="swv-text" rows="7"></textarea>
-    </details>
+    <div class="hr-pic" id="swv-pic"></div>
     <div class="modal-actions">
       <button class="btn btn--danger" id="swv-del" type="button">Delete</button>
       <span>
@@ -10115,7 +10113,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const g = it.guess;
     const hint = $('sw-hint');
     // a recipe, a product or an address is worth keeping as a picture rather than a note
-    const pick = g && (g.kind === 'product' || g.kind === 'web' || (g.kind === 'note' && ['food', 'shop', 'places'].includes(it.cat)) ? 'keep' : g.kind);
+    const pick = g && (g.kind === 'product' || g.kind === 'web' || (g.kind === 'note' && ['health', 'mind', 'music', 'shop', 'places'].includes(it.cat)) ? 'keep' : g.kind);
     $('sw-acts').querySelectorAll('.sw-act').forEach((b) => b.classList.toggle('is-suggested', !!pick && pick === b.dataset.act));
     hint.classList.toggle('is-quiet', !g || it.failed || g.kind === 'note');
     if (!it.read || !g) { hint.textContent = 'Reading the text…'; return; }
@@ -10185,7 +10183,7 @@ body.is-shake .wrap { animation: shake .4s; }
     swShown('sw-done');
     const n = swQueue.length - (swStats.later || 0);
     $('sw-done-n').textContent = `${n} gone through`;
-    const rows = [['job', 'Jobs on Now'], ['remind', 'Reminders'], ['note', 'Notes'], ['shelf', 'On the Shelf'], ['receipt', 'Receipts'], ['keep', 'Kept in the library'], ['clear', 'Nothing to keep'], ['later', 'Left for next time']];
+    const rows = [['job', 'Jobs on Now'], ['remind', 'Reminders'], ['note', 'Notes'], ['shelf', 'On the Shelf'], ['receipt', 'Receipts'], ['keep', 'Saved info'], ['clear', 'Nothing to keep'], ['later', 'Left for next time']];
     $('sw-sum').replaceChildren(...rows.filter(([k]) => swStats[k]).map(([k, name]) => h('li', null, h('span', null, name), h('b', null, String(swStats[k])))));
     // Which ones can go from the gallery: the dates of the ones gone through, so they're easy to find
     const gone = swQueue.filter((i) => i.act && i.act !== 'later');
@@ -10199,7 +10197,7 @@ body.is-shake .wrap { animation: shake .4s; }
       range = ` In your gallery that's the ones from ${shortDate(from)}${shortDate(to) !== shortDate(from) ? ` to ${shortDate(to)}` : ''}${undated ? `, plus ${undated} with no date` : ''}${kept ? `, apart from the ${kept} you left for next time` : ''}.`;
     }
     $('sw-done-tip').textContent = n
-      ? `Everything you kept is saved (pictures in the library below), so the screenshots you've gone through can be deleted from your phone's gallery.${range} This app can't delete them for you.`
+      ? `Everything you kept is saved (the info is under Saved info below), so the screenshots you've gone through can be deleted from your phone's gallery.${range} This app can't delete them for you.`
       : 'Nothing gone through this time. Leave-for-next-time ones come back when you pick them again.';
     $('sw-to-lib').hidden = !gone.some((i) => SW_FILED.includes(i.act));
     const older = $('sw-older');
@@ -10338,7 +10336,7 @@ body.is-shake .wrap { animation: shake .4s; }
     } else if (act === 'shelf') {
       swShelfOpen(it);
     } else if (act === 'keep') {
-      swDone(it, act, null, `Kept in the library · ${swCat(it.catSet ? it.cat : it.cat || 'info').name}`);
+      swDone(it, act, null, `Saved · ${swCat(it.cat || 'info').name}`);
     } else if (act === 'clear') {
       swDone(it, act, null, 'Nothing kept');
     } else if (act === 'later') {
@@ -10444,24 +10442,41 @@ body.is-shake .wrap { animation: shake .4s; }
   const SW_CATS = [
     { id: 'todo', name: 'To do', color: '#ff3d7f' },
     { id: 'money', name: 'Money', color: '#7cf29a' },
+    { id: 'health', name: 'Health', color: '#ffd166' },
+    { id: 'mind', name: 'Mental health', color: '#c2a8ff' },
+    { id: 'music', name: 'Music production', color: '#ff7ad9' },
     { id: 'watch', name: 'Watch & read', color: '#ff9b3d' },
-    { id: 'food', name: 'Food', color: '#ffd166' },
-    { id: 'shop', name: 'Products', color: '#c2a8ff' },
+    { id: 'shop', name: 'Products', color: '#fca5a5' },
     { id: 'places', name: 'Places', color: '#2ee6c8' },
     { id: 'web', name: 'Websites', color: '#6fa0ff' },
     { id: 'info', name: 'Info', color: '#4fd8ff' },
     { id: 'other', name: 'Other', color: '#a69cbc' },
   ];
-  const swCat = (id) => SW_CATS.find((c) => c.id === id) || SW_CATS[SW_CATS.length - 1];
-  const SW_WENT = { job: 'Made into a job on Now', remind: 'A reminder was set', note: 'Saved as a note too', shelf: 'Put on the Shelf too', receipt: 'Saved as a receipt in Hours too', keep: 'Kept here' };
-  // Which category a screenshot's text suggests. Only a starting point: it can always be changed.
+  const SW_CAT_ALIAS = { food: 'health' }; // Food became part of Health
+  const swCat = (id) => SW_CATS.find((c) => c.id === (SW_CAT_ALIAS[id] || id)) || SW_CATS[SW_CATS.length - 1];
+  const SW_WENT = { job: 'Made into a job on Now', remind: 'A reminder was set', note: 'Saved as a note too', shelf: 'Put on the Shelf too', receipt: 'Saved as a receipt in Hours too', keep: 'Saved here' };
+  // Topics win over formats: a YouTube video about mixing is Music production, a recipe is Health.
+  // Strong words count 2, weaker ones 1; the topic needs 3 to be picked.
+  function swTopic(t) {
+    const n = (re) => (t.match(re) || []).length;
+    const music = 2 * n(/\b(vst3?i?|aax|plug-?ins?|daw|ableton|fl studio|logic pro|pro tools|bitwig|cubase|reaper|studio one|serum|kontakt|native instruments|fabfilter|izotope|soundtoys|arturia|u-he|spitfire|splice|plugin boutique|sample packs?|mixing|mixdown|mastering|sidechain|synth(esizer)?s?|drum machines?)\b/gi)
+      + n(/\b(mix(es|ed)?|eq|equali[sz]er|compressor|reverb|delay|limiter|saturation|midi|bpm|presets?|stems|loops|samples|808s?|hi-?hats?|kick|snare|vocals?|beats?|producers?|melody|chords?)\b/gi);
+    const mind = 2 * n(/\b(mental health|anxiety|anxious|depression|depressed|adhd|autism|autistic|therapy|therapist|counsell?(ing|or)|psycholog(y|ist)|psychiatr(y|ist)|mindfulness|meditat(e|ion)|panic attacks?|burn-?out|cbt|dbt|trauma|executive function|neurodivergent)\b/gi)
+      + n(/\b(stress(ed)?|overwhelm(ed)?|mood|calm|breath(e|ing|work)|self[- ]care|wellbeing|well-being|journal(ing)?|affirmations?|dopamine|grief|lonely|loneliness|sleep hygiene|emotions?|feelings?)\b/gi);
+    const health = 2 * n(/\b(vitamins?|supplements?|magnesium|zinc|omega-?3|fish oil|probiotics?|collagen|creatine|electrolytes?|nutrition(al)?|nutrients?|calories|kcal|recipes?|ingredients|protein|gut health|doctor|gp|prescription|pharmacy|chemist|medication|dosage|blood (test|pressure)|cholesterol|immune|workout|exercise|physio(therapy)?)\b/gi)
+      + n(/\b(\d+\s?mg|mcg|diet|fibre|fiber|sugar|carbs?|keto|vegan|gluten|dairy|tbsp|tsp|cups? of|preheat|oven|bake|simmer|serves \d|meals?|snacks?|breakfast|lunch|dinner|healthy|fitness|steps|sleep|hydrat(e|ion)|yoga|stretch(es|ing)?|iron)\b/gi);
+    const [best, score] = [['music', music], ['mind', mind], ['health', health]].sort((a, b) => b[1] - a[1])[0];
+    return score >= 3 ? best : '';
+  }
+  // Which section a screenshot's text suggests. Only a starting point: it can always be changed.
   function swCatGuess(text, g) {
     const t = text || '';
     if (!t.trim()) return 'other';
     if ((g && g.kind === 'receipt') || /\b(bank|balance|transfer|invoice|bill|payment due|account number|bsb|iban|direct debit)\b/i.test(t)) return 'money';
+    const topic = swTopic(t);
+    if (topic) return topic;
     if (g && g.kind === 'shelf') return 'watch';
     if (g && g.kind === 'product') return 'shop';
-    if (/\b(recipe|ingredients|tbsp|tsp|tablespoons?|teaspoons?|cups? of|preheat|oven|bake|simmer|serves \d|menu|restaurant|takeaway|takeout)\b/i.test(t)) return 'food';
     if (/\b(add to (cart|bag|basket|trolley)|buy now|in stock|out of stock|free (shipping|delivery)|size guide|wishlist|\d+% off|on sale|checkout|amazon|ebay|etsy)\b/i.test(t)) return 'shop';
     if (/\b\d+[a-z]?\s+(?:[A-Z][a-z]+\s){1,3}(street|st|road|rd|avenue|ave|drive|dr|lane|ln|court|ct|place|pl|parade|pde|highway|hwy|crescent|cres|boulevard|blvd|way)\b/.test(t)
       || /\b(directions|google maps|flight|boarding|gate \w?\d|hotel|airbnb|check-?in|booking (ref|reference|number)|parking|platform \d)\b/i.test(t)) return 'places';
@@ -10505,6 +10520,7 @@ body.is-shake .wrap { animation: shake .4s; }
   };
   swLib.all().then((list) => {
     swItems = (Array.isArray(list) ? list : []).filter((r) => r && Number.isFinite(r.id) && ((r.pic instanceof Blob) || (typeof r.text === 'string' && r.text.trim())));
+    swItems.forEach((r) => { if (SW_CAT_ALIAS[r.cat]) { r.cat = SW_CAT_ALIAS[r.cat]; swLib.put(r).catch(() => {}); } });
     if (currentTab !== 'shots') renderUI(); // jobs from screenshots can show their link now
     if (currentTab === 'shots') renderLib();
   }).catch(() => {});
@@ -10517,7 +10533,7 @@ body.is-shake .wrap { animation: shake .4s; }
       id, cat, sent: act,
       title: String(it.title || '').trim().replace(/\s+/g, ' ').slice(0, 140),
       text: String(it.text || '').slice(0, 3000),
-      date: it.date || 0, at: Date.now(), name: it.file ? it.file.name || '' : '', pic: it.file || null, thumb: null, jobText: it.jobText || '',
+      date: it.date || 0, at: Date.now(), name: it.file ? it.file.name || '' : '', pic: String(it.text || '').trim() ? null : it.file || null, thumb: null, jobText: it.jobText || '',
       links: swLinkList(it.guess, it.about, it.title), about: swAboutText(it.guess, it.about), aboutFrom: it.about ? 'wiki' : 'shot',
     };
     swItems.push(rec);
@@ -10532,7 +10548,7 @@ body.is-shake .wrap { animation: shake .4s; }
       });
     }
     (async () => {
-      if (!it.file) { await swLib.put(rec); rec.saved = true; return; } // shared without a picture
+      if (!rec.pic) { await swLib.put(rec); rec.saved = true; return; } // just the info
       let pic = it.file;
       let thumb = null;
       try { pic = await hrShrink(it.file, 1400, 0.72); } catch { /* a format this browser can't redraw: keep it as it is */ }
@@ -10556,6 +10572,15 @@ body.is-shake .wrap { animation: shake .4s; }
     swLib.del(id).catch(() => {});
   }
 
+  // A line under the title: what it is, or else the first words that aren't the title.
+  function swSnippet(r) {
+    if (r.about) return r.about;
+    const t = String(r.title || '').toLowerCase();
+    const lines = String(r.text || '').split('\n').map((x) => x.trim())
+      .filter((x) => x.length > 3 && !t.startsWith(x.toLowerCase()) && !x.toLowerCase().startsWith(t));
+    const line = lines.find((x) => x.split(' ').length >= 4) || lines[0];
+    return line ? line.slice(0, 160) : '';
+  }
   const swSize = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(n >= 10485760 ? 0 : 1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
   const swWhenOf = (rec) => (rec.date ? shortDate(rec.date) : `Kept ${shortDate(rec.at)}`);
   function swMatches(rec) {
@@ -10567,7 +10592,7 @@ body.is-shake .wrap { animation: shake .4s; }
     const n = swItems.length;
     const bytes = swItems.reduce((sum, r) => sum + (r.pic ? r.pic.size : 0) + (r.thumb ? r.thumb.size : 0), 0);
     const nDone = swItems.filter((r) => r.done).length;
-    $('sw-lib-n').textContent = n ? `${n} kept${nDone ? ` · ${nDone} done` : ''} · ${swSize(bytes)} on this phone` : '';
+    $('sw-lib-n').textContent = n ? `${n} saved${nDone ? ` · ${nDone} done` : ''}${bytes > 1048576 ? ` · ${swSize(bytes)} of older pictures` : ''}` : '';
     $('sw-lib-tools').hidden = n === 0;
     const counts = {};
     swItems.forEach((r) => { counts[r.cat] = (counts[r.cat] || 0) + 1; });
@@ -10582,11 +10607,11 @@ body.is-shake .wrap { animation: shake .4s; }
     $('sw-grid').replaceChildren(...shown.map((r) => {
       const name = r.title || 'Screenshot';
       return h('div', { class: r.done ? 'sw-tile is-done' : 'sw-tile', 'data-id': String(r.id), style: `--c: ${swCat(r.cat).color}` },
-        h('button', { class: 'sw-tile-open', type: 'button', 'aria-label': `${name}, ${swCat(r.cat).name}, ${swWhenOf(r)}${r.done ? ', done' : ''}` },
-          h('span', { class: 'sw-tile-pic' }, r.pic ? h('img', { src: swThumbUrl(r), alt: '', loading: 'lazy' }) : iconEl(SF_ICON.link)),
-          h('span', { class: 'sw-tile-t' }, name),
-          h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`, r.links && r.links.length ? iconEl(SF_ICON.link) : null)),
         h('button', { class: 'sw-tile-done', type: 'button', 'aria-pressed': String(!!r.done), 'aria-label': r.done ? `Not done: ${name}` : `Done: ${name}`, icon: ICON.check }),
+        h('button', { class: 'sw-tile-open', type: 'button', 'aria-label': `${name}, ${swCat(r.cat).name}, ${swWhenOf(r)}${r.done ? ', done' : ''}` },
+          h('span', { class: 'sw-tile-t' }, name),
+          swSnippet(r) ? h('span', { class: 'sw-tile-s' }, swSnippet(r)) : null,
+          h('span', { class: 'sw-tile-d' }, `${swCat(r.cat).name} · ${swWhenOf(r)}`, r.links && r.links.length ? iconEl(SF_ICON.link) : null)),
         h('button', { class: 'sw-tile-del', type: 'button', 'aria-label': `Delete ${name}`, icon: ICON.x }));
     }));
     const doneHere = shown.filter((r) => r.done);
@@ -10594,7 +10619,7 @@ body.is-shake .wrap { animation: shake .4s; }
     $('sw-clear-done').textContent = `Delete the ${doneHere.length} done`;
     const empty = $('sw-lib-empty');
     empty.hidden = shown.length > 0;
-    empty.textContent = !n ? 'Nothing kept yet. Screenshots you keep during a sweep land here, with their text, sorted into categories.'
+    empty.textContent = !n ? 'Nothing saved yet. What you keep from your screenshots lands here as text, links and what it is, sorted into sections.'
       : swQuery ? `Nothing matches "${swQuery}".` : 'Nothing in this category.';
   }
   $('sw-cats').addEventListener('click', (e) => {
@@ -10628,12 +10653,12 @@ body.is-shake .wrap { animation: shake .4s; }
     swViewUrl = rec.pic ? URL.createObjectURL(rec.pic) : '';
     $('swv-pic').hidden = !rec.pic;
     $('swv-pic').replaceChildren(rec.pic ? h('img', { src: swViewUrl, alt: rec.title ? `Screenshot: ${rec.title}` : 'Screenshot' }) : '');
-    $('swv-share').disabled = !rec.pic;
+
     $('swv-meta').textContent = `${rec.date ? `Screenshot from ${shortDate(rec.date)}` : 'Screenshot'} · ${SW_WENT[rec.sent] || SW_WENT.keep}`;
     $('swv-title').value = rec.title;
     swCatOptions($('swv-cat'), rec.cat);
     $('swv-text').value = rec.text;
-    $('swv-all').open = false;
+    $('swv-all').open = true;
     $('swv-copy').disabled = !rec.text;
     swPaintDoneBtn(!!rec.done);
     $('swv-links').replaceChildren(...swLinkEls(Array.isArray(rec.links) ? rec.links : [], rec.about || '', rec.aboutFrom));
@@ -10695,17 +10720,16 @@ body.is-shake .wrap { animation: shake .4s; }
   $('swv-copy').addEventListener('click', async () => {
     toast((await copyText($('swv-text').value)) ? 'Text copied' : "Couldn't copy on this browser");
   });
+  // Share the info (to Messages, email, notes...), or copy it where there's no share menu.
   $('swv-share').addEventListener('click', async () => {
     const rec = swItems.find((r) => r.id === swViewId);
-    if (!rec || !rec.pic) return;
-    const ext = /png/.test(rec.pic.type) ? 'png' : 'jpg';
-    const name = `screenshot-${hrYmd(new Date(rec.date || rec.at))}.${ext}`;
-    const file = new File([rec.pic], name, { type: rec.pic.type || 'image/jpeg' });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try { await navigator.share({ files: [file], title: rec.title || 'Screenshot' }); } catch { /* closed the share menu */ }
+    if (!rec) return;
+    const text = [rec.title, rec.about, ...(rec.links || []).map((l) => l[1]), rec.text].filter(Boolean).join('\n\n').slice(0, 5000);
+    if (navigator.share) {
+      try { await navigator.share({ title: rec.title || 'Saved info', text }); } catch { /* closed the share menu */ }
       return;
     }
-    hrDownload(rec.pic, name);
+    toast((await copyText(text)) ? 'Copied' : "Couldn't copy on this browser");
   });
   $('swv-del').addEventListener('click', () => {
     const rec = swItems.find((r) => r.id === swViewId);

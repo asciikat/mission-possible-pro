@@ -235,7 +235,7 @@ screen; the number on it is how many are left in the sweep you're on.
    - **Note**: the text is saved as a note, with the date of the screenshot.
    - **Shelf**: pick Film, TV, Book, Game or Other and a match, the same lookup as Shelf.
    - **Receipt**: the picture goes into Hours as a receipt, with the amount it found.
-   - **Just keep it**: into the library (below), picture and text, nothing else.
+   - **Save the info**: into Saved info (below): the text, links and what it is.
    - **Nothing to keep**: done, nothing saved.
    - **Leave it for next time**: skipped for now; it comes back the next time you pick it.
    Under the hint, the screenshot's **links** show as buttons you can tap:
@@ -247,7 +247,7 @@ screen; the number on it is how many are left in the sweep you're on.
      website**: the app looks the brand up and says **What it is** (from Wikipedia) and adds its
      official site (from Wikidata). If it can't find one, **Find its website** searches for it, and
      a sentence from the screenshot says what it's about. A website's title becomes the site's name.
-   Products and websites are suggested for **Just keep it**, and file under **Products** and
+   Products and websites are suggested for **Save the info**, and file under **Products** and
    **Websites**. Notes made from a screenshot keep its links.
 3. Every choice has **Undo**. Tap the picture to see it bigger; edit the title, or open **All the
    text it read**, before choosing.
@@ -266,24 +266,41 @@ the share menu; removing the app from the home screen and installing it again do
 **Remind me.** Under the choices, **Or remind me: Tomorrow, Weekend, Next week** makes a job that
 lands on Now that morning (Weekend is Saturday, Next week is Monday). A kept screenshot has **Remind
 me: Today, Tomorrow, Weekend, Next week** too. The job's menu has **See the screenshot**, and
-finishing the job ticks the screenshot done in the library.
+finishing the job ticks it done in Saved info.
 
-**The library.** Every screenshot you keep (Job, Note, Shelf, Receipt or Just keep it) is saved
-under the sweep with its picture and the text read off it, so you can delete the original from your
-gallery and still find it. It's sorted into categories: **To do**, **Money**, **Watch & read**,
-**Food**, **Products**, **Places**, **Websites**, **Info** and **Other**. The category is guessed from the text and
-shown as **Files under** while you sweep; change it there or later. **Search the words in them**
-finds a screenshot by anything written in it, or by what it is or its links. Every screenshot has a
-**tick** and an **×** on it: the tick marks it done ✅, which crosses it out and moves it after the
-ones still to deal with (it stays until you delete it; tap the tick again to undo), and the × deletes
-it. **Delete the N done** clears the crossed-out ones in one go. Every delete has Undo. Tap one to see it
-full size with its links and what it is, change its title or
-category, **Copy text**, **Share picture** (to save it somewhere else), or **Delete** it (with
-Undo). The categories are the `SW_CATS` list in `index.html` (keep a category's `id` the same when
-renaming it).
+**Saved info.** The picture is only there to be read: what's kept is the **info**, meaning the text,
+its links and what it is, never the picture. Every screenshot you keep (Job, Note, Shelf, Receipt or
+**Save the info**) lands under the sweep in **Saved info**, so you can delete the original from your
+gallery. (If nothing could be read off a screenshot, its picture is kept instead, so nothing is lost.
+Receipts in Hours keep their photo, because that's the receipt.)
 
-The library keeps a smaller copy (1400 px, around 50 to 250 KB each), shown with the total at the
-top, on this phone only: it doesn't sync and isn't in the backup file.
+It's sorted into sections:
+
+| Section | What goes there |
+| --- | --- |
+| **To do** | Things made into a job or a reminder |
+| **Money** | Receipts, bills, bank details |
+| **Health** | Vitamins, supplements, food, recipes, exercise, doctors and prescriptions |
+| **Mental health** | ADHD, anxiety, therapy, mindfulness, stress, self-care |
+| **Music production** | VST plugins, DAWs (Ableton, FL Studio, Logic...), synths, samples, mixing and mastering |
+| **Watch & read** | Films, TV, YouTube, books, games |
+| **Products** | Other things to buy, apps and gear |
+| **Places**, **Websites**, **Info**, **Other** | Addresses and bookings, websites, everything else |
+
+The section is guessed from the words in the screenshot (a topic like music production or health wins
+over the kind of screen, so a YouTube video about mixing goes in Music production) and shown as
+**Files under** while you sweep; change it there or later. Saved info is a list: each item shows its
+title, a line saying what it is (or its first sentence), its section and date. **Search your saved
+info** finds anything written in it, what it is or its links. Every item has a **tick** and an
+**×**: the tick marks it done ✅, which crosses it out and moves it after the ones still to deal with
+(it stays until you delete it; tap again to undo), and the × deletes it. **Delete the N done** clears
+the crossed-out ones in one go. Every delete has Undo. Tap an item to read all its info, change its
+title or section, follow its links, **Share** or **Copy text**, set a reminder, or delete it. The
+sections are the `SW_CATS` list in `index.html` (keep a section's `id` the same when renaming it;
+the old Food section is now part of Health).
+
+Saved info stays on this phone only: it doesn't sync and isn't in the backup file. Items saved before
+this change keep the picture they were saved with.
 
 Ones you've gone through are remembered (by file name and size), so you can stop at any time with
 **Stop for now** and pick the same screenshots again later: it carries on with the ones you haven't
