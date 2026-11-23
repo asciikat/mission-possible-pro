@@ -2360,6 +2360,20 @@ body.is-shake .wrap { animation: shake .4s; }
   cursor: pointer;
 }
 .sw-modal .sw-remind { margin: 12px 0 0; }
+.sw-claude { margin: 0 0 14px; padding: 0 14px; border: 2px solid var(--line); background: rgba(255, 255, 255, .03); }
+.sw-claude[open] { padding-bottom: 14px; border-color: #d97757; }
+.sw-claude summary { display: flex; align-items: center; gap: 10px; min-height: 48px; font: 800 14px/1.2 var(--font-hud); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.sw-claude-dot { flex: none; width: 12px; height: 12px; border: 2px solid var(--dim); border-radius: 50%; }
+.sw-claude.is-on .sw-claude-dot { border-color: #d97757; background: #d97757; }
+.sw-claude.is-trouble .sw-claude-dot { border-color: var(--hot, #ff3d7f); background: var(--hot, #ff3d7f); }
+.sw-claude-lead { margin: 0 0 12px; font-size: 16px; }
+.sw-claude .hr-field { margin-bottom: 10px; }
+.sw-claude .add-btn { background: #d97757; }
+.sw-claude .sw-how a { color: var(--ink); }
+.sw-claude-n { margin: 0 0 10px; font-size: 16px; font-weight: 700; }
+.sw-claude-models { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 0; }
+.sw-claude-models .sf-tab[aria-checked="true"] { border-color: #d97757; background: rgba(217, 119, 87, .16); }
+.sw-claude .hr-link { margin-top: 10px; }
 .sw-folder { margin: 0 0 16px; padding: 14px; border: 2px solid var(--palm); background: rgba(46, 230, 200, .07); }
 .sw-folder-lead { margin: 0 0 10px; font-size: 16px; }
 .sw-folder-lead b { color: var(--palm); }
@@ -3927,7 +3941,8 @@ body.is-shake .wrap { animation: shake .4s; }
 
       <!-- Screenshots: pick recent screenshots and go through them one at a time, turning each
            into a job, a note, a receipt or something for the Shelf, or letting it go. The text
-           is read on the device; screenshots never leave it. -->
+           is read on the device and screenshots never leave it, unless you add a Claude API key
+           (Read with Claude): then each one is sent to Claude to be read. -->
       <div class="shots-panel frame-panel" id="shots-panel" role="region" aria-label="Screenshots" data-name="Screenshots" hidden>
         <div class="frame-bar"><span>Screenshots</span><button class="frame-btn" type="button" data-full="shots-panel" aria-label="Close Screenshots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Close</span></button></div>
         <div class="frame-body tab-panel">
@@ -3952,6 +3967,28 @@ body.is-shake .wrap { animation: shake .4s; }
           <p class="eyebrow">Screenshot sweep</p>
           <h2 class="sw-h">Go through your screenshots</h2>
           <p class="sw-lead">One at a time. Make each one a job, a note, a receipt or something for the Shelf, or let it go.</p>
+          <details class="sw-claude" id="sw-claude">
+            <summary><span class="sw-claude-dot" aria-hidden="true"></span><span id="sw-claude-sum">Read with Claude</span></summary>
+            <div id="sw-claude-off">
+              <p class="sw-claude-lead">Claude reads screenshots far better than the phone can: it gets the words right, gives each one a proper title, says what it is and picks its section.</p>
+              <label class="hr-field"><span>Your Claude API key</span>
+                <input type="password" id="sw-claude-key" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="sk-ant-…"></label>
+              <button class="add-btn" id="sw-claude-save" type="button">Use Claude</button>
+              <ol class="sw-how">
+                <li>Open <a href="https://platform.claude.com/settings/keys" target="_blank" rel="noopener noreferrer">platform.claude.com, API keys</a> and sign in with your Claude account.</li>
+                <li>Tap <b>Create key</b>, copy it, and paste it above.</li>
+              </ol>
+              <p class="sw-how-note">A Claude.ai subscription can't be used here: this is paid from API credit (some plans include monthly API credit, under Settings, Billing on claude.ai). Setting a monthly spend limit under Limits keeps it safe.</p>
+            </div>
+            <div id="sw-claude-on" hidden>
+              <p class="sw-claude-n" id="sw-claude-n"></p>
+              <p class="eyebrow">Which Claude</p>
+              <div class="sw-range sw-claude-models" id="sw-claude-model" role="radiogroup" aria-label="Which Claude reads them"></div>
+              <p class="sw-how-note" id="sw-claude-cost"></p>
+              <button class="hr-link" id="sw-claude-forget" type="button">Stop using Claude (forget the key)</button>
+            </div>
+            <p class="sw-how-note">With Claude on, each screenshot is sent to Anthropic to be read, and what it reads is kept on this phone. The key stays on this phone too: it isn't in backups or sync.</p>
+          </details>
           <p class="eyebrow">How far back</p>
           <div class="sw-range" id="sw-range" role="radiogroup" aria-label="How far back"></div>
           <button class="sw-pick" id="sw-pick" type="button">
@@ -3969,7 +4006,7 @@ body.is-shake .wrap { animation: shake .4s; }
           <div class="sw-msg" id="sw-msg" role="status" hidden></div>
           <p class="sw-share-tip"><b>Quicker:</b> right after you take a screenshot, tap <b>Share</b> and pick <b>Possible Pro</b>. It opens here so you can say what it's for straight away. (Android, with the app installed.)</p>
           <p class="sw-total" id="sw-total" hidden></p>
-          <p class="hr-keep">Your screenshots stay on your phone: the text is read on the phone itself. Ones you've gone through are skipped next time, so you can stop whenever you like and pick the same ones again to carry on.</p>
+          <p class="hr-keep"><span id="sw-privacy">Your screenshots stay on your phone: the text is read on the phone itself.</span> Ones you've gone through are skipped next time, so you can stop whenever you like and pick the same ones again to carry on.</p>
           <div class="sw-lib" id="sw-lib">
             <div class="hr-bar"><h3>Saved info</h3><span class="sw-lib-n" id="sw-lib-n"></span></div>
             <div id="sw-lib-tools" hidden>
@@ -9965,11 +10002,10 @@ body.is-shake .wrap { animation: shake .4s; }
     return swEngineP;
   }
   // Text reads best dark on light at a decent size, so dark-mode screenshots are flipped first.
-  async function swPrep(file) {
-    let src;
-    try { src = await createImageBitmap(file); }
+  async function swDecode(file) {
+    try { return await createImageBitmap(file); }
     catch {
-      src = await new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         const img = new Image();
         const u = URL.createObjectURL(file);
         img.onload = () => { URL.revokeObjectURL(u); resolve(img); };
@@ -9977,6 +10013,9 @@ body.is-shake .wrap { animation: shake .4s; }
         img.src = u;
       });
     }
+  }
+  async function swPrep(file) {
+    const src = await swDecode(file);
     const w = src.naturalWidth || src.width;
     const tall = src.naturalHeight || src.height;
     let k = Math.min(1, 2400 / Math.max(w, tall));
@@ -10062,25 +10101,245 @@ body.is-shake .wrap { animation: shake .4s; }
     return { title, amount, kind, shelfKind, links, yt, site, blurb };
   }
 
+  // ── Read with Claude: an option, with your own Claude API key ──
+  // Without a key, screenshots are read on the phone (above) and never leave it. With one, each
+  // screenshot is shrunk and sent to Claude, which reads the words properly, titles it, says what
+  // it is and picks its section. The key is kept only in this phone's storage ('mp_claude_key',
+  // which isn't in backups or sync). A screenshot Claude can't read (offline, a problem with the
+  // key or credit, or it turns one down) is read on the phone instead.
+  const CL_MODELS = {
+    opus: { id: 'claude-opus-5-5', name: 'Best · Opus 5.5', inM: 4, outM: 20, fallbacks: true, cost: 'About 3 US cents a screenshot.' },
+    haiku: { id: 'claude-haiku-5-5', name: 'Cheaper · Haiku 5.5', inM: 0.1, outM: 0.5, fallbacks: false, cost: 'Less than a tenth of a US cent a screenshot. Still far better than the phone.' },
+  };
+  let clKey = String(store.get('mp_claude_key', '') || '');
+  let clModel = CL_MODELS[store.get('mp_claude_model', 'opus')] ? store.get('mp_claude_model', 'opus') : 'opus';
+  let clBlocked = ''; // 'key' or 'credit': Claude is off until there's a new key
+  let clWarnedAt = 0;
+  const clOn = () => !!clKey && !clBlocked && navigator.onLine !== false;
+  let clSdkP = null;
+  const clSdk = () => clSdkP || (clSdkP = import(`${SW_CDN}@anthropic-ai/sdk@1.6.0/+esm`).catch((err) => { clSdkP = null; throw err; }));
+  async function clClient(key) {
+    const mod = await clSdk();
+    const Anthropic = mod.default || mod.Anthropic;
+    return new Anthropic({ apiKey: key, dangerouslyAllowBrowser: true, maxRetries: 2, timeout: 90 * 1000 });
+  }
+  // What it's cost this month, worked out from what Claude reports using.
+  function clSpend() {
+    const d = new Date();
+    const month = `${d.getFullYear()}-${d.getMonth() + 1}`;
+    const s = store.get('mp_claude_spend', null);
+    return s && s.month === month && Number.isFinite(s.usd) ? s : { month, n: 0, usd: 0 };
+  }
+  function clSpent(usage, m, read) {
+    const s = clSpend();
+    const inT = (usage && usage.input_tokens) || 0;
+    const outT = (usage && usage.output_tokens) || 0;
+    if (read) s.n = (s.n || 0) + 1;
+    s.usd += (inT * m.inM + outT * m.outM) / 1e6;
+    store.set('mp_claude_spend', s);
+  }
+  // Small enough to send quickly: at most 1800 pixels on the long side, as a JPEG. (A long
+  // scrolling screenshot keeps at least 600 pixels across, so its words stay readable.)
+  async function clImage(file) {
+    const src = await swDecode(file);
+    const w = src.naturalWidth || src.width;
+    const tall = src.naturalHeight || src.height;
+    let k = Math.min(1, 1800 / Math.max(w, tall));
+    k = Math.min(Math.max(k, Math.min(1, 600 / w)), 7900 / tall);
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(w * k));
+    c.height = Math.max(1, Math.round(tall * k));
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(src, 0, 0, c.width, c.height);
+    if (src.close) src.close();
+    const blob = await new Promise((resolve, reject) => c.toBlob((b) => (b ? resolve(b) : reject(new Error('bad image'))), 'image/jpeg', 0.85));
+    const url = await new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => resolve(String(fr.result));
+      fr.onerror = () => reject(fr.error);
+      fr.readAsDataURL(blob);
+    });
+    return url.slice(url.indexOf(',') + 1);
+  }
+  const CL_KINDS = { receipt: ['receipt'], film: ['shelf', 'film'], tv: ['shelf', 'tv'], book: ['shelf', 'book'], game: ['shelf', 'game'], youtube: ['shelf', 'video'], product: ['product'], website: ['web'], note: ['note'] };
+  const clSchema = () => ({
+    type: 'object',
+    additionalProperties: false,
+    required: ['text', 'title', 'what_it_is', 'kind', 'section', 'amount', 'name', 'links'],
+    properties: {
+      text: { type: 'string' },
+      title: { type: 'string' },
+      what_it_is: { type: 'string' },
+      kind: { type: 'string', enum: Object.keys(CL_KINDS) },
+      section: { type: 'string', enum: SW_CATS.map((c) => c.id) },
+      amount: { anyOf: [{ type: 'number' }, { type: 'null' }] },
+      name: { type: 'string' },
+      links: { type: 'array', items: { type: 'string' } },
+    },
+  });
+  const CL_PROMPT = `This is a screenshot from someone's phone. They have ADHD: they take screenshots to remember things, then forget about them, so they want the useful information out of each one. Read it and fill in every field.
+
+- text: all the useful text in the screenshot, exactly as written, in reading order, one line per line or paragraph. Leave out the phone's own status bar (time, battery, signal), navigation buttons, the keyboard and ads. Keep web addresses, prices, dates, times, names, codes and numbers exactly as shown.
+- title: a short title to file it under, up to 10 words, saying what it is, for example "FabFilter Pro-Q 4 EQ plugin", "Magnesium glycinate: 200 mg at night" or "Dentist Tuesday 3pm". Not just the app's name.
+- what_it_is: one plain sentence on what this is and why someone might have saved it. For a product, app or plugin, say what it does.
+- kind: receipt (a receipt, invoice or payment), film, tv, book, game, youtube (a YouTube video), product (something to buy or download, such as an audio plugin), website, or note (anything else).
+- section: todo (something to do), money, health (vitamins, supplements, food, recipes, exercise, medical), mind (mental health), music (music production: VST plugins, mixing, synths, samples), watch (films, TV, books and videos to watch or read), shop (other products), places (addresses, travel, bookings), web (websites), info, or other.
+- amount: for a receipt, the total paid as a number; otherwise null.
+- name: the exact name of the product, brand, film, show, book, game or place it's about, for looking it up; empty if there isn't one.
+- links: the web addresses that can be seen in it, as written; empty if none.`;
+
+  async function clRead(it) {
+    const m = CL_MODELS[clModel];
+    const [client, data] = await Promise.all([clClient(clKey), clImage(it.file)]);
+    const extra = String(it.extra || '').trim();
+    const params = {
+      model: m.id,
+      max_tokens: 16000,
+      output_config: { effort: 'low', format: { type: 'json_schema', schema: clSchema() } },
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data } },
+          { type: 'text', text: CL_PROMPT + (extra ? `\n\nThis text was shared along with the screenshot:\n${extra.slice(0, 2000)}` : '') },
+        ],
+      }],
+    };
+    // Opus: if it declines, the request is run again on a fallback model inside the same call
+    const res = m.fallbacks
+      ? await client.beta.messages.create({ ...params, betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' })
+      : await client.messages.create(params);
+    clSpent(res.usage, m, res.stop_reason !== 'refusal');
+    if (res.stop_reason === 'refusal') throw Object.assign(new Error('declined'), { cl: 'declined' });
+    const block = (res.content || []).filter((b) => b.type === 'text').pop();
+    const out = JSON.parse(block ? block.text : '');
+    if (!out || typeof out !== 'object') throw new Error('no answer');
+    return out;
+  }
+  // Turn what Claude read into the same shape the phone's guess has.
+  function clApply(it, out) {
+    const str = (v, n) => String(typeof v === 'string' ? v : '').trim().slice(0, n);
+    let text = str(out.text, 3000);
+    const extra = swTidy(it.extra);
+    if (extra && !text.includes(extra.split('\n')[0])) text = [text, extra].filter(Boolean).join('\n');
+    const base = swGuess(text); // for anything Claude left empty
+    const links = swLinksIn([...(Array.isArray(out.links) ? out.links.filter((l) => typeof l === 'string') : []), text].join('\n'));
+    let [kind, shelfKind] = CL_KINDS[out.kind] || [base.kind, base.shelfKind];
+    let yt = swYouTube(text, links);
+    if (!yt && out.kind === 'youtube') yt = { id: '', url: '' };
+    const site = links.find((l) => !swIsYt(l.host)) || null;
+    if (kind === 'web' && !site) kind = 'note';
+    const amount = Number.isFinite(out.amount) && out.amount > 0 && out.amount < 100000 ? Math.round(out.amount * 100) / 100 : kind === 'receipt' ? base.amount : null;
+    it.text = text;
+    it.guess = {
+      title: str(out.title, 140).replace(/\s+/g, ' ') || base.title, amount, kind, shelfKind: shelfKind || base.shelfKind,
+      links, yt, site, blurb: str(out.what_it_is, 240).replace(/\s+/g, ' '), name: str(out.name, 80), byClaude: true,
+    };
+    if (!it.catSet) it.cat = swCat(out.section).id;
+    it.by = 'claude';
+    it.failed = false;
+  }
+  // Something went wrong with Claude: say so (not too often), and read it on the phone instead.
+  function clTrouble(err) {
+    const status = err && err.status;
+    let msg = '';
+    if (status === 401 || status === 403) { clBlocked = 'key'; msg = "Claude didn't accept your API key, so screenshots are being read on the phone. Check the key under Read with Claude"; }
+    else if (status === 400 && /credit balance/i.test(String(err.message))) { clBlocked = 'credit'; msg = 'Your Claude API credit has run out, so screenshots are being read on the phone for now'; }
+    else if (err && err.cl === 'declined') msg = "Claude wouldn't read that one, so the phone read it";
+    else if (Date.now() - clWarnedAt > 60 * 1000) { msg = "Couldn't reach Claude just now, so the phone read it"; clWarnedAt = Date.now(); }
+    if (!msg) return;
+    toast(msg, { duration: 6000 });
+    clPaint();
+  }
+  function clPaint() {
+    const box = $('sw-claude');
+    box.classList.toggle('is-on', !!clKey && !clBlocked);
+    box.classList.toggle('is-trouble', !!clKey && !!clBlocked);
+    $('sw-claude-sum').textContent = !clKey ? 'Read with Claude (far better)' : clBlocked ? 'Claude · needs a look' : `Reading with Claude · ${CL_MODELS[clModel].name.split(' · ')[1]}`;
+    $('sw-claude-off').hidden = !!clKey;
+    $('sw-claude-on').hidden = !clKey;
+    $('sw-privacy').textContent = clKey && !clBlocked
+      ? 'Screenshots are sent to Claude to be read; what it reads is kept on your phone.'
+      : 'Your screenshots stay on your phone: the text is read on the phone itself.';
+    if (!clKey) return;
+    const s = clSpend();
+    $('sw-claude-n').textContent = clBlocked === 'key' ? "Claude didn't accept the key. Forget it below and paste it again (or a new one)."
+      : clBlocked === 'credit' ? 'Your API credit ran out. Add credit at platform.claude.com, then forget the key below and paste it again.'
+      : `Key saved · this month: ${plainNum(s.n)} read, about US$${s.usd.toFixed(2)}`;
+    $('sw-claude-model').replaceChildren(...Object.entries(CL_MODELS).map(([k, m]) => h('button', { class: 'sf-tab', type: 'button', role: 'radio', 'data-model': k, 'aria-checked': String(k === clModel) }, m.name)));
+    $('sw-claude-cost').textContent = CL_MODELS[clModel].cost;
+  }
+  $('sw-claude-model').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-model]');
+    if (!b) return;
+    clModel = b.dataset.model;
+    store.set('mp_claude_model', clModel);
+    clPaint();
+  });
+  $('sw-claude-save').addEventListener('click', async () => {
+    const btn = $('sw-claude-save');
+    const key = $('sw-claude-key').value.replace(/\s+/g, '');
+    if (!key) { toast('Paste your API key first'); return; }
+    if (/^sk-ant-oat/i.test(key)) { toast("That's a Claude.ai sign-in code, not an API key. Make an API key at platform.claude.com", { duration: 7000 }); return; }
+    if (!/^sk-ant-/.test(key)) { toast("That doesn't look like a Claude API key (they start sk-ant-)", { duration: 6000 }); return; }
+    btn.disabled = true;
+    btn.textContent = 'Checking the key…';
+    let ok = true;
+    let note = '';
+    try { await (await clClient(key)).models.retrieve(CL_MODELS[clModel].id); }
+    catch (err) {
+      if (err && (err.status === 401 || err.status === 403)) ok = false;
+      else note = " (couldn't check the key just now)";
+    }
+    btn.disabled = false;
+    btn.textContent = 'Use Claude';
+    if (!ok) { toast("Claude didn't accept that key. Copy it again and paste it here", { duration: 6000 }); return; }
+    clKey = key;
+    clBlocked = '';
+    store.set('mp_claude_key', key);
+    $('sw-claude-key').value = '';
+    sfx.add();
+    toast(`Claude will read your screenshots${note}`);
+    clPaint();
+  });
+  $('sw-claude-key').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); $('sw-claude-save').click(); } });
+  $('sw-claude-forget').addEventListener('click', () => {
+    clKey = '';
+    clBlocked = '';
+    try { localStorage.removeItem('mp_claude_key'); } catch { /* private mode */ }
+    toast('Key forgotten · screenshots are read on the phone again');
+    clPaint();
+  });
+
   // One at a time, in the order asked for; the next two are read ahead while you decide.
   let swChain = Promise.resolve();
   function swRead(it) {
     if (!it || it.read) return it ? it.read : Promise.resolve();
     it.read = swChain = swChain.then(async () => {
       if (!swQueue.includes(it)) return; // the sweep moved on
+      let byClaude = false;
       if (!it.file) { it.text = swTidy(it.extra); it.failed = false; }
       else {
-        try {
-          const worker = await swEngine();
-          const canvas = await swPrep(it.file);
-          const { data } = await worker.recognize(canvas);
-          it.text = [swTidy(data && data.text), swTidy(it.extra)].filter(Boolean).join('\n');
-          it.failed = false;
-        } catch { it.text = swTidy(it.extra); it.failed = !it.text; }
+        if (clOn()) {
+          try { clApply(it, await clRead(it)); byClaude = true; }
+          catch (err) { clTrouble(err); }
+        }
+        if (!byClaude) {
+          try {
+            const worker = await swEngine();
+            const canvas = await swPrep(it.file);
+            const { data } = await worker.recognize(canvas);
+            it.text = [swTidy(data && data.text), swTidy(it.extra)].filter(Boolean).join('\n');
+            it.failed = false;
+          } catch { it.text = swTidy(it.extra); it.failed = !it.text; }
+        }
       }
-      it.guess = swGuess(it.text);
+      if (!byClaude) {
+        it.guess = swGuess(it.text);
+        if (!it.catSet) it.cat = swCatGuess(it.text, it.guess);
+      }
       if (it.title == null) it.title = it.guess.title;
-      if (!it.catSet) it.cat = swCatGuess(it.text, it.guess);
       swSite(it);
     });
     return it.read;
@@ -10091,6 +10350,7 @@ body.is-shake .wrap { animation: shake .4s; }
   function renderShots() {
     $('count-shots').textContent = String(swLeft() || swInboxN);
     swFolderPaint();
+    clPaint();
     const waiting = swInboxN - swQueue.filter((it, i) => it.inboxId && i >= swPos).length;
     $('sw-inbox').hidden = waiting <= 0;
     $('sw-inbox-n').textContent = `${waiting} shared to the app, waiting`;
@@ -10202,6 +10462,7 @@ body.is-shake .wrap { animation: shake .4s; }
       : g.kind === 'product' ? `Looks like a product${g.site ? ` · ${g.site.host}` : ''}`
       : g.kind === 'web' ? `A website · ${g.site.host}`
       : g.links.length ? 'Has a link in it' : 'Read the text';
+    if (it.by === 'claude') hint.textContent += ' · read by Claude';
   }
   $('sw-cat').addEventListener('change', () => {
     const it = swQueue[swPos];
@@ -10280,7 +10541,11 @@ body.is-shake .wrap { animation: shake .4s; }
       ? `Everything you kept is saved (the info is under Saved info below). ${deleted} screenshot${deleted === 1 ? '' : 's'} deleted from your phone's ${swDir ? swDir.name : 'Screenshots'} folder.${rest > 0 ? ` The other ${rest} weren't from that folder, so they're still in your gallery.${range}` : ''}`
       : `Everything you kept is saved (the info is under Saved info below), so the screenshots you've gone through can be deleted from your phone's gallery.${range} ${swFolderOk && !swDir ? 'Connect your Screenshots folder (at the top) and the app will delete them for you.' : swDir && !swDelOn ? 'Deleting is turned off for the folder.' : "This app can't delete them for you here."}`;
     $('sw-done-tip').textContent = n ? tip : 'Nothing gone through this time. Leave-for-next-time ones come back when you pick them again.';
-    $('sw-to-lib').hidden = !gone.some((i) => SW_FILED.includes(i.act));
+    // always a way back to the start (and Saved info), even when nothing was kept
+    const filed = gone.some((i) => SW_FILED.includes(i.act));
+    $('sw-to-lib').hidden = false;
+    $('sw-to-lib').textContent = filed ? 'See saved info' : 'Back to the start';
+    $('sw-to-lib').dataset.top = filed ? '' : '1';
     const older = $('sw-older');
     older.hidden = !swOlder.length;
     older.textContent = `${swOlderLabel()} too`;
@@ -10294,7 +10559,7 @@ body.is-shake .wrap { animation: shake .4s; }
     swQueue = [];
     swPos = 0;
     renderShots();
-    $('sw-lib').scrollIntoView({ block: 'start' });
+    $($('sw-to-lib').dataset.top ? 'sw-start' : 'sw-lib').scrollIntoView({ block: 'start' });
   });
 
   // Every choice moves on and can be undone.
@@ -10623,7 +10888,7 @@ body.is-shake .wrap { animation: shake .4s; }
       title: String(it.title || '').trim().replace(/\s+/g, ' ').slice(0, 140),
       text: String(it.text || '').slice(0, 3000),
       date: it.date || 0, at: Date.now(), name: it.file ? it.file.name || '' : '', pic: String(it.text || '').trim() ? null : it.file || null, thumb: null, jobText: it.jobText || '',
-      links: swLinkList(it.guess, it.about, it.title), about: swAboutText(it.guess, it.about), aboutFrom: it.about ? 'wiki' : 'shot',
+      links: swLinkList(it.guess, it.about, it.title), about: swAboutText(it.guess, it.about), aboutFrom: swAboutFrom(it.guess, it.about),
     };
     swItems.push(rec);
     // what it is may still be on its way: add it when it arrives
@@ -10632,7 +10897,7 @@ body.is-shake .wrap { animation: shake .4s; }
         if (rec.gone || !it.about) return;
         rec.links = swLinkList(it.guess, it.about, rec.title);
         rec.about = swAboutText(it.guess, it.about);
-        rec.aboutFrom = 'wiki';
+        rec.aboutFrom = swAboutFrom(it.guess, it.about);
         if (rec.saved) swLib.put(rec).catch(() => {});
       });
     }
@@ -10941,8 +11206,10 @@ body.is-shake .wrap { animation: shake .4s; }
     if (!g || it.siteP || !(g.kind === 'product' || g.kind === 'web')) return;
     const queries = [];
     const brand = g.site ? swBrand(g.site.host) : '';
+    if (g.kind === 'product' && g.name) queries.push(g.name); // the name Claude read
     if (brand.length >= 3 && !SW_GENERIC.test(brand)) queries.push(brand);
-    if (g.kind === 'product' && g.title) queries.push(g.title.split(/\s+/).slice(0, 5).join(' '));
+    if (g.kind === 'web' && g.name) queries.push(g.name);
+    if (g.kind === 'product' && g.title && !g.name) queries.push(g.title.split(/\s+/).slice(0, 5).join(' '));
     it.siteP = (async () => {
       for (const q of queries) {
         const r = await swWhatIs(q);
@@ -10971,11 +11238,13 @@ body.is-shake .wrap { animation: shake .4s; }
     if (g.kind === 'product' && !official && !g.site && q) out.push(['Find its website', `https://www.google.com/search?q=${encodeURIComponent(`${q} official site`)}`, 'search']);
     return out.slice(0, 5);
   }
-  const swAboutText = (g, about) => (about ? `${about.name}: ${about.about}` : (g && (g.kind === 'product' || g.kind === 'web') && g.blurb ? g.blurb : ''));
+  // What it is: Claude's own words when it read the screenshot, else Wikipedia's, else a line from it.
+  const swAboutText = (g, about) => (g && g.byClaude && g.blurb ? g.blurb : about ? `${about.name}: ${about.about}` : (g && (g.kind === 'product' || g.kind === 'web') && g.blurb ? g.blurb : ''));
+  const swAboutFrom = (g, about) => (g && g.byClaude && g.blurb ? 'claude' : about ? 'wiki' : 'shot');
   function swLinkEls(list, aboutText, aboutFrom) {
     const els = list.map(([label, href, icon]) => h('a', { class: icon === 'play' ? 'sw-link sw-link--yt' : 'sw-link', href, target: '_blank', rel: 'noopener noreferrer' },
       iconEl(icon === 'play' ? SW_ICON.play : icon === 'search' ? SW_ICON.search : SF_ICON.link), h('span', null, label)));
-    if (aboutText) els.push(h('p', { class: 'sw-about' }, h('b', null, aboutFrom === 'wiki' ? 'What it is: ' : 'What it says: '), aboutText));
+    if (aboutText) els.push(h('p', { class: 'sw-about' }, h('b', null, aboutFrom === 'wiki' || aboutFrom === 'claude' ? 'What it is: ' : 'What it says: '), aboutText));
     return els;
   }
   function swPaintLinks(it) {
@@ -10983,8 +11252,8 @@ body.is-shake .wrap { animation: shake .4s; }
     const box = $('sw-links');
     if (!g) { box.replaceChildren(); return; }
     const looking = it.siteP && it.about === undefined;
-    const els = swLinkEls(swLinkList(g, it.about, swTitleIn.value), swAboutText(g, it.about), it.about ? 'wiki' : 'shot');
-    if (looking) els.push(h('p', { class: 'sw-about' }, 'Finding out what it is…'));
+    const els = swLinkEls(swLinkList(g, it.about, swTitleIn.value), swAboutText(g, it.about), swAboutFrom(g, it.about));
+    if (looking && !(g.byClaude && g.blurb)) els.push(h('p', { class: 'sw-about' }, 'Finding out what it is…'));
     box.replaceChildren(...els);
   }
 

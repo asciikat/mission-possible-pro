@@ -327,12 +327,39 @@ Ones you've gone through are remembered (by file name and size), so you can stop
 done. Screenshots older than the range you chose are left out, with a button to go through them
 too. A sweep takes up to 100 at a time.
 
+**Read with Claude (optional, much better reading).** The phone's own reader struggles with app
+screens, dark mode and fancy fonts. Under **Read with Claude** at the top of Screenshots, paste a
+Claude API key and tap **Use Claude**: from then on each screenshot is read by Claude, which gets the
+words right, gives it a proper title, writes one line on **What it is** (for a plugin, what it
+does), picks the type (receipt, film, TV, book, game, YouTube, product, website or note) and the
+section, and finds the receipt total.
+
+- **Getting a key:** sign in at [platform.claude.com](https://platform.claude.com/settings/keys) with
+  your Claude account, open **API keys**, tap **Create key** and paste it in. A Claude.ai
+  subscription can't be used by a web page; the API is paid from API credit (some plans include
+  monthly API credit, claimed under Settings, Billing on claude.ai). A monthly spend limit (under
+  **Limits** in the Console) keeps it safe.
+- **Which Claude:** **Best** (Claude Opus 5.5) costs about 3 US cents a screenshot; **Cheaper**
+  (Claude Haiku 5.5) less than a tenth of a cent, and still reads far better than the phone. The box
+  shows how many it has read this month and roughly what that cost (worked out from what Claude
+  reports using; the Console has the exact figure). If Opus declines a screenshot, the request is
+  re-run on a fallback model in the same call.
+- **What's sent:** each screenshot, shrunk to at most 1800 pixels tall as a JPEG, goes straight from
+  your phone to Anthropic's API (plus any text shared with it). What comes back is kept on your
+  phone like before. Text and links shared without a picture aren't sent.
+- **The key** is kept only in this phone's storage. It isn't in **Save backup** files or synced,
+  and **Stop using Claude** forgets it. Anyone with the phone unlocked could find it, which is
+  another reason for a spend limit.
+- **When Claude can't read one** (offline, the key isn't accepted, the credit has run out, or it
+  turns one down), that screenshot is read on the phone instead and a note says why. A key that
+  isn't accepted, or credit that's run out, turns Claude off until a key is pasted in again.
+
 **Good to know**
 
 - A web page can't look through your photos by itself, so you always choose the screenshots in the
   picker. It also can't delete them from the phone: when a sweep is done, it tells you which dates
   to delete in your gallery.
-- The text is read on your phone with [Tesseract](https://tesseract.projectnaptha.com/), so your
+- Without a Claude key, the text is read on your phone with [Tesseract](https://tesseract.projectnaptha.com/), so your
   screenshots are never uploaded anywhere. The reader (about 7 MB) downloads the first time you use
   it and is kept for next time. Without a connection the first time, you can still type a title
   yourself.
