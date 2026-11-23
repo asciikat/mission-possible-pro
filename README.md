@@ -214,6 +214,24 @@ Hours is self-contained: everything is in the `Hours` blocks of `index.html` and
 deal with later" actually get dealt with. It's the wide cyan button at the bottom of the home
 screen; the number on it is how many are left in the sweep you're on.
 
+**Easiest: connect your Screenshots folder (Android, Chrome 132 or newer).** At the top of
+Screenshots, tap **Connect Screenshots folder** once. In the folder picker go to **Pictures** (on
+Samsung, **DCIM**), then **Screenshots**, tap **Use this folder** and **Allow**. After that:
+
+- **Go through new screenshots** finds them by itself: the ones in that folder within the range
+  you chose that you haven't gone through yet. No selecting.
+- **Each screenshot is deleted from your phone once you've dealt with it**, a few seconds after you
+  choose (Job, Note, Shelf, Receipt, Save the info, Remind me or Nothing to keep), so **Undo** can
+  stop it. **Leave it for next time** never deletes. Turn this off with the tick box on the card.
+  Only files in that folder that you went through here are ever deleted. A screenshot shared to
+  the app from the Gallery is deleted too, if it's in that folder (matched by name and size).
+- If the app is closed before a deletion happens, or Android asks to allow the folder again, it
+  happens the next time you tap **Go through new screenshots**.
+- **Disconnect the folder** stops it; nothing in the folder is touched.
+
+This card doesn't show where the browser can't do it (iPhone, or older Chrome); the ways below still
+work there, and deleting is then up to you in the gallery.
+
 1. Pick how far back to go (**1 week**, **2 weeks**, **1 month** or **Any**), then pick them up
    one of two easy ways:
    - **From your Gallery or Photos app:** open the **Screenshots** album, select them (Samsung
@@ -225,8 +243,10 @@ screen; the number on it is how many are left in the sweep you're on.
 
    Either way, ones you've already gone through are skipped, and ones older than the range are left
    out, each with a button to include them. How it tells a screenshot from a photo: phones save
-   screenshots as PNG (or, on Samsung, as a JPEG the exact size of the screen, named Screenshot_…),
-   and cameras never save PNG, so only the start of each file is read. A screenshot taken on
+   screenshots as PNG, or as a JPEG the size of the screen that records the date it was taken but no
+   camera (photos always name the camera), so only the start of each file is read. That stored date
+   also dates screenshots whose names don't (the photo picker gives names like `1000004349.jpg`), so
+   **How far back** works for them too. A screenshot taken on
    another phone and sent to you counts as a photo; **Include the photos** brings those in. A
    single picture shared on its own always comes through.
 2. Each screenshot comes up on its own with the text read off it, a **Title** guessed from that
@@ -235,7 +255,7 @@ screen; the number on it is how many are left in the sweep you're on.
    - **Note**: the text is saved as a note, with the date of the screenshot.
    - **Shelf**: pick Film, TV, Book, Game or Other and a match, the same lookup as Shelf.
    - **Receipt**: the picture goes into Hours as a receipt, with the amount it found.
-   - **Just keep it**: into the library (below), picture and text, nothing else.
+   - **Save the info**: into Saved info (below): the text, links and what it is.
    - **Nothing to keep**: done, nothing saved.
    - **Leave it for next time**: skipped for now; it comes back the next time you pick it.
    Under the hint, the screenshot's **links** show as buttons you can tap:
@@ -247,7 +267,7 @@ screen; the number on it is how many are left in the sweep you're on.
      website**: the app looks the brand up and says **What it is** (from Wikipedia) and adds its
      official site (from Wikidata). If it can't find one, **Find its website** searches for it, and
      a sentence from the screenshot says what it's about. A website's title becomes the site's name.
-   Products and websites are suggested for **Just keep it**, and file under **Products** and
+   Products and websites are suggested for **Save the info**, and file under **Products** and
    **Websites**. Notes made from a screenshot keep its links.
 3. Every choice has **Undo**. Tap the picture to see it bigger; edit the title, or open **All the
    text it read**, before choosing.
@@ -266,24 +286,41 @@ the share menu; removing the app from the home screen and installing it again do
 **Remind me.** Under the choices, **Or remind me: Tomorrow, Weekend, Next week** makes a job that
 lands on Now that morning (Weekend is Saturday, Next week is Monday). A kept screenshot has **Remind
 me: Today, Tomorrow, Weekend, Next week** too. The job's menu has **See the screenshot**, and
-finishing the job ticks the screenshot done in the library.
+finishing the job ticks it done in Saved info.
 
-**The library.** Every screenshot you keep (Job, Note, Shelf, Receipt or Just keep it) is saved
-under the sweep with its picture and the text read off it, so you can delete the original from your
-gallery and still find it. It's sorted into categories: **To do**, **Money**, **Watch & read**,
-**Food**, **Products**, **Places**, **Websites**, **Info** and **Other**. The category is guessed from the text and
-shown as **Files under** while you sweep; change it there or later. **Search the words in them**
-finds a screenshot by anything written in it, or by what it is or its links. Every screenshot has a
-**tick** and an **×** on it: the tick marks it done ✅, which crosses it out and moves it after the
-ones still to deal with (it stays until you delete it; tap the tick again to undo), and the × deletes
-it. **Delete the N done** clears the crossed-out ones in one go. Every delete has Undo. Tap one to see it
-full size with its links and what it is, change its title or
-category, **Copy text**, **Share picture** (to save it somewhere else), or **Delete** it (with
-Undo). The categories are the `SW_CATS` list in `index.html` (keep a category's `id` the same when
-renaming it).
+**Saved info.** The picture is only there to be read: what's kept is the **info**, meaning the text,
+its links and what it is, never the picture. Every screenshot you keep (Job, Note, Shelf, Receipt or
+**Save the info**) lands under the sweep in **Saved info**, so you can delete the original from your
+gallery. (If nothing could be read off a screenshot, its picture is kept instead, so nothing is lost.
+Receipts in Hours keep their photo, because that's the receipt.)
 
-The library keeps a smaller copy (1400 px, around 50 to 250 KB each), shown with the total at the
-top, on this phone only: it doesn't sync and isn't in the backup file.
+It's sorted into sections:
+
+| Section | What goes there |
+| --- | --- |
+| **To do** | Things made into a job or a reminder |
+| **Money** | Receipts, bills, bank details |
+| **Health** | Vitamins, supplements, food, recipes, exercise, doctors and prescriptions |
+| **Mental health** | ADHD, anxiety, therapy, mindfulness, stress, self-care |
+| **Music production** | VST plugins, DAWs (Ableton, FL Studio, Logic...), synths, samples, mixing and mastering |
+| **Watch & read** | Films, TV, YouTube, books, games |
+| **Products** | Other things to buy, apps and gear |
+| **Places**, **Websites**, **Info**, **Other** | Addresses and bookings, websites, everything else |
+
+The section is guessed from the words in the screenshot (a topic like music production or health wins
+over the kind of screen, so a YouTube video about mixing goes in Music production) and shown as
+**Files under** while you sweep; change it there or later. Saved info is a list: each item shows its
+title, a line saying what it is (or its first sentence), its section and date. **Search your saved
+info** finds anything written in it, what it is or its links. Every item has a **tick** and an
+**×**: the tick marks it done ✅, which crosses it out and moves it after the ones still to deal with
+(it stays until you delete it; tap again to undo), and the × deletes it. **Delete the N done** clears
+the crossed-out ones in one go. Every delete has Undo. Tap an item to read all its info, change its
+title or section, follow its links, **Share** or **Copy text**, set a reminder, or delete it. The
+sections are the `SW_CATS` list in `index.html` (keep a section's `id` the same when renaming it;
+the old Food section is now part of Health).
+
+Saved info stays on this phone only: it doesn't sync and isn't in the backup file. Items saved before
+this change keep the picture they were saved with.
 
 Ones you've gone through are remembered (by file name and size), so you can stop at any time with
 **Stop for now** and pick the same screenshots again later: it carries on with the ones you haven't
